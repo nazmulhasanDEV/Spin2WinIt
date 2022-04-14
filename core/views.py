@@ -52,12 +52,30 @@ def front_home(request):
 
     products = ProductList.objects.all()
 
+    # product category list which has at least one product
+    product_catList_with_prodct = []
+    for x in product_cat_list:
+        if ProductList.objects.filter(Q(category=x) | Q(cat_name=x.name)):
+            product_catList_with_prodct.append(x)
+
+    # product subcategory
+    product_subcats = ProductSubCategory.objects.all()
+    cats_in_subcats = []
+    for subcat in product_subcats:
+        if subcat.category.name in cats_in_subcats:
+            pass
+        else:
+            cats_in_subcats.append(subcat.category.name)
+
+
+    # products
     product_list = []
 
     if product_cat_list:
         for cat in product_cat_list:
-            current_cat_products = ProductList.objects.filter(Q(category=cat) | Q(cat_name=cat.name))[:8]
+            current_cat_products = ProductList.objects.filter(Q(category=cat) | Q(cat_name=cat.name))[:1]
             product_list.extend(current_cat_products)
+
 
     if request.user.is_authenticated:
         # user cart status
@@ -75,7 +93,8 @@ def front_home(request):
         user_wishlist_status = WishList.objects.filter(user=request.user)
 
         context = {
-            'product_cat_list': product_cat_list,
+            'product_cat_list': product_catList_with_prodct,
+            'product_subcats' : product_subcats,
             'total_amount' : total_amount,
             'product_list': products,
             'site_logo': site_logo,
@@ -85,7 +104,9 @@ def front_home(request):
         return render(request, 'frontEnd/home.html', context)
 
     context = {
-        'product_cat_list' : product_cat_list,
+        'product_cat_list' : product_catList_with_prodct,
+        'cats_in_subcats' : cats_in_subcats,
+        'product_subcats': product_subcats,
         'product_list' : product_list,
         'site_logo': site_logo,
     }
@@ -202,6 +223,16 @@ def front_loginUser(request):
 
     return render(request, 'frontEnd/login.html', context)
 
+def front_shop(request, pk):
+
+    cat = ProductCategory.objects.get(pk=pk)
+
+    products = ProductList.objects.filter(Q(category=cat) | Q(cat_name=cat.name))
+
+    context = {
+        'products': products,
+    }
+    return render(request, 'frontEnd/shop/shop.html', context)
 
 def front_productDetails(request, product_id):
 
@@ -212,14 +243,21 @@ def front_productDetails(request, product_id):
 
     # products of current category
     current_cat_product_list = ProductList.objects.filter(Q(category=current_product.category) | Q(cat_name=current_product.cat_name))[:8]
+
     # company refund polify
     refund_policy = RefundPolicy.objects.filter().first()
+    return_policy = ReturnPolicy.objects.filter().first()
+    security_policy = SecurityPolicy.objects.filter().first()
+    delivery_policy = DeliveryPolicy.objects.filter().first()
 
 
     context = {
         'current_product' : current_product,
         'current_cat_product_list' : current_cat_product_list,
         'refund_policy' : refund_policy,
+        'return_policy' : return_policy,
+        'security_policy' : security_policy,
+        'delivery_policy' : delivery_policy,
         'site_logo': site_logo,
     }
 
@@ -529,14 +567,23 @@ def front_complete_payment(request, username, order_id):
     # grabing current user order details
     current_order = OrderList.objects.filter(order_id=order_id).first()
 
-    # confirm payment
-    paid_amount = request.GET.get('paid_amount')
-    order_id = request.GET.get('order_id')
+    if request.method == 'GET':
+        # confirm payment
+        paid_amount = request.GET.get('paid_amount')
+        order_id = request.GET.get('order_id')
 
-    if paid_amount and order_id:
-        current_order.payment_status = True
-        current_order.save()
-        return redirect('frontPaymentSuccessfullmsg', username=request.user.username)
+        if paid_amount and order_id:
+            current_order.payment_status = True
+            current_order.save()
+
+            # update product total sold items
+            # total_sold
+            for item in current_order.items.all():
+                productList__model = ProductList.objects.filter(pk=item.product.pk).first()
+                productList__model.total_sold = item.quantity
+                productList__model.save()
+
+            return redirect('frontPaymentSuccessfullmsg', username=request.user.username)
 
     context = {
         'site_logo': site_logo,
@@ -998,6 +1045,9 @@ def front_reset_password(request, username):
 # user profile section ********************************************************
 @login_required(login_url='/fe/login/register')
 def front_user_profile(request, username):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
 
     site_logo = SiteLogo.objects.filter().first()
 

@@ -13,12 +13,11 @@ admin.site.register(ProductList, Product_ListAdmin)
 
 admin.site.register(ProductImg)
 
-# admin.site.register(Product_image)
+
 admin.site.register(ProductDiscount)
 admin.site.register(ProductRating)
 
 admin.site.register(WoocommerceProductList)
-admin.site.register(WoocommerceProdctImages)
 
 # admin.site.register(AllProductList)
 

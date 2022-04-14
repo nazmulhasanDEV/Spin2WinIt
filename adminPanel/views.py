@@ -26,10 +26,11 @@ from woocommerce import API
 import asyncio
 
 
+
 wcapi = API(
     url="https://www.ddmcustomz.ca",
-    consumer_key="ck_d7712f7cce3d08a6c71266734371a73248fa1dd8",
-    consumer_secret="cs_b3b053cc112f9751cc89b060c3a238b0d6871b18",
+    consumer_key="ck_d7b8e625408c67fc0351b88ea84e04b6f2657ce1",
+    consumer_secret="cs_ba22b43fc833f3dc319f5385c027e6d79b73aaab",
     version="wc/v3"
 )
 
@@ -51,67 +52,86 @@ def ap_fetch_woocommerce_store_prdct(request):
     if request.user.is_admin != True:
         return redirect('frontEndLoginUser')
 
-    prodct = wcapi.get('products/')
-    woocommerce_prodct_list = json.loads(prodct.text)
+    # updated new section *****************************
 
+    page = 1  # The first page number to loop is page 1
     try:
-        for x in woocommerce_prodct_list:
-            if len(ProductList.objects.filter(product_id=x['id'])) <= 0:
+        while True:
+            prods = wcapi.get('products', params={"per_page": 20, "page": page})
+            page += 1
+            if prods.text:
+                p = json.loads(prods.text)
+                # print(len(p))
+                # print(
+                #     f'''
+                #     {page}
+                #     '''
+                # )
+                try:
+                    for x in p:
+                        if len(ProductList.objects.filter(product_id=x['id'])) <= 0:
+                            product_list_model = ProductList.objects.create(
+                                user=request.user,
+                                product_id=x['id'],
+                                product_type='wsp',
+                                title=x['name'],
+                                slug=x['slug'],
+                                details=x['description'],
+                                regular_price=x['regular_price'],
+                                price=x['price'],
+                                total_sold=x['total_sales'],
+                                in_stock=x['stock_status'],
+                                avrg_rating=x['average_rating'],
+                                rating_count=x['rating_count'],
+                                cat_id=x['categories'][0]['id'],
+                                cat_name=x['categories'][0]['name'],
+                                subcat_id='1',
+                                subcat_name='subcat_name',
+                                security_policy='apcp',
+                                return_policy='apcp',
+                                delivery_policy='apcp'
+                            )
 
-                product_list_model = ProductList.objects.create(
-                    user=request.user,
-                    product_id=x['id'],
-                    product_type='wsp',
-                    title=x['name'],
-                    slug=x['slug'],
-                    details=x['description'],
-                    regular_price=x['regular_price'],
-                    price=x['price'],
-                    total_sold=x['total_sales'],
-                    in_stock=x['stock_status'],
-                    avrg_rating=x['average_rating'],
-                    rating_count=x['rating_count'],
-                    cat_id=x['categories'][0]['id'],
-                    cat_name=x['categories'][0]['name'],
-                    subcat_id='1',
-                    subcat_name='subcat_name',
-                    security_policy=SecurityPolicy.objects.filter().first().content,
-                    return_policy=ReturnPolicy.objects.filter().first().content,
-                    delivery_policy=DeliveryPolicy.objects.filter().first().content
-                )
+                            for img in x['images']:
+                                product_img_model = ProductImg.objects.create(product_id=x['id'], product_type='wsp',
+                                                                              img_link=img['src'])
+                                product_list_model.productImg.add(product_img_model)
+                                product_list_model.save()
 
-                for img in x['images']:
-                    product_img_model = ProductImg.objects.create(product_id=x['id'], product_type='wsp', img_link=img['src'])
-                    product_list_model.productImg.add(product_img_model)
-                    product_list_model.save()
+                        if len(WoocommerceProductList.objects.filter(product_id=x['id'])) <= 0:
 
-            if len(WoocommerceProductList.objects.filter(product_id=x['id'])) <= 0:
+                            woocomrc_prdct_list_model = WoocommerceProductList.objects.create(
+                                product_id=x['id'],
+                                name=x['name'],
+                                slug=x['slug'],
+                                description=x['description'],
+                                price=x['price'],
+                                regular_price=x['regular_price'],
+                                total_sales=x['total_sales'],
+                                cat_id=x['categories'][0]['id'],
+                                cat_name=x['categories'][0]['name'],
+                                subcat_id='1',
+                                subcat_name='subcat',
+                                stock_status=x['stock_status'],
+                                avrg_rating=x['average_rating'],
+                                rating_count=x['rating_count']
+                            )
 
-                woocomrc_prdct_list_model = WoocommerceProductList.objects.create(
-                    product_id=x['id'],
-                    name=x['name'],
-                    slug=x['slug'],
-                    description=x['description'],
-                    price=x['price'],
-                    regular_price=x['regular_price'],
-                    total_sales=x['total_sales'],
-                    cat_id=x['categories'][0]['id'],
-                    cat_name=x['categories'][0]['name'],
-                    subcat_id='1',
-                    subcat_name='subcat',
-                    stock_status=x['stock_status'],
-                    avrg_rating=x['average_rating'],
-                    rating_count=x['rating_count']
-                )
+                            for img in x['images']:
+                                product_img_model = ProductImg.objects.create(product_id=x['id'], product_type='wsp',
+                                                                              img_link=img['src'])
 
-                for img in x['images']:
-                    product_img_model = ProductImg.objects.create(product_id=x['id'], product_type='wsp', img_link=img['src'])
-
-                    woocomrc_prdct_list_model.product_img.add(product_img_model)
-                    woocomrc_prdct_list_model.save()
+                                woocomrc_prdct_list_model.product_img.add(product_img_model)
+                                woocomrc_prdct_list_model.save()
+                except:
+                    messages.warning(request, "Can't import products or server error! Try again!a")
+                    return redirect('apWoocommerceStoreList')
+            if len(prods.text) <= 0:
+                break
     except:
-        messages.warning(request, "Can't import products or server error! Try again!a")
         return redirect('apWoocommerceStoreList')
+
+    # ends new section *********************************
 
     return redirect('apWoocommerceStoreList')
 
@@ -465,8 +485,8 @@ def ap_add_product_category(request):
     if request.method == 'POST':
         name = request.POST['cat__name']
 
-        if name and len(ProductCategory.objects.filter(name=name.capitalize())) <= 0:
-            product_cat_model = ProductCategory(name=name.capitalize())
+        if name and len(ProductCategory.objects.filter(name=name.title())) <= 0:
+            product_cat_model = ProductCategory(name=name.title())
             product_cat_model.save()
             messages.success(request, 'Successfully added!')
             return redirect('apAddProductCategory')
@@ -495,9 +515,9 @@ def ap_edit_product_category(request, pk):
 
     if request.method == 'POST':
         name = request.POST['name']
-        if name and len(ProductCategory.objects.filter(name=name.capitalize())) <= 0:
+        if name and len(ProductCategory.objects.filter(name=name.title())) <= 0:
             product_cat_model = ProductCategory.objects.get(pk=pk)
-            product_cat_model.name = name.capitalize()
+            product_cat_model.name = name.title()
             product_cat_model.save()
             messages.success(request, 'Successfully updated!')
             return redirect('apAddProductCategory')
@@ -537,10 +557,10 @@ def ap_add_product_subcat(request, pk):
 
     if request.method == 'POST':
         name = request.POST['subcat__name']
-        if name and len(ProductSubCategory.objects.filter(name=name.capitalize())) <= 0:
+        if name and len(ProductSubCategory.objects.filter(name=name.title())) <= 0:
 
             product_cat_model = ProductCategory.objects.get(pk=pk)
-            product_subcat_model = ProductSubCategory(category=product_cat_model, name=name.capitalize())
+            product_subcat_model = ProductSubCategory(category=product_cat_model, name=name.title())
             product_subcat_model.save()
 
             messages.success(request, 'Successfully added!')
@@ -668,9 +688,9 @@ def ap_add_admin_custsom_product(request):
                         product_thumbnail=thumbnail_img,
                         use_case=use_cases,
                         benefits=benefits,
-                        security_policy=SecurityPolicy.objects.filter().first().content,
-                        return_policy=ReturnPolicy.objects.filter().first().content,
-                        delivery_policy=DeliveryPolicy.objects.filter().first().content,
+                        security_policy='apcp',
+                        return_policy='apcp',
+                        delivery_policy='apcp',
                         store_name=store__name,
                         store_link=store_link,
                         about_store=about_store,
@@ -741,9 +761,9 @@ def ap_add_admin_custsom_product(request):
                     product_thumbnail=thumbnail_img,
                     use_case=use_cases,
                     benefits=benefits,
-                    security_policy=SecurityPolicy.objects.filter().first().content,
-                    return_policy=ReturnPolicy.objects.filter().first().content,
-                    delivery_policy=DeliveryPolicy.objects.filter().first().content,
+                    security_policy='apcp', # apcp== As per company policy
+                    return_policy='apcp',  # apcp== As per company policy
+                    delivery_policy='apcp', # apcp== As per company policy
                     store_name=store__name,
                     store_link=store_link,
                     about_store=about_store,
@@ -941,9 +961,9 @@ def ap_update_admin_custom_product(request, pk, product_id):
                         current_product_data.details = details
                         current_product_data.use_case = use_cases
                         current_product_data.benefits = benefits
-                        current_product_data.security_policy = SecurityPolicy.objects.filter().first().content
-                        current_product_data.return_policy = ReturnPolicy.objects.filter().first().content
-                        current_product_data.delivery_policy = DeliveryPolicy.objects.filter().first().content
+                        current_product_data.security_policy = 'apcp' # apcp== As per company policy
+                        current_product_data.return_policy = 'apcp'
+                        current_product_data.delivery_policy = 'apcp'
                         current_product_data.store_name = store__name
                         current_product_data.store_link = store_link
                         current_product_data.about_store = about_store
@@ -991,9 +1011,9 @@ def ap_update_admin_custom_product(request, pk, product_id):
                         current_product_data.details = details
                         current_product_data.use_case = use_cases
                         current_product_data.benefits = benefits
-                        current_product_data.security_policy = SecurityPolicy.objects.filter().first().content
-                        current_product_data.return_policy = ReturnPolicy.objects.filter().first().content
-                        current_product_data.delivery_policy = DeliveryPolicy.objects.filter().first().content
+                        current_product_data.security_policy = 'apcp' # apcp == As per company policy
+                        current_product_data.return_policy = 'apcp'
+                        current_product_data.delivery_policy = 'apcp'
                         current_product_data.store_name = store__name
                         current_product_data.store_link = store_link
                         current_product_data.about_store = about_store
@@ -1067,9 +1087,9 @@ def ap_update_admin_custom_product(request, pk, product_id):
                     current_product_data.details = details
                     current_product_data.use_case = use_cases
                     current_product_data.benefits = benefits
-                    current_product_data.security_policy = SecurityPolicy.objects.filter().first().content
-                    current_product_data.return_policy = ReturnPolicy.objects.filter().first().content
-                    current_product_data.delivery_policy = DeliveryPolicy.objects.filter().first().content
+                    current_product_data.security_policy = 'apcp'
+                    current_product_data.return_policy = 'apcp'
+                    current_product_data.delivery_policy = 'apcp'
                     current_product_data.store_name = store__name
                     current_product_data.store_link = store_link
                     current_product_data.about_store = about_store
@@ -1112,9 +1132,9 @@ def ap_update_admin_custom_product(request, pk, product_id):
                     current_product_data.details = details
                     current_product_data.use_case = use_cases
                     current_product_data.benefits = benefits
-                    current_product_data.security_policy = SecurityPolicy.objects.filter().first().content
-                    current_product_data.return_policy = ReturnPolicy.objects.filter().first().content
-                    current_product_data.delivery_policy = DeliveryPolicy.objects.filter().first().content
+                    current_product_data.security_policy = 'apcp'
+                    current_product_data.return_policy = 'apcp'
+                    current_product_data.delivery_policy = 'apcp'
                     current_product_data.store_name = store__name
                     current_product_data.store_link = store_link
                     current_product_data.about_store = about_store
@@ -1296,9 +1316,9 @@ def ap__update_admin_wcmrce_product(request, pk, product_id):
                         current_product_data.details = details
                         current_product_data.use_case = use_cases
                         current_product_data.benefits = benefits
-                        current_product_data.security_policy = "As per company"
-                        current_product_data.return_policy = "As per company"
-                        current_product_data.delivery_policy = "As per company"
+                        current_product_data.security_policy = "apcp" # apcp == as per company policy
+                        current_product_data.return_policy = "apcp"
+                        current_product_data.delivery_policy = "apcp"
                         current_product_data.store_name = store__name
                         current_product_data.store_link = store_link
                         current_product_data.about_store = about_store
@@ -1380,9 +1400,9 @@ def ap__update_admin_wcmrce_product(request, pk, product_id):
                         current_product_data.details = details
                         current_product_data.use_case = use_cases
                         current_product_data.benefits = benefits
-                        current_product_data.security_policy = "As per company"
-                        current_product_data.return_policy = "As per company"
-                        current_product_data.delivery_policy = "As per company"
+                        current_product_data.security_policy = "apcp"
+                        current_product_data.return_policy = "apcp"
+                        current_product_data.delivery_policy = "apcp"
                         current_product_data.store_name = store__name
                         current_product_data.store_link = store_link
                         current_product_data.about_store = about_store
@@ -1482,9 +1502,9 @@ def ap__update_admin_wcmrce_product(request, pk, product_id):
                     current_product_data.details = details
                     current_product_data.use_case = use_cases
                     current_product_data.benefits = benefits
-                    current_product_data.security_policy = "As per company"
-                    current_product_data.return_policy = "As per company"
-                    current_product_data.delivery_policy = "As per company"
+                    current_product_data.security_policy = "apcp"
+                    current_product_data.return_policy = "apcp"
+                    current_product_data.delivery_policy = "apcp"
                     current_product_data.store_name = store__name
                     current_product_data.store_link = store_link
                     current_product_data.about_store = about_store
@@ -1556,9 +1576,9 @@ def ap__update_admin_wcmrce_product(request, pk, product_id):
                     current_product_data.details = details
                     current_product_data.use_case = use_cases
                     current_product_data.benefits = benefits
-                    current_product_data.security_policy = "As per company"
-                    current_product_data.return_policy = "As per company"
-                    current_product_data.delivery_policy = "As per company"
+                    current_product_data.security_policy = "apcp"
+                    current_product_data.return_policy = "apcp"
+                    current_product_data.delivery_policy = "apcp"
                     current_product_data.store_name = store__name
                     current_product_data.store_link = store_link
                     current_product_data.about_store = about_store

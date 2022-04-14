@@ -1,16 +1,18 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+<!--                            {% if cat.name in cats_in_subcats %}-->
+<!--                            <li class="right-menu">-->
+<!--                                <a href="shop-left-sidebar.html">{{cat.name}}</a>-->
+<!--                                <ul class="cat-mega-menu">-->
+<!--                                    <li class="right-menu cat-mega-title">-->
+<!--&lt;!&ndash;                                        <a href="shop-left-sidebar.html">Prime Video</a>&ndash;&gt;-->
+<!--                                        <ul>-->
+<!--&lt;!&ndash;                                            <li><a href="#">All Videos</a></li>&ndash;&gt;-->
+<!--                                            {% for subcats in product_subcats %}-->
+<!--                                            {% if subcats.category.name == cat.name %}-->
+<!--                                            <li><a href="#">{{subcat.name}}</a></li>-->
+<!--                                            {% endif %}-->
+<!--                                            {% endfor %}-->
+<!--                                        </ul>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
+<!--                            </li>-->
+<!--                            {% else %}-->

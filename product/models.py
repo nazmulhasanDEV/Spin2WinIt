@@ -86,6 +86,7 @@ class ProductList(models.Model):
     security_policy = models.TextField(default='Not added', blank=True, null=True)
     return_policy = models.TextField(default='Not added', blank=True, null=True)
     delivery_policy = models.TextField(default='Not added', blank=True, null=True)
+    refund_policy = models.TextField(default='Not added', blank=True, null=True)
 
     store_name = models.CharField(default='Not added', max_length=255, blank=True, null=True)
     store_link = models.CharField(default='Not added', max_length=255, blank=True, null=True)
@@ -115,8 +116,6 @@ class ProductList(models.Model):
         return self.title
 
 
-
-
 class ProductRating(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True, null=True)
     product = models.ForeignKey(ProductList, on_delete=models.CASCADE)
@@ -135,21 +134,6 @@ class ProductDiscount(models.Model):
     def __str__(self):
         return self.product.title + " || " + self.discount_amount
 
-
-# banner section
-class BannerList(models.Model):
-    banner_id = models.CharField(max_length=255, blank=True, null=True)
-    user = models.ForeignKey(Account, on_delete=models.CASCADE)
-    offer_amount_or_title = models.CharField(max_length=255, blank=True, null=True) # like 20% off or Black Friday
-    offer_duration = models.CharField(max_length=255, blank=True, null=True)
-    product_title = models.CharField(max_length=255, blank=True, null=True)
-    starting_price = models.CharField(max_length=255, blank=True, null=True)
-    img = models.ImageField(upload_to='banner', blank=True, null=True)
-    product_url = models.CharField(max_length=350, blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.user.email + " || " + self.product_title
 
 
 # all product model including woocommercce store and custom product
@@ -258,111 +242,20 @@ class WishList(models.Model):
         super(WishList, self).save(*args, **kwargs)
 
 
-# unnecessay***********************************
-
-class WoocommerceProdctImages(models.Model):
-    product_id = models.CharField(max_length=255)
-    img1 = models.ImageField(upload_to='woocommerce_pridct_imgs', blank=True, null=True)
-    img2 = models.ImageField(upload_to='woocommerce_pridct_imgs', blank=True, null=True)
-    img3 = models.ImageField(upload_to='woocommerce_pridct_imgs', blank=True, null=True)
-    img4 = models.ImageField(upload_to='woocommerce_pridct_imgs', blank=True, null=True)
-    img5 = models.ImageField(upload_to='woocommerce_pridct_imgs', blank=True, null=True)
-    img1_url1 = models.TextField(blank=True, null=True)
-    img1_url2 = models.TextField(blank=True, null=True)
-    img1_url3 = models.TextField(blank=True, null=True)
-    img1_url4 = models.TextField(blank=True, null=True)
-    img1_url5 = models.TextField(blank=True, null=True)
-
-
-    def __str__(self):
-        return self.product_id
-class Product_list(models.Model):
-
-    class woocmrcePrdcts(models.Manager):
-        def get_queryset(self):
-            return super().get_queryset().filter(product_type='wsp')
-
-    class customPrducts(models.Manager):
-        def get_queryset(self):
-            return super().get_queryset().filter(product_type='mcp')
-
-    productType = (
-        ('wsp', 'Woocommerce store product'), # wsp refers to "woocomerce store products"
-        ('mcp', 'Custom Product'), # mcp refers to "My custom products"
-    )
-    product_type = models.CharField(max_length=255, choices=productType, blank=True, null=True)
-    woocmrce_product = models.ForeignKey(WoocommerceProductList, on_delete=models.CASCADE, blank=True, null=True)
-
-    slug = models.TextField(default='slug', blank=True, null=True)
-    product_id = models.CharField(default='id', max_length=255, blank=True, null=True)
-    user = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True, null=True)
-    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, blank=True, null=True)
-    cat_id = models.CharField(default='id', max_length=255, blank=True, null=True)
-    cat_name = models.CharField(default='cat_name', max_length=255, blank=True, null=True)
-
-    subcategory = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE, blank=True, null=True)
-    subcat_id = models.CharField(default='id', max_length=255, blank=True, null=True)
-    subcat_name = models.CharField(default='subcat_name', max_length=255, blank=True, null=True)
-
-    title = models.TextField(default="title", blank=True, null=True)
-    brand_name = models.CharField(default='brand_name', max_length=255, blank=True, null=True)
-    old_price = models.FloatField(default=0, blank=True, null=True) # for custom product
-    new_price = models.FloatField(default=0, blank=True, null=True) # for custom product
-    short_des = models.TextField(default='Description', blank=True, null=True)
-    details = models.TextField(default='Details', blank=True, null=True)
-
-    product_thumbnail = models.ImageField(upload_to="product_thumbnail_img", blank=True, null=True)
-    productImg = models.ManyToManyField(ProductImg, blank=True)
-
-    policy_followed = models.CharField(default='Not selected', max_length=255, blank=True, null=True)
-
-    use_case = models.TextField(default='Not added', blank=True, null=True)
-    benefits = models.TextField(default='Not added', blank=True, null=True)
-    security_policy = models.TextField(default='Not added', blank=True, null=True)
-    return_policy = models.TextField(default='Not added', blank=True, null=True)
-    delivery_policy = models.TextField(default='Not added', blank=True, null=True)
-    store_name = models.CharField(default='Not added', max_length=255, blank=True, null=True)
-    store_link = models.CharField(default='Not added', max_length=255, blank=True, null=True)
-    about_store = models.TextField(default='', blank=True, null=True)
-
-    total_sold = models.IntegerField(default=0, blank=True, null=True)
-    in_stock = models.CharField(default='0', max_length=255, blank=True, null=True)
-
-    avrg_rating = models.CharField(default='0', max_length=255, blank=True, null=True)
-    rating_count = models.CharField(default='0', max_length=255, blank=True, null=True)
-    price = models.CharField(max_length=255, blank=True, null=True)
-    regular_price = models.CharField(max_length=255, blank=True, null=True)
-
-    sponsr_as_prize = models.BooleanField(default=False, blank=True, null=True) # not used/not needed
-
-    sponsor_status = models.CharField(default='No', max_length=255, blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-
-    class Meta:
-        ordering = ['-pk']
-
-    objects = models.Manager()
-    wspObjects = woocmrcePrdcts()
-    mcpObjects = customPrducts()
-
-    def __str__(self):
-        return self.title
-
-
-
-class Product_image(models.Model):
-    product = models.OneToOneField(Product_list, on_delete=models.CASCADE)
-    img = models.ImageField(upload_to='product_img', blank=True, null=True)
-    img1 = models.ImageField(upload_to='product_img', blank=True, null=True)
-    img2 = models.ImageField(upload_to='product_img', blank=True, null=True)
-    img3 = models.ImageField(upload_to='product_img', blank=True, null=True)
-    img4 = models.ImageField(upload_to='product_img', blank=True, null=True)
+# banner section
+class BannerList(models.Model):
+    banner_id = models.CharField(max_length=255, blank=True, null=True)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    offer_amount_or_title = models.CharField(max_length=255, blank=True, null=True) # like 20% off or Black Friday
+    offer_duration = models.CharField(max_length=255, blank=True, null=True)
+    product_title = models.CharField(max_length=255, blank=True, null=True)
+    starting_price = models.CharField(max_length=255, blank=True, null=True)
+    img = models.ImageField(upload_to='banner', blank=True, null=True)
+    product_url = models.CharField(max_length=350, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.product.title
-
-
+        return self.user.email + " || " + self.product_title
 
 
 

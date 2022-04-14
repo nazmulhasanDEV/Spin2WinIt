@@ -75,7 +75,7 @@
                 <div class="product-details-view-content sp-sale-content pt-60">
                     <div class="product-info">
                         <h2>{{current_product.title|safe}}</h2>
-                        <span class="product-details-ref">Sold: 232</span>
+                        <span class="product-details-ref">Total Sold: {{current_product.total_sold}}</span>
                         <div class="rating-box pt-20">
                             <ul class="rating rating-with-review-item">
 
@@ -143,6 +143,11 @@
                             {% endif %}
                             <span class="new-price new-price-2">${{current_product.price}}</span>
                         </div>
+                        {% if current_product.in_stock %}
+                            <li>Stock status: <strong>In stock</strong></li>
+                        {% else %}
+                        <li>Stock status: <strong>Out of stock</strong></li>
+                        {% endif %}
 
                         <!--                        count down-->
                         <!--                        <div class="countersection">-->
@@ -223,7 +228,7 @@
                 <div class="product-details-view-content sp-sale-content pt-60">
                     <div class="product-info">
                         <h2>{{current_product.title|striptags}}</h2>
-                        <span class="product-details-ref">Sold: 232</span>
+                        <span class="product-details-ref">Total Sold: {{current_product.total_sold}}</span>
                         <div class="rating-box pt-20">
                             <ul class="rating rating-with-review-item">
 
@@ -440,7 +445,11 @@
                                 <div class="content">
                                     <div class="icon"><i class="fas fa-user-shield"></i></div>
                                     <div class="description">
+                                        {% if current_product.security_policy == 'apcp' and security_policy %}
+                                        {{security_policy}}
+                                        {% else %}
                                         {{current_product.security_policy}}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -456,7 +465,11 @@
                                 <div class="content">
                                     <div class="icon"><i class="fas fa-exchange-alt"></i></div>
                                     <div class="description">
+                                        {% if current_product.return_policy == 'apcp' and return_policy %}
+                                        {{return_policy}}
+                                        {% else %}
                                         {{current_product.return_policy}}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -472,7 +485,11 @@
                                 <div class="content">
                                     <div class="icon"><i class="fas fa-undo"></i></div>
                                     <div class="description">
+                                        {% if current_product.refund_policy == 'apcp' and refund_policy %}
+                                        {{refund_policy}}
+                                        {% else %}
                                         {{current_product.refund_policy}}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -488,7 +505,11 @@
                                 <div class="content">
                                     <div class="icon"><i class="fas fa-people-carry"></i></div>
                                     <div class="description">
+                                        {% if current_product.delivery_policy == 'apcp' and delivery_policy %}
+                                        {{delivery_policy}}
+                                        {% else %}
                                         {{current_product.delivery_policy}}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
