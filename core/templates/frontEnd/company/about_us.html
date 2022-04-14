@@ -1,0 +1,20 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<section id="refund_policy">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="title">
+          <h4 class="mt-md-4">About<strong style="color: #293A6C;"> Spin To Win It</strong></h4>
+        </div>
+
+        <div style="padding-bottom: 20px;">
+          {{about_us|safe}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

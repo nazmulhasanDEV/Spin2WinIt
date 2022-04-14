@@ -1,0 +1,226 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+
+
+{% block dataTable_css %}
+<!-- DataTables -->
+<link rel="stylesheet"
+      href="{% static 'backEnd/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+{% endblock %}
+
+
+{% block main_block %}
+<div class="container-fluid" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+
+<!--data tables*******************************************-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <section class="content-header">
+                <h1>
+                    Sponsored Product List For Game
+                </h1>
+<!--                <ol class="breadcrumb">-->
+<!--                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>-->
+<!--                    <li><a href="#">Tables</a></li>-->
+<!--                    <li class="active">Product List</li>-->
+<!--                </ol>-->
+            </section>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Product list</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Product Title</th>
+                                    <th>Seller Type</th>
+                                    <th>Current price</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if sponsored_product_list %}
+                                {% for x in sponsored_product_list %}
+                                <tr>
+                                    <td>{{x.product.product_id}}</td>
+                                    <td>{{x.product.title|striptags|truncatechars:25}}</td>
+                                    {% if x.product.user.is_admin %}
+                                    <td>Admin</td>
+                                    {% else %}
+                                    <td>Seller(x.product.user.email)</td>
+                                    {% endif %}
+
+                                    <td>{{x.product.new_price}}</td>
+                                    <td class="text-center">
+
+                                        <!-- modal for activation/de-activation object********************************************-->
+                                        {% if x.status %}
+                                        <button type="button" style="border:none; background: #3C8DBC;color:white;" data-toggle="modal"
+                                                data-target="#remove{{x.pk}}">
+                                                De-activate to win
+                                        </button>
+                                        {% else %}
+                                         <button type="button" style="border:none; background: #3C8DBC;color:white;" data-toggle="modal"
+                                                data-target="#remove{{x.pk}}">
+                                             Activate to win
+                                        </button>
+                                        {% endif %}
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="remove{{x.pk}}" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-left" id="exampleModalLabel">Are you confirm to activate this?</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close
+                                                        </button>
+                                                        {% if x.status %}
+                                                        <a href="{% url 'apDeActivateSponsoredProductForGame' pk=x.pk %}">
+                                                            <button type="button" class="btn btn-primary">
+                                                                De-Activate
+                                                            </button>
+                                                        </a>
+                                                        {% else %}
+                                                        <a href="{% url 'apActivateSponsoredProductForGame' pk=x.pk %}">
+                                                            <button type="button" class="btn btn-primary">
+                                                                Activate
+                                                            </button>
+                                                        </a>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- modal for activation/de-activation object ends ******************************************-->
+
+                                        <a href="{% url 'apAdminProductDetails' pk=x.product.pk %}">
+                                            <button type="button" style="border:none; background: #222D32;color:white;">
+                                                Check details</button>
+                                        </a>
+
+<!--                                        <a href="">-->
+<!--                                            <button type="button" style="border:none; background: #00C0EF;color:white;">-->
+<!--                                                <i class="fas fa-edit"></i> Update</button>-->
+<!--                                        </a>-->
+
+                                        <!-- modal for deleting object********************************************-->
+
+                                        <button type="button" style="border:none; background: #FF0000;color:white;" data-toggle="modal"
+                                                data-target="#remove{{x.pk}}">
+                                                <i class="fas fa-backspace"></i> Remove
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="remove{{x.pk}}" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-left" id="exampleModalLabel">Are you confirm to delete this?</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close
+                                                        </button>
+                                                        <a href="{% url 'apDelSpnsoredProduct' pk=x.pk %}">
+                                                            <button type="button" class="btn btn-primary">
+                                                                Confirm
+                                                            </button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- modal for deleting object ends ******************************************-->
+
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Product title</th>
+                                    <th>Product category</th>
+                                    <th>Current price</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block datatable_js %}
+<!-- DataTables -->
+<script src="{% static 'backEnd/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'backEnd/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>
+{% endblock %}

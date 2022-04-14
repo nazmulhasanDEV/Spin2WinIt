@@ -1,0 +1,106 @@
+#user__profile__section {
+    position: relative;
+    /* margin-top: 30px; */
+}
+
+#user__profile__section .user__profile__pic .card {
+    width: 300px;
+    padding: 10px;
+}
+#user__profile__section .user__profile__pic img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.remaining_chances_to_win {
+    background: #293A6C;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    color: white;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+/*.play_buy_chance_btns a {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}*/
+
+.play_buy_chance_btns {
+    background: #293A6C;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    color: white;
+    position: relative;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.play_buy_chance_btns a button {
+    width: 120px;
+    height: 40px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #FBE252;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+.buy_winning_chances {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    background-color: #F7F7F7;
+    padding: 30px 30px 30px 30px;
+    margin-top: 30px;
+    margin-bottom: 100px;
+}
+
+.buy_winning_chances form {
+    position: relative;
+}
+
+.buy_winning_chances input[type='submit'] {
+    cursor: pointer;
+    margin-top: 20px;
+    background: #293A6C;
+    color: white;
+}
+
+/* order section*/
+.order_item {
+    position: relative;
+}
+.order_item .order_item_price {
+    position: absolute;
+    right: 10%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

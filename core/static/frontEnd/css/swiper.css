@@ -1,0 +1,85 @@
+/* swiper slider one******************************************** */
+.home__paid_ads_sldr1 .swiper-button-nextt {
+  position: absolute !important;
+  top: 40%;
+  right: 0 !important;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50% !important;
+  background-color: #fff !important;
+  z-index: 2000 !important;
+  text-align: center;
+  box-shadow: 1px 1px 4px 1px gray;
+  cursor: pointer;
+}
+
+.home__paid_ads_sldr1 .swiper-button-nextt span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.home__paid_ads_sldr1 .swiper-button-prevv {
+  position: absolute !important;
+  text-align: center;
+  left: 0 !important;
+  top: 40%;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50% !important;
+  background-color: #fff !important;
+  z-index: 2000 !important;
+  box-shadow: 1px 1px 4px 1px gray;
+  cursor: pointer;
+}
+
+.home__paid_ads_sldr1 .swiper-button-prevv span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* swiper slider two******************************************** */
+.home__paid_ads_sldr2 .swiper-button-nexttt {
+    position: absolute !important;
+    top: 40%;
+    right: 0 !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50% !important;
+    background-color: #fff !important;
+    z-index: 2000 !important;
+    text-align: center;
+    box-shadow: 1px 1px 4px 1px gray;
+    cursor: pointer;
+  }
+  
+  .home__paid_ads_sldr2 .swiper-button-nexttt span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .home__paid_ads_sldr2 .swiper-button-prevvv {
+    position: absolute !important;
+    text-align: center;
+    left: 0 !important;
+    top: 40%;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50% !important;
+    background-color: #fff !important;
+    z-index: 2000 !important;
+    box-shadow: 1px 1px 4px 1px gray;
+    cursor: pointer;
+  }
+  
+  .home__paid_ads_sldr2 .swiper-button-prevvv span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }

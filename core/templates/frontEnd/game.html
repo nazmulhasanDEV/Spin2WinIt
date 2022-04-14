@@ -1,0 +1,505 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block gaming_css_block %}
+<link rel="stylesheet" href="{% static 'frontEnd/gaming_files/custom.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'frontEnd/gaming_files/main.css' %}" type="text/css" />
+<!--<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>-->
+<script src="{% static 'frontEnd/gaming_files/twinMax.js' %}"></script>
+<script type="text/javascript" src="{% static 'frontEnd/gaming_files/Winwheel.js' %}"></script>
+{% endblock %}
+
+{% block main_block %}
+<!-- game section starts -->
+
+<!--    prize flash message-->
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="game__prize__flash__message">
+                    <div class="flash_msg_main_content">
+                        <div class="flash__msg_content">
+                            <div class="close">
+                                <span class="span_inner" id="span_inner_close_btn">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                            </div>
+
+                            <div class="content">
+                                <h2>congratulations! You Won</h2>
+                                <h4 class="text-center won__prize_poin_amnt">50 Points</h4>
+                                
+                                <div class="prize__img">
+                                    <img class="won__prize__img" src="{% static 'frontEnd/images/product/large-size/4.jpg' %}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- ends prize flash message-->
+
+<!-- winning moment audio -->
+
+<div style="display: none;visibility: hidden;">
+    <audio controls id="winning__moment__audio">
+        <source src="{% static 'frontEnd/gaming_files/audio.ogg' %}" type="audio/ogg">
+        <source src="{% static 'frontEnd/gaming_files/audio.mp3' %}" type="audio/mpeg">
+    </audio>
+</div>
+
+<!-- ends winning moment audio -->
+
+<section id="gaming__section">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="gaming_user_available_points_section">
+                    <div class="content">
+                        {% if request.user.is_authenticated %}
+                        <h5>Your remaining chances: <strong>
+                            <span id="current_numbe_of_chances">{{user_total_remaining_chances}}</span></strong>
+                        </h5>
+                        <a href="/fe/buy/winning/chance">
+                            <button>Buy chances</button>
+                        </a>
+                        {% else %}
+                        <h5><strong>Sign In to win the best prize today!</strong></h5>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        {% if game_setting %}
+        <div class="row">
+            <div class="col-md-12" id="gaming__main__section">
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 game__product_prize_section">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="">
+                                    <div class="title">
+                                        <h2 class="text-center">Today's Attraction</h2>
+                                        <h6 class="text-center">Start to play and win this product!</h6>
+                                    </div>
+
+                                    <div class="prize__img">
+                                        <img class="current__product__as_prize" src="{% static 'frontEnd/images/product/large-size/4.jpg' %}" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-7 col-sm-12">
+                    <div align="center">
+                    <h1 class="text-center spinning___title">Play & Win</h1>
+                    <br/>
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td>
+                                <div class="power_controls">
+                                    <br/>
+                                    <br/>
+                                    <table class="power" cellpadding="10" cellspacing="0">
+                                        <tr>
+                                            <th align="center">Power</th>
+                                        </tr>
+                                        <tr>
+                                            <td width="78" align="center" id="pw3" onClick="powerSelected(3);">
+                                                High
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" id="pw2" onClick="powerSelected(2);">
+                                                Med
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" id="pw1" onClick="powerSelected(1);">
+                                                Low
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <br/>
+                                    {% if request.user.is_authenticated %}
+                                    <button id="spin_button" onClick="startSpin();" style="cursor: pointer;">Start to spin</button>
+                                    {% else %}
+                                    <button id="spin_button" onClick="startSpin();" style="cursor: pointer;" disabled>Start to spin</button>
+                                    {% endif %}
+                                    <br/><br/>
+                                    <p style="color: red; display:none;" id="spining_warning_alert"><strong>Note:</strong> You don't have any chances to spin</p>
+                                    &nbsp;&nbsp;<button id="reset__spin__btn" onClick="resetWheel(); return false;" style="cursor: pointer;">Play Again</button>
+                                    <br/>&nbsp;&nbsp;(reset)
+                                </div>
+                            </td>
+                            <td width="438" height="582" class="the_wheel" align="center" valign="center">
+
+                                <canvas id="canvas" width="434" height="434">
+                                    <p style="color: white" align="center">
+                                        Sorry, your browser doesn't support canvas. Please try
+                                        another.
+                                    </p>
+                                </canvas>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <h4><strong>Game section is currently unavailable!</strong></h4>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+</section>
+<!-- game section ends ends -->
+
+<br/><br/><br/><br/>
+
+
+ <!-- ads section starts -->
+
+<section id="ads_rev_section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="card" style="width: 18rem;">
+                <img src="{% static 'frontEnd/images/featured-product/1.jpg' %}" alt="">
+                <div class="card-body">
+                  <h5 class="card-title">Paid ads</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card" style="width: 18rem;">
+                <img src="{% static 'frontEnd/images/featured-product/1.jpg' %}" alt="">
+                <div class="card-body">
+                  <h5 class="card-title">Paid ads</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card" style="width: 18rem;">
+                <img src="{% static 'frontEnd/images/featured-product/1.jpg' %}" alt="">
+                <div class="card-body">
+                  <h5 class="card-title">Paid ads</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card" style="width: 18rem;">
+                <img src="{% static 'frontEnd/images/featured-product/1.jpg' %}" alt="">
+                <div class="card-body">
+                  <h5 class="card-title">Paid ads</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+<br>
+
+<h1>{{bal.bal}}</h1>
+{% endblock %}
+
+{% block gaming_script_block %}
+
+<script src="{% static 'frontEnd/gaming_files/custom.js' %}"></script>
+<script src="{% static 'frontEnd/gaming_files/custom_game.js' %}"></script>
+
+{{segments|json_script:"segments"}}
+
+
+<!-- game scripts -->
+    <script>
+
+        // Create new wheel object specifying the parameters at creation time.
+        let theWheel = new Winwheel({
+            outerRadius: 180, // Set outer radius so wheel fits inside the background. Default was: 214
+            innerRadius: 65, // Make wheel hollow so segments don't go all way to center. Default was: 75
+            textFontSize: 24, // Set default font size for the segments. Defulat was: 24
+            textOrientation: "vertical", // Make text vertial so goes down from the outside of wheel.
+            textAlignment: "inner", // Align text to outside of wheel.
+            numSegments: {{number_of_segments}}, // Specify number of segments.
+            // Define segments including colour and text.
+            segments: [
+                {% for x in active_segment_list %}
+
+                {% if x.segment_prize_type == '1' %}
+                {
+                    fillStyle: "{{x.bg_color}}",
+                    text: "Product",
+                    textFontSize: 16,
+                    textFillStyle: "#ffffff",
+                    textOrientation: "horizontal",
+                 },
+                {% else %}
+                {
+                    fillStyle: "{{x.bg_color}}",
+                    text: "{{x.prize_point_amount}}"
+                },
+                {% endif %}
+
+                {% endfor %}
+            ],
+            // Specify the animation to use.
+            animation: {
+                type: "spinToStop",
+                duration: {{game_setting.spining_duration}}, // Duration in seconds. Defualt: 10s
+                spins: {{game_setting.spining_duration}}, // Default number of complete spins. default:3
+                callbackFinished: alertPrize,
+                callbackSound: playSound, // Function to call when the tick sound is to be triggered.
+                soundTrigger: "pin", // Specify pins are to trigger the sound, the other option is 'segment'.
+            },
+            // Turn pins on.
+            pins: {
+                number: {{number_of_segments}},
+                fillStyle: "silver",
+                outerRadius: 4,
+            },
+        });
+
+        // Loads the tick audio sound in to an audio object.
+        let audio = new Audio("{% static 'frontEnd/gaming_files/tick.mp3' %}");
+
+        // This function is called when the sound is to be played.
+        function playSound() {
+            // Stop and rewind the sound if it already happens to be playing.
+            audio.pause();
+            audio.currentTime = 0;
+
+            // Play the sound.
+            audio.play();
+        }
+
+        // Vars used by the code in this page to do power controls.
+        let wheelPower = 0;
+        let wheelSpinning = false;
+
+        // -------------------------------------------------------
+        // Function to handle the onClick on the power buttons.
+        // -------------------------------------------------------
+        function powerSelected(powerLevel) {
+            // Ensure that power can't be changed while wheel is spinning.
+            if (wheelSpinning == false) {
+                // Reset all to grey incase this is not the first time the user has selected the power.
+                document.getElementById("pw1").className = "";
+                document.getElementById("pw2").className = "";
+                document.getElementById("pw3").className = "";
+
+                // Now light up all cells below-and-including the one selected by changing the class.
+                if (powerLevel >= 1) {
+                    document.getElementById("pw1").className = "pw1";
+                }
+
+                if (powerLevel >= 2) {
+                    document.getElementById("pw2").className = "pw2";
+                }
+
+                if (powerLevel >= 3) {
+                    document.getElementById("pw3").className = "pw3";
+                }
+
+                // Set wheelPower var used when spin button is clicked.
+                wheelPower = powerLevel;
+
+                // Light up the spin button by changing it's source image and adding a clickable class to it.
+                document.getElementById("spin_button").src ="{% static 'frontEnd/gaming_files/spin_on.png' %}";
+                document.getElementById("spin_button").className = "clickable";
+            }
+        }
+
+        // -------------------------------------------------------
+        // Click handler for spin button.
+        // -------------------------------------------------------
+
+        const current_numbe_of_chances = document.querySelector('#current_numbe_of_chances');
+        const reset__spin__btn = document.querySelector('#reset__spin__btn');
+
+        const spining_warning_alert = document.querySelector('#spining_warning_alert');
+
+        if (parseInt(current_numbe_of_chances.innerHTML) <= 0){
+             spin_button.disabled  = true;
+             reset__spin__btn.disabled = true;
+             spining_warning_alert.style.display = 'inherit';
+        }
+
+        function startSpin() {
+
+            // newly added script
+            const spin_button = document.querySelector('#spin_button');
+            const current_numbe_of_chances = document.querySelector('#current_numbe_of_chances');
+            const reset__spin__btn = document.querySelector('#reset__spin__btn');
+
+            // disable "spin start" button untill the rotation is done
+
+            const disableTimeSpinStartBtn = setTimeout(disableSpinStartBtn, 10000);
+            function disableSpinStartBtn() {
+                reset__spin__btn.disabled = false;
+                if (parseInt(current_numbe_of_chances.innerHTML) <= 0){
+                    reset__spin__btn.disabled = true;
+                }
+            }
+
+            spin_button.disabled = true;
+            reset__spin__btn.disabled = true;
+
+            //ajax starts
+
+                $.ajax({
+                     url:'/fe/game/',
+                     type:'get',
+                     data: {
+                        current_chances: parseInt(current_numbe_of_chances.innerHTML) - 1,
+                     },
+                     success: function(response){
+                           if (parseInt(current_numbe_of_chances.innerHTML) > 0){
+                                current_numbe_of_chances.innerHTML = parseInt(current_numbe_of_chances.innerHTML) - 1;
+                           }
+                           spin_button.disabled  = true;
+                     },
+
+                   });
+                    //ajax ends
+            // ends newly added ajax script
+
+
+            // Ensure that spinning can't be clicked again while already running.
+            if (wheelSpinning == false) {
+                // Based on the power level selected adjust the number of spins for the wheel, the more times is has
+                // to rotate with the duration of the animation the quicker the wheel spins.
+                if (wheelPower == 1) {
+                    theWheel.animation.spins = 3;
+                } else if (wheelPower == 2) {
+                    theWheel.animation.spins = 6;
+                } else if (wheelPower == 3) {
+                    theWheel.animation.spins = 10;
+                }
+
+                // Disable the spin button so can't click again while wheel is spinning.
+                document.getElementById("spin_button").src =
+                    "{% static 'frontEnd/gaming_files/spin_off.png' %}";
+                document.getElementById("spin_button").className = "";
+
+                // Begin the spin animation by calling startAnimation on the wheel object.
+                theWheel.startAnimation();
+
+                // Set to true so that power can't be changed and spin button re-enabled during
+                // the current animation. The user will have to reset before spinning again.
+                wheelSpinning = true;
+            }
+        }
+
+        // -------------------------------------------------------
+        // Function for reset button.
+        // -------------------------------------------------------
+        function resetWheel() {
+            const spin_button = document.querySelector('#spin_button');
+            const current_numbe_of_chances = document.querySelector('#current_numbe_of_chances');
+
+            if (parseInt(current_numbe_of_chances.innerHTML) > 0 ) {
+                spin_button.disabled  = false;
+
+            } else {
+                spin_button.disabled  = true;
+            }
+
+            theWheel.stopAnimation(false); // Stop the animation, false as param so does not call callback function.
+            theWheel.rotationAngle = 0; // Re-set the wheel angle to 0 degrees.
+            theWheel.draw(); // Call draw to render changes to the wheel.
+
+            document.getElementById("pw1").className = ""; // Remove all colours from the power level indicators.
+            document.getElementById("pw2").className = "";
+            document.getElementById("pw3").className = "";
+
+            wheelSpinning = false; // Reset to false to power buttons and spin can be clicked again.
+        }
+
+        // -------------------------------------------------------
+        // Called when the spin animation has finished by the callback feature of the wheel because I specified callback in the parameters.
+        // -------------------------------------------------------
+        function alertPrize(indicatedSegment) {
+
+            //ajax starts
+
+                $.ajax({
+                     url:'/fe/game/',
+                     type:'get',
+                     data: {
+                        won_prize: indicatedSegment.text,
+                     },
+                     success: function(response){
+                          console.log("prize");
+                     },
+
+                   });
+                    //ajax ends
+
+            // Just alert to the user what happened.
+            // In a real project probably want to do something more interesting than this with the result.
+            if (indicatedSegment.text === "Product") {
+                let winning__moment__audio = document.querySelector('#winning__moment__audio');
+                let game__prize__flash__message = document.querySelector('.game__prize__flash__message');
+                const flash_msg_main_content = document.querySelector('.flash_msg_main_content');
+                let flash__msg_content = document.querySelector('.flash__msg_content');
+                let won__prize_poin_amnt = document.querySelector('.won__prize_poin_amnt');
+                let won__prize__img = document.querySelector('.won__prize__img');
+                let current__product__as_prize = document.querySelector('.current__product__as_prize');
+
+                winning__moment__audio.play();
+                won__prize_poin_amnt.style.display = 'none';
+                game__prize__flash__message.style.display = 'inherit';
+                flash_msg_main_content.style.display = 'inherit';
+                flash__msg_content.style.display = 'inherit';
+                won__prize__img.src = current__product__as_prize.src;
+
+            } else {
+                let winning__moment__audio = document.querySelector('#winning__moment__audio');
+                let game__prize__flash__message = document.querySelector('.game__prize__flash__message');
+                const flash_msg_main_content = document.querySelector('.flash_msg_main_content');
+                let flash__msg_content = document.querySelector('.flash__msg_content');
+                let won__prize_poin_amnt = document.querySelector('.won__prize_poin_amnt');
+                let won__prize__img = document.querySelector('.won__prize__img');
+                let current__product__as_prize = document.querySelector('.current__product__as_prize');
+
+                winning__moment__audio.play();
+                won__prize_poin_amnt.innerHTML = indicatedSegment.text + ' Points';
+                game__prize__flash__message.style.display = 'inherit';
+                flash_msg_main_content.style.display = 'inherit';
+                flash__msg_content.style.display = 'inherit';
+                won__prize__img.style.display = 'none';
+            }
+        }
+
+    </script>
+    <!-- game scripts ends -->
+{% endblock %}

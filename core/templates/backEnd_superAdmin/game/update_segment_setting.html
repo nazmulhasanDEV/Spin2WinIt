@@ -1,0 +1,168 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+
+{% load static %}
+
+
+{% block dataTable_css %}
+<!-- DataTables -->
+<link rel="stylesheet"
+      href="{% static 'backEnd/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+{% endblock %}
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-12">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Setup segments and specify prize for each segment!</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="{% url 'apUpdateSegmentSetting' current_pk %}" method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Select Segment</label>
+                                <select name="segment_name" class="form-control segment_name" required>
+                                    <option>Select segment</option>
+                                    {% if segments %}
+                                    {% for x in segments %}
+
+                                    {% if x.name == current_obj.segment.name %}
+                                    <option value="{{x.pk}}" selected>{{x.name}}</option>
+                                    {% else %}
+                                    <option value="{{x.pk}}">{{x.name}}</option>
+                                    {% endif %}
+
+                                    {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Segment background color</label>
+                                <input type="color" name="bg_color" value="{{current_obj.bg_color}}" class="form-control bg_color" placeholder="Background Color" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Segment prize type</label>
+                                <select name="segment_prize__type" class="form-control" id="segment_prize__type" required>
+                                    <option selected>Select prize type</option>
+                                    {% if current_obj.segment_prize_type == '1' %}
+                                    <option value="product" selected>Product as prize</option>
+                                    <option value="point">Point as prize</option>
+                                    {% else %}
+                                    <option value="point" selected>Point as prize</option>
+                                    <option value="product">Product as prize</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 point_amnt_as_prize">
+                                <label>Point amount as prize(for current segment)</label>
+                                <input type="text" name="point_as_prize" value="{{current_obj.prize_point_amount}}" class="form-control" placeholder="Point amount(ex: 20 points)">
+                            </div>
+
+                            <div class="col-md-6 sgmnt_product_as_prize">
+                                <label>Select product as prize</label>
+                                <select name="product_as_prize" class="form-control" id="">
+                                    {% if sponsored_products %}
+                                    {% for x in sponsored_products %}
+
+                                    {% if current_obj.product_as_prize.pk == x.pk %}
+                                    <option value="{{x.pk}}" selected>{{x.product.title}}</option>
+                                    {% else %}
+                                    <option value="{{x.pk}}">{{x.product.title}}</option>
+                                    {% endif %}
+
+                                    {% endfor %}
+                                    {% else %}
+                                    <option>No product sponsored yet!</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Select segment status</label>
+                                <select name="segment_status" class="form-control" id="segment_prize__type" required>
+                                    {% if current_obj.status %}
+                                    <option value="True" selected>Activate now</option>
+                                    <option value="False">Will activate later</option>
+                                    {% else %}
+                                    <option value="True">Activate now</option>
+                                    <option value="False" selected>Will activate later</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary sgmnt_stting_sbmit_btn">LET'S ADD</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block dropzone_block %}
+
+<script>
+    const segment_prize__type = document.querySelector('#segment_prize__type');
+    const sgmnt_product_as_prize = document.querySelector('.sgmnt_product_as_prize');
+    const point_amnt_as_prize = document.querySelector('.point_amnt_as_prize');
+
+    const sgmnt_stting_sbmit_btn = document.querySelector('.sgmnt_stting_sbmit_btn');
+
+    sgmnt_product_as_prize.style.display = 'none';
+
+    segment_prize__type.onchange = (e)=>{
+        if (e.target.value === 'product'){
+            sgmnt_product_as_prize.style.display = 'inherit';
+            sgmnt_product_as_prize.required = true;
+
+            point_amnt_as_prize.style.display = 'none';
+            point_amnt_as_prize.required = false;
+        }if (e.target.value === 'point') {
+            sgmnt_product_as_prize.style.display = 'none';
+            sgmnt_product_as_prize.required = false;
+
+            point_amnt_as_prize.style.display = 'inherit';
+            point_amnt_as_prize.required = true;
+        }
+
+    }
+</script>
+
+<script>
+</script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}

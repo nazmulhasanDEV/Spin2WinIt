@@ -1,0 +1,566 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-12">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert text-center alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Update product</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                {% if current_product_data.product_type == 'wsp' %}
+                <form action="{% url 'apUpdateAdminWocmrceProduct' pk=current_pk product_id=current_product_id %}" method="post"
+                      enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Product title</label>
+                                <textarea class="form-control" name="title" id="title" rows="3"
+                                          placeholder="Enter" required>{{current_product_data.title}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('title');//name of textarea field
+
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Brand name</label>
+                                <input type="text" name="brand__name" class="form-control"
+                                       value="{{current_product_data.brand_name}}" placeholder="Brand name">
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Select category</label>
+                                <select name="category" class="form-control" id="ap_addProduct_category">
+                                    <option value="" selected>Select product category</option>
+                                    {% if product_category %}
+                                    {% for x in product_category %}
+                                    {% if x.pk == current_product_data.category.pk %}
+                                    <option value="{{x.pk}}" selected>{{x.name}}</option>
+                                    {% else %}
+                                    <option value="{{x.pk}}">{{x.name}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% else %}
+                                    <option value="" selected>No category found!</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Select sub-category</label>
+                                <select name="sub_category" class="form-control ap_addProduct_subcategory">
+                                    <option value="0" selected>Select subcategory</option>
+                                    {% for x in product_subcategory %}
+                                    {% if x.pk == current_product_data.subcategory.pk %}
+                                    <option value="{{x.pk}}" selected>{{x.name}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Product short description</label>
+                                <textarea name="short_des" class="form-control" rows="3"
+                                          placeholder="Product short description" required>{{current_product_data.short_des}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('short_des');//name of textarea field
+
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Product details</label>
+                                <textarea name="details" class="form-control" rows="3"
+                                          placeholder="Product details"
+                                          required>{{current_product_data.details}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('details');//name of textarea field
+
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Product new price(usd)</label>
+                                <input type="number" name="new_price" class="form-control"
+                                       value="{{current_product_data.price}}" placeholder="$50">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Product old price(usd)</label>
+                                <input type="number" name="old_price" class="form-control"
+                                       value="{{current_product_data.regular_price}}" placeholder="$50">
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Product use cases</label>
+                                <textarea name="use_cases" class="form-control" rows="3"
+                                          placeholder="Ex: it can be used for sensetive skin">{{current_product_data.use_case}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('use_cases');//name of textarea field
+
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Benefits</label>
+                                <textarea name="benefits" class="form-control" rows="3"
+                                          placeholder="Ex: it can be used for sensetive skin">{{current_product_data.benefits}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('benefits');//name of textarea field
+
+                                </script>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <input type="file" name="product__main__thumbnail__img"
+                                       class="product__main__thumbnail__img" id="file" accept="image/*"/>
+                                <button type="button" class="product__main__thumbnail__img_btn"
+                                        id="product__main__thumbnail__img_btn"><strong><i class="fas fa-upload"></i>
+                                    Update product thumbnail</strong></button>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <label for="C">Current Thumbnail</label>
+                                    {% if current_product_data.product_thumbnail %}
+                                    <img src="{{current_product_data.product_thumbnail.url}}" class="prev_thumb_img"
+                                         style="width: 100%; height: 200px" alt="">
+                                    {% else %}
+                                    <img src="{% static 'backEnd/dist/img/avatar.png' %}" class="prev_thumb_img"
+                                         style="width: 100%; height: 200px" alt="">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6 col-sm-12">
+                                <!--                                <label for="product__extra__images_btn">File input</label>-->
+                                <input type="file" name="product__extra__images" class="product__extra__images"
+                                       id="file" accept="image/*" multiple>
+                                <p class="warning__msg" style="color: red;"><strong>Max five(5) images are allowed &
+                                    previous images will be deleted!</strong></p>
+                                <button type="button" class="product__extra__images_btn"
+                                        id="product__extra__images_btn"><strong><i class="fas fa-upload"></i> Update
+                                    product images(optional)</strong></button>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="img_prev_list_for_extra_imgs">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Store Link <strong>(store link at: spin2winit) optional*</strong></label>
+                                <input type="text" name="store_link" class="form-control"
+                                       placeholder="www.spin2winit.com/mystore"
+                                       value="{{current_product_data.store_link}}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Store name (optional)*</label>
+                                <input type="text" name="store__name" class="form-control" placeholder="My store"
+                                       value="{{current_product_data.store_name}}">
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>About store(optional)*</label>
+                                <textarea name="about_store" class="form-control" rows="3"
+                                          placeholder="Short description about store">{{current_product_data.about_store}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('about_store');//name of textarea field
+
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>In stock*</label>
+                                <input type="number" name="in_stock" class="form-control"
+                                       value="{{current_product_data.in_stock}}" placeholder="In Stock"/>
+                            </div>
+
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Would you like to sponsor this product?</label>
+                                <select name="sponsor__status" class="form-control sponsor__status">
+                                    {% if current_product_data.sponsor_status == 'yes' %}
+                                    <option value="yes" selected>Yes</option>
+                                    <option value="no">Not now</option>
+                                    {% elif current_product_data.sponsor_status == 'no' %}
+                                    <option value="no" selected>Not now</option>
+                                    <option value="yes">Yes</option>
+                                    {% else %}
+                                    <option value="">Select sponsor status</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">Not now</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Policy(like: product delivery, return, payment refund, security)</label>
+                                <select name="policy" class="form-control policy__option">
+                                    {% if current_product_data.policy_followed == 'company' %}
+                                    <option value="company" selected>As per company policy</option>
+                                    <option value="own">I want to add my own</option>
+                                    {% elif current_product_data.policy_followed == 'own' %}
+                                    <option value="own" selected>I want to add my own</option>
+                                    <option value="company">As per company policy</option>
+                                    {% else %}
+                                    <option value="" selected>Select policy</option>
+                                    <option value="company">As per company policy</option>
+                                    <option value="own">I want to add my own</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group policy__section">
+                            <div class="col-md-6">
+                                <label>Security policy</label>
+                                <textarea name="security_policy" class="form-control" rows="3"
+                                          placeholder="Security policy">{{current_product_data.security_policy}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('security_policy');//name of textarea field
+
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Return policy</label>
+                                <textarea name="return_policy" class="form-control" rows="3"
+                                          placeholder="Return policy">{{current_product_data.return_policy}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('return_policy');//name of textarea field
+
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Delivery policy</label>
+                                <textarea name="delivery_policy" class="form-control" rows="3"
+                                          placeholder="Delivery polic">{{current_product_data.delivery_policy}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('delivery_policy');//name of textarea field
+
+                                </script>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary admin__prdctAdd_btn">LET'S UPDATE</button>
+                        <a href="{% url 'apAllProductList' %}">
+                            <button type="button" class="btn btn-primary"
+                                    style="border:none; background: #FF0000;color:white;">Cancel
+                            </button>
+                        </a>
+                    </div>
+                </form>
+                {% else %}
+                <form action="{% url 'apUpdateAdminCustomProduct' pk=current_pk product_id=current_product_id %}"
+                      method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Product title</label>
+                                <textarea class="form-control" name="title" id="title" rows="3"
+                                          placeholder="Enter" required>{{current_product_data.title}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('title');//name of textarea field
+
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Brand name</label>
+                                <input type="text" name="brand__name" class="form-control"
+                                       value="{{current_product_data.brand_name}}" placeholder="Brand name" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Select category</label>
+                                <select name="category" class="form-control" id="ap_addProduct_category" required>
+                                    <option value="" selected>Select product category</option>
+                                    {% if product_category %}
+                                    {% for x in product_category %}
+                                    {% if x.pk == current_product_data.category.pk %}
+                                    <option value="{{x.pk}}" selected>{{x.name}}</option>
+                                    {% else %}
+                                    <option value="{{x.pk}}">{{x.name}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% else %}
+                                    <option value="" selected>No category found!</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Select sub-category</label>
+                                <select name="sub_category" class="form-control ap_addProduct_subcategory" required>
+                                    {% for x in product_subcategory %}
+                                    {% if x.pk == current_product_data.subcategory.pk %}
+                                    <option value="{{x.pk}}" selected>{{x.name}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Product short description</label>
+                                <textarea name="short_des" class="form-control" rows="3"
+                                          placeholder="Product short description" required>{{current_product_data.short_des}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('short_des');//name of textarea field
+
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Product details</label>
+                                <textarea name="details" class="form-control" rows="3"
+                                          placeholder="Product details"
+                                          required>{{current_product_data.details}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('details');//name of textarea field
+
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Product new price(usd)</label>
+                                <input type="number" name="new_price" class="form-control"
+                                       value="{{current_product_data.new_price}}" placeholder="$50" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Product old price(usd)</label>
+                                <input type="number" name="old_price" class="form-control"
+                                       value="{{current_product_data.old_price}}" placeholder="$50" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Product use cases</label>
+                                <textarea name="use_cases" class="form-control" rows="3"
+                                          placeholder="Ex: it can be used for sensetive skin">{{current_product_data.use_case}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('use_cases');//name of textarea field
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Benefits</label>
+                                <textarea name="benefits" class="form-control" rows="3"
+                                          placeholder="Ex: it can be used for sensetive skin" required>{{current_product_data.benefits}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('benefits');//name of textarea field
+
+                                </script>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <input type="file" name="product__main__thumbnail__img"
+                                       class="product__main__thumbnail__img" id="file" accept="image/*"/>
+                                <button type="button" class="product__main__thumbnail__img_btn"
+                                        id="product__main__thumbnail__img_btn"><strong><i class="fas fa-upload"></i>
+                                    Update product thumbnail</strong></button>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <label for="C">Current Thumbnail</label>
+                                    {% if current_product_data.product_thumbnail %}
+                                    <img src="{{current_product_data.product_thumbnail.url}}" class="prev_thumb_img"
+                                         style="width: 100%; height: 200px" alt="">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-12 col-sm-12">
+                                <label>
+                                    <input type="checkbox" name="delete_old_images"> Delete Old Images
+                                </label>
+                            </div>
+                            <br><br>
+
+                            <div class="col-md-6 col-sm-12">
+                                <!--                                <label for="product__extra__images_btn">File input</label>-->
+                                <input type="file" name="product__extra__images" class="product__extra__images"
+                                       id="file" accept="image/*" multiple>
+                                <p class="warning__msg" style="color: red;"><strong>Max five(5) images are
+                                    allowed!</strong></p>
+                                <button type="button" class="product__extra__images_btn"
+                                        id="product__extra__images_btn"><strong><i class="fas fa-upload"></i> Update
+                                    product images(optional)</strong></button>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="img_prev_list_for_extra_imgs">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Store Link <strong>(store link at: spin2winit) optional*</strong></label>
+                                <input type="text" name="store_link" class="form-control"
+                                       placeholder="www.spin2winit.com/mystore"
+                                       value="{{current_product_data.store_link}}" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Store name (optional)*</label>
+                                <input type="text" name="store__name" class="form-control" placeholder="My store"
+                                       value="{{current_product_data.store_name}}" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>About store(optional)*</label>
+                                <textarea name="about_store" class="form-control" rows="3"
+                                          placeholder="Short description about store" required>{{current_product_data.about_store}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('about_store');//name of textarea field
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>In stock*</label>
+                                <input type="number" name="in_stock" class="form-control"
+                                       value="{{current_product_data.in_stock}}" placeholder="In Stock"/>
+                            </div>
+
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Would you like to sponsor this product?</label>
+                                <select name="sponsor__status" class="form-control sponsor__status" required>
+                                    {% if current_product_data.sponsor_status == 'yes' %}
+                                    <option value="yes" selected>Yes</option>
+                                    <option value="no">Not now</option>
+                                    {% else %}
+                                    <option value="no" selected>Not now</option>
+                                    <option value="yes">Yes</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Policy(like: product delivery, return, payment refund, security)</label>
+                                <select name="policy" class="form-control policy__option" required>
+                                    {% if current_product_data.policy_followed == 'company' %}
+                                    <option value="company" selected>As per company policy</option>
+                                    <option value="own">I want to add my own</option>
+                                    {% else %}
+                                    <option value="own" selected>I want to add my own</option>
+                                    <option value="company">As per company policy</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group policy__section">
+                            <div class="col-md-6">
+                                <label>Security policy</label>
+                                <textarea name="security_policy" class="form-control" rows="3"
+                                          placeholder="Security policy">{{current_product_data.security_policy}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('security_policy');//name of textarea field
+
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Return policy</label>
+                                <textarea name="return_policy" class="form-control" rows="3"
+                                          placeholder="Return policy">{{current_product_data.return_policy}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('return_policy');//name of textarea field
+
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Delivery policy</label>
+                                <textarea name="delivery_policy" class="form-control" rows="3"
+                                          placeholder="Delivery polic">{{current_product_data.delivery_policy}}</textarea>
+                                <script>
+                                        CKEDITOR.replace('delivery_policy');//name of textarea field
+
+                                </script>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary admin__prdctAdd_btn">LET'S UPDATE</button>
+                        <a href="{% url 'apAdminCustomProductList' %}">
+                            <button type="button" class="btn btn-primary"
+                                    style="border:none; background: #FF0000;color:white;">Cancel
+                            </button>
+                        </a>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block dropzone_block %}
+
+<script>
+</script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}
+

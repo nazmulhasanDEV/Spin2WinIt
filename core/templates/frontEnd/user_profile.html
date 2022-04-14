@@ -1,0 +1,1102 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<!-- user profile picture******************************** -->
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"
+                 {% endif %}>
+                <strong>{{ message }}!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<section id="user__profile__section" class="mt-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 d-flex justify-content-center">
+                <div class="user__profile__pic">
+                    <div class="card">
+                        {% if user_profile_pic %}
+                        <img class="card-img-top" src="{{user_profile_pic.pic.url}}" alt="Card image cap">
+                        {% else %}
+                        <img class="card-img-top" src="{% static 'frontEnd/profile_pic/profile_pic.jpg' %}"
+                             alt="Card image cap">
+                        {% endif %}
+                        <div class="card-body">
+                            {% if request.user.fname or request.user.lname %}
+                            <h5 class="card-title text-center">{{request.user.fname}} {{request.user.lname}}</h5>
+                            {% else %}
+                            <h5 class="card-title text-center">Not Added yet!</h5>
+                            {% endif %}
+                            <p class="card-text text-center">Some quick example text to build on the card title and
+                                make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <!-- product -->
+                <div class="row">
+                    <div class="new_special-product-active owl-carousel">
+                        <div class="col-lg-12">
+                            <!-- single-product-wrap start -->
+                            <div class="single-product-wrap" style="height: 500px">
+                                <div class="product-image">
+                                    <a href="single-product.html">
+                                        <img
+                                                src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
+                                                alt="Li's Product Image"
+                                        />
+                                    </a>
+                                    <span class="sticker">New</span>
+                                </div>
+                                <div class="product_desc">
+                                    <div class="product_desc_info">
+                                        <div class="product-review">
+                                            <h5 class="manufacturer">
+                                                <a href="shop-left-sidebar.html"
+                                                >Graphic Corner</a
+                                                >
+                                            </h5>
+                                            <div class="rating-box">
+                                                <ul class="rating">
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li class="no-star">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </li>
+                                                    <li class="no-star">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <h4>
+                                            <a class="product_name" href="single-product.html"
+                                            >Accusantium dolorem1</a
+                                            >
+                                        </h4>
+                                        <div class="price-box">
+                                            <span class="new-price">$46.80</span>
+                                        </div>
+                                        <div class="countersection">
+                                            <div class="li-countdown"></div>
+                                        </div>
+                                    </div>
+                                    <div class="add-actions">
+                                        <ul class="add-actions-link">
+                                            <li class="add-cart active">
+                                                <a href="#">Add to cart</a>
+                                            </li>
+                                            <li>
+                                                <a class="links-details" href="wishlist.html">
+                                                    <i class="fa fa-heart-o"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                        href="#"
+                                                        title="quick view"
+                                                        class="quick-view-btn"
+                                                        data-toggle="modal"
+                                                        data-target="#exampleModalCenter"
+                                                ><i class="fa fa-eye"></i
+                                                ></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- single-product-wrap end -->
+                        </div>
+                        <div class="col-lg-12">
+                            <!-- single-product-wrap start -->
+                            <div class="single-product-wrap" style="height: 500px">
+                                <div class="product-image">
+                                    <a href="single-product.html">
+                                        <img
+                                                src="{% static 'frontEnd/images/product/large-size/2.jpg' %}"
+                                                alt="Li's Product Image"
+                                        />
+                                    </a>
+                                    <span class="sticker">New</span>
+                                </div>
+                                <div class="product_desc">
+                                    <div class="product_desc_info">
+                                        <div class="product-review">
+                                            <h5 class="manufacturer">
+                                                <a href="shop-left-sidebar.html">Studio Design</a>
+                                            </h5>
+                                            <div class="rating-box">
+                                                <ul class="rating">
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li class="no-star">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </li>
+                                                    <li class="no-star">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <h4>
+                                            <a class="product_name" href="single-product.html"
+                                            >Mug Today is a good day</a
+                                            >
+                                        </h4>
+                                        <div class="price-box">
+                                            <span class="new-price new-price-2">$71.80</span>
+                                            <span class="old-price">$77.22</span>
+                                            <span class="discount-percentage">-7%</span>
+                                        </div>
+                                        <div class="countersection">
+                                            <div class="li-countdown"></div>
+                                        </div>
+                                    </div>
+                                    <div class="add-actions">
+                                        <ul class="add-actions-link">
+                                            <li class="add-cart active">
+                                                <a href="#">Add to cart</a>
+                                            </li>
+                                            <li>
+                                                <a class="links-details" href="wishlist.html"
+                                                ><i class="fa fa-heart-o"></i
+                                                ></a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                        href="#"
+                                                        title="quick view"
+                                                        class="quick-view-btn"
+                                                        data-toggle="modal"
+                                                        data-target="#exampleModalCenter"
+                                                ><i class="fa fa-eye"></i
+                                                ></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- single-product-wrap end -->
+                        </div>
+                        <div class="col-lg-12">
+                            <!-- single-product-wrap start -->
+                            <div class="single-product-wrap" style="height: 500px">
+                                <div class="product-image">
+                                    <a href="single-product.html">
+                                        <img
+                                                src="{% static 'frontEnd/images/product/large-size/5.jpg' %}"
+                                                alt="Li's Product Image"
+                                        />
+                                    </a>
+                                    <span class="sticker">New</span>
+                                </div>
+                                <div class="product_desc">
+                                    <div class="product_desc_info">
+                                        <div class="product-review">
+                                            <h5 class="manufacturer">
+                                                <a href="shop-left-sidebar.html"
+                                                >Graphic Corner</a
+                                                >
+                                            </h5>
+                                            <div class="rating-box">
+                                                <ul class="rating">
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li class="no-star">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </li>
+                                                    <li class="no-star">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <h4>
+                                            <a class="product_name" href="single-product.html"
+                                            >Accusantium dolorem1</a
+                                            >
+                                        </h4>
+                                        <div class="price-box">
+                                            <span class="new-price">$46.80</span>
+                                        </div>
+                                        <div class="countersection">
+                                            <div class="li-countdown"></div>
+                                        </div>
+                                    </div>
+                                    <div class="add-actions">
+                                        <ul class="add-actions-link">
+                                            <li class="add-cart active">
+                                                <a href="#">Add to cart</a>
+                                            </li>
+                                            <li>
+                                                <a class="links-details" href="wishlist.html"
+                                                ><i class="fa fa-heart-o"></i
+                                                ></a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                        href="#"
+                                                        title="quick view"
+                                                        class="quick-view-btn"
+                                                        data-toggle="modal"
+                                                        data-target="#exampleModalCenter"
+                                                ><i class="fa fa-eye"></i
+                                                ></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- single-product-wrap end -->
+                        </div>
+                        <div class="col-lg-12">
+                            <!-- single-product-wrap start -->
+                            <div class="single-product-wrap" style="height: 500px">
+                                <div class="product-image">
+                                    <a href="single-product.html">
+                                        <img
+                                                src="{% static 'frontEnd/images/product/large-size/8.jpg' %}"
+                                                alt="Li's Product Image"
+                                        />
+                                    </a>
+                                    <span class="sticker">New</span>
+                                </div>
+                                <div class="product_desc">
+                                    <div class="product_desc_info">
+                                        <div class="product-review">
+                                            <h5 class="manufacturer">
+                                                <a href="shop-left-sidebar.html">Studio Design</a>
+                                            </h5>
+                                            <div class="rating-box">
+                                                <ul class="rating">
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li class="no-star">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </li>
+                                                    <li class="no-star">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <h4>
+                                            <a class="product_name" href="single-product.html"
+                                            >Mug Today is a good day</a
+                                            >
+                                        </h4>
+                                        <div class="price-box">
+                                            <span class="new-price new-price-2">$71.80</span>
+                                            <span class="old-price">$77.22</span>
+                                            <span class="discount-percentage">-7%</span>
+                                        </div>
+                                        <div class="countersection">
+                                            <div class="li-countdown"></div>
+                                        </div>
+                                    </div>
+                                    <div class="add-actions">
+                                        <ul class="add-actions-link">
+                                            <li class="add-cart active">
+                                                <a href="#">Add to cart</a>
+                                            </li>
+                                            <li>
+                                                <a class="links-details" href="wishlist.html"
+                                                ><i class="fa fa-heart-o"></i
+                                                ></a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                        href="#"
+                                                        title="quick view"
+                                                        class="quick-view-btn"
+                                                        data-toggle="modal"
+                                                        data-target="#exampleModalCenter"
+                                                ><i class="fa fa-eye"></i
+                                                ></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- single-product-wrap end -->
+                        </div>
+                        <div class="col-lg-12">
+                            <!-- single-product-wrap start -->
+                            <div class="single-product-wrap" style="height: 500px">
+                                <div class="product-image">
+                                    <a href="single-product.html">
+                                        <img
+                                                src="{% static 'frontEnd/images/product/large-size/7.jpg' %}"
+                                                alt="Li's Product Image"
+                                        />
+                                    </a>
+                                    <span class="sticker">New</span>
+                                </div>
+                                <div class="product_desc">
+                                    <div class="product_desc_info">
+                                        <div class="product-review">
+                                            <h5 class="manufacturer">
+                                                <a href="shop-left-sidebar.html"
+                                                >Graphic Corner</a
+                                                >
+                                            </h5>
+                                            <div class="rating-box">
+                                                <ul class="rating">
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li class="no-star">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </li>
+                                                    <li class="no-star">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <h4>
+                                            <a class="product_name" href="single-product.html"
+                                            >Accusantium dolorem1</a
+                                            >
+                                        </h4>
+                                        <div class="price-box">
+                                            <span class="new-price">$46.80</span>
+                                        </div>
+                                        <div class="countersection">
+                                            <div class="li-countdown"></div>
+                                        </div>
+                                    </div>
+                                    <div class="add-actions">
+                                        <ul class="add-actions-link">
+                                            <li class="add-cart active">
+                                                <a href="#">Add to cart</a>
+                                            </li>
+                                            <li>
+                                                <a class="links-details" href="wishlist.html"
+                                                ><i class="fa fa-heart-o"></i
+                                                ></a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                        href="#"
+                                                        title="quick view"
+                                                        class="quick-view-btn"
+                                                        data-toggle="modal"
+                                                        data-target="#exampleModalCenter"
+                                                ><i class="fa fa-eye"></i
+                                                ></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- single-product-wrap end -->
+                        </div>
+                        <div class="col-lg-12">
+                            <!-- single-product-wrap start -->
+                            <div class="single-product-wrap" style="height: 500px">
+                                <div class="product-image">
+                                    <a href="single-product.html">
+                                        <img
+                                                src="{% static 'frontEnd/images/product/large-size/4.jpg' %}"
+                                                alt="Li's Product Image"
+                                        />
+                                    </a>
+                                    <span class="sticker">New</span>
+                                </div>
+                                <div class="product_desc">
+                                    <div class="product_desc_info">
+                                        <div class="product-review">
+                                            <h5 class="manufacturer">
+                                                <a href="shop-left-sidebar.html">Studio Design</a>
+                                            </h5>
+                                            <div class="rating-box">
+                                                <ul class="rating">
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li class="no-star">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </li>
+                                                    <li class="no-star">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <h4>
+                                            <a class="product_name" href="single-product.html"
+                                            >Mug Today is a good day</a
+                                            >
+                                        </h4>
+                                        <div class="price-box">
+                                            <span class="new-price new-price-2">$71.80</span>
+                                            <span class="old-price">$77.22</span>
+                                            <span class="discount-percentage">-7%</span>
+                                        </div>
+                                        <div class="countersection">
+                                            <div class="li-countdown"></div>
+                                        </div>
+                                    </div>
+                                    <div class="add-actions">
+                                        <ul class="add-actions-link">
+                                            <li class="add-cart active">
+                                                <a href="#">Add to cart</a>
+                                            </li>
+                                            <li>
+                                                <a class="links-details" href="wishlist.html"
+                                                ><i class="fa fa-heart-o"></i
+                                                ></a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                        href="#"
+                                                        title="quick view"
+                                                        class="quick-view-btn"
+                                                        data-toggle="modal"
+                                                        data-target="#exampleModalCenter"
+                                                ><i class="fa fa-eye"></i
+                                                ></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- single-product-wrap end -->
+                        </div>
+                    </div>
+                </div>
+                <!-- product ends -->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- user profile picture ends************************* -->
+
+
+<!-- user profile details ***************************** -->
+<section class="user_profile_navigation_bar mt-25">
+    <div class="container">
+        <!-- profile nav bar**************************** -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="my_profile-tab" data-toggle="tab" href="#my_profile"
+                           role="tab" aria-controls="my_profile" aria-selected="true">My Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="my_wallet-tab" data-toggle="tab" href="#my_wallet" role="tab"
+                           aria-controls="my_wallet" aria-selected="false">My Wallet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="my_prizes-tab" data-toggle="tab" href="#my_prizes" role="tab"
+                           aria-controls="my_prizes" aria-selected="false">My Prizes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="my_orders-tab" data-toggle="tab" href="#my_orders" role="tab"
+                           aria-controls="my_orders" aria-selected="false">My Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="stores_reviews-tab" data-toggle="tab" href="#stores_reviews"
+                           role="tab" aria-controls="stores_reviews" aria-selected="false">My Stores & Reviews</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" id="settings-tab" data-toggle="tab" href="#setting" role="tab"
+                           aria-controls="setting" aria-selected="false">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="logout-tab" href="/fe/logout/user">Log out</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active mt-50" id="my_profile" role="tabpanel"
+                         aria-labelledby="my_profile-tab">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Mobile</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>{{request.user.fname}} {{request.user.lname}}</td>
+                                            <td>{{request.user.email}}</td>
+                                            <td>{{request.user.phone_no}}</td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+
+
+                                    <!--                                    <table class="table">-->
+                                    <!--                                        <thead>-->
+                                    <!--                                        <tr>-->
+                                    <!--                                            <th scope="col">Username</th>-->
+                                    <!--                                            <th scope="col">Birthday</th>-->
+                                    <!--                                            <th scope="col">Gender</th>-->
+                                    <!--                                        </tr>-->
+                                    <!--                                        </thead>-->
+                                    <!--                                        <tbody>-->
+                                    <!--                                        <tr>-->
+                                    <!--                                            <td>XXXXXXXXXXXXX</td>-->
+                                    <!--                                            <td>XXXXXXXXXX</td>-->
+                                    <!--                                            <td>XXXXXXXXXXX</td>-->
+                                    <!--                                        </tr>-->
+
+                                    <!--                                        </tbody>-->
+                                    <!--                                    </table>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="my_wallet" role="tabpanel" aria-labelledby="my_wallet-tab">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="remaining_chances_to_win">
+                                        <h4>Remaining chances to win:
+                                            {% if user_winning_chances %}
+                                            <strong>{{user_winning_chances.remaining_chances}}</strong>
+                                            {% else %}
+                                            <strong>00.00</strong>
+                                            {% endif %}
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="play_buy_chance_btns">
+                                        <div class="content">
+                                            <a href="/fe/game">
+                                                <button type="button">Let's Play</button>
+                                            </a>
+
+                                            <a href="/fe/buy/winning/chance">
+                                                <button type="button">Buy Chance</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Available Points</th>
+                                            <th scope="col">Purchased</th>
+                                            <th scope="col">Point Spent</th>
+                                            <th scope="col">Spent Amount</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% if user_point_wallet %}
+                                        <tr>
+                                            <td>{{user_point_wallet.available|floatformat:2}}</td>
+                                            <td>{{user_point_wallet.purchased|floatformat:2}}</td>
+                                            <td>{{user_point_wallet.spent|floatformat:2}}</td>
+                                            <td>{{user_point_wallet.spent_amount|floatformat:2}}</td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td>00.00</td>
+                                            <td>00.00</td>
+                                            <td>00.00</td>
+                                        </tr>
+                                        {% endif %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- winning prizes -->
+                        <!-- winning prizes ends -->
+                    </div>
+                    <div class="tab-pane fade" id="my_prizes" role="tabpanel" aria-labelledby="my_prizes-tab">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Discount</th>
+                                            <th scope="col">Won</th>
+                                            <th scope="col">Valid Till</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>15%</td>
+                                            <td>07 Jan, 2020</td>
+                                            <td>10 Jan, 2020</td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Gaming Credits</th>
+                                            <th scope="col">Won</th>
+                                            <th scope="col">Valid Till</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>150</td>
+                                            <td>07 Jan, 2020</td>
+                                            <td>10 Jan, 2020</td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Discount</th>
+                                            <th scope="col">Won</th>
+                                            <th scope="col">Valid Till</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>15%</td>
+                                            <td>07 Jan, 2020</td>
+                                            <td>10 Jan, 2020</td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Product Credits</th>
+                                            <th scope="col">Won</th>
+                                            <th scope="col">Valid Till</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>150</td>
+                                            <td>07 Jan, 2020</td>
+                                            <td>10 Jan, 2020</td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- winning prizes -->
+                        <!-- winning prizes ends -->
+                    </div>
+                    <div class="tab-pane fade" id="my_orders" role="tabpanel" aria-labelledby="my_orders-tab">
+                        <div class="container">
+                            <div class="row">
+                                {% if order_list %}
+
+                                {% for x in order_list %}
+                                <div class="col-md-3 mt-md-3">
+                                    <div class="card" style="width: 100%;">
+                                        <div class="card-body">
+                                            <h5 class="card-title">#Order ID</h5>
+                                            <p class="card-text">{{x.order_id}}</p>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <!--                                            {% for item in x.items.all %}-->
+                                            <!--                                            <li class="list-group-item order_item">{{item.product.title|striptags|truncatechars:15}} × {{item.quantity}} <span class="order_item_price">{{item.total_amount}}</span></li>-->
+                                            <!--                                            {% endfor %}-->
+
+                                            <li class="list-group-item order_item"><strong>Total:</strong> <span
+                                                    class="order_item_price">${{x.total_amount}}</span></li>
+                                            {% if x.order_status == 'a' %}
+                                            <li class="list-group-item order_item">Order Status: <span
+                                                    class="order_item_price"><strong>Approved</strong></span></li>
+                                            {% endif %}
+
+                                            {% if x.order_status == 'p' %}
+                                            <li class="list-group-item order_item">Order Status: <span
+                                                    class="order_item_price"><strong>Pending</strong></span></li>
+                                            {% endif %}
+
+                                            {% if x.order_status == 'c' %}
+                                            <li class="list-group-item order_item">Order Status: <span
+                                                    class="order_item_price"><strong>Cancelled</strong></span></li>
+                                            {% endif %}
+
+                                            {% if x.payment_status %}
+                                            <li class="list-group-item order_item">Payment Status: <span
+                                                    class="order_item_price"><strong>Paid</strong></span></li>
+                                            {% endif %}
+
+                                            {% if x.payment_status == False %}
+                                            <li class="list-group-item order_item">Payment Status: <span
+                                                    class="order_item_price"><strong>Unpaid</strong></span></li>
+                                            {% endif %}
+
+                                            {% if x.delivery_status %}
+                                            <li class="list-group-item order_item">Delivery Status: <span
+                                                    class="order_item_price"><strong>Shipped</strong></span></li>
+                                            {% endif %}
+
+                                            {% if x.delivery_status == False %}
+                                            <li class="list-group-item order_item">Delivery Status: <span
+                                                    class="order_item_price"><strong>Not Shipped</strong></span></li>
+                                            {% endif %}
+
+                                        </ul>
+                                        <div class="card-body">
+                                            <a href="#" class="card-link">Check Details</a>
+                                            {% if x.payment_status == False %}
+                                            <a href="/fe/complete/payment/{{request.user.username}}/{{x.order_id}}"
+                                               class="card-link">Pay Now</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                                {% else %}
+                                <div class="col-md-3"></div>
+                                <div class="col-md-6">
+                                    <h4 class="text-center">You don't have any order!</h4>
+                                </div>
+                                <div class="col-md-3"></div>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="stores_reviews" role="tabpanel"
+                         aria-labelledby="stores_reviews-tab">
+                        <div class="container">
+                            <div class="row">
+
+                                {% if order_list %}
+                                {% for order in order_list %}
+                                {% if order.payment_status %}
+                                {% for product in order.items.all %}
+                                <div class="col-md-3">
+                                    <div class="card" style="width: 18rem;">
+                                        {% if product.product.product_thumbnail %}
+                                        <img class="card-img-top"
+                                             src="{{product.product.product_thumbnail.url}}"
+                                             alt="Card image cap">
+                                        {% else %}
+
+                                        {% if product.product.productImg %}
+                                        {% for img in product.product.productImg.all %}
+                                        {% if forloop.counter == 1 %}
+                                        {% if img.img %}
+                                        <img class="card-img-top" src="{{img.img.url}}" style="height: 300px;"
+                                             alt="Card image cap">
+                                        {% else %}
+                                        <img class="card-img-top" src="{{img.img_link}}" style="height: 300px;"
+                                             alt="Card image cap">
+                                        {% endif %}
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% endif %}
+
+                                        {% endif %}
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{product.product.title|safe|truncatechars:35}}</h5>
+                                            <!--                                                            <p class="card-text">Some quick example text to build on the card title-->
+                                            <!--                                                                and make up the bulk of the card's content.</p>-->
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">Added: {{order.created}}</li>
+                                        </ul>
+                                        <ul class="list-group list-group-flush">
+                                            <!-- wirte review section******************************* -->
+                                            <div class="review-btn" style="width: 100%;">
+                                                <a class="review-links" href="#" style="width: 100%;"
+                                                   data-toggle="modal"
+                                                   data-target="#mymodal_{{product.product.product_id}}">Write Your
+                                                    Review!</a>
+                                            </div>
+                                            <!-- Begin Quick View | Modal Area -->
+                                            <div class="modal fade modal-wrapper"
+                                                 id="mymodal_{{product.product.product_id}}">
+                                                <div class="modal-dialog modal-dialog-centered"
+                                                     style="max-width: 400px;" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <h3 class="review-page-title">Write Your Review</h3>
+                                                            <div class="modal-inner-area row">
+                                                                <!--                                                                                <div class="col-lg-6">-->
+                                                                <!--                                                                                    <div class="li-review-product">-->
+                                                                <!--                                                                                        <img src="{% static 'frontEnd/images/product/large-size/3.jpg' %}"-->
+                                                                <!--                                                                                             alt="Li's Product">-->
+                                                                <!--                                                                                        <div class="li-review-product-desc">-->
+                                                                <!--                                                                                            <p class="li-product-name">Today is a good-->
+                                                                <!--                                                                                                day Framed poster</p>-->
+                                                                <!--                                                                                            <p>-->
+                                                                <!--                                                                                                <span>Beach Camera Exclusive Bundle - Includes Two Samsung Radiant 360 R3 Wi-Fi Bluetooth Speakers. Fill The Entire Room With Exquisite Sound via Ring Radiator Technology. Stream And Control R3 Speakers Wirelessly With Your Smartphone. Sophisticated, Modern Design </span>-->
+                                                                <!--                                                                                            </p>-->
+                                                                <!--                                                                                        </div>-->
+                                                                <!--                                                                                    </div>-->
+                                                                <!--                                                                                </div>-->
+                                                                <div class="col-lg-12">
+                                                                    <div class="li-review-content">
+                                                                        <!-- Begin Feedback Area -->
+                                                                        <div class="feedback-area">
+                                                                            <div class="feedback">
+                                                                                <h3 class="feedback-title">Our
+                                                                                    Feedback</h3>
+                                                                                <form action="{% url 'frontLeaveProductReview' product_id=product.product.product_id %}" method="post" enctype="multipart/form-data">
+                                                                                    {% csrf_token %}
+                                                                                    <p class="your-opinion">
+                                                                                        <label>Your Rating</label>
+                                                                                        <span>
+                                                                                            <select name="ratin_val" class="star-rating">
+                                                                                                <option value="1">1</option>
+                                                                                                <option value="2">2</option>
+                                                                                                <option value="3">3</option>
+                                                                                                <option value="4">4</option>
+                                                                                                <option value="5">5</option>
+                                                                                            </select>
+                                                                                        </span>
+                                                                                    </p>
+                                                                                    <p class="feedback-form">
+                                                                                        <label for="feedback">Your
+                                                                                            experience</label>
+                                                                                        <textarea id="feedback"
+                                                                                                  name="comment"
+                                                                                                  cols="45"
+                                                                                                  rows="8"
+                                                                                                  aria-required="true"></textarea>
+                                                                                    </p>
+                                                                                    <div class="feedback-input">
+                                                                                        <div class="feedback-btn pb-15">
+                                                                                            <a href="#" class="close"
+                                                                                               data-dismiss="modal"
+                                                                                               aria-label="Close">Close</a>
+                                                                                            <button type="submit" style="background: #293A6C; cursor: pointer; width: 100px; height: 30px; color: white; border: none; outline: none;">Submit</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- Feedback Area End Here -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- ends write reviews *********************** -->
+                                        </ul>
+                                        <div class="card-body">
+                                            <a href="#" class="card-link">Remove</a>
+                                            <a href="#" class="card-link">Details</a>
+                                            <a href="#" class="card-link">Add to cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                <div class="col-md-3"></div>
+                                <div class="col-md-6">
+                                    <h4 class="text-center">No paid order found!</h4>
+                                </div>
+                                <div class="col-md-3"></div>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="setting" role="tabpanel" aria-labelledby="settings-tab">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5>Update Password</h5>
+                                    <form method="post" action="{% url 'frontUpdateInternalPassword' %}"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="email">Email*</label>
+                                            <input type="email" name="email" class="form-control" id="email"
+                                                   aria-describedby="emailHelp" placeholder="Enter email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="username">Username</label>
+                                            <input type="text" name="username" class="form-control" id="username"
+                                                   placeholder="Username" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="old_pass">Old Password</label>
+                                            <input type="password" name="old_pass" class="form-control" id="old_pass"
+                                                   placeholder="Old Password" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="new_pass">New Password</label>
+                                            <input type="password" name="new_pass" class="form-control" id="new_pass"
+                                                   placeholder="New Password" required>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </form>
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div>
+                                        <h5>Update Profile Picture</h5>
+                                        <form action="{% url 'frontUpdateProfilePic' %}" method="post"
+                                              enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label for="email">Upload Pic*</label>
+                                                <input type="file" class="form-control" id="email"
+                                                       name="profile_picture"
+                                                       aria-describedby="emailHelp" placeholder="profile picture"
+                                                       accept="image/*" required>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary">Change</button>
+                                        </form>
+                                    </div>
+
+                                    <div class="mt-15">
+                                        <h5>Change Username</h5>
+                                        <form action="{% url 'frontUpdateUserUsername' %}" method="post"
+                                              enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label for="current_username">Current Username*</label>
+                                                <input type="text" name="current_username" class="form-control"
+                                                       id="current_username"
+                                                       aria-describedby="emailHelp" placeholder="Enter Username">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="new_username">New Username</label>
+                                                <input type="text" name="new_username" class="form-control"
+                                                       id="new_username"
+                                                       placeholder="New Username">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Change</button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- profile nav bar ends*********************** -->
+    </div>
+</section>
+<br><br>
+<!-- user profile ends********************************** -->
+
+<br><br><br><br>
+<!-- ads section starts -->
+
+<section id="ads_rev_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card" style="width: 18rem;">
+                    <img src="{% static 'frontEnd/images/featured-product/1.jpg' %}" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Paid ads</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card" style="width: 18rem;">
+                    <img src="{% static 'frontEnd/images/featured-product/1.jpg' %}" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Paid ads</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card" style="width: 18rem;">
+                    <img src="{% static 'frontEnd/images/featured-product/1.jpg' %}" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Paid ads</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card" style="width: 18rem;">
+                    <img src="{% static 'frontEnd/images/featured-product/1.jpg' %}" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Paid ads</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<br>
+
+<!-- ads section ends -->
+{% endblock %}

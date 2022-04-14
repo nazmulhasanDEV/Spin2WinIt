@@ -1,0 +1,53 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+#login-register {
+    padding-top: 40px;
+    padding-bottom: 30px;
+}
+
+.register-title-box h3 {
+    font-family: 'Roboto', sans-serif;
+    text-transform: capitalize;
+    text-align: center;
+    color: rgb(47, 79, 79);
+    font-weight: bold;
+}
+
+.login-register-content-box {
+    max-width: 450px;
+    position: relative;
+    margin-top: 20px;
+    box-shadow: 1px 1px 5px 1px rgb(47, 79, 79);
+    padding: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.register-box .already_have_an_account {
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+.login-box {
+    /* position: absolute; */
+    position: relative;
+    width: 100%;
+    top: 0;
+    display: none;
+}
+
+.login-box .does_not_have_acccnt {
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: inherit;
+}

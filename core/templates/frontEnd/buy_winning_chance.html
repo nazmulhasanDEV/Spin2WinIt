@@ -1,0 +1,58 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"
+                 {% endif %}>
+                <strong>{{ message }}!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="buy_winning_chances">
+            <h4 style="margin-bottom: 20px;">It will charge 10 points or 1 usd per chance*</h4>
+            {% if point_wallet.available %}
+            <h6>Your available points: <strong style="color: #293A6C;">{{point_wallet.available}}.00</strong></h6>
+            {% else %}
+            <h6>Your available points: <strong style="color: #293A6C;">00.00</strong></h6>
+            {% endif %}
+            <form action="{% url 'frontBuyWinningChance' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="number_of_winning_chance" class="form-label">Number of winning chance</label>
+                        <input type="number" min="1" step="1" name="number_of_winning_chance" placeholder="Number of winning chance" onkeydown="if(event.key==='.'){event.preventDefault();}" class="form-control" id="number_of_winning_chance" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="point_to_be_charged" class="form-label">Points to be charged</label>
+                        <input type="number" class="form-control" name="point_to_be_charged" placeholder="00.00" id="point_to_be_charged" readonly required/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="submit" value="Proceed to buy" class="form-control" placeholder="" id="" />
+                    </div>
+                </div>
+            </form>
+            <br><br>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-12">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Game configuration</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="{% url 'apUpdateGameSegment' currnt_pk %}" method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+
+                        <div class="row form-group">
+<!--                            <div class="col-md-6">-->
+<!--                                <label>Number of segments</label>-->
+<!--                                <input type="number" name="no_of_segments" value="{{current_obj.no_of_segments}}" class="form-control" placeholder="Number Of Segments" required>-->
+<!--                            </div>-->
+                            <div class="col-md-6">
+                                <label>Number of complete spins</label>
+                                <input type="number" name="no_spins" value="{{current_obj.no_of_complt_spins}}" class="form-control" placeholder="Number Of Spins" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Spin duration(in seconds)</label>
+                                <input type="number" name="spin_duration" value="{{current_obj.spining_duration}}" class="form-control" placeholder="Spin Duration" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Specify status</label>
+                                <select name="config_status" class="form-control ap_addProduct_subcategory" required>
+                                    {% if current_obj.status %}
+                                    <option value="True" selected>Activate now</option>
+                                    <option value="False">Will activate later</option>
+                                    {% else %}
+                                    <option value="False" selected>Will activate later</option>
+                                    <option value="True">Activate now</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary admin__prdctAdd_btn">Update</button>
+                      <a href="{% url 'apGameSettings' %}">
+                            <button type="button" class="btn btn-primary" style="border:none; background: #FF0000;color:white;">Cancel</button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block dropzone_block %}
+
+<script>
+</script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}
+
+
+

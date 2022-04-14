@@ -1,0 +1,36 @@
+.gaming_user_available_points_section {
+    background: #FED700;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    height: 50px;
+    margin-bottom: 25px;
+}
+
+.gaming_user_available_points_section .content {
+    position: relative;
+    display:flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.gaming_user_available_points_section .content a {
+    margin-left: 15px;
+}
+
+.gaming_user_available_points_section .content h5 {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #293A6C;
+}
+.gaming_user_available_points_section .content a button {
+    border: none;
+    outline: none;
+    background: #293A6C;
+    color:  white;
+    width: 120px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 5px;
+}

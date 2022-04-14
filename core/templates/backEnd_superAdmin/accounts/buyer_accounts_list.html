@@ -1,0 +1,147 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+
+
+{% block dataTable_css %}
+<!-- DataTables -->
+<link rel="stylesheet"
+      href="{% static 'backEnd/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+{% endblock %}
+
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+
+<!--data tables*******************************************-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <section class="content-header">
+                <h1>
+                    Buyer Accounts
+<!--                    <small><a href="#">Add product</a></small>-->
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+<!--                    <li><a href="#">Tables</a></li>-->
+                    <li class="active">Buyer accounts</li>
+                </ol>
+            </section>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Buyer List</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>NID</th>
+                                    <th>Phone</th>
+                                    <th>Registered</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% if buyer_list %}
+                                {% for x in buyer_list %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{x.fname}} {{x.lname}}</td>
+                                    <td>{{x.email}}</td>
+                                    <td>{{x.nid_no}}</td>
+                                    <td>{{x.phone_no}}</td>
+                                    <td>{{x.joined_at}}</td>
+                                    <td class="text-center">
+                                        <a href="">
+                                            <button type="button" style="border:none; background: #00C0EF;color:white;">
+                                                <i class="fas fa-edit"></i> Permissions
+                                            </button>
+                                            </a>
+                                        <a href="">
+                                            <button type="button" style="border:none; background: #FF0000;color:white;">
+                                                <i class="fas fa-backspace"></i> Remove
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Seller ID</th>
+                                    <th>Seller Name</th>
+                                    <th>Email</th>
+                                    <th>NID</th>
+                                    <th>Phone</th>
+                                    <th>Registered</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block datatable_js %}
+<!-- DataTables -->
+<script src="{% static 'backEnd/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'backEnd/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>
+{% endblock %}

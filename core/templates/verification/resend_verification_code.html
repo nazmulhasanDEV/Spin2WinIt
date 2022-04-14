@@ -1,0 +1,34 @@
+{% extends 'verification/index.html' %}
+
+
+{% block verification_main_block %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="verification__content__section__main">
+                <div class="title">
+                    <h3>OTP will be sent to your Email</h3>
+                </div>
+
+                <div class="verification__content">
+                    <div>
+                        <form action="" method="post" enctype="multipart/form-data" class="row g-3">
+                            <div class="col-12">
+                                <label for="inputAddress" class="form-label">Enter email</label>
+                                <input type="text" class="form-control" id="inputAddress" placeholder="Email">
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+{% endblock %}

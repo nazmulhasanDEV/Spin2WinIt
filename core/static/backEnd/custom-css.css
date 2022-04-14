@@ -1,0 +1,25 @@
+.product__main__thumbnail__img_btn, .product__extra__images_btn {
+    width: 100%;
+    border: none;
+    height: 50px;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 25px;
+}
+
+.extra__prev_imgs_size {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+}
+/*
+
+.warning__msg {
+    display: none;
+}
+*/
+
+.admin__product__details img {
+    width: 100%;
+}

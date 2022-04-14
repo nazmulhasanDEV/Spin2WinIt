@@ -1,0 +1,175 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+
+
+{% block dataTable_css %}
+<!-- DataTables -->
+<link rel="stylesheet"
+      href="{% static 'backEnd/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+{% endblock %}
+
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Add contact information</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="{% url 'apcontactUs' %}" method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="short_qoute">Short qoute</label>
+                            <textarea name="short_qoute" class="form-control" id="short_qoute" rows="7" placeholder="Short qoute" required></textarea>
+                            <script>
+                                 CKEDITOR.replace('short_qoute');//name of textarea field
+                            </script>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address_line_one">Address line-1</label>
+                            <input type="text" name="address_line_1" class="form-control" id="address_line_one"
+                                   placeholder="Address line one" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address_line_two">Address line-2</label>
+                            <input type="text" name="address_line_2" class="form-control" id="address_line_two"
+                                   placeholder="Address line two">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mobile">Mobile</label>
+                            <input type="text" name="mobile" class="form-control" id="mobile"
+                                   placeholder="Mobile: +XXXXXXXXXX" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hotline">Hotline</label>
+                            <input type="text" name="hotline" class="form-control" id="hotline"
+                                   placeholder="Hotline">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" class="form-control" id="email"
+                                   placeholder="Email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email2">Email-2</label>
+                            <input type="text" name="email2" class="form-control" id="email2"
+                                   placeholder="Email-2">
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">ADD</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+
+<!--data tables*******************************************-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Short Qoute</th>
+                                    <th class="text-center">Address</th>
+                                    <th class="text-center">Mobile</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if contact_us %}
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">{{contact_us.short_qoute|striptags}}</td>
+                                    <td class="text-center">{{contact_us.address_line_one}} <br> {{contact_us.address_line_two}}</td>
+                                    <td class="text-center">{{contact_us.mobile}} <br> {{contact_us.hotline}}</td>
+                                    <td class="text-center">{{contact_us.email_one}} <br> {{contact_us.email_two}}</td>
+                                    <td class="text-center">
+                                        <a href="{% url 'apEditContactUs' pk=contact_us.pk %}">
+                                            <button type="button" style="border:none; background: #00C0EF;color:white;">
+                                                <i class="fas fa-edit"></i> Update</button>
+                                        </a>
+                                        <a href="{% url 'apDelContactUs' pk=contact_us.pk %}">
+                                            <button type="button" style="border:none; background: #FF0000;color:white;">
+                                                <i class="fas fa-backspace"></i> Remove
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <!-- /.col -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block datatable_js %}
+<!-- DataTables -->
+<script src="{% static 'backEnd/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'backEnd/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,196 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<!-- Begin Li's Breadcrumb Area -->
+            <div class="breadcrumb-area">
+                <div class="container">
+                    <div class="breadcrumb-content">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li class="active">Shopping Cart</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Breadcrumb Area End Here -->
+            <!--Shopping Cart Area Strat-->
+            <div class="Shopping-cart-area pt-60 pb-60">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div> <!-- that was a form tag before -->
+                                <div class="table-content table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="li-product-remove">remove</th>
+                                                <th class="li-product-thumbnail">images</th>
+                                                <th class="cart-product-name">Product Name</th>
+                                                <th class="li-product-price">Unit Price</th>
+                                                <th class="li-product-quantity">Quantity</th>
+                                                <th class="li-product-subtotal">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if product_cart_list %}
+                                            {% for x in product_cart_list %}
+                                                {% if x.product.product_type == 'wsp' %}
+                                                    <tr>
+                                                        <td class="li-product-remove"><a href="{% url 'frontRemovItemFromMiniCart' pk=x.pk %}"><i class="fas fa-times-circle"></i></a></td>
+
+                                                        {% if x.product.product_thumbnail %}
+                                                        <td class="li-product-thumbnail"><a href="#"><img src="{{x.product.product_thumbnail.url}}" style="width: 100px; height: 100px;" alt="Li's Product Image"></a></td>
+                                                        {% else %}
+                                                            {% for img in x.product.productImg.all %}
+                                                                {% if forloop.counter == 1 %}
+                                                                    {% if img.img %}
+                                                                        <td class="li-product-thumbnail"><a href="/fe/product/details/{{x.product.product_id}}"><img src="{{img.img.url}}" style="width: 100px; height: 100px;" alt="Li's Product Image"></a></td>
+                                                                    {% else %}
+                                                                        <td class="li-product-thumbnail"><a href="/fe/product/details/{{x.product.product_id}}"><img src="{{img.img_link}}" style="width: 100px; height: 100px;" alt="Li's Product Image"></a></td>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+
+                                                        <td class="li-product-name"><a href="/fe/product/details/{{x.product.product_id}}">{{x.product.title|safe|truncatechars:30}}</a></td>
+                                                        <td class="li-product-price">$<span class="amount">{{x.product.price}}</span></td>
+                                                        <td class="quantity">
+                                                            <label>Quantity</label>
+                                                            <div class="cart-plus-minus">
+                                                                <input class="cart-plus-minus-box cart__items__amount" value="{{x.quantity}}" id="cart__items__amount_{{x.pk}}" type="number" min="0" max="10" step="1">
+                                                                <div class="dec qtybutton quantity__decrease" id="{{x.pk}}" onclick="decreaseProductNo(this)"><i class="fa fa-angle-down" id="{{x.pk}}"></i></div>
+                                                                <div class="inc qtybutton quantity__increase" id="{{x.pk}}" onclick="increaseProductNo(this)"><i class="fa fa-angle-up" id="{{x.pk}}"></i></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="product-subtotal">$<span class="amount total_sub_amount_{{x.pk}}">{{x.total_amount}}</span></td>
+                                                    </tr>
+                                                {% else %}
+                                                    <tr>
+                                                        <td class="li-product-remove"><a href="{% url 'frontRemovItemFromMiniCart' pk=x.pk %}"><i class="fas fa-times-circle"></i></a></td>
+                                                        <td class="li-product-thumbnail"><a href="/fe/product/details/{{x.product.product_id}}"><img src="{{x.product.product_thumbnail.url}}" style="width: 100px; height: 100px;" alt="Li's Product Image"></a></td>
+                                                        <td class="li-product-name"><a href="/fe/product/details/{{x.product.product_id}}">{{x.product.title|safe|truncatechars:30}}</a></td>
+                                                        <td class="li-product-price">$<span class="amount">{{x.product.new_price}}</span></td>
+                                                        <td class="quantity">
+                                                            <label>Quantity</label>
+                                                            <div class="cart-plus-minus">
+                                                                <input class="cart-plus-minus-box cart__items__amount" value="{{x.quantity}}" id="cart__items__amount_{{x.pk}}" type="number" min="0" max="10" step="1">
+                                                                <div class="dec qtybutton quantity__decrease" id="{{x.pk}}" onclick="decreaseProductNo(this)"><i class="fa fa-angle-down" id="{{x.pk}}"></i></div>
+                                                                <div class="inc qtybutton quantity__increase" id="{{x.pk}}" onclick="increaseProductNo(this)"><i class="fa fa-angle-up" id="{{x.pk}}"></i></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="product-subtotal">$<span class="amount total_sub_amount_{{x.pk}}">{{x.total_amount}}</span></td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="coupon-all">
+                                            <div class="coupon">
+                                                <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
+                                                <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
+                                            </div>
+                                            <div class="coupon2">
+                                                <input class="button" name="update_cart" value="Update cart" type="submit">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 ml-auto">
+                                        <div class="cart-page-total">
+                                            <h2>Cart totals</h2>
+                                            <ul>
+                                                <li>Subtotal <span>$</span><span class="final_sub__total__amount">{{total_amount}}</span></li>
+                                                <li>Total <span>$</span><span class="final__total_amount">{{total_amount}}</span></li>
+                                            </ul>
+                                            <a href="{% url 'frontEndCheckOut' username=request.user.username %}">Proceed to checkout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Shopping Cart Area End-->
+
+
+<script>
+
+    const final_sub__total__amount = document.querySelector('.final_sub__total__amount');
+    const final__total_amount = document.querySelector('.final__total_amount');
+
+    function increaseProductNo(increase_btn) {
+        let btn_id = increase_btn.id;
+
+        const total_sub_amount = document.querySelector(`.total_sub_amount_${btn_id}`);
+
+        let current_product_items = document.getElementById(`cart__items__amount_${btn_id}`);
+        let current_no_of_items = parseInt(current_product_items.value) + 1;
+        current_product_items.value = current_no_of_items;
+
+        // ajax starts
+
+            $.ajax({
+                url: '/fe/cart/items/{{current_user_usrname}}/',
+                type: 'get',
+                data: {
+                    item_id: btn_id,
+                    no_items: current_product_items.value,
+                },
+                success: function(response){
+                    let updated_product_info = response.updated_product_info;
+
+                    total_sub_amount.innerHTML = updated_product_info.amount;
+                    final_sub__total__amount.innerHTML = parseFloat(updated_product_info.updated_total_amount).toFixed(2);
+                    final__total_amount.innerHTML = parseFloat(updated_product_info.updated_total_amount).toFixed(2);
+                },
+            });
+        // ajax ends
+
+
+    }
+
+    function decreaseProductNo(decrease_btn) {
+        let btn_id = decrease_btn.id;
+
+        const total_sub_amount = document.querySelector(`.total_sub_amount_${btn_id}`);
+
+        let current_product_items = document.getElementById(`cart__items__amount_${btn_id}`);
+
+        if (parseInt(current_product_items.value) > 0) {
+            let current_no_of_items = parseInt(current_product_items.value) - 1;
+            current_product_items.value = current_no_of_items;
+
+            // ajax starts
+
+            $.ajax({
+                url: '/fe/cart/items/{{current_user_usrname}}/',
+                type: 'get',
+                data: {
+                    item_id: btn_id,
+                    no_items: current_product_items.value,
+                },
+                success: function(response){
+                    let updated_product_info = response.updated_product_info;
+                    total_sub_amount.innerHTML = updated_product_info.amount;
+
+                    final_sub__total__amount.innerHTML = parseFloat(updated_product_info.updated_total_amount).toFixed(2);
+                    final__total_amount.innerHTML = parseFloat(updated_product_info.updated_total_amount).toFixed(2);
+                },
+            });
+            // ajax ends
+        }
+    }
+
+
+
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,46 @@
+/* slider starts**************** */
+
+#top__brands__section {
+    position: relative;
+    margin-top: 40px;
+}
+
+.top__brands__slider .item .card {
+    background-color: #FFFFFF;
+    border: 1px solid #D8D8D8 !important;
+    border-radius: 15px !important;
+    position: relative;
+}
+
+.top__brands__slider .item img{
+    position: relative;
+    width: 40px;
+    height: 40px;
+    top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* slider ends**************** */
+
+/* play gaming section */
+
+#play_gaming_section {
+    position: relative;
+    margin-top: 30px;
+}
+
+#play_gaming_section a {
+    background-color: #F7F7F7;
+}
+#play_gaming_section a button {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 30px;
+    background-color: #293A6C;
+    border: none;
+    outline: none;
+    color: #FFD700;
+}

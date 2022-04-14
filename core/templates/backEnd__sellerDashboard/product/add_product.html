@@ -1,0 +1,255 @@
+{% extends 'backEnd__sellerDashboard/index.html' %}
+{% load static %}
+
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-12">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+
+
+            <div style="position: relative;padding-top: 15px; padding-bottom: 15px;">
+                <a href="/seller/custom/product/list" style="position: absolute; right: 0; bottom: 15px;">
+                    <button type="button" style="width: 130px;border: none; outline: none;color: white; border-radius: 5px; padding: 5px; background:#222D32;"><i class="fas fa-list"></i>&nbsp; Product List</button>
+                </a>
+
+                <a href="/ap/admin/product/list" style="position: absolute; right: 140px; bottom: 15px;">
+                    <button type="button" style="width: 130px;border: none; outline: none;color: white; border-radius: 5px; padding: 5px; background:#222D32;"><i class="fas fa-plus-square"></i>&nbsp; Collect Product</button>
+                </a>
+            </div>
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Add product</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="{% url 'sellerAddProduct' %}" method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Product title</label>
+                                <textarea class="form-control" name="title" id="title" rows="3"
+                                          placeholder="Enter" required></textarea>
+                                <script>
+                                        CKEDITOR.replace('title');//name of textarea field
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Brand name</label>
+                                <input type="text" name="brand__name" class="form-control" placeholder="Brand name" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Select category</label>
+                                <select name="category" class="form-control" id="ap_addProduct_category" required>
+                                    <option value="" selected>Select product category</option>
+                                    {% if product_cat %}
+                                    {% for x in product_cat %}
+                                    <option value="{{x.pk}}">{{x.name}}</option>
+                                    {% endfor %}
+                                    {% else %}
+                                    <option value="" selected>No category found!</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Select sub-category</label>
+                                <select name="sub_category" class="form-control ap_addProduct_subcategory" required>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Product short description</label>
+                                <textarea name="short_des" class="form-control" rows="3"
+                                          placeholder="Product short description" required></textarea>
+                                <script>
+                                        CKEDITOR.replace('short_des');//name of textarea field
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Product details</label>
+                                <textarea name="details" class="form-control" rows="3"
+                                          placeholder="Product details" required></textarea>
+                                <script>
+                                        CKEDITOR.replace('details');//name of textarea field
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Product new price(usd)</label>
+                                <input type="number" name="new_price" class="form-control" placeholder="$50" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Product old price(usd)</label>
+                                <input type="number" name="old_price" class="form-control" placeholder="$50" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Product use cases(optional)</label>
+                                <textarea name="use_cases" class="form-control" rows="3" placeholder="Ex: it can be used for sensetive skin"></textarea>
+
+                                <script>
+                                        CKEDITOR.replace('use_cases');//name of textarea field
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Benefits</label>
+                                <textarea name="benefits" class="form-control" rows="3" placeholder="Ex: it can be used for sensetive skin" required></textarea>
+                                <script>
+                                        CKEDITOR.replace('benefits');//name of textarea field
+                                </script>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+<!--                                <label for="product__main__thumbnail__img_btn">File input</label>-->
+                                <input type="file" name="product__main__thumbnail__img" class="product__main__thumbnail__img" id="file" accept="image/*" required />
+                                <button type="button" class="product__main__thumbnail__img_btn" id="product__main__thumbnail__img_btn"><strong><i class="fas fa-upload"></i> Click to add product thumbnail</strong></button>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <img src="{% static 'backEnd/dist/img/avatar.png' %}" class="prev_thumb_img" style="width: 100%; height: 200px" alt="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6 col-sm-12">
+<!--                                <label for="product__extra__images_btn">File input</label>-->
+                                <input type="file" name="product__extra__images" class="product__extra__images" id="file" accept="image/*" multiple>
+                                <p class="warning__msg" style="color: red;"><strong>Max five(5) images are allowed!</strong></p>
+                                <button type="button" class="product__extra__images_btn" id="product__extra__images_btn"><strong><i class="fas fa-upload"></i> Click to add product images(optional)</strong></button>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="img_prev_list_for_extra_imgs">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Store Link <strong>(store link at: spin2winit) optional*</strong></label>
+                                <input type="text" name="store_link" class="form-control"
+                                       placeholder="www.spin2winit.com/mystore" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Store name (optional)*</label>
+                                <input type="text" name="store__name" class="form-control" placeholder="My store" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>About store(optional)*</label>
+                                <textarea name="about_store" class="form-control" rows="3"
+                                          placeholder="Short description about store" required></textarea>
+                                <script>
+                                        CKEDITOR.replace('about_store');//name of textarea field
+                                </script>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>In stock*</label>
+                                <input type="number" name="in_stock" class="form-control" placeholder="In Stock" />
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Would you like to sponsor this product?</label>
+                                <select name="sponsor__status" class="form-control sponsor__status" required>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">Not now</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Policy(like: product delivery, return, payment refund, security)</label>
+                                <select name="policy" class="form-control policy__option" required>
+                                    <option value="company">As per company policy</option>
+                                    <option value="own">I want to add my own</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group policy__section">
+                            <div class="col-md-6">
+                                <label>Security policy</label>
+                                <textarea name="security_policy" class="form-control" rows="3"
+                                          placeholder="Security policy"></textarea>
+                                <script>
+                                        CKEDITOR.replace('security_policy');//name of textarea field
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Return policy</label>
+                                <textarea name="return_policy" class="form-control" rows="3"
+                                          placeholder="Return policy"></textarea>
+                                <script>
+                                        CKEDITOR.replace('return_policy');//name of textarea field
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Delivery policy</label>
+                                <textarea name="delivery_policy" class="form-control" rows="3"
+                                          placeholder="Delivery polic"></textarea>
+                                <script>
+                                        CKEDITOR.replace('delivery_policy');//name of textarea field
+                                </script>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary admin__prdctAdd_btn">LET'S ADD</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block dropzone_block %}
+
+<script>
+</script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}
+

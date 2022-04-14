@@ -1,0 +1,289 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<!-- Begin Li's Breadcrumb Area -->
+            <div class="breadcrumb-area">
+                <div class="container">
+                    <div class="breadcrumb-content">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li class="active">Checkout</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Breadcrumb Area End Here -->
+
+            <!--   django message         -->
+            <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"  {% endif %}>
+                <strong>{{ message }}!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+            <!-- ends django message -->
+
+            <!--Checkout Area Strat-->
+            <div class="checkout-area pt-60 pb-30">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <div>
+                                {% csrf_token %}
+                                <div class="checkbox-form">
+                                    <h3>Billing Details</h3>
+                                    {% if current_order %}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Country: </strong>{{current_order.billing_info.country}}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Name: </strong>{{current_order.billing_info.fname}} {{current_order.billing_info.lname}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Company: </strong>{{current_order.billing_info.company}}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Address: </strong>{{current_order.billing_info.address}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Town: </strong>{{current_order.billing_info.town_or_city}}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>State: </strong>{{current_order.billing_info.state}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Post code: </strong>{{current_order.billing_info.postcode}}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>E-mail: </strong>{{current_order.billing_info.email}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Phone: </strong>{{current_order.billing_info.phone}}</p>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="checkbox-form">
+                                    <h3>Shipping Details</h3>
+                                    {% if current_order %}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Country: </strong>{{current_order.shipping_info.country}}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Name: </strong>{{current_order.shipping_info.fname}} {{current_order.shipping_info.lname}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Company: </strong>{{current_order.shipping_info.company}}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Address: </strong>{{current_order.shipping_info.address}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Town: </strong>{{current_order.shipping_info.town_or_city}}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>State: </strong>{{current_order.shipping_info.state}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Post code: </strong>{{current_order.shipping_info.postcode}}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>E-mail: </strong>{{current_order.shipping_info.email}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Phone: </strong>{{current_order.shipping_info.phone}}</p>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="your-order">
+                                <h3>Your order</h3>
+                                <div class="your-order-table table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="cart-product-name">Product</th>
+                                                <th class="cart-product-total">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if current_order %}
+
+                                            {% for x in current_order.items.all %}
+                                            <tr class="cart_item">
+                                              <td class="cart-product-name"> {{x.product.title|striptags|truncatechars:20}}<strong class="product-quantity"> ×
+                                                  {{x.quantity}}</strong></td>
+                                              <td class="cart-product-total"><span class="amount">${{x.total_amount}}</span></td>
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% endif %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="cart-subtotal">
+                                                <th>Order Subtotal</th>
+                                                <td><span class="amount">${{current_order.total_amount}}</span></td>
+                                            </tr>
+                                            <tr class="order-total">
+                                                <th>Order Total</th>
+                                                <td><strong><span class="amount">${{current_order.total_amount}}</span></strong></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="payment-method">
+                                    <div class="payment-accordion">
+                                        <div id="accordion">
+                                          <div class="card">
+                                            <div class="card-header" id="#payment-1">
+                                              <h5 class="panel-title">
+                                                <a class="" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                  Pay Direct Bank Transfer.
+                                                </a>
+                                              </h5>
+                                            </div>
+                                            <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                                              <div class="card-body">
+                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="card">
+                                            <div class="card-header" id="#payment-2">
+                                              <h5 class="panel-title">
+                                                <a class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                  Pay Cheque Payment
+                                                </a>
+                                              </h5>
+                                            </div>
+                                            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                              <div class="card-body">
+                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="card">
+                                            <div class="card-header" id="#payment-3">
+                                              <h5 class="panel-title">
+                                                <a class="collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                  Pay With PayPal
+                                                </a>
+                                              </h5>
+                                            </div>
+                                            <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                              <div class="card-body">
+                                                  <div id="paypal-button-container"></div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="order-button-payment">
+                                            <a href="/" id="review__cart__items">
+                                                <button type="button">I'll Pay Later</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Checkout Area End-->
+
+{% endblock %}
+
+{% block payment_integration_block %}
+<script src="https://www.paypal.com/sdk/js?client-id=AcAWRV3bad-SO2OtqY-HdU2lO24a23hLfwJygHg5pj0Rpj0VehocsqOF4jtdqvAAZMgK525Pe0dor0lE&currency=USD"></script>
+
+<script>
+      paypal.Buttons({
+        // Sets up the transaction when a payment button is clicked
+        createOrder: (data, actions) => {
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: '{{current_order.total_amount}}' // Can also reference a variable or function
+              }
+            }]
+          });
+        },
+        // Finalize the transaction after payer approval
+        onApprove: (data, actions) => {
+          return actions.order.capture().then(function(orderData) {
+            // Successful capture! For dev/demo purposes:
+            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+            const transaction = orderData.purchase_units[0].payments.captures[0];
+            //alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+            // When ready to go live, remove the alert and show a success message within this page. For example:
+            //const element = document.getElementById('paypal-button-container');
+            //element.innerHTML = '<h3>Thank you for your payment!</h3>';
+            //actions.redirect('');
+
+           // ajax request
+            $.ajax({
+                url: '/fe/complete/payment/{{current_order.user.username}}/{{current_order.order_id}}/',
+                type: 'get',
+                data: {
+                    paid_amount: "{{current_order.total_amount}}",
+                    order_id: "{{current_order.order_id}}"
+                },
+                success: function(response){
+                    console.log('success');
+                },
+            });
+            // ajax
+
+            window.location.href = "/fe/payment/successfull/msg/{{request.user.username}}";
+
+          });
+        }
+      }).render('#paypal-button-container');
+
+</script>
+
+{% endblock %}
+

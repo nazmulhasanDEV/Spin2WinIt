@@ -1,0 +1,291 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<!-- Begin Li's Breadcrumb Area -->
+            <div class="breadcrumb-area">
+                <div class="container">
+                    <div class="breadcrumb-content">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li class="active">Checkout</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Breadcrumb Area End Here -->
+
+            <!--   django message         -->
+            <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"  {% endif %}>
+                <strong>{{ message }}!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+            <!-- ends django message -->
+
+            <!--Checkout Area Strat-->
+            <div class="checkout-area pt-60 pb-30">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <form action="{% url 'frontConfirmOrder' username=request.user.username %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="checkbox-form">
+                                    <h3>Billing Details</h3>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="country-select clearfix">
+                                                <label>Country <span class="required">*</span></label>
+                                                <select name="country_b" class="nice-select wide" required>
+                                                  <option data-display="Bangladesh">Bangladesh</option>
+                                                  <option value="uk">London</option>
+                                                  <option value="rou">Romania</option>
+                                                  <option value="fr">French</option>
+                                                  <option value="de">Germany</option>
+                                                  <option value="aus">Australia</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkout-form-list">
+                                                <label>First Name <span class="required">*</span></label>
+                                                <input name="fname_b" placeholder="" type="text" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkout-form-list">
+                                                <label>Last Name <span class="required">*</span></label>
+                                                <input name="lanme_b" placeholder="" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="checkout-form-list">
+                                                <label>Company(optional) <span class="required">*</span></label>
+                                                <input name="company_b" placeholder="" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="checkout-form-list">
+                                                <label>Address <span class="required">*</span></label>
+                                                <input name="address_b" placeholder="Street address" type="text" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="checkout-form-list">
+                                                <label>Town / City <span class="required">*</span></label>
+                                                <input name="town_city_b" type="text" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkout-form-list">
+                                                <label>State / County <span class="required">*</span></label>
+                                                <input name="state_b" placeholder="" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkout-form-list">
+                                                <label>Postcode / Zip <span class="required">*</span></label>
+                                                <input name="postcode_b" placeholder="" type="text" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkout-form-list">
+                                                <label>Email Address <span class="required">*</span></label>
+                                                <input name="email_b" placeholder="" type="email" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkout-form-list">
+                                                <label>Phone  <span class="required">*</span></label>
+                                                <input name="phone_b" type="text" required>
+                                            </div>
+                                        </div>
+<!--                                        <div class="col-md-12">-->
+<!--                                            <div class="checkout-form-list create-acc">-->
+<!--                                                <input id="cbox" type="checkbox">-->
+<!--                                                <label>Create an account?</label>-->
+<!--                                            </div>-->
+<!--                                            <div id="cbox-info" class="checkout-form-list create-account">-->
+<!--                                                <p>Create an account by entering the information below. If you are a returning customer please login at the top of the page.</p>-->
+<!--                                                <label>Account password  <span class="required">*</span></label>-->
+<!--                                                <input placeholder="password" type="password">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+                                    </div>
+                                    <div class="different-address">
+                                        <div class="ship-different-title">
+                                            <h3>
+                                                <label>Shipping address?</label>
+                                                <input name="shipping_address" id="ship-box" type="checkbox">
+                                            </h3>
+                                        </div>
+                                        <div id="ship-box-info" class="row">
+                                            <div class="col-md-12">
+                                                <div class="country-select clearfix">
+                                                    <label>Country <span class="required">*</span></label>
+                                                    <select name="country_s" class="nice-select wide"  required>
+                                                      <option data-display="Bangladesh">Bangladesh</option>
+                                                      <option value="uk">London</option>
+                                                      <option value="rou">Romania</option>
+                                                      <option value="fr">French</option>
+                                                      <option value="de">Germany</option>
+                                                      <option value="aus">Australia</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="checkout-form-list">
+                                                    <label>First Name <span class="required">*</span></label>
+                                                    <input name="fname_s" placeholder="" type="text" required>
+                                                </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="checkout-form-list">
+                                                    <label>Last Name <span class="required">*</span></label>
+                                                    <input name="lname_s" placeholder="" type="text">
+                                                </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12">
+                                                <div class="checkout-form-list checkout-form-list">
+                                                    <label>Address <span class="required">*</span></label>
+                                                    <textarea name="address_s" id="checkout-mess" cols="30" rows="5" placeholder="Address details" required></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="checkout-form-list">
+                                                            <label>Company Name</label>
+                                                            <input name="company_s" placeholder="" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="checkout-form-list">
+                                                            <label>Town / City <span class="required">*</span></label>
+                                                            <input name="town_city_s" type="text"  required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="checkout-form-list">
+                                                            <label>State / County <span class="required">*</span></label>
+                                                            <input name="state_s" placeholder="" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="checkout-form-list">
+                                                            <label>Postcode / Zip <span class="required">*</span></label>
+                                                            <input name="postcode_s" placeholder="" type="text" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="checkout-form-list">
+                                                            <label>Email Address <span class="required">*</span></label>
+                                                            <input name="email_s" placeholder="" type="email" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="checkout-form-list">
+                                                            <label>Phone  <span class="required">*</span></label>
+                                                            <input name="phone_s" type="text" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="order-notes">
+                                            <div class="checkout-form-list">
+                                                <label>Order Notes</label>
+                                                <textarea name="order_note" id="checkout-mess" cols="30" rows="10" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" id="review__cart__items">Confirm Order</button>
+                            </form>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="your-order">
+                                <h3>Your order</h3>
+                                <div class="your-order-table table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="cart-product-name">Product</th>
+                                                <th class="cart-product-total">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if user_cart_status %}
+
+                                            {% for x in user_cart_status %}
+                                            <tr class="cart_item">
+                                              <td class="cart-product-name"> {{x.product.title|striptags|truncatechars:20}}<strong class="product-quantity"> ×
+                                                  {{x.quantity}}</strong></td>
+                                              <td class="cart-product-total"><span class="amount">${{x.total_amount}}</span></td>
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% endif %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="cart-subtotal">
+                                                <th>Cart Subtotal</th>
+                                                <td><span class="amount">${{total_amount}}</span></td>
+                                            </tr>
+                                            <tr class="order-total">
+                                                <th>Order Total</th>
+                                                <td><strong><span class="amount">${{total_amount}}</span></strong></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="payment-method">
+                                    <div class="payment-accordion">
+                                        <div class="order-button-payment">
+                                            <a href="/fe/cart/items/{{request.user.username}}" id="review__cart__items">
+                                                <button type="button">Review Cart Items</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Checkout Area End-->
+
+{% endblock %}

@@ -1,0 +1,64 @@
+#review__cart__items button {
+    border: none;
+    outline: none;
+    margin-top: 5px;
+    width: 100%;
+    height: 45px;
+    cursor: pointer;
+    background: #293A6C;
+    font-size: 18px;
+    color: white;
+    text-transform: uppercase;
+}
+
+#review__cart__items:hover {
+    opacity: .5;
+}
+
+#review__cart__items {
+    border: none;
+    outline: none;
+    margin-top: 5px;
+    width: 100%;
+    height: 45px;
+    cursor: pointer;
+    background: #293A6C;
+    font-size: 18px;
+    color: white;
+    text-transform: uppercase;
+}
+
+#payment__section .content {
+    background: #F9F9F9;
+    padding: 30px 30px 30px 30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.payment_successfull_msg {
+    position: relative;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    background: #F9F9F9;
+    padding: 35px 35px 35px 35px;
+}
+
+.payment_successfull_msg h3 {
+    color: #4F8A10;
+}
+
+.payment_successfull_msg a button {
+    border: none;
+    outline: none;
+    background: #293A6C;
+    color: white;
+    cursor: pointer;
+    height: 35px;
+    border-radius: 5px;
+    width: 120px;
+ }
+
+.payment_successfull_msg .icons {
+    padding: 20px;
+    background: #4F8A10;
+}

@@ -1,0 +1,89 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<!-- Begin Li's Breadcrumb Area -->
+            <div class="breadcrumb-area">
+                <div class="container">
+                    <div class="breadcrumb-content">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li class="active">Wishlist</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Breadcrumb Area End Here -->
+            <!--Wishlist Area Strat-->
+            <div class="wishlist-area pt-60 pb-60">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <form action="#">
+                                <div class="table-content table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="li-product-remove">remove</th>
+                                                <th class="li-product-thumbnail">images</th>
+                                                <th class="cart-product-name">Product</th>
+                                                <th class="li-product-price">Unit Price</th>
+                                                <th class="li-product-stock-status">Stock Status</th>
+                                                <th class="li-product-add-cart">add to cart</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if user_wishlist_status %}
+                                            {% for item in user_wishlist_status %}
+
+                                            {% if item.product.product_type == 'wsp' %}
+                                            <tr>
+                                                <td class="li-product-remove"><a href="#"><i class="fas fa-times-circle"></i></a></td>
+                                                {% if item.product.product_thumbnail %}
+                                                <td class="li-product-thumbnail"><a href="/fe/product/details/{{item.product.product_id}}"><img src="{{item.product.product_thumbnail.url}}" alt=""></a></td>
+                                                {% else %}
+                                                    {% if item.product.productImg %}
+                                                        {% for img in item.product.productImg.all %}
+                                                            {% if forloop.counter == 1 %}
+                                                                {% if img.img %}
+                                                                <td class="li-product-thumbnail"><a href="/fe/product/details/{{item.product.product_id}}"><img src="{{img.img.url}}" style="width: 80px; height: 80px;" alt=""></a></td>
+                                                                {% else %}
+                                                                <td class="li-product-thumbnail"><a href="/fe/product/details/{{item.product.product_id}}"><img src="{{img.img_link}}" style="width: 80px; height: 80px;" alt=""></a></td>
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endif %}
+
+                                                <td class="li-product-name"><a href="/fe/product/details/{{item.product.product_id}}">{{item.product.title|striptags|truncatechars:30}}</a></td>
+                                                <td class="li-product-price"><span class="amount">${{item.product.price}}</span></td>
+                                                <td class="li-product-stock-status"><span class="in-stock">in stock</span></td>
+                                                <td class="li-product-add-cart"><a href="{% url 'frontAddToCart' product_id=item.product.product_id %}">add to cart</a></td>
+                                            </tr>
+                                            {% else %}
+                                            <tr>
+                                                <td class="li-product-remove"><a href="{% url 'frontRemoveItemFromWishlist' username=request.user.username pk=item.pk %}"><i class="fas fa-times-circle"></i></a></td>
+                                                <td class="li-product-thumbnail"><a href="/fe/product/details/{{item.product.product_id}}"><img src="{{item.product.product_thumbnail.url}}" style="width: 80px; height: 80px;" alt=""></a></td>
+                                                <td class="li-product-name"><a href="/fe/product/details/{{item.product.product_id}}">{{item.product.title|striptags|truncatechars:30}}</a></td>
+                                                <td class="li-product-price"><span class="amount">${{item.product.new_price}}</span></td>
+                                                {% if item.product.in_stock %}
+                                                <td class="li-product-stock-status"><span class="in-stock">In stock</span></td>
+                                                {% else %}
+                                                <td class="li-product-stock-status"><span class="in-stock">Out of stock</span></td>
+                                                {% endif %}
+                                                <td class="li-product-add-cart"><a href="{% url 'frontAddToCart' product_id=item.product.product_id %}">add to cart</a></td>
+                                            </tr>
+                                            {% endif %}
+
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Wishlist Area End-->
+{% endblock %}

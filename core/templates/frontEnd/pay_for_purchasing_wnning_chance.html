@@ -1,0 +1,115 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<!-- Begin Li's Breadcrumb Area -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="breadcrumb-content">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li class="active">Checkout</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Li's Breadcrumb Area End Here -->
+
+<!--   django message         -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"
+                 {% endif %}>
+                <strong>{{ message }}!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+<!-- payment section    -->
+
+<section id="payment__section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="content">
+                    <div>
+                        <h6 style="margin-bottom: 10px; opacity: .7">Available point: {{available_points}}</h6>
+                        <h6 style="margin-bottom: 10px; opacity: .7">Neccessary points: {{necessary_points}}</h6>
+                        <h6 style="margin-bottom: 10px; opacity: .7">Winning chance: {{winning_chance}}</h6>
+                        <h6 style="margin-bottom: 15px; opacity: .7">Total payable amount: ${{payable_amount}} ($1 for 20 points)</h6>
+                    </div>
+                    <div id="paypal-button-container"></div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block payment_integration_block %}
+<script src="https://www.paypal.com/sdk/js?client-id=AcAWRV3bad-SO2OtqY-HdU2lO24a23hLfwJygHg5pj0Rpj0VehocsqOF4jtdqvAAZMgK525Pe0dor0lE&currency=USD"></script>
+
+<script>
+      paypal.Buttons({
+        // Sets up the transaction when a payment button is clicked
+        createOrder: (data, actions) => {
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: '{{payable_amount}}' // Can also reference a variable or function
+              }
+            }]
+          });
+        },
+        // Finalize the transaction after payer approval
+        onApprove: (data, actions) => {
+          return actions.order.capture().then(function(orderData) {
+            // Successful capture! For dev/demo purposes:
+            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+            const transaction = orderData.purchase_units[0].payments.captures[0];
+            //alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+            // When ready to go live, remove the alert and show a success message within this page. For example:
+            //const element = document.getElementById('paypal-button-container');
+            //element.innerHTML = '<h3>Thank you for your payment!</h3>';
+            //actions.redirect('');
+
+            // ajax request
+            $.ajax({
+                url: '/fe/pay/for/game/purchasing/chance/',
+                type: 'get',
+                data: {
+                    paid_amount: "{{payable_amount}}",
+                    purchased_chances: "{{winning_chance}}",
+                    necessary_points: "{{necessary_points}}",
+                },
+                success: function(response){
+
+                },
+            });
+            // ajax
+
+            // Simulate a mouse click:
+            window.location.href = "/fe/payment/successfull/msg/{{request.user.username}}";
+
+          });
+        }
+      }).render('#paypal-button-container');
+
+</script>
+
+{% endblock %}

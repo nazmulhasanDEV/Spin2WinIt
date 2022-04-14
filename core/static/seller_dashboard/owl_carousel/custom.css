@@ -1,0 +1,31 @@
+
+
+.owl-nav button span{
+    font-size: 45px;
+    position: relative;
+    top: -40%;
+    color: white !important;
+    padding: 10px;
+}
+
+.owl-nav .owl-next {
+    position: absolute !important;
+    right: 0 !important;
+    top: 50%;
+    background-color: #3A89B7 !important;
+    height: 40px;
+    width: 40px;
+    border-radius: 50% !important;
+    box-shadow: 1px 1px 1px 1px gray !important;
+}
+
+.owl-nav .owl-prev {
+    position: absolute !important;
+    left: 0 !important;
+    top: 50%;
+    background-color: #3A89B7 !important;
+    height: 40px;
+    width: 40px;
+    border-radius: 50% !important;
+    box-shadow: 1px 1px 1px 1px gray !important;
+}

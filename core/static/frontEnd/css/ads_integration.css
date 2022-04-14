@@ -1,0 +1,32 @@
+/* ads section**************************** */
+
+.advertising_section {
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.video_cards {
+    cursor: pointer;
+}
+
+
+.video_cards .watch_and_earn {
+    position: relative;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.ads_see_more_btn button{
+    border: none;
+    outline: none;
+    background-color: #FED700;
+    color: black;
+    font-weight: 500;
+    width: 130px;
+    height: 35px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+}
+/* ads section ends**************************** */

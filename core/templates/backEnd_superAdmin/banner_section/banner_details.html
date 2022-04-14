@@ -1,0 +1,137 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+
+
+{% block main_block %}
+<div class="container-fluid" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+
+<!--data tables*******************************************-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <section class="content-header">
+                <h1>
+                    Product Details
+                </h1>
+                <ol class="breadcrumb">
+                    <div style="position: relative;padding-top: 15px; padding-bottom: 15px;">
+                        <a href="/ap/admin/product/list" style="position: absolute; right: 0; bottom: 15px;">
+                            <button type="button" style="width: 130px;border: none; outline: none;color: white; border-radius: 5px; padding: 5px; background:#222D32;"><i class="fas fa-list"></i>&nbsp; Product List</button>
+                        </a>
+                    </div>
+                </ol>
+            </section>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Widget: user widget style 1 -->
+            <div class="box box-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-aqua-active">
+                    <div class="row">
+                        {% if current_banner.img %}
+                        <div class="col-md-5 admin__product__details">
+                            <img class="" src="{{current_banner.img.url}}">
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+                <div class="box-footer no-padding">
+                    <ul class="nav nav-stacked">
+                        {% if request.user.is_seller %}
+                        <li><a href="#">Seller Type<span class="pull-right badge bg-blue">Seller</span></a></li>
+                        {% else %}
+                        <li><a href="#">Seller Type<span class="pull-right badge bg-blue">Admin</span></a></li>
+                        {% endif %}
+                        <li><a href="#">Email <span class="pull-right badge bg-aqua">{{request.user.email}}</span></a></li>
+                        <li><a href="#">Banner ID <span class="pull-right badge bg-aqua">{{current_banner.banner_id}}</span></a></li>
+                        <li><a href="#">Offer amount/title <span class="pull-right badge bg-green">{{current_banner.offer_amount_or_title}}</span></a></li>
+                        <li><a href="#">Offer duration <span class="pull-right badge bg-green">{{current_banner.offer_duration}}</span></a></li>
+                        <li><a href="#">Product title <span class="pull-right badge bg-aqua">{{current_banner.product_title|truncatechars:30}}</span></a></li>
+                        <li><a href="#">Starting Price <span class="pull-right badge bg-aqua">{{current_banner.starting_price}}$</span></a></li>
+                        <li><a href="#">Link <span class="pull-right badge bg-aqua">{{current_banner.product_url}}</span></a></li>
+
+                        <li><a href="#">Added at <span class="pull-right badge bg-aqua">{{current_banner.created}}</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.widget-user -->
+
+            <a href="{% url 'apBannerList' %}">
+                <button type="button" style="border:none; background: #00C0EF;color:white;">
+                    Back to product list
+                </button>
+            </a>
+
+            <!-- modal for deleting object-->
+
+            <button type="button" style="border:none; background: #FF0000;color:white;" data-toggle="modal"
+                    data-target="#remove{{current_pk}}">
+                Delete me!
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="remove{{current_pk}}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-left" id="exampleModalLabel">Are you confirm to delete
+                                this?</h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">Close
+                            </button>
+                            <a href="{% url 'apDelBanner' current_pk %}">
+                                <button type="button" class="btn btn-primary">
+                                    Confirm
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--                                        modal for deleting object ends-->
+
+            <a href="{% url 'apUpdateBannerInfo' current_banner.pk current_banner.banner_id %}">
+                <button type="button" style="border:none; background: #00C0EF;color:white;">
+                    Update
+                </button>
+            </a>
+
+            <br><br>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

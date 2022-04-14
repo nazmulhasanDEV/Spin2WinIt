@@ -1,0 +1,82 @@
+#overview .product-description .title {
+    border-bottom: 1px solid black;
+    text-transform: uppercase;
+}
+
+#overview .product-description .content {
+    padding-top: 5px;
+    display: flex;
+    position: relative;
+}
+
+#overview .product-description .content .icon {
+    font-size: 35px;
+}
+
+#overview .product-description .content .description {
+    margin-left: 15px;
+    text-align: justify;
+    opacity: .7;
+}
+
+
+/* review section starts************** */
+
+.customer__overview .rating__amount .given__amount {
+    font-size: 35px;
+}
+
+.customer__overview .rating__amount .total__amount {
+    opacity: 0.7;
+    font-size: 25px;
+}
+
+.customer__overview .stars {
+    display: flex;
+    color: #FED700;
+}
+
+.customer__overview .reviews__percentage__rate .rating__progress__bar:not(:first-child) {
+    margin-top: 10px;
+}
+
+
+.user__reviews__list__title {
+    position: relative;
+    margin-top: 35px;
+    /* padding-bottom: 15px; */
+}
+.user__reviews__list {
+    position: relative;
+    /* margin-top: 50px; */
+}
+
+.user__reviews__list .user__profile {
+    display: flex;
+}
+
+.user__reviews__list .user__profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.user__reviews__list .user__profile .name {
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+.user__reviews__list .user__profile .date {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.user__reviews__list .user__profile .user__name__date {
+    position: relative;
+    margin-left: 5px;
+}
+
+.user__comment__rev .comment h4 {
+    margin-top: 5px;
+    font-size: 14px;
+}

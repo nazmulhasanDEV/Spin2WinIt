@@ -1,0 +1,135 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<div class="container-fluid" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+<!--data tables*******************************************-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <section class="content-header">
+                <h1>
+                    Product Details
+                    <small><a href="/ap/add/admin/product">Product List</a></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#">Tables</a></li>
+                    <li class="active">Product List</li>
+                </ol>
+            </section>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Widget: user widget style 1 -->
+            <div class="box box-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-aqua-active">
+                    <div class="row">
+                        {% if current_obj.product_img %}
+                        {% for img in current_obj.product_img.all %}
+                        <div class="col-md-2 admin__product__details">
+                            <img class="" src="{{img.img_link}}">
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="box-footer no-padding">
+                    <ul class="nav nav-stacked">
+                        {% if request.user.is_seller %}
+                        <li><a href="#">Seller Type<span class="pull-right badge bg-blue">Seller</span></a></li>
+                        {% else %}
+                        <li><a href="#">Seller Type<span class="pull-right badge bg-blue">Admin</span></a></li>
+                        {% endif %}
+                        <li><a href="#">Email <span class="pull-right badge bg-aqua">{{request.user.email}}</span></a></li>
+                        <li><a href="#">name <span class="pull-right badge bg-green">{{current_obj.name|truncatechars:40}}</span></a></li>
+                        <li><a href="#">Description <span class="pull-right badge bg-green">{{current_obj.description|striptags|truncatechars:35}}</span></a></li>
+                        <li><a href="#">Price <span class="pull-right badge bg-aqua">{{current_obj.price}}</span></a></li>
+                        <li><a href="#">Regular Price <span class="pull-right badge bg-aqua">{{current_obj.regular_price}}</span></a></li>
+                        <li><a href="#">Total sales <span class="pull-right badge bg-aqua">{{current_obj.total_sales}}</span></a></li>
+                        <li><a href="#">Category Name <span class="pull-right badge bg-aqua">{{current_obj.cat_name}}</span></a></li>
+                        <li><a href="#">Stock Status <span class="pull-right badge bg-aqua">{{current_obj.stock_status}}</span></a></li>
+                        <li><a href="#">Average Ratings <span class="pull-right badge bg-aqua">{{current_obj.avrg_rating}}</span></a></li>
+                        <li><a href="#">Number of ratings <span class="pull-right badge bg-aqua">{{current_obj.rating_count}}</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.widget-user -->
+
+            <a href="{% url 'apWoocommerceStoreList' %}">
+                <button type="button" style="border:none; background: #00C0EF;color:white;">
+                    Back to product list
+                </button>
+            </a>
+
+            <!-- modal for deleting object-->
+
+            <button type="button" style="border:none; background: #FF0000;color:white;" data-toggle="modal"
+                    data-target="#remove{{current_pk}}">
+                Delete me!
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="remove{{current_pk}}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-left" id="exampleModalLabel">Are you confirm to delete
+                                this?</h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">Close
+                            </button>
+                            <a href="{% url 'apDelWoocmrceProduct' pk=current_pk %}">
+                                <button type="button" class="btn btn-primary">
+                                    Confirm
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--                                        modal for deleting object ends-->
+
+<!--            <a href="">-->
+<!--                <button type="button" style="border:none; background: #00C0EF;color:white;">-->
+<!--                    Update-->
+<!--                </button>-->
+<!--            </a>-->
+
+            <br><br>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

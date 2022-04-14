@@ -1,0 +1,153 @@
+#gaming__main__section {
+    background-image: url('/static/frontEnd/gaming_files/gaming_bg_2.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 20px;
+}
+
+.game__product_prize_section {
+    background-color: rgba(0, 0, 0, .3);
+    padding: 20px;
+    padding: 20px;
+    color:  #FFD700;
+}
+
+.prize__img {
+    margin-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.spinning___title {
+    color:  #FFD700;
+    background-color: rgba(0, 0, 0, .5);
+    padding: 15px;
+}
+
+/* game flash message*/
+.game__prize__flash__message {
+    position: absolute;
+    width: 100vw;
+    height: 100vh !important;
+/*    background-color: rgba(0, 0, 0, .5);*/
+    z-index: 1222 !important;
+    left: 0 !important;
+    top: 0 !important;
+    display: none;
+}
+
+.flash_msg_main_content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.flash__msg_content {
+    background-image: url('/static/frontEnd/gaming_files/congratulation.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    color: white;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    animation: mymove .2s;
+}
+
+@keyframes mymove {
+    0% {
+        width: 150px;
+        height: 150px;
+    }
+    25% {
+        width: 180px;
+        height: 180px;
+    }
+
+    50% {
+        width: 200px;
+        height: 200px;
+    }
+    75% {
+        width: 250px;
+        height: 250px;
+    }
+    100% {
+        width: auto;
+        height: auto;
+    }
+}
+
+
+.flash__msg_content .close .span_inner{
+    position: absolute;
+    color: #FFD700;
+    top: 10px;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #FFD700;
+    text-align: center;
+    right: 10px;
+}
+
+/*.flash__msg_content .close .span_inner{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}*/
+
+.flash__msg_content .close .span_inner i {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.flash__msg_content .content {
+    position: relative;
+    margin-top: 25px;
+}
+
+.flash__msg_content .content h2 {
+    position: relative;
+    margin-top: 80px;
+    color: #FFD700;
+    text-transform: uppercase;
+    background-color: rgba(0, 0, 0, .5);
+    padding: 5px;
+}
+
+.flash__msg_content .content h4 {
+    position: relative;
+    margin-top: 40px;
+    margin-bottom: 60px;
+    color: #FFD700;
+    font-size: 45px;
+}
+
+.flash__msg_content .content .prize__img {
+    position: relative;
+    margin-top: 40px;
+    margin-bottom: 60px;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

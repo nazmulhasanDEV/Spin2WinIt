@@ -1,0 +1,1175 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+{% load tag_library %}
+
+{% block main_block %}
+<!-- Begin Li's Breadcrumb Area -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="breadcrumb-content">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li class="active">Product details</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Li's Breadcrumb Area End Here -->
+<br>
+<!-- content-wraper start -->
+<div class="content-wraper">
+    <div class="container">
+        <div class="row single-product-area">
+            <div class="col-lg-5 col-md-6">
+                <!-- Product Details Left -->
+                <div class="product-details-left">
+                    <div class="product-details-images slider-navigation-1">
+                        {% if current_product.product_thumbnail %}
+                        <div class="lg-image">
+                            <img src="{{current_product.product_thumbnail.url}}" style="max-height: 350px;"
+                                 alt="product image">
+                        </div>
+                        {% endif %}
+
+                        {% if current_product.productImg %}
+                        {% for img in current_product.productImg.all %}
+                        {% if img.img %}
+                        <div class="lg-image">
+                            <img src="{{img.img.url}}" style="max-height: 400px; width: 100%" alt="product image">
+                        </div>
+                        {% else %}
+                        <div class="lg-image">
+                            <img src="{{img.img_link}}" style="max-height: 400px;width: 100%" alt="product image">
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="product-details-thumbs slider-thumbs-1">
+                        {% if current_product.product_thumbnail %}
+                        <div class="sm-image">
+                            <img src="{{current_product.product_thumbnail.url}}" alt="product image">
+                        </div>
+                        {% endif %}
+
+                        {% if current_product.productImg %}
+                        {% for img in current_product.productImg.all %}
+                        {% if img.img %}
+                        <div class="sm-image">
+                            <img src="{{img.img.url}}" alt="product image">
+                        </div>
+                        {% else %}
+                        <div class="sm-image">
+                            <img src="{{img.img_link}}" alt="product image">
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <!--// Product Details Left -->
+            </div>
+
+            {% if current_product.product_type == 'wsp' %}
+            <div class="col-lg-7 col-md-6">
+                <div class="product-details-view-content sp-sale-content pt-60">
+                    <div class="product-info">
+                        <h2>{{current_product.title|safe}}</h2>
+                        <span class="product-details-ref">Sold: 232</span>
+                        <div class="rating-box pt-20">
+                            <ul class="rating rating-with-review-item">
+
+                                {% if current_product.avrg_rating|to_float < 1 %}
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                 {% endif %}
+
+                                {% if current_product.avrg_rating|to_float <= 1.9 and current_product.avrg_rating|to_float > 1 %}
+                                <li><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                 {% endif %}
+
+                                {% if current_product.avrg_rating|to_float <= 2.9 and current_product.avrg_rating|to_float > 1.9 %}
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                 {% endif %}
+
+                                {% if current_product.avrg_rating|to_float <= 3.9 and current_product.avrg_rating|to_float > 2.9 %}
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                 {% endif %}
+
+                                {% if current_product.avrg_rating|to_float <= 4.9 and current_product.avrg_rating|to_float >= 3.9 %}
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                 {% endif %}
+
+                                {% if current_product.avrg_rating|to_float > 4.9 %}
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                 {% endif %}
+
+
+                                <li>({{current_product.avrg_rating|to_float}}) {{current_product.rating_count}} ratings</li>
+                            </ul>
+                            <ul class="rating rating-with-review-item" style="margin-top: 5px;">
+                                <li>Brand: <span>Brand Name</span></li>
+                            </ul>
+                            <ul class="rating rating-with-review-item" style="margin-top: 5px;">
+                                <li>Visit store: <a href="#">Sotre name</a></li>
+                            </ul>
+                        </div>
+                        <div class="price-box pt-20">
+                            {% if current_product.regular_price %}
+                            <del>${{current_product.regular_price}}</del>
+                            {% endif %}
+                            <span class="new-price new-price-2">${{current_product.price}}</span>
+                        </div>
+
+                        <!--                        count down-->
+                        <!--                        <div class="countersection">-->
+                        <!--                            <div class="li-countdown product-sale-countdown"></div>-->
+                        <!--                        </div>-->
+                        <!--                        count down ends-->
+
+                        {% if current_product.short_des %}
+                        <div class="product-desc">
+                            <p>
+                                <span>
+                                    {{current_product.short_des|safe}}
+                                </span>
+                            </p>
+                        </div>
+                        {% endif %}
+
+
+                        <div class="product-variants" style="display: flex;">
+                            <!--                            <div class="produt-variants-size">-->
+                            <!--                                <label>Dimension</label>-->
+                            <!--                                <select class="nice-select">-->
+                            <!--                                    <option value="1" title="S" selected="selected">40x60cm</option>-->
+                            <!--                                    <option value="2" title="M">60x90cm</option>-->
+                            <!--                                    <option value="3" title="L">80x120cm</option>-->
+                            <!--                                </select>-->
+                            <!--                            </div>-->
+
+                            <div>
+                                <img src="{% static 'frontEnd/images/new_img.png' %}" style="width: 100%; height: 80px;"
+                                     alt="">
+                            </div>
+                        </div>
+
+                        <div class="single-add-to-cart">
+                            <form action="{% url 'frontBuyNow' product_id=current_product.product_id %}" method="post" enctype="multipart/form-data" class="cart-quantity">
+                                {% csrf_token %}
+                                <div class="quantity">
+                                    <label>Quantity</label>
+                                    <div class="cart-plus-minus">
+                                        <input name="quantity" class="cart-plus-minus-box cart_pls_minus_details" value="1"
+                                               type="number">
+                                        <div class="dec dec_details qtybutton" onclick="decreaseProductNo()"><i
+                                                class="fa fa-angle-down"></i></div>
+                                        <div class="inc inc_details qtybutton" onclick="increaseProductNo();"><i
+                                                class="fa fa-angle-up"></i></div>
+                                    </div>
+                                    <input type="text" name="product_price" value="{{current_product.price}}" style="display: none;">
+                                    <input type="text" name="product_id" value="{{current_product.product_id}}" style="display: none;">
+                                </div>
+                                <a href="{% url 'frontAddToCart' product_id=current_product.product_id %}">
+                                    <button class="add-to-cart" type="button">Add to cart</button>
+                                </a>
+                                <button class="buy__now__btn" type="submit">Buy Now</button>
+
+                                {% if current_product.sponsor_status == 'yes' %}
+                                <button class="spin__to__win" type="button">Spin To Win</button>
+                                {% endif %}
+                            </form>
+
+                        </div>
+                        <!-- <div class="product-additional-info pt-25">
+                            <a class="wishlist-btn" href="wishlist.html"><i class="fa fa-heart-o"></i>Add to wishlist</a>
+                            <div class="product-social-sharing pt-25">
+                                <ul>
+                                    <li class="facebook"><a href="#"><i class="fa fa-facebook"></i>Facebook</a></li>
+                                    <li class="twitter"><a href="#"><i class="fa fa-twitter"></i>Twitter</a></li>
+                                    <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i>Google +</a></li>
+                                    <li class="instagram"><a href="#"><i class="fa fa-instagram"></i>Instagram</a></li>
+                                </ul>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-lg-7 col-md-6">
+                <div class="product-details-view-content sp-sale-content pt-60">
+                    <div class="product-info">
+                        <h2>{{current_product.title|striptags}}</h2>
+                        <span class="product-details-ref">Sold: 232</span>
+                        <div class="rating-box pt-20">
+                            <ul class="rating rating-with-review-item">
+
+                                {% if current_product.avrg_rating|to_float < 1 %}
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                 {% endif %}
+
+                                {% if current_product.avrg_rating|to_float <= 1.9 and current_product.avrg_rating|to_float > 1 %}
+                                <li><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                 {% endif %}
+
+                                {% if current_product.avrg_rating|to_float <= 2.9 and current_product.avrg_rating|to_float > 1.9 %}
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                 {% endif %}
+
+                                {% if current_product.avrg_rating|to_float <= 3.9 and current_product.avrg_rating|to_float > 2.9 %}
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                 {% endif %}
+
+                                {% if current_product.avrg_rating|to_float <= 4.9 and current_product.avrg_rating|to_float >= 3.9 %}
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li class="no-star"><i class="far fa-star"></i></li>
+                                 {% endif %}
+
+                                {% if current_product.avrg_rating|to_float > 4.9 %}
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                <li><i class="far fa-star"></i></li>
+                                 {% endif %}
+
+
+                                <li>({{current_product.avrg_rating|to_float}}) {{current_product.rating_count}} ratings</li>
+                            </ul>
+                            <ul class="rating rating-with-review-item" style="margin-top: 5px;">
+                                <li>Brand: <span>Brand Name</span></li>
+                            </ul>
+                            <ul class="rating rating-with-review-item" style="margin-top: 5px;">
+                                <li>Visit store: <a href="#">Sotre name</a></li>
+                            </ul>
+                        </div>
+                        <div class="price-box pt-20">
+                            <del>${{current_product.old_price}}</del>
+                            <span class="new-price new-price-2">${{current_product.new_price}}</span>
+                        </div>
+                        <div class="countersection">
+                            <div class="li-countdown product-sale-countdown"></div>
+                        </div>
+                        <div class="product-desc">
+                            <p>
+                                <span>
+                                    {{product.short_des|safe}}
+                                </span>
+                            </p>
+                        </div>
+
+
+                        <div class="product-variants" style="display: flex;">
+                            <div class="produt-variants-size">
+                                <label>Dimension</label>
+                                <select class="nice-select">
+                                    <option value="1" title="S" selected="selected">40x60cm</option>
+                                    <option value="2" title="M">60x90cm</option>
+                                    <option value="3" title="L">80x120cm</option>
+                                </select>
+                            </div>
+                            <div>
+                                <img src="{% static 'frontEnd/images/new_img.png' %}" style="width: 100%; height: 80px;"
+                                     alt="">
+                            </div>
+                        </div>
+
+                        <div class="single-add-to-cart">
+                            <form action="{% url 'frontBuyNow' product_id=current_product.product_id %}" method="post" enctype="multipart/form-data" class="cart-quantity">
+                                {% csrf_token %}
+                                <div class="quantity">
+                                    <label>Quantity</label>
+                                    <div class="cart-plus-minus">
+                                        <input name="quantity" class="cart-plus-minus-box cart_pls_minus_details" value="1"
+                                               type="number">
+                                        <div class="dec dec_details qtybutton" onclick="decreaseProductNo()"><i
+                                                class="fa fa-angle-down"></i></div>
+                                        <div class="inc inc_details qtybutton" onclick="increaseProductNo();"><i
+                                                class="fa fa-angle-up"></i></div>
+                                    </div>
+                                    <input type="text" name="product_price" value="{{current_product.new_price}}" style="display: none;">
+                                    <input type="text" name="product_id" value="{{current_product.product_id}}" style="display: none;">
+                                </div>
+                                <a href="{% url 'frontAddToCart' product_id=current_product.product_id %}">
+                                    <button class="add-to-cart" type="button">Add to cart</button>
+                                </a>
+                                <button class="buy__now__btn" type="submit">Buy Now</button>
+
+                                {% if current_product.sponsor_status == 'yes' %}
+                                <button class="spin__to__win" type="button">Spin To Win</button>
+                                {% endif %}
+                            </form>
+                        </div>
+                        <!-- <div class="product-additional-info pt-25">
+                            <a class="wishlist-btn" href="wishlist.html"><i class="fa fa-heart-o"></i>Add to wishlist</a>
+                            <div class="product-social-sharing pt-25">
+                                <ul>
+                                    <li class="facebook"><a href="#"><i class="fa fa-facebook"></i>Facebook</a></li>
+                                    <li class="twitter"><a href="#"><i class="fa fa-twitter"></i>Twitter</a></li>
+                                    <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i>Google +</a></li>
+                                    <li class="instagram"><a href="#"><i class="fa fa-instagram"></i>Instagram</a></li>
+                                </ul>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<!-- content-wraper end -->
+<!-- Begin Product Area -->
+<div class="product-area pt-35">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="li-product-tab">
+                    <ul class="nav li-product-menu">
+                        <li><a class="active" data-toggle="tab" href="#overview"><span>Overview</span></a></li>
+                        <li><a data-toggle="tab" href="#product-details"><span>Product Details</span></a></li>
+                        <li><a data-toggle="tab" href="#reviews"><span>Reviews</span></a></li>
+                        <li><a data-toggle="tab" href="#about_store"><span>About store</span></a></li>
+                    </ul>
+                </div>
+                <!-- Begin Li's Tab Menu Content Area -->
+            </div>
+        </div>
+        <div class="tab-content">
+
+            <div id="overview" class="tab-pane active show" role="tabpanel">
+                <div class="product-description">
+                    <div class="row">
+
+                        {% if current_product.short_des %}
+                        <div class="col-md-4">
+                            <div>
+                                <div class="title">
+                                    <h6>Description</h6>
+                                </div>
+                                <div class="content">
+                                    <div class="icon"><i class="far fa-sticky-note"></i></div>
+                                    <div class="description">
+                                        {{current_product.short_des|safe}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if current_product.benefits %}
+                        <div class="col-md-4">
+                            <div>
+                                <div class="title">
+                                    <h6>Benefits</h6>
+                                </div>
+                                <div class="content">
+                                    <div class="icon"><i class="fas fa-list"></i></div>
+                                    <div class="description">
+                                        {{current_product.benefits|safe}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if current_product.use_case %}
+                        <div class="col-md-4">
+                            <div>
+                                <div class="title">
+                                    <h6>SUGGESTED USE</h6>
+                                </div>
+                                <div class="content">
+                                    <div class="icon"><i class="far fa-comment"></i></div>
+                                    <div class="description">
+                                        {{current_product.use_case|safe}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if current_product.security_policy %}
+                        <div class="col-md-4 mt-md-5">
+                            <div>
+                                <div class="title">
+                                    <h6>Security Policy</h6>
+                                </div>
+                                <div class="content">
+                                    <div class="icon"><i class="fas fa-user-shield"></i></div>
+                                    <div class="description">
+                                        {{current_product.security_policy}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if current_product.return_policy %}
+                        <div class="col-md-4 mt-md-5">
+                            <div>
+                                <div class="title">
+                                    <h6>Return Policy</h6>
+                                </div>
+                                <div class="content">
+                                    <div class="icon"><i class="fas fa-exchange-alt"></i></div>
+                                    <div class="description">
+                                        {{current_product.return_policy}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if current_product.refund_policy %}
+                        <div class="col-md-4 mt-md-5">
+                            <div>
+                                <div class="title">
+                                    <h6>Refund Policy</h6>
+                                </div>
+                                <div class="content">
+                                    <div class="icon"><i class="fas fa-undo"></i></div>
+                                    <div class="description">
+                                        {{current_product.refund_policy}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if current_product.delivery_policy %}
+                        <div class="col-md-4 mt-md-5">
+                            <div>
+                                <div class="title">
+                                    <h6>Delivery policies</h6>
+                                </div>
+                                <div class="content">
+                                    <div class="icon"><i class="fas fa-people-carry"></i></div>
+                                    <div class="description">
+                                        {{current_product.delivery_policy}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div id="product-details" class="tab-pane" role="tabpanel">
+                <div class="product-details-manufacturer">
+                    {{current_product.details|safe}}
+                </div>
+            </div>
+            <div id="reviews" class="tab-pane" role="tabpanel">
+                <div class="product-reviews">
+                    <div class="product-details-comment-block">
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h5 class="title">Customer Overview</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row customer__overview">
+                                        <div class="col-md-4">
+                                            <h6 class="rating__amount"><span class="given__amount">4.5</span> <span
+                                                    class="total__amount">/5</span></h6>
+                                            <h6 class="stars">
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                            </h6>
+                                            <h6 class="overall__rating">
+                                                ratings 205
+                                            </h6>
+                                        </div>
+
+                                        <div class="col-md-8 reviews__percentage__rate">
+                                            <li class="rating__progress__bar">
+                                                <div>
+                                                    <span class="give__star__amount">5 star</span> <span>75%</span>
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped bg-warning"
+                                                         role="progressbar" style="width: 75%" aria-valuenow="75"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </li>
+
+                                            <li class="rating__progress__bar">
+                                                <div>
+                                                    <span class="give__star__amount">4 star</span> <span>75%</span>
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped bg-warning"
+                                                         role="progressbar" style="width: 75%" aria-valuenow="75"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </li>
+
+                                            <li class="rating__progress__bar">
+                                                <div>
+                                                    <span class="give__star__amount">3 star</span> <span>75%</span>
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped bg-warning"
+                                                         role="progressbar" style="width: 75%" aria-valuenow="75"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </li>
+
+                                            <li class="rating__progress__bar">
+                                                <div>
+                                                    <span class="give__star__amount">2 star</span> <span>75%</span>
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped bg-warning"
+                                                         role="progressbar" style="width: 75%" aria-valuenow="75"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </li>
+
+                                            <li class="rating__progress__bar">
+                                                <div>
+                                                    <span class="give__star__amount">1 star</span> <span>75%</span>
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped bg-warning"
+                                                         role="progressbar" style="width: 75%" aria-valuenow="75"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </li>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row user__reviews__list__title">
+                                <div class="col-md-12">
+                                    <div>
+                                        <h5>Reviews</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row user__reviews__list">
+                                <div class="col-md-12">
+
+                                    <div class="user__comment__rev mt-md-4">
+                                        <div class="user__profile">
+                                            <div>
+                                                <img src="{% static 'frontEnd/images/banner/1_1.jpg' %}" alt="">
+                                            </div>
+                                            <div class="user__name__date">
+                                                <h4 class="name">User Name</h4>
+                                                <h4 class="date">02 Feb, 2021</h4>
+                                            </div>
+                                        </div>
+
+                                        <div class="comment">
+                                            <h4>this is customer comment</h4>
+                                        </div>
+                                    </div>
+
+                                    <div class="user__comment__rev mt-md-4">
+                                        <div class="user__profile">
+                                            <div>
+                                                <img src="{% static 'frontEnd/images/banner/1_1.jpg' %}" alt="">
+                                            </div>
+                                            <div class="user__name__date">
+                                                <h4 class="name">User Name</h4>
+                                                <h4 class="date">02 Feb, 2021</h4>
+                                            </div>
+                                        </div>
+
+                                        <div class="comment">
+                                            <h4>this is customer comment</h4>
+                                        </div>
+                                    </div>
+
+                                    <div class="user__comment__rev mt-md-4">
+                                        <div class="user__profile">
+                                            <div>
+                                                <img src="{% static 'frontEnd/images/banner/1_1.jpg' %}" alt="">
+                                            </div>
+                                            <div class="user__name__date">
+                                                <h4 class="name">User Name</h4>
+                                                <h4 class="date">02 Feb, 2021</h4>
+                                            </div>
+                                        </div>
+
+                                        <div class="comment">
+                                            <h4>this is customer comment</h4>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <br><br>
+
+                        <!-- wirte review section******************************* -->
+                        <!--                        <div class="review-btn">-->
+                        <!--                            <a class="review-links" href="#" data-toggle="modal" data-target="#mymodal">Write Your-->
+                        <!--                                Review!</a>-->
+                        <!--                        </div>-->
+                        <!-- Begin Quick View | Modal Area -->
+                        <div class="modal fade modal-wrapper" id="mymodal">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <h3 class="review-page-title">Write Your Review</h3>
+                                        <div class="modal-inner-area row">
+                                            <div class="col-lg-6">
+                                                <div class="li-review-product">
+                                                    <img src="{% static 'frontEnd/images/product/large-size/3.jpg' %}"
+                                                         alt="Li's Product">
+                                                    <div class="li-review-product-desc">
+                                                        <p class="li-product-name">Today is a good day Framed poster</p>
+                                                        <p>
+                                                            <span>Beach Camera Exclusive Bundle - Includes Two Samsung Radiant 360 R3 Wi-Fi Bluetooth Speakers. Fill The Entire Room With Exquisite Sound via Ring Radiator Technology. Stream And Control R3 Speakers Wirelessly With Your Smartphone. Sophisticated, Modern Design </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="li-review-content">
+                                                    <!-- Begin Feedback Area -->
+                                                    <div class="feedback-area">
+                                                        <div class="feedback">
+                                                            <h3 class="feedback-title">Our Feedback</h3>
+                                                            <form action="#">
+                                                                <p class="your-opinion">
+                                                                    <label>Your Rating</label>
+                                                                    <span>
+                                                                                    <select class="star-rating">
+                                                                                      <option value="1">1</option>
+                                                                                      <option value="2">2</option>
+                                                                                      <option value="3">3</option>
+                                                                                      <option value="4">4</option>
+                                                                                      <option value="5">5</option>
+                                                                                    </select>
+                                                                                </span>
+                                                                </p>
+                                                                <p class="feedback-form">
+                                                                    <label for="feedback">Your Review</label>
+                                                                    <textarea id="feedback" name="comment" cols="45"
+                                                                              rows="8" aria-required="true"></textarea>
+                                                                </p>
+                                                                <div class="feedback-input">
+                                                                    <p class="feedback-form-author">
+                                                                        <label for="author">Name<span
+                                                                                class="required">*</span>
+                                                                        </label>
+                                                                        <input id="author" name="author" value=""
+                                                                               size="30" aria-required="true"
+                                                                               type="text">
+                                                                    </p>
+                                                                    <p class="feedback-form-author feedback-form-email">
+                                                                        <label for="email">Email<span
+                                                                                class="required">*</span>
+                                                                        </label>
+                                                                        <input id="email" name="email" value=""
+                                                                               size="30" aria-required="true"
+                                                                               type="text">
+                                                                        <span class="required"><sub>*</sub> Required fields</span>
+                                                                    </p>
+                                                                    <div class="feedback-btn pb-15">
+                                                                        <a href="#" class="close" data-dismiss="modal"
+                                                                           aria-label="Close">Close</a>
+                                                                        <a href="#">Submit</a>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Feedback Area End Here -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ends write reviews *********************** -->
+
+                        <!-- Quick View | Modal Area End Here -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="about_store" class="tab-pane" role="tabpanel">
+                <div style="padding-top: 20px; padding-bottom: 20px;">
+                    {{current_product.about_store|safe}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Product Area End Here -->
+
+<!-- Begin Li's Laptop Product Area -->
+<!--<section class="product-area li-laptop-product pt-30 pb-50">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            &lt;!&ndash; Begin Li's Section Area &ndash;&gt;-->
+<!--            <div class="col-lg-12">-->
+<!--                <div class="li-section-title">-->
+<!--                    <h2>-->
+<!--                        <span>More products from same store</span>-->
+<!--                    </h2>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="product-active owl-carousel">-->
+<!--                        <div class="col-lg-12">-->
+<!--                            &lt;!&ndash; single-product-wrap start &ndash;&gt;-->
+<!--                            <div class="single-product-wrap">-->
+<!--                                <div class="product-image">-->
+<!--                                    <a href="single-product.html">-->
+<!--                                        <img src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"-->
+<!--                                             alt="Li's Product Image">-->
+<!--                                    </a>-->
+<!--                                    <span class="sticker">New</span>-->
+<!--                                </div>-->
+<!--                                <div class="product_desc">-->
+<!--                                    <div class="product_desc_info">-->
+<!--                                        <div class="product-review">-->
+<!--                                            <h5 class="manufacturer">-->
+<!--                                                <a href="product-details.html">Graphic Corner</a>-->
+<!--                                            </h5>-->
+<!--                                            <div class="rating-box">-->
+<!--                                                <ul class="rating">-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>-->
+<!--                                                </ul>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <h4><a class="product_name" href="single-product.html">Accusantium dolorem1</a>-->
+<!--                                        </h4>-->
+<!--                                        <div class="price-box">-->
+<!--                                            <span class="new-price">$46.80</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="add-actions">-->
+<!--                                        <ul class="add-actions-link">-->
+<!--                                            <li class="add-cart active"><a href="#">Add to cart</a></li>-->
+<!--                                            <li><a href="#" title="quick view" class="quick-view-btn"-->
+<!--                                                   data-toggle="modal" data-target="#exampleModalCenter"><i-->
+<!--                                                    class="fa fa-eye"></i></a></li>-->
+<!--                                            <li><a class="links-details" href="wishlist.html"><i-->
+<!--                                                    class="fa fa-heart-o"></i></a></li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; single-product-wrap end &ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-12">-->
+<!--                            &lt;!&ndash; single-product-wrap start &ndash;&gt;-->
+<!--                            <div class="single-product-wrap">-->
+<!--                                <div class="product-image">-->
+<!--                                    <a href="single-product.html">-->
+<!--                                        <img src="{% static 'frontEnd/images/product/large-size/2.jpg' %}"-->
+<!--                                             alt="Li's Product Image">-->
+<!--                                    </a>-->
+<!--                                    <span class="sticker">New</span>-->
+<!--                                </div>-->
+<!--                                <div class="product_desc">-->
+<!--                                    <div class="product_desc_info">-->
+<!--                                        <div class="product-review">-->
+<!--                                            <h5 class="manufacturer">-->
+<!--                                                <a href="product-details.html">Studio Design</a>-->
+<!--                                            </h5>-->
+<!--                                            <div class="rating-box">-->
+<!--                                                <ul class="rating">-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>-->
+<!--                                                </ul>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <h4><a class="product_name" href="single-product.html">Mug Today is a good-->
+<!--                                            day</a></h4>-->
+<!--                                        <div class="price-box">-->
+<!--                                            <span class="new-price new-price-2">$71.80</span>-->
+<!--                                            <span class="old-price">$77.22</span>-->
+<!--                                            <span class="discount-percentage">-7%</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="add-actions">-->
+<!--                                        <ul class="add-actions-link">-->
+<!--                                            <li class="add-cart active"><a href="#">Add to cart</a></li>-->
+<!--                                            <li><a href="#" title="quick view" class="quick-view-btn"-->
+<!--                                                   data-toggle="modal" data-target="#exampleModalCenter"><i-->
+<!--                                                    class="fa fa-eye"></i></a></li>-->
+<!--                                            <li><a class="links-details" href="wishlist.html"><i-->
+<!--                                                    class="fa fa-heart-o"></i></a></li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; single-product-wrap end &ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-12">-->
+<!--                            &lt;!&ndash; single-product-wrap start &ndash;&gt;-->
+<!--                            <div class="single-product-wrap">-->
+<!--                                <div class="product-image">-->
+<!--                                    <a href="single-product.html">-->
+<!--                                        <img src="{% static 'frontEnd/images/product/large-size/3.jpg' %}"-->
+<!--                                             alt="Li's Product Image">-->
+<!--                                    </a>-->
+<!--                                    <span class="sticker">New</span>-->
+<!--                                </div>-->
+<!--                                <div class="product_desc">-->
+<!--                                    <div class="product_desc_info">-->
+<!--                                        <div class="product-review">-->
+<!--                                            <h5 class="manufacturer">-->
+<!--                                                <a href="product-details.html">Graphic Corner</a>-->
+<!--                                            </h5>-->
+<!--                                            <div class="rating-box">-->
+<!--                                                <ul class="rating">-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>-->
+<!--                                                </ul>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <h4><a class="product_name" href="single-product.html">Accusantium dolorem1</a>-->
+<!--                                        </h4>-->
+<!--                                        <div class="price-box">-->
+<!--                                            <span class="new-price">$46.80</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="add-actions">-->
+<!--                                        <ul class="add-actions-link">-->
+<!--                                            <li class="add-cart active"><a href="#">Add to cart</a></li>-->
+<!--                                            <li><a href="#" title="quick view" class="quick-view-btn"-->
+<!--                                                   data-toggle="modal" data-target="#exampleModalCenter"><i-->
+<!--                                                    class="fa fa-eye"></i></a></li>-->
+<!--                                            <li><a class="links-details" href="wishlist.html"><i-->
+<!--                                                    class="fa fa-heart-o"></i></a></li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; single-product-wrap end &ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-12">-->
+<!--                            &lt;!&ndash; single-product-wrap start &ndash;&gt;-->
+<!--                            <div class="single-product-wrap">-->
+<!--                                <div class="product-image">-->
+<!--                                    <a href="single-product.html">-->
+<!--                                        <img src="{% static 'frontEnd/images/product/large-size/4.jpg' %}"-->
+<!--                                             alt="Li's Product Image">-->
+<!--                                    </a>-->
+<!--                                    <span class="sticker">New</span>-->
+<!--                                </div>-->
+<!--                                <div class="product_desc">-->
+<!--                                    <div class="product_desc_info">-->
+<!--                                        <div class="product-review">-->
+<!--                                            <h5 class="manufacturer">-->
+<!--                                                <a href="product-details.html">Studio Design</a>-->
+<!--                                            </h5>-->
+<!--                                            <div class="rating-box">-->
+<!--                                                <ul class="rating">-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>-->
+<!--                                                </ul>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <h4><a class="product_name" href="single-product.html">Mug Today is a good-->
+<!--                                            day</a></h4>-->
+<!--                                        <div class="price-box">-->
+<!--                                            <span class="new-price new-price-2">$71.80</span>-->
+<!--                                            <span class="old-price">$77.22</span>-->
+<!--                                            <span class="discount-percentage">-7%</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="add-actions">-->
+<!--                                        <ul class="add-actions-link">-->
+<!--                                            <li class="add-cart active"><a href="#">Add to cart</a></li>-->
+<!--                                            <li><a href="#" title="quick view" class="quick-view-btn"-->
+<!--                                                   data-toggle="modal" data-target="#exampleModalCenter"><i-->
+<!--                                                    class="fa fa-eye"></i></a></li>-->
+<!--                                            <li><a class="links-details" href="wishlist.html"><i-->
+<!--                                                    class="fa fa-heart-o"></i></a></li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; single-product-wrap end &ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-12">-->
+<!--                            &lt;!&ndash; single-product-wrap start &ndash;&gt;-->
+<!--                            <div class="single-product-wrap">-->
+<!--                                <div class="product-image">-->
+<!--                                    <a href="single-product.html">-->
+<!--                                        <img src="{% static 'frontEnd/images/product/large-size/5.jpg' %}"-->
+<!--                                             alt="Li's Product Image">-->
+<!--                                    </a>-->
+<!--                                    <span class="sticker">New</span>-->
+<!--                                </div>-->
+<!--                                <div class="product_desc">-->
+<!--                                    <div class="product_desc_info">-->
+<!--                                        <div class="product-review">-->
+<!--                                            <h5 class="manufacturer">-->
+<!--                                                <a href="product-details.html">Graphic Corner</a>-->
+<!--                                            </h5>-->
+<!--                                            <div class="rating-box">-->
+<!--                                                <ul class="rating">-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>-->
+<!--                                                </ul>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <h4><a class="product_name" href="single-product.html">Accusantium dolorem1</a>-->
+<!--                                        </h4>-->
+<!--                                        <div class="price-box">-->
+<!--                                            <span class="new-price">$46.80</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="add-actions">-->
+<!--                                        <ul class="add-actions-link">-->
+<!--                                            <li class="add-cart active"><a href="#">Add to cart</a></li>-->
+<!--                                            <li><a href="#" title="quick view" class="quick-view-btn"-->
+<!--                                                   data-toggle="modal" data-target="#exampleModalCenter"><i-->
+<!--                                                    class="fa fa-eye"></i></a></li>-->
+<!--                                            <li><a class="links-details" href="wishlist.html"><i-->
+<!--                                                    class="fa fa-heart-o"></i></a></li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; single-product-wrap end &ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-12">-->
+<!--                            &lt;!&ndash; single-product-wrap start &ndash;&gt;-->
+<!--                            <div class="single-product-wrap">-->
+<!--                                <div class="product-image">-->
+<!--                                    <a href="single-product.html">-->
+<!--                                        <img src="{% static 'frontEnd/images/product/large-size/6.jpg' %}"-->
+<!--                                             alt="Li's Product Image">-->
+<!--                                    </a>-->
+<!--                                    <span class="sticker">New</span>-->
+<!--                                </div>-->
+<!--                                <div class="product_desc">-->
+<!--                                    <div class="product_desc_info">-->
+<!--                                        <div class="product-review">-->
+<!--                                            <h5 class="manufacturer">-->
+<!--                                                <a href="product-details.html">Studio Design</a>-->
+<!--                                            </h5>-->
+<!--                                            <div class="rating-box">-->
+<!--                                                <ul class="rating">-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>-->
+<!--                                                </ul>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <h4><a class="product_name" href="single-product.html">Mug Today is a good-->
+<!--                                            day</a></h4>-->
+<!--                                        <div class="price-box">-->
+<!--                                            <span class="new-price new-price-2">$71.80</span>-->
+<!--                                            <span class="old-price">$77.22</span>-->
+<!--                                            <span class="discount-percentage">-7%</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="add-actions">-->
+<!--                                        <ul class="add-actions-link">-->
+<!--                                            <li class="add-cart active"><a href="#">Add to cart</a></li>-->
+<!--                                            <li><a href="#" title="quick view" class="quick-view-btn"-->
+<!--                                                   data-toggle="modal" data-target="#exampleModalCenter"><i-->
+<!--                                                    class="fa fa-eye"></i></a></li>-->
+<!--                                            <li><a class="links-details" href="wishlist.html"><i-->
+<!--                                                    class="fa fa-heart-o"></i></a></li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; single-product-wrap end &ndash;&gt;-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; Li's Section Area End Here &ndash;&gt;-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+<!-- Li's Laptop Product Area End Here -->
+
+<!-- Begin Li's Laptop Product Area -->
+<section class="product-area li-laptop-product pt-30 pb-50">
+    <div class="container">
+        <div class="row">
+            <!-- Begin Li's Section Area -->
+            <div class="col-lg-12">
+                <div class="li-section-title">
+                    <h2>
+                        <span>Other products in the same category:</span>
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="product-active owl-carousel">
+                        {% for p in current_cat_product_list %}
+                        <div class="col-lg-12">
+                            <!-- single-product-wrap start -->
+                            <div class="single-product-wrap">
+                                <div class="product-image">
+                                    <a href="/fe/product/details/{{p.product_id}}">
+                                        {% if p.product_type == 'wsp' %}
+                                        {% if p.product_thumbnail %}
+                                        <img src="{{p.product_thumbnail.url}}"
+                                             alt="Li's Product Image">
+                                        {% else %}
+                                                {% if p.productImg %}
+                                                    {% for img in p.productImg.all %}
+                                                        {% if forloop.counter == 1 %}
+                                                        {% if img.img %}
+                                                        <img src="{{img.img.url}}" alt="Li's Product Image">
+                                                        {% else %}
+                                                        <img src="{{img.img_link}}" alt="Li's Product Image">
+                                                    {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% endif %}
+                                        {% endif %}
+
+                                        {% else %}
+                                                <img src="{{p.product_thumbnail.url}}"
+                                             alt="Li's Product Image">
+                                        {% endif %}
+                                    </a>
+                                    <span class="sticker">New</span>
+                                </div>
+                                <div class="product_desc">
+                                    <div class="product_desc_info">
+                                        <div class="product-review">
+                                            <h5 class="manufacturer">
+                                                <a href="#">{{p.brand_name}}</a>
+                                            </h5>
+                                            <div class="rating-box">
+                                                <ul class="rating">
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <h4><a class="product_name" href="/fe/product/details/{{p.product_id}}">{{p.title|safe|truncatechars:35}}</a>
+                                        </h4>
+                                        <div class="price-box">
+                                            <span class="new-price">$46.80</span>
+                                        </div>
+                                    </div>
+                                    <div class="add-actions">
+                                        <ul class="add-actions-link">
+                                            <li class="add-cart active"><a href="{% url 'frontAddToCart' product_id=p.product_id %}">Add to cart</a></li>
+                                            <li><a href="#" title="quick view" class="quick-view-btn"
+                                                   data-toggle="modal" data-target="#exampleModalCenter"><i
+                                                    class="fa fa-eye"></i></a></li>
+                                            <li><a class="links-details" href="{% url 'frontAddToWishlist' product_id=p.product_id %}"><i
+                                                    class="fa fa-heart-o"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Section Area End Here -->
+        </div>
+    </div>
+</section>
+<!-- Li's Laptop Product Area End Here -->
+
+
+<script>
+
+        const cart_pls_minus_details = document.querySelector('.cart_pls_minus_details');
+
+       function increaseProductNo() {
+            cart_pls_minus_details.value = parseInt(cart_pls_minus_details.value) + 1;
+       }
+
+       function decreaseProductNo() {
+                if(parseInt(cart_pls_minus_details.value) > 0 ){
+                       cart_pls_minus_details.value = parseInt(cart_pls_minus_details.value) - 1;
+                    }
+                }
+
+</script>
+
+
+{% endblock %}
