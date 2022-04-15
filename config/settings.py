@@ -1,6 +1,6 @@
 # prev section**************************
-import os
-from pathlib import Path
+# import os
+# from pathlib import Path
 # ends prev section*****************************
 
 from django.core.management.utils import get_random_secret_key

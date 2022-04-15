@@ -485,8 +485,8 @@ def ap_add_product_category(request):
     if request.method == 'POST':
         name = request.POST['cat__name']
 
-        if name and len(ProductCategory.objects.filter(name=name.title())) <= 0:
-            product_cat_model = ProductCategory(name=name.title())
+        if name and len(ProductCategory.objects.filter(name=name)) <= 0:
+            product_cat_model = ProductCategory(name=name)
             product_cat_model.save()
             messages.success(request, 'Successfully added!')
             return redirect('apAddProductCategory')
@@ -515,9 +515,9 @@ def ap_edit_product_category(request, pk):
 
     if request.method == 'POST':
         name = request.POST['name']
-        if name and len(ProductCategory.objects.filter(name=name.title())) <= 0:
+        if name and len(ProductCategory.objects.filter(name=name)) <= 0:
             product_cat_model = ProductCategory.objects.get(pk=pk)
-            product_cat_model.name = name.title()
+            product_cat_model.name = name
             product_cat_model.save()
             messages.success(request, 'Successfully updated!')
             return redirect('apAddProductCategory')
@@ -557,10 +557,10 @@ def ap_add_product_subcat(request, pk):
 
     if request.method == 'POST':
         name = request.POST['subcat__name']
-        if name and len(ProductSubCategory.objects.filter(name=name.title())) <= 0:
+        if name and len(ProductSubCategory.objects.filter(name=name)) <= 0:
 
             product_cat_model = ProductCategory.objects.get(pk=pk)
-            product_subcat_model = ProductSubCategory(category=product_cat_model, name=name.title())
+            product_subcat_model = ProductSubCategory(category=product_cat_model, name=name)
             product_subcat_model.save()
 
             messages.success(request, 'Successfully added!')

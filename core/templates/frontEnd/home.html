@@ -19,9 +19,27 @@
 
                             {% for cat in product_cat_list %}
 
+                            {% if cat.name in cats_in_subcats %}
+                            <li class="right-menu">
+                                <a href="shop-left-sidebar.html">{{cat.name}}</a>
+                                <ul class="cat-mega-menu">
+                                    <li class="right-menu cat-mega-title">
+<!--                                        <a href="shop-left-sidebar.html">Prime Video</a>-->
+                                        <ul>
+<!--                                            <li><a href="#">All Videos</a></li>-->
+                                            {% for subcat in product_subcats %}
+                                            {% if subcat.category.name == cat.name %}
+                                            <li><a href="#">{{subcat.name}}</a></li>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </ul>
 
-
+                                    </li>
+                                </ul>
+                            </li>
+                            {% else %}
                             <li><a href="/fe/shop/{{cat.pk}}">{{cat.name}}</a></li>
+                            {% endif %}
                             {% endfor %}
 
                             {% endif %}
@@ -197,175 +215,175 @@
 <!-- ends play game section -->
 
 <!-- top  brands section starts -->
-<section id="top__brands__section">
-    <div class="container">
-        <div class="li-section-title">
-            <h2>
-                <span>Top Brands</span>
-            </h2>
-        </div>
-        <div class="row mt-10">
-            <div class="col-md-12">
-                <div class="owl-carousel owl-theme top__brands__slider">
-                    <div class="item">
-                        <a href="/fe/product/details">
-                            <div class="card">
-                                <img
-                                        src="{% static 'frontEnd/icons/icon_categories/Hotels.svg' %}"
-                                        class="card-img-top"
-                                        alt="..."
-                                />
-                                <div class="card-body mt-2">
-                                    <h6 class="card-title text-center">Hotels</h6>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+<!--<section id="top__brands__section">-->
+<!--    <div class="container">-->
+<!--        <div class="li-section-title">-->
+<!--            <h2>-->
+<!--                <span>Top Brands</span>-->
+<!--            </h2>-->
+<!--        </div>-->
+<!--        <div class="row mt-10">-->
+<!--            <div class="col-md-12">-->
+<!--                <div class="owl-carousel owl-theme top__brands__slider">-->
+<!--                    <div class="item">-->
+<!--                        <a href="/fe/product/details">-->
+<!--                            <div class="card">-->
+<!--                                <img-->
+<!--                                        src="{% static 'frontEnd/icons/icon_categories/Hotels.svg' %}"-->
+<!--                                        class="card-img-top"-->
+<!--                                        alt="..."-->
+<!--                                />-->
+<!--                                <div class="card-body mt-2">-->
+<!--                                    <h6 class="card-title text-center">Hotels</h6>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </div>-->
 
-                    <div class="item">
-                        <a href="/fe/product/details">
-                            <div class="card">
-                                <img
-                                        src="{% static 'frontEnd/icons/icon_categories/Restaurant.svg' %}"
-                                        class="card-img-top"
-                                        alt="..."
-                                />
-                                <div class="card-body mt-2">
-                                    <h6 class="card-title text-center">Restaurant</h6>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+<!--                    <div class="item">-->
+<!--                        <a href="/fe/product/details">-->
+<!--                            <div class="card">-->
+<!--                                <img-->
+<!--                                        src="{% static 'frontEnd/icons/icon_categories/Restaurant.svg' %}"-->
+<!--                                        class="card-img-top"-->
+<!--                                        alt="..."-->
+<!--                                />-->
+<!--                                <div class="card-body mt-2">-->
+<!--                                    <h6 class="card-title text-center">Restaurant</h6>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </div>-->
 
-                    <div class="item">
-                        <a href="/fe/product/details">
-                            <div class="card">
-                                <img
-                                        src="{% static 'frontEnd/icons/icon_categories/Games.svg' %}"
-                                        class="card-img-top"
-                                        alt="..."
-                                />
-                                <div class="card-body mt-2">
-                                    <h6 class="card-title text-center">Games</h6>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+<!--                    <div class="item">-->
+<!--                        <a href="/fe/product/details">-->
+<!--                            <div class="card">-->
+<!--                                <img-->
+<!--                                        src="{% static 'frontEnd/icons/icon_categories/Games.svg' %}"-->
+<!--                                        class="card-img-top"-->
+<!--                                        alt="..."-->
+<!--                                />-->
+<!--                                <div class="card-body mt-2">-->
+<!--                                    <h6 class="card-title text-center">Games</h6>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </div>-->
 
-                    <div class="item">
-                        <a href="/fe/product/details">
-                            <div class="card">
-                                <img
-                                        src="{% static 'frontEnd/icons/icon_categories/Shopping.svg' %}"
-                                        class="card-img-top"
-                                        alt="..."
-                                />
-                                <div class="card-body mt-2">
-                                    <h6 class="card-title text-center">Shopping</h6>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+<!--                    <div class="item">-->
+<!--                        <a href="/fe/product/details">-->
+<!--                            <div class="card">-->
+<!--                                <img-->
+<!--                                        src="{% static 'frontEnd/icons/icon_categories/Shopping.svg' %}"-->
+<!--                                        class="card-img-top"-->
+<!--                                        alt="..."-->
+<!--                                />-->
+<!--                                <div class="card-body mt-2">-->
+<!--                                    <h6 class="card-title text-center">Shopping</h6>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </div>-->
 
-                    <div class="item">
-                        <a href="/fe/product/details">
-                            <div class="card">
-                                <img
-                                        src="{% static 'frontEnd/icons/icon_categories/Villas.svg' %}"
-                                        class="card-img-top"
-                                        alt="..."
-                                />
-                                <div class="card-body mt-2">
-                                    <h6 class="card-title text-center">Villas</h6>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+<!--                    <div class="item">-->
+<!--                        <a href="/fe/product/details">-->
+<!--                            <div class="card">-->
+<!--                                <img-->
+<!--                                        src="{% static 'frontEnd/icons/icon_categories/Villas.svg' %}"-->
+<!--                                        class="card-img-top"-->
+<!--                                        alt="..."-->
+<!--                                />-->
+<!--                                <div class="card-body mt-2">-->
+<!--                                    <h6 class="card-title text-center">Villas</h6>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </div>-->
 
-                    <div class="item">
-                        <a href="/fe/product/details">
-                            <div class="card">
-                                <img
-                                        src="{% static 'frontEnd/icons/icon_categories/Camping.svg' %}"
-                                        class="card-img-top"
-                                        alt="..."
-                                />
-                                <div class="card-body mt-2">
-                                    <h6 class="card-title text-center">Camping</h6>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+<!--                    <div class="item">-->
+<!--                        <a href="/fe/product/details">-->
+<!--                            <div class="card">-->
+<!--                                <img-->
+<!--                                        src="{% static 'frontEnd/icons/icon_categories/Camping.svg' %}"-->
+<!--                                        class="card-img-top"-->
+<!--                                        alt="..."-->
+<!--                                />-->
+<!--                                <div class="card-body mt-2">-->
+<!--                                    <h6 class="card-title text-center">Camping</h6>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </div>-->
 
-                    <div class="item">
-                        <a href="/fe/product/details">
-                            <div class="card">
-                                <img
-                                        src="{% static 'frontEnd/icons/icon_categories/Spa _ Salons.svg' %}"
-                                        class="card-img-top"
-                                        alt="..."
-                                />
-                                <div class="card-body mt-2">
-                                    <h6 class="card-title text-center">Spa & Salons</h6>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+<!--                    <div class="item">-->
+<!--                        <a href="/fe/product/details">-->
+<!--                            <div class="card">-->
+<!--                                <img-->
+<!--                                        src="{% static 'frontEnd/icons/icon_categories/Spa _ Salons.svg' %}"-->
+<!--                                        class="card-img-top"-->
+<!--                                        alt="..."-->
+<!--                                />-->
+<!--                                <div class="card-body mt-2">-->
+<!--                                    <h6 class="card-title text-center">Spa & Salons</h6>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </div>-->
 
-                    <div class="item">
-                        <a href="/fe/product/details">
-                            <div class="card">
-                                <img
-                                        src="{% static 'frontEnd/icons/icon_categories/Travel.svg' %}"
-                                        class="card-img-top"
-                                        alt="..."
-                                />
-                                <div class="card-body mt-2">
-                                    <h6 class="card-title text-center">Travel</h6>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+<!--                    <div class="item">-->
+<!--                        <a href="/fe/product/details">-->
+<!--                            <div class="card">-->
+<!--                                <img-->
+<!--                                        src="{% static 'frontEnd/icons/icon_categories/Travel.svg' %}"-->
+<!--                                        class="card-img-top"-->
+<!--                                        alt="..."-->
+<!--                                />-->
+<!--                                <div class="card-body mt-2">-->
+<!--                                    <h6 class="card-title text-center">Travel</h6>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </div>-->
 
-                    <div class="item">
-                        <a href="/fe/product/details">
-                            <div class="card">
-                                <img
-                                        src="{% static 'frontEnd/icons/icon_categories/Health.svg' %}"
-                                        class="card-img-top"
-                                        alt="..."
-                                />
-                                <div class="card-body mt-2">
-                                    <h6 class="card-title text-center">Health</h6>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+<!--                    <div class="item">-->
+<!--                        <a href="/fe/product/details">-->
+<!--                            <div class="card">-->
+<!--                                <img-->
+<!--                                        src="{% static 'frontEnd/icons/icon_categories/Health.svg' %}"-->
+<!--                                        class="card-img-top"-->
+<!--                                        alt="..."-->
+<!--                                />-->
+<!--                                <div class="card-body mt-2">-->
+<!--                                    <h6 class="card-title text-center">Health</h6>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </div>-->
 
-                    <div class="item">
-                        <a href="/fe/product/details">
-                            <div class="card">
-                                <img
-                                        src="{% static 'frontEnd/icons/icon_categories/Services.svg' %}"
-                                        class="card-img-top"
-                                        alt="..."
-                                />
-                                <div class="card-body mt-2">
-                                    <h6 class="card-title text-center">Services</h6>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<!--                    <div class="item">-->
+<!--                        <a href="/fe/product/details">-->
+<!--                            <div class="card">-->
+<!--                                <img-->
+<!--                                        src="{% static 'frontEnd/icons/icon_categories/Services.svg' %}"-->
+<!--                                        class="card-img-top"-->
+<!--                                        alt="..."-->
+<!--                                />-->
+<!--                                <div class="card-body mt-2">-->
+<!--                                    <h6 class="card-title text-center">Services</h6>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
 <!-- top  brands section ends -->
 
 <!-- Begin Li's Laptop Product Area -->
 {% if product_cat_list %}
-{% for x in product_cat_list %}
+{% for x in product_cat_list|slice:'2' %}
 <section class="product-area li-laptop-product pt-60 pb-45">
     <div class="container">
         <div class="row">
@@ -375,13 +393,13 @@
                     <h2>
                         <span>{{x.name}}</span>
                     </h2>
-                    <ul class="li-sub-category-list">
+                   <!-- <ul class="li-sub-category-list">
                         <li class="active">
                             <a href="shop-left-sidebar.html">Prime Video</a>
                         </li>
                         <li><a href="shop-left-sidebar.html">Computers</a></li>
                         <li><a href="shop-left-sidebar.html">Electronics</a></li>
-                    </ul>
+                    </ul>-->
                 </div>
                 <div class="row">
                     <div class="product-active owl-carousel">

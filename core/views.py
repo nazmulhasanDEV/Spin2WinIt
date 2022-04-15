@@ -55,12 +55,14 @@ def front_home(request):
     # product category list which has at least one product
     product_catList_with_prodct = []
     for x in product_cat_list:
-        if ProductList.objects.filter(Q(category=x) | Q(cat_name=x.name)):
+        if ProductList.objects.filter(Q(category=x) | Q(cat_name__icontains=x.name)):
             product_catList_with_prodct.append(x)
+
 
     # product subcategory
     product_subcats = ProductSubCategory.objects.all()
-    cats_in_subcats = []
+
+    cats_in_subcats = [] # category list which has at least one subcategory
     for subcat in product_subcats:
         if subcat.category.name in cats_in_subcats:
             pass
@@ -68,14 +70,13 @@ def front_home(request):
             cats_in_subcats.append(subcat.category.name)
 
 
-    # products
+    # filtered products by category and listing all the product by category which has at least one product
     product_list = []
 
     if product_cat_list:
         for cat in product_cat_list:
-            current_cat_products = ProductList.objects.filter(Q(category=cat) | Q(cat_name=cat.name))[:1]
+            current_cat_products = ProductList.objects.filter(Q(category=cat) | Q(cat_name=cat.name))[:6]
             product_list.extend(current_cat_products)
-
 
     if request.user.is_authenticated:
         # user cart status
@@ -94,9 +95,10 @@ def front_home(request):
 
         context = {
             'product_cat_list': product_catList_with_prodct,
+            'cats_in_subcats' : cats_in_subcats,
             'product_subcats' : product_subcats,
             'total_amount' : total_amount,
-            'product_list': products,
+            'product_list': product_list,
             'site_logo': site_logo,
             'user_cart_status': user_cart_status,
             'user_wishlist_status': user_wishlist_status,
@@ -225,12 +227,44 @@ def front_loginUser(request):
 
 def front_shop(request, pk):
 
+    site_logo = SiteLogo.objects.filter().first()
+
+    # current category by pk
     cat = ProductCategory.objects.get(pk=pk)
 
+    # product list by current category
     products = ProductList.objects.filter(Q(category=cat) | Q(cat_name=cat.name))
+
+    if request.user.is_authenticated:
+        # user cart status
+        user_cart_status = Cart.objects.filter(user=request.user)
+
+        total_amount = 0
+        if user_cart_status:
+            for x in user_cart_status:
+                if x.product.product_type == 'wsp':
+                    total_amount = total_amount + (float(x.product.price) * x.quantity)
+                if x.product.product_type == 'mcp':
+                    total_amount = total_amount + (x.product.new_price * x.quantity)
+
+        # user cart status
+        user_wishlist_status = WishList.objects.filter(user=request.user)
+
+        context = {
+            'current_cat': cat,
+            'total_amount' : total_amount,
+            'products': products,
+            'site_logo': site_logo,
+            'user_cart_status': user_cart_status,
+            'user_wishlist_status': user_wishlist_status,
+        }
+        return render(request, 'frontEnd/shop/shop.html', context)
+
+
 
     context = {
         'products': products,
+        'site_logo': site_logo,
     }
     return render(request, 'frontEnd/shop/shop.html', context)
 

@@ -78,20 +78,22 @@
         your experience.
       </p>
     <![endif]-->
+
+
     <!-- Begin Body Wrapper -->
     <div class="body-wrapper">
       <!-- Begin Header Area -->
       <header>
         <!-- Begin Header Middle Area -->
         <div class="header-middle pl-sm-0 pr-sm-0 pl-xs-0 pr-xs-0">
-          <div class="container">
+          <div class="container-fluid">
             <div class="row">
               <!-- Begin Header Logo Area -->
               <div class="col-lg-3">
                 <div class="logo pb-sm-30 pb-xs-30">
-                  <a href="/">
+                  <a href="/" style="position: relative;">
                     {% if site_logo %}
-                    <img src="{{site_logo.logo.url}}" style="width: 120px; height: 80px;" alt="" />
+                    <img src="{{site_logo.logo.url}}" style="position: absolute; top:-20px;width: 150px; height: 90px;" alt="" />
                     {% else %}
                     <h5>Logo not added</h5>
                     {% endif %}
@@ -105,6 +107,11 @@
                 <form action="#" class="hm-searchbox">
                   <select class="nice-select select-search-category">
                     <option value="0">All</option>
+                    {% if product_cat_list %}
+                    {% for x in product_cat_list %}
+                    <option value="{{product_cat_list.pk}}">{{x.name}}</option>
+                    {% endfor %}
+                    {% endif %}
                   </select>
                   <input type="text" placeholder="Enter your search key ..." />
                   <button class="li-btn" type="submit">
@@ -117,6 +124,12 @@
                   <ul class="hm-menu">
                     <!-- Begin Header Middle Wishlist Area -->
                     {% if request.user.is_authenticated %}
+                    <li class="hm-wishlist">
+                      <a href="/fe/buyer/user/profile/{{request.user.username}}">
+                        <i class="fas fa-user"></i>
+                      </a>
+                    </li>
+
                     <li class="hm-wishlist">
                       <a href="/fe/wishlist/{{request.user.username}}">
                         <i class="fas fa-heart"></i>
@@ -218,6 +231,7 @@
                         </div>
                       </div>
                     </li>
+
                     {% else %}
                     <li class="hm-minicart">
                       <div class="hm-minicart-trigger">
@@ -260,9 +274,10 @@
         </div>
         <!-- Header Middle Area End Here -->
         <!-- Begin Header Bottom Area -->
+
+<!--        navigation bar starts-->
         <div
-          class="header-bottom header-sticky stick d-none d-lg-block d-xl-block"
-        >
+          class="header-bottom header-sticky stick d-none d-lg-block d-xl-block">
           <div class="container">
             <div class="row">
               <div class="col-lg-12">
@@ -275,152 +290,152 @@
                       </li>
                       <li class="megamenu-holder">
                         <a href="shop-left-sidebar.html">Shop</a>
-                        <ul class="megamenu hb-megamenu">
-                          <li>
-                            <a href="shop-left-sidebar.html"
-                              >Shop Page Layout</a
-                            >
-                            <ul>
-                              <li>
-                                <a href="shop-left-sidebar.html"
-                                  >Shop Left Sidebar</a
-                                >
-                              </li>
-                              <li><a href="shop-list.html">Shop List</a></li>
-                            </ul>
-                          </li>
-                          <li>
-                            <a href="single-product-gallery-left.html"
-                              >Single Product Style</a
-                            >
-                            <ul>
-                              <li>
-                                <a href="single-product-tab-style-left.html"
-                                  >Single Product Tab Style Left</a
-                                >
-                              </li>
-                            </ul>
-                          </li>
-                          <li>
-                            <a href="single-product.html">Single Products</a>
-                            <ul>
-                              <li>
-                                <a href="single-product-sale.html"
-                                  >Single Product Sale</a
-                                >
-                              </li>
-                              <li>
-                                <a href="single-product-group.html"
-                                  >Single Product Group</a
-                                >
-                              </li>
-                            </ul>
-                          </li>
-                        </ul>
+<!--                        <ul class="megamenu hb-megamenu">-->
+<!--                          <li>-->
+<!--                            <a href="shop-left-sidebar.html"-->
+<!--                              >Shop Page Layout</a-->
+<!--                            >-->
+<!--                            <ul>-->
+<!--                              <li>-->
+<!--                                <a href="shop-left-sidebar.html"-->
+<!--                                  >Shop Left Sidebar</a-->
+<!--                                >-->
+<!--                              </li>-->
+<!--                              <li><a href="shop-list.html">Shop List</a></li>-->
+<!--                            </ul>-->
+<!--                          </li>-->
+<!--                          <li>-->
+<!--                            <a href="single-product-gallery-left.html"-->
+<!--                              >Single Product Style</a-->
+<!--                            >-->
+<!--                            <ul>-->
+<!--                              <li>-->
+<!--                                <a href="single-product-tab-style-left.html"-->
+<!--                                  >Single Product Tab Style Left</a-->
+<!--                                >-->
+<!--                              </li>-->
+<!--                            </ul>-->
+<!--                          </li>-->
+<!--                          <li>-->
+<!--                            <a href="single-product.html">Single Products</a>-->
+<!--                            <ul>-->
+<!--                              <li>-->
+<!--                                <a href="single-product-sale.html"-->
+<!--                                  >Single Product Sale</a-->
+<!--                                >-->
+<!--                              </li>-->
+<!--                              <li>-->
+<!--                                <a href="single-product-group.html"-->
+<!--                                  >Single Product Group</a-->
+<!--                                >-->
+<!--                              </li>-->
+<!--                            </ul>-->
+<!--                          </li>-->
+<!--                        </ul>-->
                       </li>
-                      <li class="dropdown-holder">
-                        <a href="blog-left-sidebar.html">Blog</a>
-                        <ul class="hb-dropdown">
-                          <li class="sub-dropdown-holder">
-                            <a href="blog-left-sidebar.html">Blog Grid View</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li class="megamenu-static-holder">
-                        <a href="index.html">Pages</a>
-                        <ul class="megamenu hb-megamenu">
-                          <li>
-                            <a href="blog-left-sidebar.html">Blog Layouts</a>
-                            <ul>
-                              <li>
-                                <a href="blog-2-column.html">Blog 2 Column</a>
-                              </li>
-                              <li>
-                                <a href="blog-3-column.html">Blog 3 Column</a>
-                              </li>
-                              <li>
-                                <a href="blog-left-sidebar.html"
-                                  >Grid Left Sidebar</a
-                                >
-                              </li>
-                              <li>
-                                <a href="blog-right-sidebar.html"
-                                  >Grid Right Sidebar</a
-                                >
-                              </li>
-                              <li><a href="blog-list.html">Blog List</a></li>
-                              <li>
-                                <a href="blog-list-left-sidebar.html"
-                                  >List Left Sidebar</a
-                                >
-                              </li>
-                              <li>
-                                <a href="blog-list-right-sidebar.html"
-                                  >List Right Sidebar</a
-                                >
-                              </li>
-                            </ul>
-                          </li>
-                          <li>
-                            <a href="blog-details-left-sidebar.html"
-                              >Blog Details Pages</a
-                            >
-                            <ul>
-                              <li>
-                                <a href="blog-details-left-sidebar.html"
-                                  >Left Sidebar</a
-                                >
-                              </li>
-                              <li>
-                                <a href="blog-details-right-sidebar.html"
-                                  >Right Sidebar</a
-                                >
-                              </li>
-                              <li>
-                                <a href="blog-audio-format.html"
-                                  >Blog Audio Format</a
-                                >
-                              </li>
-                              <li>
-                                <a href="blog-video-format.html"
-                                  >Blog Video Format</a
-                                >
-                              </li>
-                              <li>
-                                <a href="blog-gallery-format.html"
-                                  >Blog Gallery Format</a
-                                >
-                              </li>
-                            </ul>
-                          </li>
-                          <li>
-                            <a href="index.html">Other Pages</a>
-                            <ul>
-                              {% if request.user.is_authenticated %}
-                              <li>
-                                <a href="/fe/buyer/user/profile/{{request.user.username}}">My Account</a>
-                              </li>
-                              {% endif %}
-                              <li><a href="compare.html">Compare</a></li>
-                              <li><a href="wishlist.html">Wishlist</a></li>
-                              <li>
-                                <a href="shopping-cart.html">Shopping Cart</a>
-                              </li>
-                            </ul>
-                          </li>
-                          <li>
-                            <a href="index.html">Other Pages 2</a>
-                            <ul>
-                              <li><a href="contact.html">Contact</a></li>
-                              <li><a href="about-us.html">About Us</a></li>
-                              <li><a href="faq.html">FAQ</a></li>
-                              <li><a href="404.html">404 Error</a></li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a href="about-us.html">About Us</a></li>
-                      <li><a href="contact.html">Contact</a></li>
+<!--                      <li class="dropdown-holder">-->
+<!--                        <a href="blog-left-sidebar.html">Blog</a>-->
+<!--                        <ul class="hb-dropdown">-->
+<!--                          <li class="sub-dropdown-holder">-->
+<!--                            <a href="blog-left-sidebar.html">Blog Grid View</a>-->
+<!--                          </li>-->
+<!--                        </ul>-->
+<!--                      </li>-->
+<!--                      <li class="megamenu-static-holder">-->
+<!--                        <a href="index.html">Pages</a>-->
+<!--                        <ul class="megamenu hb-megamenu">-->
+<!--                          <li>-->
+<!--                            <a href="blog-left-sidebar.html">Blog Layouts</a>-->
+<!--                            <ul>-->
+<!--                              <li>-->
+<!--                                <a href="blog-2-column.html">Blog 2 Column</a>-->
+<!--                              </li>-->
+<!--                              <li>-->
+<!--                                <a href="blog-3-column.html">Blog 3 Column</a>-->
+<!--                              </li>-->
+<!--                              <li>-->
+<!--                                <a href="blog-left-sidebar.html"-->
+<!--                                  >Grid Left Sidebar</a-->
+<!--                                >-->
+<!--                              </li>-->
+<!--                              <li>-->
+<!--                                <a href="blog-right-sidebar.html"-->
+<!--                                  >Grid Right Sidebar</a-->
+<!--                                >-->
+<!--                              </li>-->
+<!--                              <li><a href="blog-list.html">Blog List</a></li>-->
+<!--                              <li>-->
+<!--                                <a href="blog-list-left-sidebar.html"-->
+<!--                                  >List Left Sidebar</a-->
+<!--                                >-->
+<!--                              </li>-->
+<!--                              <li>-->
+<!--                                <a href="blog-list-right-sidebar.html"-->
+<!--                                  >List Right Sidebar</a-->
+<!--                                >-->
+<!--                              </li>-->
+<!--                            </ul>-->
+<!--                          </li>-->
+<!--                          <li>-->
+<!--                            <a href="blog-details-left-sidebar.html"-->
+<!--                              >Blog Details Pages</a-->
+<!--                            >-->
+<!--                            <ul>-->
+<!--                              <li>-->
+<!--                                <a href="blog-details-left-sidebar.html"-->
+<!--                                  >Left Sidebar</a-->
+<!--                                >-->
+<!--                              </li>-->
+<!--                              <li>-->
+<!--                                <a href="blog-details-right-sidebar.html"-->
+<!--                                  >Right Sidebar</a-->
+<!--                                >-->
+<!--                              </li>-->
+<!--                              <li>-->
+<!--                                <a href="blog-audio-format.html"-->
+<!--                                  >Blog Audio Format</a-->
+<!--                                >-->
+<!--                              </li>-->
+<!--                              <li>-->
+<!--                                <a href="blog-video-format.html"-->
+<!--                                  >Blog Video Format</a-->
+<!--                                >-->
+<!--                              </li>-->
+<!--                              <li>-->
+<!--                                <a href="blog-gallery-format.html"-->
+<!--                                  >Blog Gallery Format</a-->
+<!--                                >-->
+<!--                              </li>-->
+<!--                            </ul>-->
+<!--                          </li>-->
+<!--                          <li>-->
+<!--                            <a href="index.html">Other Pages</a>-->
+<!--                            <ul>-->
+<!--                              {% if request.user.is_authenticated %}-->
+<!--                              <li>-->
+<!--                                <a href="/fe/buyer/user/profile/{{request.user.username}}">My Account</a>-->
+<!--                              </li>-->
+<!--                              {% endif %}-->
+<!--                              <li><a href="compare.html">Compare</a></li>-->
+<!--                              <li><a href="wishlist.html">Wishlist</a></li>-->
+<!--                              <li>-->
+<!--                                <a href="shopping-cart.html">Shopping Cart</a>-->
+<!--                              </li>-->
+<!--                            </ul>-->
+<!--                          </li>-->
+<!--                          <li>-->
+<!--                            <a href="index.html">Other Pages 2</a>-->
+<!--                            <ul>-->
+<!--                              <li><a href="contact.html">Contact</a></li>-->
+<!--                              <li><a href="about-us.html">About Us</a></li>-->
+<!--                              <li><a href="faq.html">FAQ</a></li>-->
+<!--                              <li><a href="404.html">404 Error</a></li>-->
+<!--                            </ul>-->
+<!--                          </li>-->
+<!--                        </ul>-->
+<!--                      </li>-->
+<!--                      <li><a href="about-us.html">About Us</a></li>-->
+<!--                      <li><a href="contact.html">Contact</a></li>-->
                       <li class="dropdown-holder settings_mobile_menu">
                         <a href="blog-left-sidebar.html">Settings</a>
                         <ul class="hb-dropdown">
@@ -429,9 +444,9 @@
                                 <a href="/fe/buyer/user/profile/{{request.user.username}}/">My Account</a>
                               </li>
                           {% endif %}
-                          <li class="sub-dropdown-holder">
-                            <a href="blog-left-sidebar.html">Checkout</a>
-                          </li>
+<!--                          <li class="sub-dropdown-holder">-->
+<!--                            <a href="blog-left-sidebar.html">Checkout</a>-->
+<!--                          </li>-->
                           <li class="sub-dropdown-holder">
                             <a href="blog-left-sidebar.html">Sign In</a>
                           </li>
@@ -475,7 +490,7 @@
                                    <a href="/fe/buyer/user/profile/{{request.user.username}}">My Account</a>
                                  </li>
                                 {% endif %}
-                                <li><a href="checkout.html">Checkout</a></li>
+<!--                                <li><a href="checkout.html">Checkout</a></li>-->
                                 <li><a href="/fe/login/register">Sign In</a></li>
                               </ul>
                             </div>
@@ -532,6 +547,8 @@
             </div>
           </div>
         </div>
+<!--        ends navigation bar*************************************-->
+
         <!-- Header Bottom Area End Here -->
         <!-- Begin Mobile Menu Area -->
         <div class="mobile-menu-area d-lg-none d-xl-none col-12">
