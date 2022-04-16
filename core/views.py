@@ -14,7 +14,7 @@ from django.http import JsonResponse
 from game.models import *
 from adminPanel.models import *
 from product.models import *
-
+from advertisement.models import *
 from .models import PointWallet, WinningChance, PrizeList
 
 
@@ -47,6 +47,9 @@ def front_index(request):
 def front_home(request):
 
     site_logo = SiteLogo.objects.filter().first()
+
+    # home page main banner/slider
+    main_banner_or_slider = BannerList.objects.all()
 
     product_cat_list = ProductCategory.objects.all()
 
@@ -94,6 +97,7 @@ def front_home(request):
         user_wishlist_status = WishList.objects.filter(user=request.user)
 
         context = {
+            'main_banner_or_slider' : main_banner_or_slider,
             'product_cat_list': product_catList_with_prodct,
             'cats_in_subcats' : cats_in_subcats,
             'product_subcats' : product_subcats,
@@ -106,6 +110,7 @@ def front_home(request):
         return render(request, 'frontEnd/home.html', context)
 
     context = {
+        'main_banner_or_slider' : main_banner_or_slider,
         'product_cat_list' : product_catList_with_prodct,
         'cats_in_subcats' : cats_in_subcats,
         'product_subcats': product_subcats,
@@ -178,7 +183,6 @@ def front_loginRegister(request):
 
     return render(request, 'frontEnd/login-register.html', context)
 
-
 def front_loginUser(request):
 
     site_logo = SiteLogo.objects.filter().first()
@@ -224,6 +228,62 @@ def front_loginUser(request):
     }
 
     return render(request, 'frontEnd/login.html', context)
+
+def front_search(request):
+
+    # site logo
+    site_logo = SiteLogo.objects.filter().first()
+
+    product_cat_list = ProductCategory.objects.all()
+
+    if request.method == 'POST':
+        product_category = request.POST.get('product_category')
+        search_content = request.POST.get('search_content')
+
+        if product_category and search_content:
+            cat = ProductCategory.objects.filter(pk=product_category).first()
+            search_result = ProductList.objects.filter(Q(category=cat) | Q(title__icontains=search_content))
+
+            # total_obj_found = search_result.count()
+            context = {
+                'search_cat': cat,
+                'search_content': search_content,
+                'search_result' : search_result,
+                'site_logo': site_logo,
+                'product_cat_list': product_cat_list,
+            }
+            return render(request, 'frontEnd/search.html', context)
+
+    if request.user.is_authenticated:
+        # user cart status
+        user_cart_status = Cart.objects.filter(user=request.user)
+
+        total_amount = 0
+        if user_cart_status:
+            for x in user_cart_status:
+                if x.product.product_type == 'wsp':
+                    total_amount = total_amount + (float(x.product.price) * x.quantity)
+                if x.product.product_type == 'mcp':
+                    total_amount = total_amount + (x.product.new_price * x.quantity)
+
+        # user cart status
+        user_wishlist_status = WishList.objects.filter(user=request.user)
+
+        context = {
+            'total_amount': total_amount,
+            'site_logo': site_logo,
+            'user_cart_status': user_cart_status,
+            'user_wishlist_status': user_wishlist_status,
+            'product_cat_list': product_cat_list,
+        }
+        return render(request, 'frontEnd/search.html', context)
+
+    context = {
+        'site_logo': site_logo,
+        'product_cat_list': product_cat_list,
+    }
+
+    return render(request, 'frontEnd/search.html', context)
 
 def front_shop(request, pk):
 
@@ -272,6 +332,9 @@ def front_productDetails(request, product_id):
 
     site_logo = SiteLogo.objects.filter().first()
 
+    # advertisement banner
+    prod_details_pg_bnr = BannerProdDetail.objects.filter(status=True).first()
+
     # current product
     current_product = ProductList.objects.get(product_id=product_id)
 
@@ -284,6 +347,9 @@ def front_productDetails(request, product_id):
     security_policy = SecurityPolicy.objects.filter().first()
     delivery_policy = DeliveryPolicy.objects.filter().first()
 
+    # ratings and reviews of current product
+    current_prod_revs = ProductRating.objects.filter(product=current_product)
+
 
     context = {
         'current_product' : current_product,
@@ -293,6 +359,8 @@ def front_productDetails(request, product_id):
         'security_policy' : security_policy,
         'delivery_policy' : delivery_policy,
         'site_logo': site_logo,
+        'prod_details_pg_bnr': prod_details_pg_bnr,
+        'current_prod_revs': current_prod_revs,
     }
 
     return render(request, 'frontEnd/product-details.html', context)

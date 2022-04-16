@@ -482,8 +482,8 @@ textarea:focus {
 	background-image: url(images/slider/6.jpg);
 }
 /*Home Three | Slider Background Image*/
-.bg-7, .bg-8, .bg-9 {
-	background-image: url(images/slider/7.jpg);
+.bg-7 {
+	/*background-image: url(images/slider/7.jpg);*/
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;

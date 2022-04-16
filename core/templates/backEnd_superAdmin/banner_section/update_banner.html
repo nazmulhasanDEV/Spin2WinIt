@@ -36,6 +36,18 @@
                     {% csrf_token %}
                     <div class="box-body">
 
+                        <div class="row form-group policy__section">
+                            <div class="col-md-6">
+                                <label>Offer title</label>
+                                <input type="text" name="offer_title" class="form-control" value="{{current_banner.offer_title}}" placeholder="Ex: Sales Offer" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Product link/url</label>
+                                <input type="text" name="url" value="{{current_banner.product_url}}" class="form-control" placeholder="Product link" required>
+                            </div>
+                        </div>
+
                         <div class="row form-group">
                             <div class="col-md-6">
                                 <label>Offer amount/title(Ex: 20% off/Black Firday) (optional*)</label>
@@ -77,12 +89,7 @@
                         </div>
 
 
-                        <div class="row form-group policy__section">
-                            <div class="col-md-6">
-                                <label>Product link/url</label>
-                                <input type="text" name="url" value="{{current_banner.product_url}}" class="form-control" placeholder="Product link" required>
-                            </div>
-                        </div>
+
 
                     </div>
                     <!-- /.box-body -->

@@ -104,31 +104,34 @@
               <!-- Begin Header Middle Right Area -->
               <div class="col-lg-9">
                 <!-- Begin Header Middle Searchbox Area -->
-                <form action="#" class="hm-searchbox">
-                  <select class="nice-select select-search-category">
-                    <option value="0">All</option>
+                <form action="{% url 'frontSearch' %}" method="post" enctype="multipart/form-data" class="hm-searchbox">
+                  {% csrf_token %}
+                  <select name="product_category" class="nice-select select-search-category" required>
+                    <option value="">All</option>
                     {% if product_cat_list %}
                     {% for x in product_cat_list %}
-                    <option value="{{product_cat_list.pk}}">{{x.name}}</option>
+                    <option value="{{x.pk}}">{{x.name}}</option>
                     {% endfor %}
                     {% endif %}
                   </select>
-                  <input type="text" placeholder="Enter your search key ..." />
-                  <button class="li-btn" type="submit">
+                  <input type="text" name="search_content" placeholder="What are you looking for...." />
+                  <button type="submit" class="li-btn search-submit">
                     <i class="fa fa-search"></i>
                   </button>
                 </form>
+
+
                 <!-- Header Middle Searchbox Area End Here -->
                 <!-- Begin Header Middle Right Area -->
                 <div class="header-middle-right">
                   <ul class="hm-menu">
                     <!-- Begin Header Middle Wishlist Area -->
                     {% if request.user.is_authenticated %}
-                    <li class="hm-wishlist">
-                      <a href="/fe/buyer/user/profile/{{request.user.username}}">
-                        <i class="fas fa-user"></i>
-                      </a>
-                    </li>
+<!--                    <li class="hm-wishlist">-->
+<!--                      <a href="/fe/buyer/user/profile/{{request.user.username}}">-->
+<!--                        <i class="fas fa-user"></i>-->
+<!--                      </a>-->
+<!--                    </li>-->
 
                     <li class="hm-wishlist">
                       <a href="/fe/wishlist/{{request.user.username}}">
@@ -963,6 +966,14 @@
   {% block gaming_script_block %}{% endblock %}
 
   {% block payment_integration_block %} {% endblock %}
+
+  <script>
+         const hm_searchbox = document.querySelector('.hm-searchbox');
+         const search_submit = document.querySelector('.search-submit');
+             search_submit.onclick = () =>{
+             hm_searchbox.submit();
+         }
+  </script>
 
   </body>
 

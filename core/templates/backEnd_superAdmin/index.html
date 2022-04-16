@@ -51,8 +51,10 @@
 
 
     <!-- ckeditor js file **************************************************-->
-    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
-    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+    <script type="text/javascript" src="{% static " ckeditor
+    /ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static " ckeditor
+    /ckeditor/ckeditor.js" %}"></script>
     <!-- ends ckeditor file section************************************************-->
 
     {% block dataTable_css %}{% endblock %}
@@ -130,7 +132,8 @@
             <div class="user-panel">
                 <div class="pull-left image">
                     {% if profile_pic %}
-                    <img src="{{profile_pic.pic.url}}" style="min-width: 50px; min-height: 50px; border-radius: 50%;" class="user-image" alt="User Image">
+                    <img src="{{profile_pic.pic.url}}" style="min-width: 50px; min-height: 50px; border-radius: 50%;"
+                         class="user-image" alt="User Image">
                     {% else %}
                     <img src="{%static 'backEnd/dist/img/user2-160x160.jpg' %}" class="user-image" alt="User Image">
                     {% endif %}
@@ -191,7 +194,8 @@
                     <ul class="treeview-menu">
                         <li><a href="/ap/all/product/list"><i class="fa fa-circle-o"></i> All products</a></li>
                         <li><a href="/ap/add/admin/custom/product"><i class="fa fa-circle-o"></i> Add product</a></li>
-                        <li><a href="/ap/admin/custom/product/list"><i class="fa fa-circle-o"></i> Custom Product List</a></li>
+                        <li><a href="/ap/admin/custom/product/list"><i class="fa fa-circle-o"></i> Custom Product
+                            List</a></li>
                     </ul>
                 </li>
 
@@ -228,14 +232,28 @@
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-th"></i>
-                        <span>Banner Section</span>
+                        <span>Home Page Setting</span>
                         <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/ap/add/banner"><i class="fa fa-circle-o"></i> Add banner</a></li>
-                        <li><a href="/ap/banner/list"><i class="fa fa-circle-o"></i> Banner List</a></li>
+                        <li><a href="/ap/add/banner"><i class="fa fa-circle-o"></i> Main banner</a></li>
+                        <li><a href="/ap/banner/list"><i class="fa fa-circle-o"></i> Main Banner List</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-th"></i>
+                        <span>Advertisement</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/ap/add/banner/product/details/page"><i class="fa fa-circle-o"></i> Banner at prod. details page</a></li>
+                        <li><a href="/ap/product/details/pg/banner/list"><i class="fa fa-circle-o"></i> Prod. details page banner list</a></li>
                     </ul>
                 </li>
 
@@ -335,6 +353,8 @@
 <script>
   $.widget.bridge('uibutton', $.ui.button);
 
+
+
 </script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{% static 'backEnd/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
@@ -368,8 +388,6 @@
 
 <script src="{% static 'backEnd/custom-ap.js' %}"></script>
 <script src="{% static 'backEnd/ap_addProduct.js' %}"></script>
-
-
 
 
 {% block datatable_js %}{% endblock %}

@@ -19,6 +19,7 @@ import json
 import asyncio
 import threading
 from product.models import *
+from advertisement.models import *
 
 
 # woocomerce to connect with woocommerce store
@@ -3022,6 +3023,7 @@ def ap_add_banner(request):
     profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
 
     if request.method == 'POST':
+        offer_title = request.POST.get('offer_title')
         offer_title_amnt = request.POST.get('offer_title_amnt')
         offer_duration = request.POST.get('offer_duration')
         prduct_title = request.POST.get('prduct_title')
@@ -3035,6 +3037,7 @@ def ap_add_banner(request):
             banner_model = BannerList(
                 banner_id=banner_id,
                 user=request.user,
+                offer_title=offer_title,
                 offer_amount_or_title=offer_title_amnt,
                 offer_duration=offer_duration,
                 product_title=prduct_title,
@@ -3065,6 +3068,7 @@ def ap_update_banner(request, pk, banner_id):
     current_banner = BannerList.objects.get(pk=pk)
 
     if request.method == 'POST':
+        offer_title = request.POST.get('offer_title')
         offer_title_amnt = request.POST.get('offer_title_amnt')
         offer_duration = request.POST.get('offer_duration')
         prduct_title = request.POST.get('prduct_title')
@@ -3079,6 +3083,7 @@ def ap_update_banner(request, pk, banner_id):
                 # deleting current banner image
                 fs.delete(current_banner.img.name)
 
+                current_banner.offer_title = offer_title
                 current_banner.offer_amount_or_title = offer_title_amnt
                 current_banner.offer_duration = offer_duration
                 current_banner.product_title = prduct_title
@@ -3089,6 +3094,7 @@ def ap_update_banner(request, pk, banner_id):
                 messages.success(request, "Successfully updated!")
                 return redirect('apBannerList')
         except:
+            current_banner.offer_title = offer_title
             current_banner.offer_amount_or_title = offer_title_amnt
             current_banner.offer_duration = offer_duration
             current_banner.product_title = prduct_title
@@ -3168,10 +3174,117 @@ def ap_del_banner(request, pk):
 
 
 
+# advertisement section
+@login_required(login_url='/ap/register/updated')
+def ap_add_banner_at_prod_detail_page(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # user profile picture
+    profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+
+    if request.method == 'POST':
+        banner_img = request.FILES['banner_img']
+        url = request.POST.get('url')
+
+        if banner_img and url:
+            banner_id = uuid.uuid4()
+
+            banner_model = BannerProdDetail.objects.create(
+                banner_id=banner_id,
+                user=request.user,
+                img=banner_img,
+                link=url
+            )
+            messages.success(request, "New banner has been added successfully!")
+            return redirect('apAddBnrProdDetialPg')
+
+    context = {
+        'profile_pic' : profile_pic,
+    }
+
+    return render(request, 'backEnd_superAdmin/product_details_page_bannr/add_banner.html', context)
 
 
+@login_required(login_url='/ap/register/updated')
+def ap_prod_details_pg_banner_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # user profile picture
+    profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+
+    banner_list = BannerProdDetail.objects.all()
+
+    context = {
+        'profile_pic' : profile_pic,
+        'banner_list' : banner_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/product_details_page_bannr/banner_list.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_del_prod_details_pg_banner(request, pk):
 
 
+    try:
+        fs = FileSystemStorage()
+        banner = BannerProdDetail.objects.get(pk=pk)
+        fs.delete(banner.img.name)
+        banner.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apProductDetailsPgBnrList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apProductDetailsPgBnrList')
+    return redirect('apProductDetailsPgBnrList')
+
+def deactivate_product_detail_pg_bnr(banner_list):
+
+    for banner in banner_list:
+        banner.status = False
+        banner.save()
+
+    return True
+
+@login_required(login_url='/ap/register/updated')
+def ap_activate_prod_details_pg_banner(request, pk):
+
+    try:
+        banner = BannerProdDetail.objects.get(pk=pk)
+
+        other_banners = BannerProdDetail.objects.filter().exclude(pk=pk)
+        banner.status = True
+        banner.save()
+
+        # theading deaactivate other banners
+        thread = threading.Thread(target=deactivate_product_detail_pg_bnr, args=[other_banners])
+        thread.start()
+
+        messages.success(request, "Banner has been activated!")
+        return redirect('apProductDetailsPgBnrList')
+    except:
+        messages.warning(request, "Can't be actiavated! Try again!")
+        return redirect('apProductDetailsPgBnrList')
+
+    return redirect('apProductDetailsPgBnrList')
+
+@login_required(login_url='/ap/register/updated')
+def ap_de_activate_prod_details_pg_banner(request, pk):
+    try:
+        banner = BannerProdDetail.objects.get(pk=pk)
+        banner.status = False
+        banner.save()
+
+        messages.success(request, "Banner has been de-activated!")
+        return redirect('apProductDetailsPgBnrList')
+    except:
+        messages.warning(request, "Can't be de-actiavated! Try again!")
+        return redirect('apProductDetailsPgBnrList')
+
+    return redirect('apProductDetailsPgBnrList')
 
 
 

@@ -246,6 +246,7 @@ class WishList(models.Model):
 class BannerList(models.Model):
     banner_id = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    offer_title = models.CharField(max_length=255, blank=True, null=True)
     offer_amount_or_title = models.CharField(max_length=255, blank=True, null=True) # like 20% off or Black Friday
     offer_duration = models.CharField(max_length=255, blank=True, null=True)
     product_title = models.CharField(max_length=255, blank=True, null=True)

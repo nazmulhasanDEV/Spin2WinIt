@@ -20,7 +20,7 @@
 
 
             <div style="position: relative;padding-top: 15px; padding-bottom: 15px;">
-                <a href="/ap/banner/list" style="position: absolute; right: 0; bottom: 15px;">
+                <a href="/ap/product/details/pg/banner/list" style="position: absolute; right: 0; bottom: 15px;">
                     <button type="button" style="width: 130px;border: none; outline: none;color: white; border-radius: 5px; padding: 5px; background:#222D32;"><i class="fas fa-list"></i>&nbsp; Banner List</button>
                 </a>
             </div>
@@ -32,50 +32,13 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form action="{% url 'apAddBanner' %}" method="post" enctype="multipart/form-data" role="form">
+                <form action="{% url 'apAddBnrProdDetialPg' %}" method="post" enctype="multipart/form-data" role="form">
                     {% csrf_token %}
                     <div class="box-body">
 
-                        <div class="row form-group policy__section">
-                            <div class="col-md-6">
-                                <label>Offer title</label>
-                                <input type="text" name="offer_title" class="form-control" placeholder="Ex: Sales Offer" required>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label>Product link/url</label>
-                                <input type="text" name="url" class="form-control" placeholder="Product link" required>
-                            </div>
-                        </div>
-
                         <div class="row form-group">
                             <div class="col-md-6">
-                                <label>Offer amount/title(Ex: 20% off/Black Firday) (optional*)</label>
-                                <input type="text" name="offer_title_amnt" class="form-control" placeholder="Ex: 20% off/Black Friday" maxlength="15">
-                            </div>
-                            <div class="col-md-6">
-                                <label>Offer duration(Ex: This week/This month/Next Two Days, etc) (optional*)</label>
-                                <input type="text" name="offer_duration" class="form-control" placeholder="Ex:This week/This month/Next Two Days, etc">
-                            </div>
-                        </div>
-
-
-                        <div class="row form-group">
-                            <div class="col-md-6">
-                                <label>Product Title (optional*)</label>
-                                <input type="text" name="prduct_title" class="form-control" placeholder="Product Title" maxlength="25">
-                            </div>
-                            <div class="col-md-6">
-                                <label>Starting price(usd) (optional*)</label>
-                                <input type="number" name="price" class="form-control" placeholder="Ex: $50">
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="row form-group">
-                            <div class="col-md-6">
-                                <label for="banner_img_upload_btn">Upload Banner <span style="color: red;">(Width: 780px, Height: 480px)</span></label>
+                                <label for="banner_img_upload_btn">Upload Banner <span style="color: red;">(Width: 480px, Height: 72px)</span></label>
                                 <input type="file" name="banner_img" class="banner_img_upload_field" id="banner_img_upload_field" style="visibility: hidden;" accept="image/*" required />
                                 <button type="button" class="banner_img_upload_btn" id="banner_img_upload_btn" style="width: 100%; height: 40px; padding: 10px; border: none: outline: none; background-color: #3C8DBC;color: white;">
                                     <strong><i class="fas fa-upload"></i> Upload banner image</strong>
@@ -85,6 +48,13 @@
                                 <div>
                                     <img src="{% static 'backEnd/dist/img/avatar.png' %}" class="prev_banner_img" style="width: 100%; height: 200px" alt="">
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group policy__section">
+                            <div class="col-md-6">
+                                <label>Product link/url</label>
+                                <input type="text" name="url" class="form-control" placeholder="Product link" required>
                             </div>
                         </div>
 
@@ -117,7 +87,9 @@
         if (banner_img) {
             prev_banner_img.src = URL.createObjectURL(banner_img);
             prev_banner_img.onload = () =>{
-                if(parseFloat(prev_banner_img.naturalWidth) != 780 || parseFloat(prev_banner_img.naturalHeight) != 480){
+                console.log(prev_banner_img.naturalWidth);
+                console.log(prev_banner_img.naturalHeight);
+                if(parseFloat(prev_banner_img.naturalWidth) != 480 || parseFloat(prev_banner_img.naturalHeight) != 72){
                      add_main__banner.disabled = true;
                 }else{
                     add_main__banner.disabled = false;

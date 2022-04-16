@@ -127,4 +127,11 @@ urlpatterns = [
     re_path(r'^ap/add/logo/$', views.ap_add_site_logo, name='apAddSiteLogo'),
     re_path(r'^ap/del/site/logo/(?P<pk>\d+)/$', views.ap_del_site_logo, name='apDelSiteLogo'),
 
+    # advertisement section
+    re_path(r'^ap/add/banner/product/details/page/$', views.ap_add_banner_at_prod_detail_page, name='apAddBnrProdDetialPg'),
+    re_path(r'^ap/product/details/pg/banner/list/$', views.ap_prod_details_pg_banner_list, name='apProductDetailsPgBnrList'),
+    re_path(r'^ap/del/prod/detail/pg/banner/(?P<pk>\d+)/$', views.ap_del_prod_details_pg_banner, name='apDelProdDetialsPgBnr'),
+    re_path(r'^ap/activate/prod/detail/pg/banner/(?P<pk>\d+)/$', views.ap_activate_prod_details_pg_banner, name='apActivateProdDetialsPgBnr'),
+    re_path(r'^ap/de_activate/prod/detail/pg/banner/(?P<pk>\d+)/$', views.ap_de_activate_prod_details_pg_banner, name='apDe_ActivateProdDetialsPgBnr'),
+
 ]

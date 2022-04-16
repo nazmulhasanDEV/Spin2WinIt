@@ -12,6 +12,9 @@ urlpatterns = [
     re_path(r'^fe/provide/email/to/reset/password/$', views.front_give_email_to_reset_pass, name='frontGiveEmailResetPassword'),
     re_path(r'^fe/reset/password/(?P<username>\w+)/$', views.front_reset_password, name='frontResetPassword'),
 
+    # search
+    re_path(r'^fe/search/$', views.front_search, name='frontSearch'),
+
     # shop by category
     re_path(r'^fe/shop/(?P<pk>\d+)/$', views.front_shop, name='frontShop'),
     # product details

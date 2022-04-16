@@ -176,10 +176,14 @@
                             <!--                                </select>-->
                             <!--                            </div>-->
 
+                            {% if prod_details_pg_bnr %}
                             <div>
-                                <img src="{% static 'frontEnd/images/new_img.png' %}" style="width: 100%; height: 80px;"
+                                <a href="{{prod_details_pg_bnr.link}}">
+                                    <img src="{{prod_details_pg_bnr.img.url}}" style="width: 100%; height: 80px;"
                                      alt="">
+                                </a>
                             </div>
+                            {% endif %}
                         </div>
 
                         <div class="single-add-to-cart">
@@ -527,6 +531,7 @@
                     {{current_product.details|safe}}
                 </div>
             </div>
+
             <div id="reviews" class="tab-pane" role="tabpanel">
                 <div class="product-reviews">
                     <div class="product-details-comment-block">
@@ -627,54 +632,29 @@
                             <div class="row user__reviews__list">
                                 <div class="col-md-12">
 
+                                    {% if current_prod_revs %}
+                                    {% for rev in current_prod_revs %}
                                     <div class="user__comment__rev mt-md-4">
                                         <div class="user__profile">
                                             <div>
                                                 <img src="{% static 'frontEnd/images/banner/1_1.jpg' %}" alt="">
                                             </div>
                                             <div class="user__name__date">
-                                                <h4 class="name">User Name</h4>
-                                                <h4 class="date">02 Feb, 2021</h4>
+                                                <h4 class="name">{{rev.user.fname}} {{rev.user.lname}}</h4>
+                                                <h4 class="date">{{rev.created}}</h4>
                                             </div>
+
+                                            <li>({{rev.rating_val}}) <i style="color: #FED700;" class="fas fa-star"></i></li>
                                         </div>
 
                                         <div class="comment">
-                                            <h4>this is customer comment</h4>
+                                            <h4>{{rev.comment}}</h4>
                                         </div>
                                     </div>
-
-                                    <div class="user__comment__rev mt-md-4">
-                                        <div class="user__profile">
-                                            <div>
-                                                <img src="{% static 'frontEnd/images/banner/1_1.jpg' %}" alt="">
-                                            </div>
-                                            <div class="user__name__date">
-                                                <h4 class="name">User Name</h4>
-                                                <h4 class="date">02 Feb, 2021</h4>
-                                            </div>
-                                        </div>
-
-                                        <div class="comment">
-                                            <h4>this is customer comment</h4>
-                                        </div>
-                                    </div>
-
-                                    <div class="user__comment__rev mt-md-4">
-                                        <div class="user__profile">
-                                            <div>
-                                                <img src="{% static 'frontEnd/images/banner/1_1.jpg' %}" alt="">
-                                            </div>
-                                            <div class="user__name__date">
-                                                <h4 class="name">User Name</h4>
-                                                <h4 class="date">02 Feb, 2021</h4>
-                                            </div>
-                                        </div>
-
-                                        <div class="comment">
-                                            <h4>this is customer comment</h4>
-                                        </div>
-                                    </div>
-
+                                    {% endfor %}
+                                    {% else %}
+                                    <p style="font-size: 15px;">No review found!</p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
