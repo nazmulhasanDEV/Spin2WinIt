@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from user.models import Account, VerificationCode, UserProfilePicture
@@ -60,14 +61,10 @@ def ap_fetch_woocommerce_store_prdct(request):
         while True:
             prods = wcapi.get('products', params={"per_page": 20, "page": page})
             page += 1
+            print(len(json.loads(prods.text)))
             if prods.text:
                 p = json.loads(prods.text)
-                # print(len(p))
-                # print(
-                #     f'''
-                #     {page}
-                #     '''
-                # )
+
                 try:
                     for x in p:
                         if len(ProductList.objects.filter(product_id=x['id'])) <= 0:
@@ -125,9 +122,10 @@ def ap_fetch_woocommerce_store_prdct(request):
                                 woocomrc_prdct_list_model.product_img.add(product_img_model)
                                 woocomrc_prdct_list_model.save()
                 except:
+
                     messages.warning(request, "Can't import products or server error! Try again!a")
                     return redirect('apWoocommerceStoreList')
-            if len(prods.text) <= 0:
+            if len(json.loads(prods.text)) <= 0:
                 break
     except:
         return redirect('apWoocommerceStoreList')
@@ -203,6 +201,158 @@ def ap_woocommerce_store_list(request):
 
 #*********************** Woocommerce section ends ***********************************************
 
+
+# #######################order section ################################################
+@login_required(login_url='/ap/register/updated')
+def ap_current_orders(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    current_order_list = OrderList.objects.filter(Q(delivery_status=False) & Q(order_status='a') & Q(shipping_status=False))
+
+
+    context = {
+        'current_order_list' : current_order_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/orders/current_order.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_current_order_details(request, order_id):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    current_order = OrderList.objects.get(order_id=order_id)
+
+
+    context = {
+        'current_order' : current_order,
+    }
+
+    return render(request, 'backEnd_superAdmin/orders/current_order_details.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_set_crrnt_order_to_on_the_way(request, order_id):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # current order
+    try:
+        current_order = OrderList.objects.filter(order_id=order_id).first()
+        if current_order.order_status == 'a':
+            current_order.shipping_status = True
+            current_order.shipping_date = datetime.datetime.now()
+            current_order.save()
+            messages.success(request, 'Order status has been changed to "On The Way"!')
+            return redirect('apCurrentOrderList')
+        else:
+            messages.warning(request, "Order is not approved yet!")
+            return redirect('apCurrentOrderList')
+
+    except:
+        messages.warning(request, "Order status can't be changed! Try again!")
+        return redirect('apCurrentOrderList')
+
+    return redirect('apCurrentOrderList')
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_cancel_order(request, order_id):
+
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_order = OrderList.objects.filter(order_id=order_id).first()
+        current_order.order_status = 'c'
+        current_order.shipping_status = False
+        current_order.delivery_status= False
+        current_order.save()
+        messages.success(request, 'Order has been cancelled!')
+        return redirect('apCurrentOrderList')
+    except:
+        messages.success(request, "Order status can't be cancelled! Try again!")
+        return redirect('apCurrentOrderList')
+
+    return redirect('apCurrentOrderList')
+
+
+# on the way ******************
+@login_required(login_url='/ap/register/updated')
+def ap_on_the_way_order_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # order list which already shipped for delivery
+
+    order_list = OrderList.objects.filter(Q(order_status='a') & Q(delivery_status=False) & Q(shipping_status=True))
+
+
+    context = {
+        'order_list' : order_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/orders/on_the_way.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_set_to_delivered(request, order_id):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_order = OrderList.objects.filter(order_id=order_id).first()
+        if current_order.order_status == 'a' and current_order.delivery_status == False and current_order.shipping_status == True:
+            current_order.delivery_status = True
+            current_order.delivery_date = datetime.datetime.now()
+            current_order.save()
+            messages.success(request, "Order status has been changed to 'Delivered' !")
+            return redirect('apOnTheWayOrderList')
+        else:
+            messages.warning(request, "Order status can't be changed! Check 'Order Status/Delivery Status/Shipping Status'!")
+            return redirect('apOnTheWayOrderList')
+    except:
+        messages.warning(request,"Order not found! Try again!")
+        return redirect('apOnTheWayOrderList')
+
+    return redirect('apOnTheWayOrderList')
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_delivered_order_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    order_list = OrderList.objects.filter(Q(delivery_status=True) & Q(shipping_status=True) & Q(order_status='a'))
+
+    context = {
+        'delivered_ordered_list' : order_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/orders/delivered.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_cancelled_order_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    cancelled_order_list = OrderList.objects.filter(order_status='c')
+
+    context = {
+        'cancelled_order_list': cancelled_order_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/orders/cancelled.html', context)
+
+# *********************************** ends order section *********************************************
 
 # user profile setting section *****************************************************************
 @login_required(login_url='/ap/register/updated')

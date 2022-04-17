@@ -204,19 +204,29 @@ class OrderList(models.Model):
         ('p', 'Pending'),
         ('c', 'Cancel'),
     )
+
+    payment_options = (
+        ('cod', 'Cash on Delivery'),
+    )
+
     order_id = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderedItem, blank=True)
     total_amount = models.FloatField(blank=True, null=True)
 
     start_date = models.DateTimeField(auto_now_add=True)
+
+    order_status = models.CharField(max_length=255, choices=option, blank=True, null=True) # whether it's approved, cancelled, or Pending
+    delivery_status = models.BooleanField(default=False, blank=True, null=True) # status whether customer got the product or not
+    delivery_date = models.DateTimeField(blank=True, null=True)
+
+    shipping_status = models.BooleanField(default=False, blank=True, null=True) # wheather product left from warehouse to deliver to customer
     shipping_date = models.DateTimeField(blank=True, null=True)
 
-    order_status = models.CharField(max_length=255, choices=option, blank=True, null=True)
-    delivery_status = models.BooleanField(default=False, blank=True, null=True)
     order_note = models.TextField(blank=True, null=True)
 
     payment_status = models.BooleanField(default=False, blank=True, null=True)
+    payment_options = models.CharField(max_length=35, choices=payment_options, blank=True, null=True)
 
     billing_info = models.ForeignKey(BillingInfo, on_delete=models.CASCADE, blank=True, null=True)
     shipping_info = models.ForeignKey(ShippingInfo, on_delete=models.CASCADE, blank=True, null=True)

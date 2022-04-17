@@ -320,8 +320,6 @@ def front_shop(request, pk):
         }
         return render(request, 'frontEnd/shop/shop.html', context)
 
-
-
     context = {
         'products': products,
         'site_logo': site_logo,
@@ -350,6 +348,57 @@ def front_productDetails(request, product_id):
     # ratings and reviews of current product
     current_prod_revs = ProductRating.objects.filter(product=current_product)
 
+    num_of_5_star = 0
+    num_of_4_star = 0
+    num_of_3_star = 0
+    num_of_2_star = 0
+    num_of_1_star = 0
+    # number of 5-star of current product
+    if current_prod_revs.count() > 0:
+        num_of_5_star = round(((ProductRating.objects.filter(Q(product=current_product) & Q(rating_val=5)).count()) / current_prod_revs.count()) * 100)
+        num_of_4_star = round(((ProductRating.objects.filter(Q(product=current_product) & Q(rating_val=4)).count()) / current_prod_revs.count()) * 100)
+        num_of_3_star = round(((ProductRating.objects.filter(Q(product=current_product) & Q(rating_val=3)).count()) / current_prod_revs.count()) * 100)
+        num_of_2_star = round(((ProductRating.objects.filter(Q(product=current_product) & Q(rating_val=2)).count()) / current_prod_revs.count()) * 100)
+        num_of_1_star = round(((ProductRating.objects.filter(Q(product=current_product) & Q(rating_val=1)).count()) / current_prod_revs.count()) * 100)
+
+
+    if request.user.is_authenticated:
+        # user cart status
+        user_cart_status = Cart.objects.filter(user=request.user)
+
+        total_amount = 0
+        if user_cart_status:
+            for x in user_cart_status:
+                if x.product.product_type == 'wsp':
+                    total_amount = total_amount + (float(x.product.price) * x.quantity)
+                if x.product.product_type == 'mcp':
+                    total_amount = total_amount + (x.product.new_price * x.quantity)
+
+        # user cart status
+        user_wishlist_status = WishList.objects.filter(user=request.user)
+
+        context = {
+            'total_amount' : total_amount,
+            'user_cart_status': user_cart_status,
+            'user_wishlist_status': user_wishlist_status,
+
+            'current_product': current_product,
+            'current_cat_product_list': current_cat_product_list,
+            'refund_policy': refund_policy,
+            'return_policy': return_policy,
+            'security_policy': security_policy,
+            'delivery_policy': delivery_policy,
+            'site_logo': site_logo,
+            'prod_details_pg_bnr': prod_details_pg_bnr,
+            'current_prod_revs': current_prod_revs,
+            'num_of_5_star': num_of_5_star,
+            'num_of_4_star': num_of_4_star,
+            'num_of_3_star': num_of_3_star,
+            'num_of_2_star': num_of_2_star,
+            'num_of_1_star': num_of_1_star,
+        }
+        return render(request, 'frontEnd/product-details.html', context)
+
 
     context = {
         'current_product' : current_product,
@@ -361,6 +410,12 @@ def front_productDetails(request, product_id):
         'site_logo': site_logo,
         'prod_details_pg_bnr': prod_details_pg_bnr,
         'current_prod_revs': current_prod_revs,
+
+        'num_of_5_star': num_of_5_star,
+        'num_of_4_star': num_of_4_star,
+        'num_of_3_star': num_of_3_star,
+        'num_of_2_star': num_of_2_star,
+        'num_of_1_star': num_of_1_star,
     }
 
     return render(request, 'frontEnd/product-details.html', context)
@@ -682,7 +737,7 @@ def front_complete_payment(request, username, order_id):
             # total_sold
             for item in current_order.items.all():
                 productList__model = ProductList.objects.filter(pk=item.product.pk).first()
-                productList__model.total_sold = item.quantity
+                productList__model.total_sold = productList__model.total_sold + item.quantity
                 productList__model.save()
 
             return redirect('frontPaymentSuccessfullmsg', username=request.user.username)

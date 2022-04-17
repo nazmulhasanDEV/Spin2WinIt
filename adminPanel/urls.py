@@ -30,6 +30,22 @@ urlpatterns = [
     re_path(r'^ap/woocommerce/store/product/list/$', views.ap_woocommerce_store_list, name='apWoocommerceStoreList'),
     re_path(r'^ap/woocommerce/product/details/(?P<pk>\d+)/$', views.ap_wcmrce_prdct_details, name='apWoocmrcePrdctDetails'),
 
+    # order section
+    re_path(r'^ap/current/order/list/$', views.ap_current_orders, name='apCurrentOrderList'),
+    re_path(r'^ap/current/order/details/(?P<order_id>[-\w]+)/$', views.ap_current_order_details, name='apCurrentOrderDetails'),
+    re_path(r'^ap/change/order/status/to/onTheWay/(?P<order_id>[-\w]+)/$', views.ap_set_crrnt_order_to_on_the_way, name='apSetCrrntOrderStatusToOnTheWay'),
+    re_path(r'^ap/cancel/order/(?P<order_id>[-\w]+)/$', views.ap_cancel_order, name='apCancelOrder'),
+
+    # on the way
+    re_path(r'^ap/on/the/way/order/list/$', views.ap_on_the_way_order_list, name='apOnTheWayOrderList'),
+    re_path(r'^ap/set/to/order/delivered/(?P<order_id>[-\w]+)/$', views.ap_set_to_delivered, name='apSetToOrderDelivered'),
+
+    # deivered orders
+    re_path(r'^ap/delivered/order/list/$', views.ap_delivered_order_list, name='apDeliveredOrderList'),
+
+    # cancelled orders
+    re_path(r'^ap/cacelled/order/list/$', views.ap_cancelled_order_list, name='apCanCelledOrderList'),
+
     # updated product section ****************************************
     re_path(r'^ap/all/product/list/', views.ap_all_products, name='apAllProductList'),
     re_path(r'^ap/add/admin/custom/product/$', views.ap_add_admin_custsom_product, name='apAddAdminCustomProduct'),

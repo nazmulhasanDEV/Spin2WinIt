@@ -128,7 +128,7 @@
                                  {% endif %}
 
 
-                                <li>({{current_product.avrg_rating|to_float}}) {{current_product.rating_count}} ratings</li>
+                                <li>({{current_product.avrg_rating|to_float}}) {{current_product.rating_count}} Ratings</li>
                             </ul>
                             <ul class="rating rating-with-review-item" style="margin-top: 5px;">
                                 <li>Brand: <span>Brand Name</span></li>
@@ -285,7 +285,7 @@
                                  {% endif %}
 
 
-                                <li>({{current_product.avrg_rating|to_float}}) {{current_product.rating_count}} ratings</li>
+                                <li>({{current_product.avrg_rating|to_float}}) {{current_product.rating_count}} Ratings</li>
                             </ul>
                             <ul class="rating rating-with-review-item" style="margin-top: 5px;">
                                 <li>Brand: <span>Brand Name</span></li>
@@ -546,7 +546,7 @@
                                     </div>
                                     <div class="row customer__overview">
                                         <div class="col-md-4">
-                                            <h6 class="rating__amount"><span class="given__amount">4.5</span> <span
+                                            <h6 class="rating__amount"><span class="given__amount">{{current_product.avrg_rating}}</span> <span
                                                     class="total__amount">/5</span></h6>
                                             <h6 class="stars">
                                                 <li><i class="fas fa-star"></i></li>
@@ -556,14 +556,14 @@
                                                 <li><i class="fas fa-star"></i></li>
                                             </h6>
                                             <h6 class="overall__rating">
-                                                ratings 205
+                                                Ratings {{current_product.rating_count}}
                                             </h6>
                                         </div>
 
                                         <div class="col-md-8 reviews__percentage__rate">
                                             <li class="rating__progress__bar">
                                                 <div>
-                                                    <span class="give__star__amount">5 star</span> <span>75%</span>
+                                                    <span class="give__star__amount">5 stars</span> <span> {{num_of_5_star}}%</span>
                                                 </div>
                                                 <div class="progress">
                                                     <div class="progress-bar progress-bar-striped bg-warning"
@@ -574,7 +574,7 @@
 
                                             <li class="rating__progress__bar">
                                                 <div>
-                                                    <span class="give__star__amount">4 star</span> <span>75%</span>
+                                                    <span class="give__star__amount">4 stars</span> <span> {{num_of_4_star}}%</span>
                                                 </div>
                                                 <div class="progress">
                                                     <div class="progress-bar progress-bar-striped bg-warning"
@@ -585,7 +585,7 @@
 
                                             <li class="rating__progress__bar">
                                                 <div>
-                                                    <span class="give__star__amount">3 star</span> <span>75%</span>
+                                                    <span class="give__star__amount">3 stars</span> <span> {{num_of_3_star}}%</span>
                                                 </div>
                                                 <div class="progress">
                                                     <div class="progress-bar progress-bar-striped bg-warning"
@@ -596,7 +596,7 @@
 
                                             <li class="rating__progress__bar">
                                                 <div>
-                                                    <span class="give__star__amount">2 star</span> <span>75%</span>
+                                                    <span class="give__star__amount">2 stars</span><span> {{num_of_2_star}}%</span>
                                                 </div>
                                                 <div class="progress">
                                                     <div class="progress-bar progress-bar-striped bg-warning"
@@ -607,7 +607,7 @@
 
                                             <li class="rating__progress__bar">
                                                 <div>
-                                                    <span class="give__star__amount">1 star</span> <span>75%</span>
+                                                    <span class="give__star__amount"></span>1 stars<span> {{num_of_1_star}}%</span>
                                                 </div>
                                                 <div class="progress">
                                                     <div class="progress-bar progress-bar-striped bg-warning"
