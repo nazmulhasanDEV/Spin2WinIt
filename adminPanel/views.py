@@ -22,7 +22,6 @@ import threading
 from product.models import *
 from advertisement.models import *
 
-
 # woocomerce to connect with woocommerce store
 from woocommerce import API
 import asyncio
@@ -33,8 +32,63 @@ wcapi = API(
     url="https://www.ddmcustomz.ca",
     consumer_key="ck_d7b8e625408c67fc0351b88ea84e04b6f2657ce1",
     consumer_secret="cs_ba22b43fc833f3dc319f5385c027e6d79b73aaab",
-    version="wc/v3"
+    version="wc/v3",
+    timeout=50,
 )
+# data = {
+#     "payment_method": "bacs",
+#     "payment_method_title": "Direct Bank Transfer",
+#     "set_paid": True,
+#     "billing": {
+#         "first_name": "John",
+#         "last_name": "Doe",
+#         "address_1": "969 Market",
+#         "address_2": "",
+#         "city": "San Francisco",
+#         "state": "CA",
+#         "postcode": "94103",
+#         "country": "US",
+#         "email": "john.doe@example.com",
+#         "phone": "(555) 555-5555"
+#     },
+#     "shipping": {
+#         "first_name": "John",
+#         "last_name": "Doe",
+#         "address_1": "969 Market",
+#         "address_2": "",
+#         "city": "San Francisco",
+#         "state": "CA",
+#         "postcode": "94103",
+#         "country": "US"
+#     },
+#     "line_items": [
+#         {
+#             "product_id": 93,
+#             "quantity": 2
+#         },
+#         {
+#             "product_id": 22,
+#             "variation_id": 23,
+#             "quantity": 1
+#         }
+#     ],
+#     "shipping_lines": [
+#         {
+#             "method_id": "flat_rate",
+#             "method_title": "Flat Rate",
+#             "total": "10.00"
+#         }
+#     ]
+# }
+
+# def create_order(request):
+#
+#     order = wcapi.post("orders", data).json()
+#     if order:
+#         print(order)
+#         return redirect('apHome')
+#
+#     return redirect('apHome')
 
 
 # def add_woocommerce_product_to_product_list(obj, user):
@@ -3378,6 +3432,8 @@ def ap_prod_details_pg_banner_list(request):
 @login_required(login_url='/ap/register/updated')
 def ap_del_prod_details_pg_banner(request, pk):
 
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
 
     try:
         fs = FileSystemStorage()
@@ -3393,6 +3449,9 @@ def ap_del_prod_details_pg_banner(request, pk):
 
 def deactivate_product_detail_pg_bnr(banner_list):
 
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
     for banner in banner_list:
         banner.status = False
         banner.save()
@@ -3401,6 +3460,9 @@ def deactivate_product_detail_pg_bnr(banner_list):
 
 @login_required(login_url='/ap/register/updated')
 def ap_activate_prod_details_pg_banner(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
 
     try:
         banner = BannerProdDetail.objects.get(pk=pk)
@@ -3423,6 +3485,10 @@ def ap_activate_prod_details_pg_banner(request, pk):
 
 @login_required(login_url='/ap/register/updated')
 def ap_de_activate_prod_details_pg_banner(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
     try:
         banner = BannerProdDetail.objects.get(pk=pk)
         banner.status = False
@@ -3437,5 +3503,120 @@ def ap_de_activate_prod_details_pg_banner(request, pk):
     return redirect('apProductDetailsPgBnrList')
 
 
+# banner on shop page
+@login_required(login_url='/ap/register/updated')
+def ap_add_shop_page_banner(request):
 
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
 
+    # user profile picture
+    profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+
+    if request.method == 'POST':
+        banner_img = request.FILES['banner_img']
+        url = request.POST.get('url')
+
+        banner_id = uuid.uuid4()
+
+        if banner_img and url:
+            shopPageBanner_model = ShopPageBanner.objects.create(banner_id=banner_id, user=request.user, img=banner_img, link=url)
+            messages.success(request, "Successfully added new banner!")
+            return redirect('apAddShopPageBanner')
+        else:
+            messages.warning(request, "Can't be added new banner! Try once again!")
+            return redirect('apAddShopPageBanner')
+
+    context = {
+        'profile_pic' : profile_pic,
+    }
+
+    return render(request, 'backEnd_superAdmin/banner_shop_page/add_banner.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_shop_page_banner_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    shop_page_banner_list = ShopPageBanner.objects.all()
+
+    context = {
+        'shop_page_banner_list': shop_page_banner_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/banner_shop_page/banner_list.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_delete_shop_page_banner(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        fs = FileSystemStorage()
+        current_obj = ShopPageBanner.objects.get(pk=pk)
+        fs.delete(current_obj.img.name)
+        current_obj.delete()
+        messages.success(request, "Banner has been successfully deleted!")
+        return redirect('apShopPageBannerList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apShopPageBannerList')
+
+    return redirect('apShopPageBannerList')
+
+def deactivate_shop_page_banner(banner_list):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    for banner in banner_list:
+        banner.status = False
+        banner.save()
+
+    return True
+
+@login_required(login_url='/ap/register/updated')
+def ap_activate_shop_page_bannr(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        banner = ShopPageBanner.objects.get(pk=pk)
+
+        other_banners = ShopPageBanner.objects.filter().exclude(pk=pk)
+        banner.status = True
+        banner.save()
+
+        # theading deaactivate other banners
+        thread = threading.Thread(target=deactivate_shop_page_banner, args=[other_banners])
+        thread.start()
+
+        messages.success(request, "Banner has been activated!")
+        return redirect('apShopPageBannerList')
+    except:
+        messages.warning(request, "Can't be actiavated! Try again!")
+        return redirect('apShopPageBannerList')
+
+    return redirect('apShopPageBannerList')
+
+@login_required(login_url='/ap/register/updated')
+def ap_de_activate_shop_page_banner(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        banner = ShopPageBanner.objects.get(pk=pk)
+        banner.status = False
+        banner.save()
+
+        messages.success(request, "Banner has been de-activated!")
+        return redirect('apShopPageBannerList')
+    except:
+        messages.warning(request, "Can't be de-actiavated! Try again!")
+        return redirect('apProductDetailsPgBnrList')
+
+    return redirect('apShopPageBannerList')

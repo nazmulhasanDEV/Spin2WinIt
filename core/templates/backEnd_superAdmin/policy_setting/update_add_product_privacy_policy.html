@@ -31,10 +31,14 @@
                     <div class="box-body">
                         <div class="form-group">
                             <label for="about_us">Update  terms & condition</label>
-                            <textarea name="product_privacy_policy" class="form-control" id="about_us" rows="7" placeholder="Security policy">{{current_obj.content}}</textarea>
+                            <textarea name="product_privacy_policy" class="form-control" id="about_us" rows="7" placeholder="Terms & condition policy">{{current_obj.content}}</textarea>
                         </div>
                     </div>
                     <!-- /.box-body -->
+
+                    <script>
+                         CKEDITOR.replace('product_privacy_policy');//name of textarea field
+                    </script>
 
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary">Update</button>

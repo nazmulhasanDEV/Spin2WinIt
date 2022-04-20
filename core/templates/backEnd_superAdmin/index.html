@@ -51,10 +51,8 @@
 
 
     <!-- ckeditor js file **************************************************-->
-    <script type="text/javascript" src="{% static " ckeditor
-    /ckeditor-init.js" %}"></script>
-    <script type="text/javascript" src="{% static " ckeditor
-    /ckeditor/ckeditor.js" %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
     <!-- ends ckeditor file section************************************************-->
 
     {% block dataTable_css %}{% endblock %}
@@ -270,6 +268,9 @@
                     <ul class="treeview-menu">
                         <li><a href="/ap/add/banner/product/details/page"><i class="fa fa-circle-o"></i> Banner at prod. details page</a></li>
                         <li><a href="/ap/product/details/pg/banner/list"><i class="fa fa-circle-o"></i> Prod. details page banner list</a></li>
+<!--                        shop page-->
+                        <li><a href="/ap/add/shop/page/banner"><i class="fa fa-circle-o"></i> Add shop page banner</a></li>
+                        <li><a href="/ap/shop/page/banner/list"><i class="fa fa-circle-o"></i> Shop page banner list</a></li>
                     </ul>
                 </li>
 

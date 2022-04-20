@@ -4,6 +4,8 @@ from . import views
 
 urlpatterns = [
 
+    # re_path(r'^ap/create/order/$', views.create_order, name='createOrder'),
+
     # login-register
     re_path(r'^ap/register/updated/$', views.ap_RegisterSuperUser, name="apSuperAdminRegister"),
     re_path(r'^ap/login/updated/$', views.ap_loginSuperUser, name="apSuperAdminLogin"),
@@ -149,5 +151,13 @@ urlpatterns = [
     re_path(r'^ap/del/prod/detail/pg/banner/(?P<pk>\d+)/$', views.ap_del_prod_details_pg_banner, name='apDelProdDetialsPgBnr'),
     re_path(r'^ap/activate/prod/detail/pg/banner/(?P<pk>\d+)/$', views.ap_activate_prod_details_pg_banner, name='apActivateProdDetialsPgBnr'),
     re_path(r'^ap/de_activate/prod/detail/pg/banner/(?P<pk>\d+)/$', views.ap_de_activate_prod_details_pg_banner, name='apDe_ActivateProdDetialsPgBnr'),
+
+    # banner on shop page
+    re_path(r'^ap/add/shop/page/banner/$', views.ap_add_shop_page_banner, name='apAddShopPageBanner'),
+    re_path(r'^ap/shop/page/banner/list/$', views.ap_shop_page_banner_list, name='apShopPageBannerList'),
+    re_path(r'^ap/del/shop/page/banner/(?P<pk>\d+)/$', views.ap_delete_shop_page_banner, name='apDelShopPageBanner'),
+
+    re_path(r'^ap/de_activate/shop/page/banner/(?P<pk>\d+)/$', views.ap_de_activate_shop_page_banner, name='apDe_ActivateShopPageBanner'),
+    re_path(r'^ap/activate/shop/page/banner/(?P<pk>\d+)/$', views.ap_activate_shop_page_bannr, name='apActivateShopPageBanner'),
 
 ]

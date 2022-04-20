@@ -38,10 +38,14 @@
                     <div class="box-body">
                         <div class="form-group">
                             <label for="about_us">Add cookie policy</label>
-                            <textarea name="cookie_policy" class="form-control" id="about_us" rows="7" placeholder="Security policy"></textarea>
+                            <textarea name="cookie_policy" class="form-control" id="about_us" rows="7" placeholder="Cookie policy"></textarea>
                         </div>
                     </div>
                     <!-- /.box-body -->
+
+                    <script>
+                         CKEDITOR.replace('cookie_policy');//name of textarea field
+                    </script>
 
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary">ADD</button>

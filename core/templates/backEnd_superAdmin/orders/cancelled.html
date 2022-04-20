@@ -81,7 +81,7 @@
                                 <tr>
                                     <td>{{order.order_id}}</td>
                                     <td>{{order.user.email}}</td>
-                                    <td>{{order.total_amount}}</td>
+                                    <td>${{order.total_amount}}</td>
                                     {% if order.payment_status %}
                                     <td>Paid</td>
                                     {% else %}

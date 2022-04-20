@@ -450,9 +450,9 @@
                                     <div class="icon"><i class="fas fa-user-shield"></i></div>
                                     <div class="description">
                                         {% if current_product.security_policy == 'apcp' and security_policy %}
-                                        {{security_policy}}
+                                        {{security_policy|safe}}
                                         {% else %}
-                                        {{current_product.security_policy}}
+                                        {{current_product.security_policy|safe}}
                                         {% endif %}
                                     </div>
                                 </div>
@@ -470,9 +470,9 @@
                                     <div class="icon"><i class="fas fa-exchange-alt"></i></div>
                                     <div class="description">
                                         {% if current_product.return_policy == 'apcp' and return_policy %}
-                                        {{return_policy}}
+                                        {{return_policy|safe}}
                                         {% else %}
-                                        {{current_product.return_policy}}
+                                        {{current_product.return_policy|safe}}
                                         {% endif %}
                                     </div>
                                 </div>
@@ -490,9 +490,9 @@
                                     <div class="icon"><i class="fas fa-undo"></i></div>
                                     <div class="description">
                                         {% if current_product.refund_policy == 'apcp' and refund_policy %}
-                                        {{refund_policy}}
+                                        {{refund_policy|safe}}
                                         {% else %}
-                                        {{current_product.refund_policy}}
+                                        {{current_product.refund_policy|safe}}
                                         {% endif %}
                                     </div>
                                 </div>
@@ -510,9 +510,9 @@
                                     <div class="icon"><i class="fas fa-people-carry"></i></div>
                                     <div class="description">
                                         {% if current_product.delivery_policy == 'apcp' and delivery_policy %}
-                                        {{delivery_policy}}
+                                        {{delivery_policy|safe}}
                                         {% else %}
-                                        {{current_product.delivery_policy}}
+                                        {{current_product.delivery_policy|safe}}
                                         {% endif %}
                                     </div>
                                 </div>

@@ -352,7 +352,7 @@
 
 <!-- Begin Li's Laptop Product Area -->
 {% if product_cat_list %}
-{% for x in product_cat_list|slice:'1' %}
+{% for x in product_cat_list|slice:'3' %}
 <section class="product-area li-laptop-product pt-60 pb-45">
     <div class="container">
         <div class="row">
@@ -430,7 +430,7 @@
                                             </div>
                                         </div>
                                         <h4>
-                                            <a class="product_name" href="/fe/product/details/{{y.product_id}}">{{y.title|safe|truncatechars:30}}</a
+                                            <a class="product_name" href="/fe/product/details/{{y.product_id}}">{{y.title|safe|truncatechars:25}}</a
                                             >
                                         </h4>
                                         <div class="price-box">
