@@ -361,10 +361,12 @@
         <div class="row" style="margin-top: -50px;">
             <!-- Begin Li's Section Area -->
             <div class="col-lg-12">
-                <div class="li-section-title product_area_title_section">
+                <div class="li-section-title product_area_title_section" style="width: 100%;position: relative;">
                     <h2>
                         <span>{{x.name}}</span>
-                        <a href="{% url 'frontShop' pk=x.pk %}"><button type="button">View All</button></a>
+                        <a href="{% url 'frontShop' pk=x.pk %}" style="position: absolute;right: 0px;cursor: pointer;">
+                            <button type="button" style="border: none;outline: none;background-color: #293A6C;cursor: pointer;font-size: 15px;padding: 10px;color: white;text-transform: uppercase;">View All</button>
+                        </a>
                     </h2>
                    <!-- <ul class="li-sub-category-list">
                         <li class="active">
