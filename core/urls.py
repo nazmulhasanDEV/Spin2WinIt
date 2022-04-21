@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
 from . import views
+import uuid
 
 urlpatterns = [
     re_path(r'^fe/index/$', views.front_index, name="frontEndIndex"),
@@ -16,7 +17,7 @@ urlpatterns = [
     re_path(r'^fe/search/$', views.front_search, name='frontSearch'),
 
     # shop by category
-    re_path(r'^fe/shop/(?P<pk>\d+)/$', views.front_shop, name='frontShop'),
+    re_path(fr'^fe/shop/(?P<pk>\d+)/$', views.front_shop, name='frontShop'),
     # product details
     re_path(r'^fe/product/details/(?P<product_id>[-\w]+)/$', views.front_productDetails, name='frontEndProductDetails'),
 

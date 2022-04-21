@@ -3,6 +3,7 @@ from django.db import models
 # product categories model
 class ProductCategory(models.Model):
     name = models.CharField(default='', max_length=255, blank=True, null=True)
+    slug = models.SlugField(max_length=255, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:

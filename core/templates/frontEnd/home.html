@@ -22,7 +22,7 @@
 
                             {% if cat.name in cats_in_subcats %}
                             <li class="right-menu">
-                                <a href="shop-left-sidebar.html">{{cat.name}}</a>
+                                <a href="{% url 'frontShop' pk=cat.pk %}">{{cat.name}}</a>
                                 <ul class="cat-mega-menu">
                                     <li class="right-menu cat-mega-title">
 <!--                                        <a href="shop-left-sidebar.html">Prime Video</a>-->
@@ -39,7 +39,7 @@
                                 </ul>
                             </li>
                             {% else %}
-                            <li><a href="/fe/shop/{{cat.pk}}">{{cat.name}}</a></li>
+                            <li><a href="{% url 'frontShop' pk=cat.pk %}">{{cat.name}}</a></li>
                             {% endif %}
                             {% endfor %}
 
@@ -81,6 +81,7 @@
                 </div>
             </div>
             <!-- Slider Area End Here -->
+
             <!-- Begin Li Banner Area -->
             <div class="col-lg-3 col-md-4 text-center pt-sm-30">
 
@@ -90,25 +91,26 @@
                         <div class="swiper-wrapper content">
                             <div class="swiper-slide">
                                 <a href="#">
-                                    <img src="{% static 'frontEnd/images/banner/3_1.jpg' %}" class="swiper__img"
-                                         alt=""/>
+                                    <noscript><a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/120x600.png" style="width: 100%; height: 100%; border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a></noscript>
+<!--                                    <img src="{% static 'frontEnd/images/banner/3_1.jpg' %}" class="swiper__img"-->
+<!--                                         alt=""/>-->
                                 </a>
                                 <!-- <h6>Watch & Earn</h6> -->
                             </div>
 
-                            <div class="swiper-slide">
-                                <a href="#">
-                                    <img src="{% static 'frontEnd/images/banner/3_2.jpg' %}" alt=""/>
-                                </a>
-                                <!-- <h6>Watch & Earn</h6> -->
-                            </div>
+<!--                            <div class="swiper-slide">-->
+<!--                                <a href="#">-->
+<!--                                    <img src="{% static 'frontEnd/images/banner/3_2.jpg' %}" alt=""/>-->
+<!--                                </a>-->
+<!--                                &lt;!&ndash; <h6>Watch & Earn</h6> &ndash;&gt;-->
+<!--                            </div>-->
 
-                            <div class="swiper-slide">
-                                <a href="#">
-                                    <img src="{% static 'frontEnd/images/banner/3_1.jpg' %}" alt=""/>
-                                </a>
-                                <!-- <h6>Watch & Earn</h6> -->
-                            </div>
+<!--                            <div class="swiper-slide">-->
+<!--                                <a href="#">-->
+<!--                                    <img src="{% static 'frontEnd/images/banner/3_1.jpg' %}" alt=""/>-->
+<!--                                </a>-->
+<!--                                &lt;!&ndash; <h6>Watch & Earn</h6> &ndash;&gt;-->
+<!--                            </div>-->
                         </div>
                     </div>
 
@@ -349,18 +351,20 @@
 <!--    </div>-->
 <!--</section>-->
 <!-- top  brands section ends -->
-
+<br><br><br>
 <!-- Begin Li's Laptop Product Area -->
 {% if product_cat_list %}
 {% for x in product_cat_list|slice:'3' %}
 <section class="product-area li-laptop-product pt-60 pb-45">
     <div class="container">
-        <div class="row">
+<!--        background: #293A6C; box-shadow: 1px 1px 5px 1px gray; padding-top: 20px;-->
+        <div class="row" style="margin-top: -50px;">
             <!-- Begin Li's Section Area -->
             <div class="col-lg-12">
-                <div class="li-section-title">
+                <div class="li-section-title product_area_title_section">
                     <h2>
                         <span>{{x.name}}</span>
+                        <a href="{% url 'frontShop' pk=x.pk %}"><button type="button">View All</button></a>
                     </h2>
                    <!-- <ul class="li-sub-category-list">
                         <li class="active">
@@ -384,7 +388,7 @@
                                 <div class="product-image">
                                     <a href="/fe/product/details/{{y.product_id}}">
                                         {% if y.product_thumbnail %}
-                                        <img src="{{y.product_thumbnail.url}}" style="height: 250px; width: 100%;" alt="Li's Product Image"
+                                        <img src="{{y.product_thumbnail.url}}" style="height: 280px; width: 100%;" alt="Li's Product Image"
                                         />
                                         {% else %}
                                             {% if y.productImg %}
@@ -392,9 +396,9 @@
 
                                                 {% if forloop.counter == 1 %}
                                                     {% if img.img %}
-                                                    <img src="{{img.img.url}}" style="height: 250px; width: 100%;" alt="Li's Product Image"/>
+                                                    <img src="{{img.img.url}}" style="height: 280px; width: 100%;" alt="Li's Product Image"/>
                                                     {% else %}
-                                                    <img src="{{img.img_link}}" style="height: 250px; width: 100%;" alt="Li's Product Image"/>
+                                                    <img src="{{img.img_link}}" style="height: 280px; width: 100%;" alt="Li's Product Image"/>
                                                     {% endif %}
                                                 {% endif %}
 
@@ -407,7 +411,7 @@
 
 <!--                                    <span class="sticker">New</span>-->
                                 </div>
-                                <div class="product_desc">
+                                <div class="product_desc" style="padding-left: 10px; padding-bottom: 5px;">
                                     <div class="product_desc_info">
                                         <div class="product-review">
                                             <h5 class="manufacturer">

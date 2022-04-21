@@ -211,25 +211,50 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!--                                    Load more button **********************-->
+<!--                                    <div class="row">-->
+<!--                                        <div class="col-md-12 text-center load__more_btn_sec">-->
+<!--                                            <button type="button" class="sp_load__more_product">Load More</button>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+                                    <!--                                    Load more button **********************-->
+
                                     <div class="paginatoin-area">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 pt-xs-15">
-                                                <p>Showing 1-12 of 13 item(s)</p>
+                                                <p>Showing {{page}}</p>
                                             </div>
                                             <div class="col-lg-6 col-md-6">
                                                 <ul class="pagination-box pt-xs-20 pb-xs-15">
-                                                    <li><a href="#" class="Previous"><i class="fa fa-chevron-left"></i> Previous</a>
+                                                    {% if page.has_previous %}
+                                                    <li><a href="/fe/shop/{{current_pk}}/?page={{page.previous_page_number}}" class="Previous"><i class="fa fa-chevron-left"></i> Previous</a>
                                                     </li>
-                                                    <li class="active"><a href="#">1</a></li>
-                                                    <li><a href="#">2</a></li>
-                                                    <li><a href="#">3</a></li>
+                                                    {% endif %}
+
+                                                    {% if paginator %}
+                                                    {% for i in paginator.page_range %}
+                                                    {% if i <= 2 %}
+                                                    {% if i == 1 %}
+                                                    <li class="active"><a href="/fe/shop/{{current_pk}}/?page={{i}}">{{i}}</a></li>
+                                                    {% else %}
+                                                    <li><a href="/fe/shop/{{current_pk}}/?page={{i}}">{{i}} ...</a></li>
+                                                    {% endif %}
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% endif %}
+
+                                                    {% if page.has_next %}
                                                     <li>
-                                                      <a href="#" class="Next"> Next <i class="fa fa-chevron-right"></i></a>
+                                                      <a href="/fe/shop/{{current_pk}}/?page={{page.next_page_number}}" class="Next"> Next <i class="fa fa-chevron-right"></i></a>
                                                     </li>
+                                                    {% endif %}
+<!--                                                    /fe/shop/{{current_pk}}/?page={{page_obj.next_page_number}}/-->
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                             <!-- shop-products-wrapper end -->
@@ -315,71 +340,74 @@
                                  </div>
                                 <!-- filter-sub-area end -->
                                 <!-- filter-sub-area start -->
-                                <div class="filter-sub-area pt-sm-10 pt-xs-10">
-                                    <h5 class="filter-sub-titel">Size</h5>
-                                    <div class="size-checkbox">
-                                        <form action="#">
-                                            <ul>
-                                                <li><input type="checkbox" name="product-size"><a href="#">S (3)</a></li>
-                                                <li><input type="checkbox" name="product-size"><a href="#">M (3)</a></li>
-                                                <li><input type="checkbox" name="product-size"><a href="#">L (3)</a></li>
-                                                <li><input type="checkbox" name="product-size"><a href="#">XL (3)</a></li>
-                                            </ul>
-                                        </form>
-                                    </div>
-                                </div>
+<!--                                <div class="filter-sub-area pt-sm-10 pt-xs-10">-->
+<!--                                    <h5 class="filter-sub-titel">Size</h5>-->
+<!--                                    <div class="size-checkbox">-->
+<!--                                        <form action="#">-->
+<!--                                            <ul>-->
+<!--                                                <li><input type="checkbox" name="product-size"><a href="#">S (3)</a></li>-->
+<!--                                                <li><input type="checkbox" name="product-size"><a href="#">M (3)</a></li>-->
+<!--                                                <li><input type="checkbox" name="product-size"><a href="#">L (3)</a></li>-->
+<!--                                                <li><input type="checkbox" name="product-size"><a href="#">XL (3)</a></li>-->
+<!--                                            </ul>-->
+<!--                                        </form>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <!-- filter-sub-area end -->
                                 <!-- filter-sub-area start -->
-                                <div class="filter-sub-area pt-sm-10 pt-xs-10">
-                                    <h5 class="filter-sub-titel">Color</h5>
-                                    <div class="color-categoriy">
-                                        <form action="#">
-                                            <ul>
-                                                <li><span class="white"></span><a href="#">White (1)</a></li>
-                                                <li><span class="black"></span><a href="#">Black (1)</a></li>
-                                                <li><span class="Orange"></span><a href="#">Orange (3) </a></li>
-                                                <li><span class="Blue"></span><a href="#">Blue  (2) </a></li>
-                                            </ul>
-                                        </form>
-                                    </div>
-                                </div>
+<!--                                <div class="filter-sub-area pt-sm-10 pt-xs-10">-->
+<!--                                    <h5 class="filter-sub-titel">Color</h5>-->
+<!--                                    <div class="color-categoriy">-->
+<!--                                        <form action="#">-->
+<!--                                            <ul>-->
+<!--                                                <li><span class="white"></span><a href="#">White (1)</a></li>-->
+<!--                                                <li><span class="black"></span><a href="#">Black (1)</a></li>-->
+<!--                                                <li><span class="Orange"></span><a href="#">Orange (3) </a></li>-->
+<!--                                                <li><span class="Blue"></span><a href="#">Blue  (2) </a></li>-->
+<!--                                            </ul>-->
+<!--                                        </form>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <!-- filter-sub-area end -->
                                 <!-- filter-sub-area start -->
-                                <div class="filter-sub-area pt-sm-10 pb-sm-15 pb-xs-15">
-                                    <h5 class="filter-sub-titel">Dimension</h5>
-                                    <div class="categori-checkbox">
-                                        <form action="#">
-                                            <ul>
-                                                <li><input type="checkbox" name="product-categori"><a href="#">40x60cm (6)</a></li>
-                                                <li><input type="checkbox" name="product-categori"><a href="#">60x90cm (6)</a></li>
-                                                <li><input type="checkbox" name="product-categori"><a href="#">80x120cm (6)</a></li>
-                                            </ul>
-                                        </form>
-                                    </div>
-                                 </div>
+<!--                                <div class="filter-sub-area pt-sm-10 pb-sm-15 pb-xs-15">-->
+<!--                                    <h5 class="filter-sub-titel">Dimension</h5>-->
+<!--                                    <div class="categori-checkbox">-->
+<!--                                        <form action="#">-->
+<!--                                            <ul>-->
+<!--                                                <li><input type="checkbox" name="product-categori"><a href="#">40x60cm (6)</a></li>-->
+<!--                                                <li><input type="checkbox" name="product-categori"><a href="#">60x90cm (6)</a></li>-->
+<!--                                                <li><input type="checkbox" name="product-categori"><a href="#">80x120cm (6)</a></li>-->
+<!--                                            </ul>-->
+<!--                                        </form>-->
+<!--                                    </div>-->
+<!--                                 </div>-->
                                 <!-- filter-sub-area end -->
                             </div>
                             <!--sidebar-categores-box end  -->
                             <!-- category-sub-menu start -->
-                            <div class="sidebar-categores-box mb-sm-0 mb-xs-0">
-                                <div class="sidebar-title">
-                                    <h2>Laptop</h2>
-                                </div>
-                                <div class="category-tags">
-                                    <ul>
-                                        <li><a href="# ">Devita</a></li>
-                                        <li><a href="# ">Cameras</a></li>
-                                        <li><a href="# ">Sony</a></li>
-                                        <li><a href="# ">Computer</a></li>
-                                        <li><a href="# ">Big Sale</a></li>
-                                        <li><a href="# ">Accessories</a></li>
-                                    </ul>
-                                </div>
-                                <!-- category-sub-menu end -->
-                            </div>
+<!--                            <div class="sidebar-categores-box mb-sm-0 mb-xs-0">-->
+<!--                                <div class="sidebar-title">-->
+<!--                                    <h2>Laptop</h2>-->
+<!--                                </div>-->
+<!--                                <div class="category-tags">-->
+<!--                                    <ul>-->
+<!--                                        <li><a href="# ">Devita</a></li>-->
+<!--                                        <li><a href="# ">Cameras</a></li>-->
+<!--                                        <li><a href="# ">Sony</a></li>-->
+<!--                                        <li><a href="# ">Computer</a></li>-->
+<!--                                        <li><a href="# ">Big Sale</a></li>-->
+<!--                                        <li><a href="# ">Accessories</a></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                &lt;!&ndash; category-sub-menu end &ndash;&gt;-->
+<!--                            </div>-->
                         </div>
                     </div>
+
+
                 </div>
             </div>
             <!-- Content Wraper Area End Here -->
+
 {% endblock %}

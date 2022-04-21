@@ -16,6 +16,7 @@ from adminPanel.models import *
 from product.models import *
 from advertisement.models import *
 from .models import PointWallet, WinningChance, PrizeList
+from django.core.paginator import Paginator, EmptyPage
 
 
 
@@ -295,11 +296,26 @@ def front_shop(request, pk):
     # product list by current category
     products = ProductList.objects.filter(Q(category=cat) | Q(cat_name=cat.name))
 
+    # django pagination
+    paginator = Paginator(products, 8)
+
+    page_number = request.GET.get('page', 1)
+
+    try:
+        page = paginator.page(page_number)
+    except EmptyPage:
+        page = paginator.page(1)
+
+
+    # collecting user cart and wishlist status if authenticated
+    total_amount = 0
+    user_cart_status = None
+    user_wishlist_status = None
     if request.user.is_authenticated:
         # user cart status
         user_cart_status = Cart.objects.filter(user=request.user)
 
-        total_amount = 0
+
         if user_cart_status:
             for x in user_cart_status:
                 if x.product.product_type == 'wsp':
@@ -310,19 +326,16 @@ def front_shop(request, pk):
         # user cart status
         user_wishlist_status = WishList.objects.filter(user=request.user)
 
-        context = {
-            'current_cat': cat,
-            'total_amount' : total_amount,
-            'products': products,
-            'site_logo': site_logo,
-            'user_cart_status': user_cart_status,
-            'user_wishlist_status': user_wishlist_status,
-        }
-        return render(request, 'frontEnd/shop/shop.html', context)
-
     context = {
-        'products': products,
+        'paginator' : paginator,
+        'page' : page,
+        'current_cat': cat,
+        'total_amount': total_amount,
+        'current_pk' : pk,
+        'products': page,
         'site_logo': site_logo,
+        'user_cart_status': user_cart_status,
+        'user_wishlist_status': user_wishlist_status,
     }
     return render(request, 'frontEnd/shop/shop.html', context)
 
