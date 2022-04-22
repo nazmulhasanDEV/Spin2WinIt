@@ -102,6 +102,8 @@ AUTH_USER_MODEL = 'user.Account'
 # }
 
 # ends prev section &**********************************************
+
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -190,7 +192,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'eastern747406@gmail.com'
-EMAIL_HOST_PASSWORD = 'koigela@747406@hasan'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 
 # Default primary key field type
