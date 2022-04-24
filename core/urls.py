@@ -64,4 +64,8 @@ urlpatterns = [
     re_path(r'^fe/cookie/policy/$', views.front_cookie_policy, name='frontCookiePolicy'),
     re_path(r'^fe/terms/condition/$', views.front_terms_conditions, name='frontTermsCondition'),
     re_path(r'^fe/privacy/policy/$', views.front_privacy_policy, name='frontPrivacyPolicy'),
+
+    # sign up for newletter
+    re_path(r'^fe/sign_up/newletter/$', views.front_signup_for_newletter, name='fronSignupForNewletter'),
+    re_path(r'^fe/contact/us/$', views.front_contact_us, name='frontContactUs'),
 ]

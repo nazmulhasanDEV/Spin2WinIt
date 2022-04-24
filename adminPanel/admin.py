@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ProductCategory, ProductSubCategory, AboutUs, ContactUs, SiteLogo
+from .models import *
 
 
 #
@@ -23,3 +23,12 @@ admin.site.register(AboutUs)
 admin.site.register(ContactUs)
 
 admin.site.register(SiteLogo)
+
+# subscriber model
+admin.site.register(SubscriberList)
+
+admin.site.register(FreeDelivery)
+admin.site.register(SafePayment)
+admin.site.register(ShopWithConfidence)
+admin.site.register(HelpCenter)
+admin.site.register(CustomerMessageList)

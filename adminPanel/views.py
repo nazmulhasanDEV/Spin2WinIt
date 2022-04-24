@@ -2390,6 +2390,185 @@ def ap_del_site_logo(request, pk):
 
     return redirect('apAddSiteLogo')
 
+# top footer section starts***********************************************************
+@login_required(login_url='/ap/register/updated')
+def ap_top_footer_setting(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # free delivery setting
+    free_delivery_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment
+    safe_payment_setting = SafePayment.objects.filter().first()
+
+    # free delivery setting
+    shop_with_confidence = ShopWithConfidence.objects.filter().first()
+
+    # safe payment
+    help_center = HelpCenter.objects.filter().first()
+
+    context = {
+        'free_delivery_setting' : free_delivery_setting,
+        'safe_payment_setting' : safe_payment_setting,
+        'shop_with_confidence' : shop_with_confidence,
+        'help_center' : help_center,
+    }
+
+    return render(request, 'backEnd_superAdmin/site_setting/top_footer.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_free_delivery_setting(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        des = request.POST.get('short_description')
+
+        if des and FreeDelivery.objects.count() <= 0:
+            free_delivery_model = FreeDelivery.objects.create(des=des)
+            messages.success(request, "Successfully added!")
+            return redirect('apTopFooterSetting')
+        else:
+            messages.warning(request, "Can't be added! Delete the current Object to add new one!")
+            return redirect('apTopFooterSetting')
+
+    return render(request, 'backEnd_superAdmin/site_setting/top_footer.html')
+
+@login_required(login_url='/ap/register/updated')
+def ap_del_free_delivery_setting(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_obj = FreeDelivery.objects.get(pk=pk)
+        current_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apTopFooterSetting')
+
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apTopFooterSetting')
+
+    return redirect('apTopFooterSetting')
+
+@login_required(login_url='/ap/register/updated')
+def ap_add_safe_payment_setting(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        des = request.POST.get('short_description')
+
+        if des and SafePayment.objects.count() <= 0:
+            safe_payment_model = SafePayment.objects.create(des=des)
+            messages.success(request, "Successfully added!")
+            return redirect('apTopFooterSetting')
+        else:
+            messages.warning(request, "Can't be added! Delete the current Object to add new one!")
+            return redirect('apTopFooterSetting')
+
+    return render(request, 'backEnd_superAdmin/site_setting/top_footer.html')
+
+@login_required(login_url='/ap/register/updated')
+def ap_del_safe_payment_setting(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_obj = SafePayment.objects.get(pk=pk)
+        current_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apTopFooterSetting')
+
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apTopFooterSetting')
+
+    return redirect('apTopFooterSetting')
+
+# jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+@login_required(login_url='/ap/register/updated')
+def ap_shop_with_confident_setting(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        des = request.POST.get('short_description')
+
+        if des and ShopWithConfidence.objects.count() <= 0:
+            shop_with_confident_model = ShopWithConfidence.objects.create(des=des)
+            messages.success(request, "Successfully added!")
+            return redirect('apTopFooterSetting')
+        else:
+            messages.warning(request, "Can't be added! Delete the current Object to add new one!")
+            return redirect('apTopFooterSetting')
+
+    return render(request, 'backEnd_superAdmin/site_setting/top_footer.html')
+
+@login_required(login_url='/ap/register/updated')
+def ap_del_shop_with_confident_setting(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_obj = ShopWithConfidence.objects.get(pk=pk)
+        current_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apTopFooterSetting')
+
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apTopFooterSetting')
+
+    return redirect('apTopFooterSetting')
+
+@login_required(login_url='/ap/register/updated')
+def ap_add_help_center_setting(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        des = request.POST.get('short_description')
+
+        if des and HelpCenter.objects.count() <= 0:
+            help_model = HelpCenter.objects.create(des=des)
+            messages.success(request, "Successfully added!")
+            return redirect('apTopFooterSetting')
+        else:
+            messages.warning(request, "Can't be added! Delete the current Object to add new one!")
+            return redirect('apTopFooterSetting')
+
+    return render(request, 'backEnd_superAdmin/site_setting/top_footer.html')
+
+@login_required(login_url='/ap/register/updated')
+def ap_del_help_center_setting(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_obj = HelpCenter.objects.get(pk=pk)
+        current_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apTopFooterSetting')
+
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apTopFooterSetting')
+
+    return redirect('apTopFooterSetting')
+
+# top footer section ends************************************************************
+
 @login_required(login_url='/ap/register/updated')
 def ap_about_us(request):
 
@@ -3539,9 +3718,13 @@ def ap_shop_page_banner_list(request):
     if request.user.is_admin != True:
         return redirect('frontEndLoginUser')
 
+    # user profile picture
+    profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+
     shop_page_banner_list = ShopPageBanner.objects.all()
 
     context = {
+        'profile_pic': profile_pic,
         'shop_page_banner_list': shop_page_banner_list,
     }
 
@@ -3620,3 +3803,64 @@ def ap_de_activate_shop_page_banner(request, pk):
         return redirect('apProductDetailsPgBnrList')
 
     return redirect('apShopPageBannerList')
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_subscriber_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # user profile picture
+    profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+
+    subscriber_list = SubscriberList.objects.all()
+
+    context = {
+        'subscriber_list': subscriber_list,
+        'profile_pic': profile_pic,
+    }
+
+    return render(request, 'backEnd_superAdmin/subscriber/subscriber_list.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_subscriber(request, pk):
+
+    try:
+        current_obj = SubscriberList.objects.get(pk=pk)
+        current_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apSubscriberList')
+
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apSubscriberList')
+
+    return redirect('apSubscriberList')
+
+@login_required(login_url='/ap/register/updated')
+def ap_customer_msg_list(request):
+    # user profile picture
+    profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+
+    msg_list = CustomerMessageList.objects.all()
+
+    context = {
+        'profile_pic': profile_pic,
+        'msg_list' : msg_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/message_list.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_del_customer_msg(request, pk):
+
+    try:
+        currn_obj = CustomerMessageList.objects.get(pk=pk)
+        currn_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apCustomerMessageList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apCustomerMessageList')
+    return redirect('apCustomerMessageList')

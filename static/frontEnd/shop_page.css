@@ -1,0 +1,11 @@
+.load__more_btn_sec button {
+    border: none;
+    outline: none;
+    background: #293A6C;
+    width: 120px;
+    cursor: pointer;
+    margin-top: 30px;
+    height: 35px;
+    color: white;
+    border-radius: 5px;
+}

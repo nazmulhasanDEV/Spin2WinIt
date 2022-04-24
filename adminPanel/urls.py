@@ -85,6 +85,21 @@ urlpatterns = [
     re_path(r'^ap/staff/accounts/list/$', views.ap_staff_accounts_list, name= 'apStaffAccountsList'),
 
     # site_setting section *******************************************************
+
+    # top footer section
+    re_path(r'^ap/top/footer/setting/$', views.ap_top_footer_setting, name='apTopFooterSetting'),
+    re_path(r'^ap/free/delivery/setting/$', views.ap_free_delivery_setting, name='apFreeDeliverySetting'),
+    re_path(r'^ap/del/free/delivery/setting/(?P<pk>\d+)/$', views.ap_del_free_delivery_setting, name='apDelFreeDeliverySetting'),
+
+    re_path(r'^ap/safe/payment/setting/$', views.ap_add_safe_payment_setting, name='apAddSafePaymentSetting'),
+    re_path(r'^ap/del/safe/payment/setting/(?P<pk>\d+)/$', views.ap_del_safe_payment_setting, name='apDelSafePaymentSetting'),
+
+    re_path(r'^ap/shop/with/confidence/setting/$', views.ap_shop_with_confident_setting, name='apAddShopWithConfidence'),
+    re_path(r'^ap/del/shop/with/confidence/setting/(?P<pk>\d+)/$', views.ap_del_shop_with_confident_setting, name='apDelShopWithConfidence'),
+
+    re_path(r'^ap/24_7/help/center/setting/$', views.ap_add_help_center_setting, name='apAddHelpCenterSetting'),
+    re_path(r'^ap/del/24_7/help/center/setting/(?P<pk>\d+)/$', views.ap_del_help_center_setting, name='apDelHelpCenterSetting'),
+
     re_path(r'^ap/about/us/$', views.ap_about_us, name='apAboutUs'),
     re_path(r'^ap/del/about/us/(?P<pk>\d+)/$', views.ap_del_about_us, name='apDelAboutUs'),
     re_path(r'ap/edit/about/us/(?P<pk>\d+)/$', views.ap_edit_about_us, name='apEditAboutUs'),
@@ -159,5 +174,13 @@ urlpatterns = [
 
     re_path(r'^ap/de_activate/shop/page/banner/(?P<pk>\d+)/$', views.ap_de_activate_shop_page_banner, name='apDe_ActivateShopPageBanner'),
     re_path(r'^ap/activate/shop/page/banner/(?P<pk>\d+)/$', views.ap_activate_shop_page_bannr, name='apActivateShopPageBanner'),
+
+    # newsletter/subscriber list
+    re_path(r'^ap/subscriber/list/$', views.ap_subscriber_list, name='apSubscriberList'),
+    re_path(r'^ap/remove/subscriber/(?P<pk>\d+)/$', views.ap_remove_subscriber, name='apRemoveSubscriber'),
+
+    # customer message list
+    re_path(r'^ap/customer/message/list/$', views.ap_customer_msg_list, name='apCustomerMessageList'),
+    re_path(r'^ap/del/customer/message/list/(?P<pk>\d+)/$', views.ap_del_customer_msg, name='apDelCustomerMessageList'),
 
 ]

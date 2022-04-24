@@ -30,7 +30,34 @@ class SiteLogo(models.Model):
     logo = models.ImageField(upload_to='logo')
     created = models.DateTimeField(auto_now_add=True)
 
+# top footer
+class FreeDelivery(models.Model):
+    des = models.TextField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.des
+
+class SafePayment(models.Model):
+    des = models.TextField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.des
+
+class ShopWithConfidence(models.Model):
+    des = models.TextField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.des
+
+class HelpCenter(models.Model):
+    des = models.TextField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.des
 
 # about us model
 class AboutUs(models.Model):
@@ -40,6 +67,14 @@ class AboutUs(models.Model):
     def __str__(self):
         return self.about_us
 
+
+# subscriber list
+class SubscriberList(models.Model):
+    email = models.CharField(max_length=255, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
 
 # contact us
 class ContactUs(models.Model):
@@ -109,3 +144,13 @@ class CookiePolicy(models.Model):
 
     def __str__(self):
         return self.content
+
+# customer messages
+class CustomerMessageList(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    subj = models.CharField(max_length=255)
+    msg = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name + " || " + self.msg

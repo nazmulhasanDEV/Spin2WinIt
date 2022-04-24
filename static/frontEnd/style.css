@@ -78,7 +78,35 @@ body {
 	font-style: normal;
 	font-weight: normal;
 	overflow-x: hidden;
+	background: #F5F5F5;
 }
+
+
+/* custom code #home page view button# *********** */
+.product_area_title_section { width: 100%;}
+.product_area_title_section {
+    position: relative;
+}
+
+.product_area_title_section h2 a {
+    position: absolute;
+    right: 0px;
+    cursor: pointer;
+}
+
+.product_area_title_section h2 button {
+    border: none;
+    outline: none;
+    background-color: #293A6C;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 10px;
+    color: white;
+    text-transform: uppercase;
+}
+
+/* ends custom code */
+
 a {
 	color: #a4a4a4;
 	transition: 0.3s ease-in-out;
@@ -482,8 +510,8 @@ textarea:focus {
 	background-image: url(images/slider/6.jpg);
 }
 /*Home Three | Slider Background Image*/
-.bg-7, .bg-8, .bg-9 {
-	background-image: url(images/slider/7.jpg);
+.bg-7 {
+	/*background-image: url(images/slider/7.jpg);*/
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;

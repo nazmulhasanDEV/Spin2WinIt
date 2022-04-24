@@ -24,6 +24,20 @@ def front_index(request):
 
     site_logo = SiteLogo.objects.filter().first()
 
+    contact_info = ContactUs.objects.first()
+
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
     product_cat_list = ProductCategory.objects.all()
 
     products = Product_list.objects.all()
@@ -36,6 +50,13 @@ def front_index(request):
 
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
+
         'product_cat_list': product_cat_list,
         'product_list': products,
 
@@ -48,6 +69,19 @@ def front_index(request):
 def front_home(request):
 
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
 
     # home page main banner/slider
     main_banner_or_slider = BannerList.objects.all()
@@ -83,6 +117,7 @@ def front_home(request):
             product_list.extend(current_cat_products)
 
     if request.user.is_authenticated:
+
         # user cart status
         user_cart_status = Cart.objects.filter(user=request.user)
 
@@ -107,6 +142,11 @@ def front_home(request):
             'site_logo': site_logo,
             'user_cart_status': user_cart_status,
             'user_wishlist_status': user_wishlist_status,
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
         }
         return render(request, 'frontEnd/home.html', context)
 
@@ -117,6 +157,11 @@ def front_home(request):
         'product_subcats': product_subcats,
         'product_list' : product_list,
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
     }
 
     return render(request, 'frontEnd/home.html', context)
@@ -235,6 +280,19 @@ def front_search(request):
     # site logo
     site_logo = SiteLogo.objects.filter().first()
 
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
     product_cat_list = ProductCategory.objects.all()
 
     if request.method == 'POST':
@@ -271,6 +329,12 @@ def front_search(request):
         user_wishlist_status = WishList.objects.filter(user=request.user)
 
         context = {
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
+
             'total_amount': total_amount,
             'site_logo': site_logo,
             'user_cart_status': user_cart_status,
@@ -281,6 +345,12 @@ def front_search(request):
 
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
         'product_cat_list': product_cat_list,
     }
 
@@ -289,6 +359,19 @@ def front_search(request):
 def front_shop(request, pk):
 
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
 
     # current category by pk
     cat = ProductCategory.objects.get(pk=pk)
@@ -334,6 +417,12 @@ def front_shop(request, pk):
         'current_pk' : pk,
         'products': page,
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
     }
@@ -342,6 +431,19 @@ def front_shop(request, pk):
 def front_productDetails(request, product_id):
 
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
 
     # advertisement banner
     prod_details_pg_bnr = BannerProdDetail.objects.filter(status=True).first()
@@ -402,6 +504,12 @@ def front_productDetails(request, product_id):
             'security_policy': security_policy,
             'delivery_policy': delivery_policy,
             'site_logo': site_logo,
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
+
             'prod_details_pg_bnr': prod_details_pg_bnr,
             'current_prod_revs': current_prod_revs,
             'num_of_5_star': num_of_5_star,
@@ -421,6 +529,12 @@ def front_productDetails(request, product_id):
         'security_policy' : security_policy,
         'delivery_policy' : delivery_policy,
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
         'prod_details_pg_bnr': prod_details_pg_bnr,
         'current_prod_revs': current_prod_revs,
 
@@ -484,6 +598,20 @@ def front_cart_items_list(request, username):
 
     # site logo
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
     # user cart status
     user_cart_status = Cart.objects.filter(user=request.user)
 
@@ -541,7 +669,13 @@ def front_cart_items_list(request, username):
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
+
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
     }
 
     return render(request, 'frontEnd/cart.html', context)
@@ -557,6 +691,20 @@ def front_checkout(request, username):
 
     # site logo
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
     # user cart status
     user_cart_status = Cart.objects.filter(user=request.user)
 
@@ -574,6 +722,12 @@ def front_checkout(request, username):
 
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
@@ -719,6 +873,21 @@ def front_complete_payment(request, username, order_id):
 
     # site logo
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+
     # user cart status
     user_cart_status = Cart.objects.filter(user=request.user)
 
@@ -757,6 +926,13 @@ def front_complete_payment(request, username, order_id):
 
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
+
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
@@ -853,6 +1029,20 @@ def front_wishlist(request, username):
 
     # site logo
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
     # user cart status
     user_cart_status = Cart.objects.filter(user=request.user)
 
@@ -869,6 +1059,12 @@ def front_wishlist(request, username):
 
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
@@ -894,6 +1090,19 @@ def front_remove_item_from_wishlist(request, username, pk):
 def front_game(request):
 
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
 
     if request.user.is_authenticated:
 
@@ -930,6 +1139,13 @@ def front_game(request):
 
         context = {
             'site_logo': site_logo,
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
+
+
             'user_total_remaining_chances' : user_total_remaining_chances,
             'segments': segments,
             'game_setting': game_setting,
@@ -945,6 +1161,11 @@ def front_game(request):
     context = {
         'game_setting' : game_setting,
         'site_logo' : site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
     }
     return render(request, 'frontEnd/game.html', context)
 
@@ -956,6 +1177,20 @@ def front_buy_winning_chance(request):
 
     # site logo
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
     # user cart status
     user_cart_status = Cart.objects.filter(user=request.user)
 
@@ -1032,6 +1267,12 @@ def front_buy_winning_chance(request):
                         'winning_chance' : number_of_winning_chance,
 
                         'site_logo': site_logo,
+                        'contact_info': contact_info,
+                        'free_delivery_content_setting': free_delivery_content_setting,
+                        'safe_payment_content_setting': safe_payment_content_setting,
+                        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+                        'help_center_content_setting': help_center_content_setting,
+
                         'user_cart_status': user_cart_status,
                         'user_wishlist_status': user_wishlist_status,
                         'total_amount': total_amount,
@@ -1059,6 +1300,12 @@ def front_buy_winning_chance(request):
         # 'game_setting': game_setting,
         'point_wallet' : point_wallet,
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
@@ -1071,6 +1318,22 @@ def front_pay_for_purchasing_wnning_chance(request):
 
     if request.user.is_authenticated and request.user.is_buyer != True:
         return redirect('frontEndLoginRegister')
+
+    # site logo
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
 
     # user payment status
     paid_amount = request.GET.get('paid_amount')
@@ -1103,6 +1366,12 @@ def front_pay_for_purchasing_wnning_chance(request):
 
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
@@ -1118,6 +1387,20 @@ def front_payment_successfull_msg(request, username):
 
     # site logo
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
     # user cart status
     user_cart_status = Cart.objects.filter(user=request.user)
 
@@ -1133,6 +1416,12 @@ def front_payment_successfull_msg(request, username):
                 total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
@@ -1144,6 +1433,19 @@ def front_payment_successfull_msg(request, username):
 def front_give_email_to_reset_pass(request):
 
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
 
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -1174,6 +1476,11 @@ def front_give_email_to_reset_pass(request):
     context = {
         'game_setting': game_setting,
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
     }
 
     return render(request, 'verification/email_for_forgot_pass.html', context)
@@ -1221,6 +1528,19 @@ def front_user_profile(request, username):
 
     site_logo = SiteLogo.objects.filter().first()
 
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
     # user profile pic
     user_profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
 
@@ -1241,6 +1561,11 @@ def front_user_profile(request, username):
         'user_point_wallet' : user_point_wallet,
         'user_winning_chances' : user_winning_chances,
         'site_logo' : site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
     }
     return render(request, 'frontEnd/user_profile.html', context)
 
@@ -1336,6 +1661,19 @@ def front_refund_policy(request):
 
     site_logo = SiteLogo.objects.filter().first()
 
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
     # current refund policy
     refund_policy = RefundPolicy.objects.filter().first()
 
@@ -1355,6 +1693,13 @@ def front_refund_policy(request):
                     total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
         context = {
             'site_logo': site_logo,
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
+
+
             'user_cart_status': user_cart_status,
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
@@ -1364,6 +1709,13 @@ def front_refund_policy(request):
 
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
+
         'refund_policy' : refund_policy,
     }
     return render(request, 'frontEnd/policy/refund_policy.html', context)
@@ -1375,6 +1727,19 @@ def front_return_policy(request):
         return redirect('frontEndLoginRegister')
 
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
 
     # return policy
     return_policy = ReturnPolicy.objects.filter().first()
@@ -1395,6 +1760,13 @@ def front_return_policy(request):
                     total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
         context = {
             'site_logo': site_logo,
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
+
+
             'user_cart_status': user_cart_status,
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
@@ -1405,6 +1777,13 @@ def front_return_policy(request):
 
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
+
         'return_policy': return_policy,
     }
     return render(request, 'frontEnd/policy/return_policy.html', context)
@@ -1416,6 +1795,19 @@ def front_security_policy(request):
         return redirect('frontEndLoginRegister')
 
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
 
     # security policy
     security_policy = SecurityPolicy.objects.filter().first()
@@ -1436,6 +1828,13 @@ def front_security_policy(request):
                     total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
         context = {
             'site_logo': site_logo,
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
+
+
             'user_cart_status': user_cart_status,
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
@@ -1445,6 +1844,12 @@ def front_security_policy(request):
 
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
         'security_policy': security_policy,
     }
 
@@ -1456,6 +1861,19 @@ def front_delivery_policy(request):
         return redirect('frontEndLoginRegister')
 
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
 
     # delivery policy
     delivery_policy = DeliveryPolicy.objects.filter().first()
@@ -1476,6 +1894,13 @@ def front_delivery_policy(request):
                     total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
         context = {
             'site_logo': site_logo,
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
+
+
             'user_cart_status': user_cart_status,
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
@@ -1485,11 +1910,16 @@ def front_delivery_policy(request):
 
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
         'delivery_policy' : delivery_policy,
     }
 
     return render(request, 'frontEnd/policy/delivery_policy.html', context)
-
 
 
 def front_about_us(request):
@@ -1498,6 +1928,19 @@ def front_about_us(request):
         return redirect('frontEndLoginRegister')
 
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
 
     # delivery policy
     about_us = AboutUs.objects.filter().first()
@@ -1518,6 +1961,13 @@ def front_about_us(request):
                     total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
         context = {
             'site_logo': site_logo,
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
+
+
             'user_cart_status': user_cart_status,
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
@@ -1527,6 +1977,12 @@ def front_about_us(request):
 
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
         'about_us': about_us,
     }
 
@@ -1539,6 +1995,19 @@ def front_cookie_policy(request):
         return redirect('frontEndLoginRegister')
 
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
 
     # delivery policy
     cookie = CookiePolicy.objects.filter().first()
@@ -1559,6 +2028,13 @@ def front_cookie_policy(request):
                     total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
         context = {
             'site_logo': site_logo,
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
+
+
             'user_cart_status': user_cart_status,
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
@@ -1568,6 +2044,12 @@ def front_cookie_policy(request):
 
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
         'cookie': cookie,
     }
 
@@ -1580,6 +2062,19 @@ def front_terms_conditions(request):
         return redirect('frontEndLoginRegister')
 
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
 
     # delivery policy
     terms_condition = TermsConditions.objects.filter().first()
@@ -1600,6 +2095,13 @@ def front_terms_conditions(request):
                     total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
         context = {
             'site_logo': site_logo,
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
+
+
             'user_cart_status': user_cart_status,
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
@@ -1609,6 +2111,13 @@ def front_terms_conditions(request):
 
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
+
         'terms_condition': terms_condition,
     }
 
@@ -1620,6 +2129,19 @@ def front_privacy_policy(request):
         return redirect('frontEndLoginRegister')
 
     site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
 
     # privacy policy
     privacy_polilcy = PrivacyPolicy.objects.filter().first()
@@ -1640,6 +2162,13 @@ def front_privacy_policy(request):
                     total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
         context = {
             'site_logo': site_logo,
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
+
+
             'user_cart_status': user_cart_status,
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
@@ -1649,15 +2178,77 @@ def front_privacy_policy(request):
 
     context = {
         'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
         'privacy_polilcy': privacy_polilcy,
     }
 
     return render(request, 'frontEnd/company/privacy.html', context)
 
 
+# sign up for newletter/subscibe
+def front_signup_for_newletter(request):
+
+    if request.method == 'POST':
+
+        email = request.POST.get('email')
+
+        if email and SubscriberList.objects.filter(email=email).count() <= 0:
+            subscriber_model = SubscriberList.objects.create(email=email)
+            messages.success(request, "Thanks for signing up!")
+            return redirect('frontEndHome')
+        else:
+            messages.warning(request, "You already signed up! But we appreciate your effort!")
+            return redirect('frontEndHome')
+    return redirect('frontEndHome')
 
 
+def front_contact_us(request):
 
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+    if request.method == 'POST':
+        name = request.POST.get('customerName')
+        email = request.POST.get('customerEmail')
+        subj = request.POST.get('contactSubject')
+        msg = request.POST.get('contactMessage')
+
+        if name and email and subj and msg:
+            customer_msg_list = CustomerMessageList.objects.create(name=name, email=email, subj=subj, msg=msg)
+            messages.success(request, "Thanks for contacting us. We will get back to you soon!")
+            return redirect('frontContactUs')
+
+        else:
+            messages.warning(request, "Your message can't be proccesed! Try again!")
+            return redirect('frontContactUs')
+
+    context = {
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+    }
+
+    return render(request, 'frontEnd/contact_us.html', context)
 
 
 

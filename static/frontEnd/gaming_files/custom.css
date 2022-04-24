@@ -34,3 +34,42 @@
     cursor: pointer;
     border-radius: 5px;
 }
+
+/* gaming buttons *****************************/
+.power_controls {
+    position: absolute;
+    display: flex;
+    bottom: 5px;
+    left: 5%;
+}
+
+.power_controls button {
+    height: 35px;
+}
+
+
+#spin_button {
+    background: #F8C96F;
+    border: none;
+    outline: none;
+    color: white;
+}
+
+#reset__spin__btn {
+    background: #5D140F;
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

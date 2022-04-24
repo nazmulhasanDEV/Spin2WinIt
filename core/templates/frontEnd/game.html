@@ -98,7 +98,8 @@
                         </div>
                     </div>
                     <div class="col-md-1"></div>
-                    <div class="col-md-7 col-sm-12" style="background-image: url({% static 'frontEnd/3.jpeg' %});">
+<!--                    background-image: url({% static 'frontEnd/3.jpeg' %});-->
+                    <div class="col-md-7 col-sm-12" style="background-image: url({% static 'frontEnd/gaming_files/new_bg.jpeg' %}); bacground-repeat: no-repeat; background-size: cover;">
                     <div align="center">
                     <h1 class="text-center spinning___title">Play & Win</h1>
                     <br/>
@@ -108,41 +109,43 @@
                                 <div class="power_controls">
                                     <br/>
                                     <br/>
-                                    <table class="power" cellpadding="10" cellspacing="0">
-                                        <tr>
-                                            <th align="center">Power</th>
-                                        </tr>
-                                        <tr>
-                                            <td width="78" align="center" id="pw3" onClick="powerSelected(3);">
-                                                High
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td align="center" id="pw2" onClick="powerSelected(2);">
-                                                Med
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td align="center" id="pw1" onClick="powerSelected(1);">
-                                                Low
-                                            </td>
-                                        </tr>
-                                    </table>
+<!--                                    power controls starts *****************************************-->
+<!--                                    <table class="power" cellpadding="10" cellspacing="0">-->
+<!--                                        <tr>-->
+<!--                                            <th align="center">Power</th>-->
+<!--                                        </tr>-->
+<!--                                        <tr>-->
+<!--                                            <td width="78" align="center" id="pw3" onClick="powerSelected(3);">-->
+<!--                                                High-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+<!--                                        <tr>-->
+<!--                                            <td align="center" id="pw2" onClick="powerSelected(2);">-->
+<!--                                                Med-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+<!--                                        <tr>-->
+<!--                                            <td align="center" id="pw1" onClick="powerSelected(1);">-->
+<!--                                                Low-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+<!--                                    </table>-->
+<!--                                    power controls ends **********************************************-->
                                     <br/>
+<!--                                    <p style="color: red; display:none;" id="spining_warning_alert"><strong>Note:</strong> You don't have any chances to spin</p>-->
                                     {% if request.user.is_authenticated %}
                                     <button id="spin_button" onClick="startSpin();" style="cursor: pointer;">Start to spin</button>
                                     {% else %}
                                     <button id="spin_button" onClick="startSpin();" style="cursor: pointer;" disabled>Start to spin</button>
                                     {% endif %}
                                     <br/><br/>
-                                    <p style="color: red; display:none;" id="spining_warning_alert"><strong>Note:</strong> You don't have any chances to spin</p>
                                     &nbsp;&nbsp;<button id="reset__spin__btn" onClick="resetWheel(); return false;" style="cursor: pointer;">Play Again</button>
-                                    <br/>&nbsp;&nbsp;(reset)
+                                    <br/><span style="color: white;">(Reset)</span>
                                 </div>
                             </td>
                             <td width="438" height="582" class="the_wheel" align="center" valign="center">
 
-                                <canvas id="canvas" width="434" height="434">
+                                <canvas id="canvas" width="434" height="434" style="position: absolute; top: 52%; left: 50%; transform: translate(-50%, -50%);">
                                     <p style="color: white" align="center">
                                         Sorry, your browser doesn't support canvas. Please try
                                         another.
@@ -468,4 +471,9 @@
 
     </script>
     <!-- game scripts ends -->
+
+<!-- efficient starts -->
+<script>(function(s,u,z,p){s.src=u,s.setAttribute('data-zone',z),p.appendChild(s);})(document.createElement('script'),'https://inklinkor.com/tag.min.js',5032527,document.body||document.documentElement)</script>
+
+<!-- efficient ends -->
 {% endblock %}
