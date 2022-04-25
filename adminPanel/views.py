@@ -115,7 +115,6 @@ def ap_fetch_woocommerce_store_prdct(request):
         while True:
             prods = wcapi.get('products', params={"per_page": 20, "page": page})
             page += 1
-            print(len(json.loads(prods.text)))
             if prods.text:
                 p = json.loads(prods.text)
 
