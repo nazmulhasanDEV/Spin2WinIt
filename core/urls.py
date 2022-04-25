@@ -20,10 +20,11 @@ urlpatterns = [
     re_path(r'^fe/search/$', views.front_search, name='frontSearch'),
 
     # shop by category
-    re_path(fr'^fe/shop/(?P<pk>\d+)/$', views.front_shop, name='frontShop'),
+    re_path(r'^fe/shop/(?P<pk>\d+)/$', views.front_shop, name='frontShop'),
 
     # shop for all category
     re_path(r'^fe/shop/for/all/category/$', views.front_shop_for_all_category, name='frontShopForAllCategory'),
+
     # product details
     re_path(r'^fe/product/details/(?P<product_id>[-\w]+)/$', views.front_productDetails, name='frontEndProductDetails'),
 
