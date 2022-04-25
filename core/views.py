@@ -141,7 +141,7 @@ def front_home(request):
 
     if product_cat_list:
         for cat in product_cat_list:
-            current_cat_products = ProductList.objects.filter(Q(category=cat) | Q(cat_name=cat.name))[:6]
+            current_cat_products = ProductList.objects.filter(Q(category=cat) | Q(cat_name__icontains=cat.name))[:6]
             product_list.extend(current_cat_products)
 
     if request.user.is_authenticated:
@@ -431,7 +431,7 @@ def front_shop_for_all_category(request):
 
     if product_cat_list:
         for cat in product_cat_list:
-            current_cat_products = ProductList.objects.filter(Q(category=cat) | Q(cat_name=cat.name))[:5]
+            current_cat_products = ProductList.objects.filter(Q(category=cat) | Q(cat_name__icontains=cat.name))[:5]
             product_list.extend(current_cat_products)
 
     if request.user.is_authenticated:
@@ -506,7 +506,7 @@ def front_shop(request, pk):
     cat = ProductCategory.objects.get(pk=pk)
 
     # product list by current category
-    products = ProductList.objects.filter(Q(category=cat) | Q(cat_name=cat.name))
+    products = ProductList.objects.filter(Q(category=cat) | Q(cat_name__icontains=cat.name))
 
     # django pagination
     paginator = Paginator(products, 8)

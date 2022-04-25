@@ -465,7 +465,7 @@
                         {% for y in product_list %}
 
 
-                        {% if y.cat_name == x.name or y.category.name == x.name %}
+                        {% if x.name in y.cat_name or y.category.name == x.name %}
 
                         {% if y.product_type == 'wsp' %}
                         <div class="col-lg-12">
@@ -499,11 +499,11 @@
                                 <div class="product_desc" style="padding-left: 10px; padding-bottom: 5px; position: absolute; bottom: 5px;">
                                     <div class="product_desc_info">
                                         <div class="product-review">
-                                            <h5 class="manufacturer">
-                                                <a href="shop-left-sidebar.html"
-                                                >{{y.brand_name}}</a
-                                                >
-                                            </h5>
+<!--                                            <h5 class="manufacturer">-->
+<!--                                                <a href="shop-left-sidebar.html"-->
+<!--                                                >{{y.brand_name}}</a-->
+<!--                                                >-->
+<!--                                            </h5>-->
                                             <div class="rating-box">
                                                 <ul class="rating">
                                                     <li><i class="fa fa-star-o"></i></li>
@@ -523,9 +523,9 @@
                                             >
                                         </h4>
                                         <div class="price-box">
-                                            <span class="new-price">${{y.price}}</span>
+                                            <span class="new-price">${{y.price|floatformat:2}}</span>
                                             {% if y.regular_price %}
-                                            <span class="old-price">${{y.regular_price}}</span>
+                                            <span class="old-price">${{y.regular_price|floatformat:2}}</span>
                                             {% endif %}
 <!--                                            <span class="discount-percentage">-7%</span>-->
                                         </div>

@@ -121,6 +121,11 @@ def ap_fetch_woocommerce_store_prdct(request):
 
                 try:
                     for x in p:
+                        # combining multiple categories of one product
+                        cats = ''
+                        for cat in x['categories']:
+                            cats = cats + cat['name'] + ' ,'
+
                         if len(ProductList.objects.filter(product_id=x['id'])) <= 0:
                             product_list_model = ProductList.objects.create(
                                 user=request.user,
@@ -136,7 +141,7 @@ def ap_fetch_woocommerce_store_prdct(request):
                                 avrg_rating=x['average_rating'],
                                 rating_count=x['rating_count'],
                                 cat_id=x['categories'][0]['id'],
-                                cat_name=x['categories'][0]['name'],
+                                cat_name=cats,
                                 subcat_id='1',
                                 subcat_name='subcat_name',
                                 security_policy='apcp',
