@@ -65,10 +65,12 @@
 .disclaimer__content {
     position: absolute;
     max-width: 400px;
+    max-height: 400px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: white;
+    overflow: hidden;
 }
 
 .disclaimer__content .title {
@@ -81,6 +83,8 @@
 
 .disclaimer__content .content {
     padding: 15px;
+    max-height: 300px;
+    overflow-y: scroll;
 }
 .disclaimer__content .content p {
     text-align: justify;
