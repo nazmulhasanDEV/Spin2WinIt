@@ -67,6 +67,7 @@
                                     <th>Product Title</th>
                                     <th>Seller Type</th>
                                     <th>Current price</th>
+                                    <th>Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
@@ -82,7 +83,19 @@
                                     <td>Seller(x.product.user.email)</td>
                                     {% endif %}
 
+
+                                    {% if x.product.product_type == 'wsp' %} <!-- wsp== woocommerce store product -->
+                                    <td>{{x.product.price}}</td>
+                                    {% else %}
                                     <td>{{x.product.new_price}}</td>
+                                    {% endif %}
+
+                                    {% if x.status %}
+                                    <td>Activated</td>
+                                    {% else %}
+                                    <td>De-Activated</td>
+                                    {% endif %}
+
                                     <td class="text-center">
 
                                         <!-- modal for activation/de-activation object********************************************-->
@@ -133,7 +146,7 @@
                                         </div>
                                         <!-- modal for activation/de-activation object ends ******************************************-->
 
-                                        <a href="{% url 'apAdminProductDetails' pk=x.product.pk %}">
+                                        <a href="{% url 'apAdminCustomProductDetails' pk=x.product.pk product_id=x.product.product_id %}">
                                             <button type="button" style="border:none; background: #222D32;color:white;">
                                                 Check details</button>
                                         </a>
@@ -188,6 +201,7 @@
                                     <th>Product title</th>
                                     <th>Product category</th>
                                     <th>Current price</th>
+                                    <th>Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </tfoot>

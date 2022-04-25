@@ -19,6 +19,23 @@ from .models import PointWallet, WinningChance, PrizeList
 from django.core.paginator import Paginator, EmptyPage
 
 
+def get_User_ip(request):
+
+    if request.method == 'GET':
+        btn_id = request.GET.get('btn_id')
+
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[-1].strip()
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+
+        if btn_id == '1' and ip and DisclaimerAgreeDisagreeIPList.objects.filter(ip=ip).count() <= 0:
+            user_ip_list = DisclaimerAgreeDisagreeIPList.objects.create(ip=ip, status=True)
+        if btn_id == '2' and ip and DisclaimerAgreeDisagreeIPList.objects.filter(ip=ip).count() <= 0:
+            user_ip_list = DisclaimerAgreeDisagreeIPList.objects.create(ip=ip, status=False)
+    return redirect('frontEndHome')
+
 
 def front_index(request):
 
@@ -90,6 +107,17 @@ def front_home(request):
 
     products = ProductList.objects.all()
 
+    # checking disclaimer agreement of the current user's ip
+    ip_exist = None
+    if True:
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            crrnt_ip = x_forwarded_for.split(',')[-1].strip()
+            ip_exist = DisclaimerAgreeDisagreeIPList.objects.filter(ip=crrnt_ip).first()
+        else:
+            crrnt_ip = request.META.get('REMOTE_ADDR')
+            ip_exist = DisclaimerAgreeDisagreeIPList.objects.filter(ip=crrnt_ip).first()
+
     # product category list which has at least one product
     product_catList_with_prodct = []
     for x in product_cat_list:
@@ -133,6 +161,7 @@ def front_home(request):
         user_wishlist_status = WishList.objects.filter(user=request.user)
 
         context = {
+            'ip_exist': ip_exist,
             'main_banner_or_slider' : main_banner_or_slider,
             'product_cat_list': product_catList_with_prodct,
             'cats_in_subcats' : cats_in_subcats,
@@ -151,6 +180,7 @@ def front_home(request):
         return render(request, 'frontEnd/home.html', context)
 
     context = {
+        'ip_exist': ip_exist,
         'main_banner_or_slider' : main_banner_or_slider,
         'product_cat_list' : product_catList_with_prodct,
         'cats_in_subcats' : cats_in_subcats,
@@ -355,6 +385,105 @@ def front_search(request):
     }
 
     return render(request, 'frontEnd/search.html', context)
+
+def front_shop_for_all_category(request):
+
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+    # home page main banner/slider
+    main_banner_or_slider = BannerList.objects.all()
+
+    product_cat_list = ProductCategory.objects.all()
+
+    products = ProductList.objects.all()
+
+    # product category list which has at least one product
+    product_catList_with_prodct = []
+    for x in product_cat_list:
+        if ProductList.objects.filter(Q(category=x) | Q(cat_name__icontains=x.name)):
+            product_catList_with_prodct.append(x)
+
+    # product subcategory
+    product_subcats = ProductSubCategory.objects.all()
+
+    cats_in_subcats = []  # category list which has at least one subcategory
+    for subcat in product_subcats:
+        if subcat.category.name in cats_in_subcats:
+            pass
+        else:
+            cats_in_subcats.append(subcat.category.name)
+
+    # filtered products by category and listing all the product by category which has at least one product
+    product_list = []
+
+    if product_cat_list:
+        for cat in product_cat_list:
+            current_cat_products = ProductList.objects.filter(Q(category=cat) | Q(cat_name=cat.name))[:5]
+            product_list.extend(current_cat_products)
+
+    if request.user.is_authenticated:
+
+        # user cart status
+        user_cart_status = Cart.objects.filter(user=request.user)
+
+        total_amount = 0
+        if user_cart_status:
+            for x in user_cart_status:
+                if x.product.product_type == 'wsp':
+                    total_amount = total_amount + (float(x.product.price) * x.quantity)
+                if x.product.product_type == 'mcp':
+                    total_amount = total_amount + (x.product.new_price * x.quantity)
+
+        # user cart status
+        user_wishlist_status = WishList.objects.filter(user=request.user)
+
+        context = {
+            'main_banner_or_slider': main_banner_or_slider,
+            'product_cat_list': product_catList_with_prodct,
+            'cats_in_subcats': cats_in_subcats,
+            'product_subcats': product_subcats,
+            'total_amount': total_amount,
+            'product_list': product_list,
+            'site_logo': site_logo,
+            'user_cart_status': user_cart_status,
+            'user_wishlist_status': user_wishlist_status,
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
+        }
+        return render(request, 'frontEnd/shop/shop_for_all_cats.html', context)
+
+    context = {
+        'ip_exist': ip_exist,
+        'main_banner_or_slider': main_banner_or_slider,
+        'product_cat_list': product_catList_with_prodct,
+        'cats_in_subcats': cats_in_subcats,
+        'product_subcats': product_subcats,
+        'product_list': product_list,
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+    }
+
+    return render(request, 'frontEnd/shop/shop_for_all_cats.html')
 
 def front_shop(request, pk):
 
@@ -1104,6 +1233,9 @@ def front_game(request):
     # help center setting
     help_center_content_setting = HelpCenter.objects.filter().first()
 
+    # grabing sponsored product sponsored product
+    sponsored_product = SponsoredProductForPrize.objects.filter(status=True).first()
+
     if request.user.is_authenticated:
 
         # getting current spinning chances
@@ -1129,7 +1261,6 @@ def front_game(request):
             user_prize_list_model = PrizeList(user=request.user, pirze=won_prize)
             user_prize_list_model.save()
 
-        segments = [{'color': '#3cb878', 'text': '521'}, {'color': '#3cb878', 'text': '521'}]
         # grabing game settings
         game_setting = GameSetting.objects.filter(status=True).first()
 
@@ -1145,9 +1276,9 @@ def front_game(request):
             'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
             'help_center_content_setting': help_center_content_setting,
 
+            'sponsored_product' : sponsored_product,
 
             'user_total_remaining_chances' : user_total_remaining_chances,
-            'segments': segments,
             'game_setting': game_setting,
             'active_segment_list' : active_segment_list,
             'number_of_segments' : number_of_segments,
@@ -1166,6 +1297,8 @@ def front_game(request):
         'safe_payment_content_setting': safe_payment_content_setting,
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
+
+        'sponsored_product': sponsored_product,
     }
     return render(request, 'frontEnd/game.html', context)
 

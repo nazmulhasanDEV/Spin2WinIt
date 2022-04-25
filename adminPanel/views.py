@@ -845,7 +845,7 @@ def ap_add_admin_custsom_product(request):
         title = request.POST['title']
         brand__name = request.POST['brand__name']
         category = request.POST['category']
-        sub_category = request.POST['sub_category']
+        sub_category = request.POST.get('sub_category')
         short_des = request.POST['short_des']
         details = request.POST['details']
         new_price = float(request.POST['new_price'])
@@ -865,8 +865,13 @@ def ap_add_admin_custsom_product(request):
         sponsor_status = request.POST.get('sponsor__status')
 
         product_id = uuid.uuid4()
+
         curnt_product_cat = ProductCategory.objects.filter(pk=category).first()
-        curnt_product_subcat = ProductSubCategory.objects.filter(pk=sub_category).first()
+
+        curnt_product_subcat = None
+
+        if sub_category:
+            curnt_product_subcat = ProductSubCategory.objects.filter(pk=sub_category).first()
 
 
         try:
@@ -1097,7 +1102,7 @@ def ap_update_admin_custom_product(request, pk, product_id):
         title = request.POST['title']
         brand__name = request.POST['brand__name']
         category = request.POST['category']
-        sub_category = request.POST['sub_category']
+        sub_category = request.POST.get('sub_category')
         short_des = request.POST['short_des']
         details = request.POST['details']
         new_price = float(request.POST['new_price'])
@@ -1117,7 +1122,10 @@ def ap_update_admin_custom_product(request, pk, product_id):
         delete_old_images = request.POST.get('delete_old_images')
 
         curnt_product_cat = ProductCategory.objects.filter(pk=category).first()
-        curnt_product_subcat = ProductSubCategory.objects.filter(pk=sub_category).first()
+
+        curnt_product_subcat = None
+        if sub_category:
+            curnt_product_subcat = ProductSubCategory.objects.filter(pk=sub_category).first()
 
         fs = FileSystemStorage()
 
@@ -1771,6 +1779,17 @@ def ap__update_admin_wcmrce_product(request, pk, product_id):
                 messages.success(request, "Successfully updated!")
                 return redirect('apAllProductList')
             else:
+                # removing/saving product from sponsored product prize list if sponsored status is false
+                if sponsor_status == 'no' and len(
+                        SponsoredProductForPrize.objects.filter(product=current_product_data)) > 0:
+                    sponsored_product = SponsoredProductForPrize.objects.get(product=current_product_data)
+                    sponsored_product.delete()
+
+                if sponsor_status == 'yes' and len(
+                        SponsoredProductForPrize.objects.filter(product=current_product_data)) <= 0:
+                    sponsored_product = SponsoredProductForPrize(product=current_product_data)
+                    sponsored_product.save()
+
                 if policy == 'company':
 
                     current_product_data.title = title

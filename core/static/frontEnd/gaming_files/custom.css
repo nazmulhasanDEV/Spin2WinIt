@@ -1,3 +1,31 @@
+#prize__section img{
+    width: 100%;
+}
+
+#prize__section a button {
+    width: 100%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #293A6C;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: white;
+}
+
+#prize__section .prize__applicable_points {
+    margin-top: 15px;
+}
+
+#prize__section .prize__applicable_points ul {
+    padding-left: 20px;
+}
+
+#prize__section .prize__applicable_points ul li {
+    list-style-type: disc;
+}
+
+
 .gaming_user_available_points_section {
     background: #FED700;
     display: flex;

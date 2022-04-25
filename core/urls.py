@@ -4,6 +4,9 @@ from . import views
 import uuid
 
 urlpatterns = [
+
+    re_path(r'^fe/get/user/ip/$', views.get_User_ip, name='frontGetUserIp'),
+
     re_path(r'^fe/index/$', views.front_index, name="frontEndIndex"),
     re_path(r'^$', views.front_home, name='frontEndHome'),
     re_path(r'^fe/login/register/$', views.front_loginRegister, name='frontEndLoginRegister'),
@@ -18,6 +21,9 @@ urlpatterns = [
 
     # shop by category
     re_path(fr'^fe/shop/(?P<pk>\d+)/$', views.front_shop, name='frontShop'),
+
+    # shop for all category
+    re_path(r'^fe/shop/for/all/category/$', views.front_shop_for_all_category, name='frontShopForAllCategory'),
     # product details
     re_path(r'^fe/product/details/(?P<product_id>[-\w]+)/$', views.front_productDetails, name='frontEndProductDetails'),
 

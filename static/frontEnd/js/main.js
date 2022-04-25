@@ -563,3 +563,28 @@ Note: main.js, All Default Scripting Languages For This Theme Included In This F
 /*----------------------------------------------------------------------------------------------------*/
 /*------------------------------------------> The End <-----------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------*/
+const i__agree = document.querySelector('.i__agree');
+const i__disagree = document.querySelector('.i__disagree');
+
+const disclaimer__root__box = document.querySelector('.disclaimer__root__box');
+
+function hideDisclaimerRootBox(btn) {
+
+    console.log(btn.id);
+
+    // ajax starts
+            $.ajax({
+                url: '/fe/get/user/ip/',
+                type: 'get',
+                data: {
+                    btn_id: btn.id,
+                },
+                success: function(response){
+                    console.log("success")
+                },
+            });
+            // ajax ends
+    disclaimer__root__box.style.display = 'none';
+}
+
+

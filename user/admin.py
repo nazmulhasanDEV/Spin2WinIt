@@ -81,3 +81,6 @@ admin.site.register(VerificationCode)
 
 admin.site.register(BillingInfo)
 admin.site.register(ShippingInfo)
+
+# disclaimer ip list
+admin.site.register(DisclaimerAgreeDisagreeIPList)

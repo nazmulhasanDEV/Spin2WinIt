@@ -38,7 +38,6 @@
                                           placeholder="Enter" required>{{current_product_data.title}}</textarea>
                                 <script>
                                         CKEDITOR.replace('title');//name of textarea field
-
                                 </script>
                             </div>
                             <div class="col-md-6">
@@ -71,11 +70,15 @@
                                 <label>Select sub-category</label>
                                 <select name="sub_category" class="form-control ap_addProduct_subcategory">
                                     <option value="0" selected>Select subcategory</option>
+                                    {% if product_subcategory %}
+
                                     {% for x in product_subcategory %}
                                     {% if x.pk == current_product_data.subcategory.pk %}
                                     <option value="{{x.pk}}" selected>{{x.name}}</option>
                                     {% endif %}
                                     {% endfor %}
+
+                                    {% endif %}
                                 </select>
                             </div>
                         </div>
@@ -87,7 +90,6 @@
                                           placeholder="Product short description" required>{{current_product_data.short_des}}</textarea>
                                 <script>
                                         CKEDITOR.replace('short_des');//name of textarea field
-
                                 </script>
                             </div>
                             <div class="col-md-6">
@@ -106,12 +108,12 @@
                             <div class="col-md-6">
                                 <label>Product new price(usd)</label>
                                 <input type="number" name="new_price" class="form-control"
-                                       value="{{current_product_data.price}}" placeholder="$50">
+                                       value="{{current_product_data.price}}" step="0.01" placeholder="$50">
                             </div>
                             <div class="col-md-6">
                                 <label>Product old price(usd)</label>
                                 <input type="number" name="old_price" class="form-control"
-                                       value="{{current_product_data.regular_price}}" placeholder="$50">
+                                       value="{{current_product_data.regular_price}}" step="0.01" placeholder="$50">
                             </div>
                         </div>
 
@@ -214,7 +216,7 @@
                             <div class="col-md-6">
                                 <label>In stock*</label>
                                 <input type="number" name="in_stock" class="form-control"
-                                       value="{{current_product_data.in_stock}}" placeholder="In Stock"/>
+                                       value="{{current_product_data.in_stock}}"  placeholder="In Stock"/>
                             </div>
 
                         </div>
@@ -340,7 +342,7 @@
 
                             <div class="col-md-6">
                                 <label>Select sub-category</label>
-                                <select name="sub_category" class="form-control ap_addProduct_subcategory" required>
+                                <select name="sub_category" class="form-control ap_addProduct_subcategory">
                                     {% for x in product_subcategory %}
                                     {% if x.pk == current_product_data.subcategory.pk %}
                                     <option value="{{x.pk}}" selected>{{x.name}}</option>
@@ -376,12 +378,12 @@
                             <div class="col-md-6">
                                 <label>Product new price(usd)</label>
                                 <input type="number" name="new_price" class="form-control"
-                                       value="{{current_product_data.new_price}}" placeholder="$50" required>
+                                       value="{{current_product_data.new_price}}" placeholder="$50" step="0.01" required>
                             </div>
                             <div class="col-md-6">
                                 <label>Product old price(usd)</label>
                                 <input type="number" name="old_price" class="form-control"
-                                       value="{{current_product_data.old_price}}" placeholder="$50" required>
+                                       value="{{current_product_data.old_price}}" placeholder="$50" step="0.01" required>
                             </div>
                         </div>
 

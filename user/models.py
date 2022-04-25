@@ -156,3 +156,12 @@ class ShippingInfo(models.Model):
 
     def __str__(self):
         return str(self.user.email)
+
+# disclaimer model
+class DisclaimerAgreeDisagreeIPList(models.Model):
+    ip = models.CharField(max_length=255, blank=True, null=True)
+    status = models.BooleanField(default=False, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.ip
