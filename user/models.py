@@ -105,7 +105,7 @@ class UserProfilePicture(models.Model):
     def __str__(self):
         return self.user.email
 
-# verification code model
+# verification code model(not necessary)
 class VerificationCode(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True, null=True)
     user_email = models.CharField(max_length=255, default='', blank=True, null=True)
