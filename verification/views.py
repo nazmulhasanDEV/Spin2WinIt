@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from .models import *
-from user.models import VerificationCode, Account
+from user.models import *
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
+from adminPanel.models import *
+from core.models import *
 
 
 @csrf_protect
@@ -62,12 +64,42 @@ def resendVerificationCode(request):
 
 def verifyUserAccnt(request, username, phone_no):
 
+    # site logo
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
     try:
         user = Account.objects.get(username=username)
         user.status = '1'
         user.is_active = True
         user.save()
+
+        # adding 1000 points as bonus to wallet
+        point_wallet = PointWallet.objects.create(user=user)
+        point_wallet.available = int(point_wallet.available) + 1000
+        point_wallet.save()
     except:
         pass
 
-    return render(request, 'verification/verify_accnt.html')
+    context = {
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+    }
+
+    return render(request, 'verification/verify_accnt.html', context)

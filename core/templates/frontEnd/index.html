@@ -177,7 +177,7 @@
                       <div class="hm-minicart-trigger">
                         <span class="item-icon"></span>
                         <span class="item-text"
-                          >${{total_amount}}
+                          >${{total_amount|floatformat:'2'}}
                           <span class="cart-item-count">{{user_cart_status|length}}</span>
                         </span>
                       </div>
@@ -239,7 +239,7 @@
                           {% endif %}
                         </ul>
                         <p class="minicart-total">
-                          SUBTOTAL: <span>${{total_amount}}</span>
+                          SUBTOTAL: <span>${{total_amount|floatformat:'2'}}</span>
                         </p>
                         <div class="minicart-button">
                           <a
@@ -764,13 +764,15 @@
                         </a>
                       </li>
 
+
                       <li class="facebook">
-                        <a
-                          href="https://www.facebook.com/"
-                          data-toggle="tooltip"
-                          target="_blank"
-                          title="Facebook"
-                        >
+<!--                        <a-->
+<!--                          href="https://www.facebook.com/"-->
+<!--                          data-toggle="tooltip"-->
+<!--                          target="_blank"-->
+<!--                          title="Facebook"-->
+<!--                        >-->
+
                           <i class="fab fa-facebook"></i>
                         </a>
                       </li>

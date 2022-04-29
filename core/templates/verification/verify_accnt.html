@@ -2,10 +2,30 @@
 {% load static %}
 
 {% block main_block %}
-         <div class="alert alert-success alert-dismissible fade show" role="alert" >
-                <strong>Your account has been verified successfully!</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 col-sm-3"></div>
+
+        <div class="col-md-6 col-sm-6">
+            <div class="verification_success_box">
+                <div class="verification_success__content text-center">
+                    <div class="icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h1>Welcome! You're all set</h1>
+                    <p>
+                        Your account has been verified successfully! You got <strong>1000 reward points</strong> as bonus!
+                    </p>
+                    <a href="/fe/login/register">
+                        <button type="button">
+                            My Profile
+                        </button>
+                    </a>
+                </div>
             </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3"></div>
+    </div>
+</div>
 {% endblock %}

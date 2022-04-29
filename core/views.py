@@ -1,3 +1,5 @@
+import math
+import threading
 import uuid
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
@@ -17,6 +19,7 @@ from product.models import *
 from advertisement.models import *
 from .models import PointWallet, WinningChance, PrizeList
 from django.core.paginator import Paginator, EmptyPage
+
 
 
 def get_User_ip(request):
@@ -196,6 +199,12 @@ def front_home(request):
 
     return render(request, 'frontEnd/home.html', context)
 
+
+def send__mail(email):
+
+    email.send()
+    return True
+
 def front_loginRegister(request):
 
     site_logo = SiteLogo.objects.filter().first()
@@ -215,6 +224,28 @@ def front_loginRegister(request):
             try:
                 if len(Account.objects.filter(email=email)) <= 0 and len(Account.objects.filter(username=username)) <= 0 and len(Account.objects.filter(phone_no=phone)) <= 0:
 
+                    # # sending verification email with code*********************************
+                    # verification__code = rand_num_gen(3)
+                    #
+                    # # save to verification code model by user
+                    # verification_code_model = VerificationCode(user_email=email, code=verification__code)
+                    # verification_code_model.save()
+                    #
+                    # request.session.flush() # removing current session data
+                    # request.session['v_email'] = email
+                    # request.session['v_code'] = verification__code
+                    # request.session.set_expiry(300)
+                    # saving user information after sending verification mail
+                    verification_url = f'http://127.0.0.1:8000/user/account/veirfication/{username}/{phone}'
+                    subject = f"Verification code"
+                    html_content = render_to_string('backEnd_superAdmin/verification_template.html',
+                                                    context={'verification_url': verification_url})
+                    email = EmailMessage(subject, html_content, to=['nazmulhasan747406@gmail.com'])
+                    email.content_subtype = 'html'
+                    email.send(fail_silently=False)
+                    # EmailThreading(email).start()
+
+
                     user = Account.objects.create_user(email=email, username=username, phone_no=phone,
                                                        password=password)
                     if user_role == 'b_r':
@@ -227,29 +258,13 @@ def front_loginRegister(request):
                     user.lname = lname
                     user.nid_no = nid__card_no
                     user.save()
-
-                    # # sending verification email with code*********************************
-                    # verification__code = rand_num_gen(3)
-                    #
-                    # # save to verification code model by user
-                    # verification_code_model = VerificationCode(user_email=email, code=verification__code)
-                    # verification_code_model.save()
-                    #
-                    # request.session.flush() # removing current session data
-                    # request.session['v_email'] = email
-                    # request.session['v_code'] = verification__code
-                    # request.session.set_expiry(300)
-                    verification_url = f'http://127.0.0.1:8000/user/account/veirfication/{username}/{phone}'
-                    subject = f"Verification code"
-                    html_content = render_to_string('backEnd_superAdmin/verification_template.html', context={'verification_url': verification_url})
-                    email = EmailMessage(subject, html_content, to=['nazmulhasan747406@gmail.com'])
-                    email.content_subtype = 'html'
-                    EmailThreading(email).start()
-
                     messages.success(request, "Verification link sent to your mail!")
                     return redirect('frontEndLoginRegister')
             except:
-                messages.success(request, "Account already exists with these email or username! Try again!")
+                user = Account.objects.filter(email=email).first()
+                if user:
+                    user.delete()
+                messages.success(request, "Account already exists with these email or username Or email not may be found! Try again!")
                 return redirect('frontEndLoginRegister')
 
 
@@ -469,12 +484,12 @@ def front_shop_for_all_category(request):
         return render(request, 'frontEnd/shop/shop_for_all_cats.html', context)
 
     context = {
-        'ip_exist': ip_exist,
         'main_banner_or_slider': main_banner_or_slider,
         'product_cat_list': product_catList_with_prodct,
         'cats_in_subcats': cats_in_subcats,
         'product_subcats': product_subcats,
         'product_list': product_list,
+
         'site_logo': site_logo,
         'contact_info': contact_info,
         'free_delivery_content_setting': free_delivery_content_setting,
@@ -483,7 +498,7 @@ def front_shop_for_all_category(request):
         'help_center_content_setting': help_center_content_setting,
     }
 
-    return render(request, 'frontEnd/shop/shop_for_all_cats.html')
+    return render(request, 'frontEnd/shop/shop_for_all_cats.html', context)
 
 def front_shop(request, pk):
 
@@ -1050,6 +1065,16 @@ def front_complete_payment(request, username, order_id):
                 productList__model = ProductList.objects.filter(pk=item.product.pk).first()
                 productList__model.total_sold = productList__model.total_sold + item.quantity
                 productList__model.save()
+
+            # give user 1% reward point as bonus
+            bonus_reward_point = (float(paid_amount) * 1) / 100
+            # save to user wallet
+            user_wallet = PointWallet.objects.filter(user=request.user).first()
+            if user_wallet:
+                user_wallet.available = int(user_wallet.available) + math.ceil(bonus_reward_point)
+                user_wallet.save()
+            else:
+                user_wallet = PointWallet.objects.create(user=request.user, available=math.ceil(bonus_reward_point))
 
             return redirect('frontPaymentSuccessfullmsg', username=request.user.username)
 
@@ -1701,6 +1726,40 @@ def front_user_profile(request, username):
         'help_center_content_setting': help_center_content_setting,
     }
     return render(request, 'frontEnd/user_profile.html', context)
+
+@login_required(login_url='/fe/login/register')
+def front_send_email_invitation(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+        mail_to = request.POST.get('email')
+        msg = request.POST.get('msg')
+
+        try:
+            subject = "Invitation!"
+            html_content = msg
+            email = EmailMessage(subject, html_content, to=['nazmulhasan747406@gmail.com'])
+            email.content_subtype = 'html'
+            email.send(fail_silently=False)
+
+            # update user wallet
+            user_wallet = PointWallet.objects.filter(user=request.user).first()
+            if user_wallet:
+                user_wallet.available = int(user_wallet.available) + 50
+            else:
+                user__wallet = PointWallet.objects.create(user=request.user, available=50)
+
+            invitation_model = UserMailInvitations.objects.create(user=request.user, mail_to=mail_to, msg=msg)
+            messages.success(request, "Invitation sent successfully! You got 50 reward points as bonus!")
+            return redirect('frontEndUserProfile', username=request.user.username)
+        except:
+            messages.warning(request, "Invitation can't be sent! Try again!")
+            return redirect('frontEndUserProfile', username=request.user.username)
+
+    return redirect('frontEndUserProfile', username=request.user.username)
+
 
 @login_required(login_url='/fe/login/register')
 def front_logoutUser(request):

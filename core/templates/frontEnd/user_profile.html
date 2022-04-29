@@ -535,6 +535,52 @@
                     <div class="tab-pane fade show active mt-50" id="my_profile" role="tabpanel"
                          aria-labelledby="my_profile-tab">
                         <div class="container">
+                            <div class="row invite__friend__section">
+                                <div class="col-md-12">
+
+                                    <!--                                    modal starts-->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Invite & Get <strong style="color: #293a6c;">50</strong> Reward Point as Bonus!</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'frontSendEmailInvitation' %}" method="post" enctype="multipart/form-data">
+                                                        {% csrf_token %}
+                                                        <div class="form-group">
+                                                            <label for="recipient-name" class="col-form-label">Recipient:</label>
+                                                            <input type="text" name="email" placeholder="Email" class="form-control" id="recipient-name">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="message-text"
+                                                                   class="col-form-label">Message:</label>
+                                                            <textarea class="form-control" name="msg" placeholder="Message" id="message-text"></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn" style="background: #293A6C;color: white;">Send Invitation</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--                                    modal ends-->
+                                    <div class="content">
+                                        <button type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="fas fa-envelope-open-text"></i> Invite</button>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <table class="table">
@@ -884,12 +930,15 @@
                                                                             <div class="feedback">
                                                                                 <h3 class="feedback-title">Our
                                                                                     Feedback</h3>
-                                                                                <form action="{% url 'frontLeaveProductReview' product_id=product.product.product_id %}" method="post" enctype="multipart/form-data">
+                                                                                <form action="{% url 'frontLeaveProductReview' product_id=product.product.product_id %}"
+                                                                                      method="post"
+                                                                                      enctype="multipart/form-data">
                                                                                     {% csrf_token %}
                                                                                     <p class="your-opinion">
                                                                                         <label>Your Rating</label>
                                                                                         <span>
-                                                                                            <select name="ratin_val" class="star-rating">
+                                                                                            <select name="ratin_val"
+                                                                                                    class="star-rating">
                                                                                                 <option value="1">1</option>
                                                                                                 <option value="2">2</option>
                                                                                                 <option value="3">3</option>
@@ -912,7 +961,10 @@
                                                                                             <a href="#" class="close"
                                                                                                data-dismiss="modal"
                                                                                                aria-label="Close">Close</a>
-                                                                                            <button type="submit" style="background: #293A6C; cursor: pointer; width: 100px; height: 30px; color: white; border: none; outline: none;">Submit</button>
+                                                                                            <button type="submit"
+                                                                                                    style="background: #293A6C; cursor: pointer; width: 100px; height: 30px; color: white; border: none; outline: none;">
+                                                                                                Submit
+                                                                                            </button>
                                                                                         </div>
                                                                                     </div>
                                                                                 </form>
@@ -1044,18 +1096,22 @@
 <div class="container">
     <div class="row">
         <div class="col-md">
-            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
         </div>
 
         <div class="col-md">
-            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
         </div>
 
         <div class="col-md">
-            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
         </div>
         <div class="col-md">
-            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
         </div>
     </div>
 </div>

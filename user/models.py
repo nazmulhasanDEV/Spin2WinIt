@@ -105,6 +105,17 @@ class UserProfilePicture(models.Model):
     def __str__(self):
         return self.user.email
 
+
+# user mail invitations
+class UserMailInvitations(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True)
+    mail_to = models.CharField(max_length=255, blank=True)
+    msg = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.user.email + " || " + self.mail_to
+
+
 # verification code model(not necessary)
 class VerificationCode(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True, null=True)

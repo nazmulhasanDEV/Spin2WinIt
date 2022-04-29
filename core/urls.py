@@ -30,6 +30,10 @@ urlpatterns = [
 
     # user profile section **************************
     re_path(r'^fe/buyer/user/profile/(?P<username>\w+)/$', views.front_user_profile, name='frontEndUserProfile'),
+
+    # user invitation
+    re_path(r'^fe/send/mail/invitation/$', views.front_send_email_invitation, name='frontSendEmailInvitation'),
+
     re_path(r'^fe/logout/user/$', views.front_logoutUser, name='frontEndLogoutUser'),
     re_path(r'^fe/update/profile/pircture/$', views.front_updateProfile_picture, name='frontUpdateProfilePic'),
     re_path(r'^fe/update/user/username/$', views.front_update_username, name='frontUpdateUserUsername'),

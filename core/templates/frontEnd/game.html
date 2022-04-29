@@ -93,10 +93,20 @@
                                     <div class="prize__img" id="prize__section">
                                         {% if sponsored_product %}
 
-                                         {% if sponsored_product.product.product_type == 'wsp' %}
-                                        <img class="current__product__as_prize" src="{{}" alt="">
+                                         {% if sponsored_product.product.product_thumbnail %}
+                                        <img class="current__product__as_prize" src="{{sponsored_product.product.product_thumbnail.url}}" alt="">
                                          {% else %}
-                                          <img class="current__product__as_prize" src="{{sponsored_product.product.product_thumbnail.url}}" alt="">
+                                            {% if sponsored_product.product.productImg.all %}
+                                                {% for img in sponsored_product.product.productImg.all %}
+                                                    {% if forloop.counter == 1 %}
+                                                    {% if img.img %}
+                                                    <img class="current__product__as_prize" src="{{img.url}}" alt="">
+                                                    {% else %}
+                                                    <img class="current__product__as_prize" src="{{img.img_link}}" alt="">
+                                                    {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
                                         {% endif %}
 
                                         <a href="{% url 'frontEndProductDetails' product_id=sponsored_product.product.product_id %}">

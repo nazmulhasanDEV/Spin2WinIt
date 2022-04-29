@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     # third party packages
     'storages',
 
@@ -191,8 +192,8 @@ from .cdn.conf import *
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'eastern747406@gmail.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = 'spinit2win.com@gmail.com'
+EMAIL_HOST_PASSWORD = '1234567Spin'
 EMAIL_PORT = 587
 
 # Default primary key field type

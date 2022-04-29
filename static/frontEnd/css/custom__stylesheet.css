@@ -110,7 +110,51 @@
 /* disclaimer box ends****************************************/
 
 
+/* user mail verification success box**********************************/
 
+.verification_success_box {
+    /*width: 100%;*/
+}
+
+.verification_success_box .verification_success__content {
+    background: white;
+    box-shadow: 1px 1px 5px 0.1px gray;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
+.verification_success_box .verification_success__content .icon {
+    padding-top: 10px;
+    font-size: 3vw;
+    text-align: center;
+    color: #4BB543;
+}
+
+.verification_success_box .verification_success__content h1 {
+    font-size: 2.5vw;
+    text-align: center;
+}
+
+.verification_success_box .verification_success__content p {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.verification_success_box .verification_success__content a button{
+    width: 130px;
+    height: 35px;
+    border: none;
+    outline: none;
+    color: white;
+    background: #4BB543;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/* user mail verification success box ends**********************************/
 
 
 

@@ -3,6 +3,30 @@
     /* margin-top: 30px; */
 }
 
+.invite__friend__section .content {
+    width: 100%;
+    position: relative;
+    height: 50px;
+}
+
+.invite__friend__section .content button {
+    width: 120px;
+    height: 35px;
+    border: none;
+    outline: none;
+    background: #293A6C;
+    color: white;
+    position: absolute;
+    right: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.invite__friend__section .content button .fas {
+    padding-right: 6px;
+}
+
 #user__profile__section .user__profile__pic .card {
     width: 300px;
     padding: 10px;
