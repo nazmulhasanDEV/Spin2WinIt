@@ -1741,7 +1741,7 @@ def front_send_email_invitation(request):
             subject = "Invitation!"
             html_content = msg
             email = EmailMessage(subject, html_content, to=['nazmulhasan747406@gmail.com'])
-            email.content_subtype = 'html'
+            # email.content_subtype = 'html'
             email.send(fail_silently=False)
 
             # update user wallet
