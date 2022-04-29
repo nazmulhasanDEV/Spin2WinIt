@@ -250,7 +250,7 @@ def front_loginRegister(request):
                     user.nid_no = nid__card_no
                     user.save()
 
-                    verification_url = f'http://spinit2win.com//user/account/veirfication/{username}/{phone}'
+                    verification_url = f'http://spinit2win.com/user/account/veirfication/{username}/{phone}'
                     subject = f"Verification code"
                     html_content = render_to_string('backEnd_superAdmin/verification_template.html',
                                                     context={'verification_url': verification_url})
