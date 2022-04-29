@@ -191,12 +191,12 @@ from .cdn.conf import *
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-DEFAULT_FROM_EMAIL = 'noreply@spinit2win.com'
-SERVER_EMAIL = 'noreply@spinit2win.com'
+DEFAULT_FROM_EMAIL = 'spinit2win.com@gmail.com'
+SERVER_EMAIL = 'spinit2win.com@gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'noreply@spinit2win.com'
-EMAIL_HOST_PASSWORD = 'tGa4gq7z'
+EMAIL_HOST_USER = 'spinit2win.com@gmail.com'
+EMAIL_HOST_PASSWORD = '1234567Spin'
 
 
 # Default primary key field type
