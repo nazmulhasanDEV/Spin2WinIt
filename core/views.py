@@ -236,15 +236,6 @@ def front_loginRegister(request):
                     # request.session['v_code'] = verification__code
                     # request.session.set_expiry(300)
                     # saving user information after sending verification mail
-                    verification_url = f'http://127.0.0.1:8000/user/account/veirfication/{username}/{phone}'
-                    subject = f"Verification code"
-                    html_content = render_to_string('backEnd_superAdmin/verification_template.html',
-                                                    context={'verification_url': verification_url})
-                    email = EmailMessage(subject, html_content, to=['nazmulhasan747406@gmail.com'])
-                    email.content_subtype = 'html'
-                    email.send(fail_silently=False)
-                    # EmailThreading(email).start()
-
 
                     user = Account.objects.create_user(email=email, username=username, phone_no=phone,
                                                        password=password)
@@ -258,6 +249,18 @@ def front_loginRegister(request):
                     user.lname = lname
                     user.nid_no = nid__card_no
                     user.save()
+
+                    verification_url = f'http://spinit2win.com//user/account/veirfication/{username}/{phone}'
+                    subject = f"Verification code"
+                    html_content = render_to_string('backEnd_superAdmin/verification_template.html',
+                                                    context={'verification_url': verification_url})
+                    email = EmailMessage(subject, html_content, to=[email])
+                    email.content_subtype = 'html'
+                    email.send(fail_silently=False)
+                    # EmailThreading(email).start()
+
+
+
                     messages.success(request, "Verification link sent to your mail!")
                     return redirect('frontEndLoginRegister')
             except:
@@ -1740,7 +1743,7 @@ def front_send_email_invitation(request):
         try:
             subject = "Invitation!"
             html_content = msg
-            email = EmailMessage(subject, html_content, to=['nazmulhasan747406@gmail.com'])
+            email = EmailMessage(subject, html_content, to=[mail_to])
             # email.content_subtype = 'html'
             email.send(fail_silently=False)
 
