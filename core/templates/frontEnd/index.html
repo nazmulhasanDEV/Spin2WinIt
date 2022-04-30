@@ -63,11 +63,15 @@
     <link rel="stylesheet" href="{% static 'frontEnd/custom_game.css' %}">
     <link rel="stylesheet" href="{% static 'frontEnd/shop_page.css' %}">
 
+
+
     <!-- font-awesome cdn link -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
+
+
 
     {% block gaming_css_block %}{% endblock %}
 
@@ -1006,6 +1010,10 @@
     <script src="{% static 'frontEnd/js/fallback.js' %}"></script>
 
 <!-- Bidvertiser2069521 -->
+
+    <!-- google recptch *****************************8-->
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer>
+    </script>
 
   {% block google_mapJS %} {% endblock %}
   </body>

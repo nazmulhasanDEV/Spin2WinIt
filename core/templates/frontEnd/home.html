@@ -666,6 +666,7 @@
                                                         <img alt="" src="{% static 'frontEnd/images/featured-product/1.jpg' %}">
                                                     </a>
                                                 </div>
+
                                                 <div class="featured-pro-content">
                                                     <div class="product-review">
                                                         <h5 class="manufacturer">
@@ -701,7 +702,10 @@
                                                     <a href="product-details.html">
                                                         <img alt="" src="{% static 'frontEnd/images/featured-product/1.jpg' %}">
                                                     </a>
+
                                                 </div>
+
+
                                                 <div class="featured-pro-content">
                                                     <div class="product-review">
                                                         <h5 class="manufacturer">
@@ -862,6 +866,12 @@
     </div>
 </div>
 
+<form action="?" method="POST" id="captcha__form">
+      <div id="html_element"></div>
+      <br>
+      <input type="submit" value="Submit">
+</form>
+
 <!-- adster native 1x1 starts-->
 <div id="container-ec5611cf27ddd923a905f8d14e217991"></div>
 <!-- adster native 1x1 ends-->
@@ -890,7 +900,32 @@ var _0x5d4b=['235913QVfbwv','slice','length','162209QBmAmV','14238hyOOTq','32320
 <!-- google adsense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8257236436281637"
      crossorigin="anonymous"></script>
+
 <!-- google adsense ends -->
+
+<script type="text/javascript">
+
+      var onloadCallback = function() {
+        grecaptcha.render('html_element', {
+          'sitekey' : '6LdD-LEfAAAAAPFdaLUwLz_IxAP4YAmGTMnOCxKy',
+        });
+      };
+
+
+      var captcha__form = document.getElementById('captcha__form');
+        captcha__form.addEventListener("submit", function(event){
+            console.log(grecaptcha.getResponse());
+            if (grecaptcha.getResponse() === '') {
+              event.preventDefault();
+              alert('Please check the recaptcha');
+            }
+          }
+        , false);
+
+  </script>
+
+
+
 
 {% endblock %}
 
