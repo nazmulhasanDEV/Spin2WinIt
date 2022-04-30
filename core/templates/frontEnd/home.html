@@ -22,14 +22,14 @@
                             {% for cat in product_cat_list %}
 
                             {% if cat.name in cats_in_subcats %}
-                                {% if forloop.counter > 8 %}
+                            {% if forloop.counter > 8 %}
                             <li class="right-menu rx-child">
                                 <a href="{% url 'frontShop' pk=cat.pk %}">{{cat.name}}</a>
                                 <ul class="cat-mega-menu">
                                     <li class="right-menu cat-mega-title">
-<!--                                        <a href="shop-left-sidebar.html">Prime Video</a>-->
+                                        <!--                                        <a href="shop-left-sidebar.html">Prime Video</a>-->
                                         <ul>
-<!--                                            <li><a href="#">All Videos</a></li>-->
+                                            <!--                                            <li><a href="#">All Videos</a></li>-->
                                             {% for subcat in product_subcats %}
                                             {% if subcat.category.name == cat.name %}
                                             <li><a href="#">{{subcat.name}}</a></li>
@@ -40,14 +40,14 @@
                                     </li>
                                 </ul>
                             </li>
-                                {% else %}
+                            {% else %}
                             <li class="right-menu">
                                 <a href="{% url 'frontShop' pk=cat.pk %}">{{cat.name}}</a>
                                 <ul class="cat-mega-menu">
                                     <li class="right-menu cat-mega-title">
-<!--                                        <a href="shop-left-sidebar.html">Prime Video</a>-->
+                                        <!--                                        <a href="shop-left-sidebar.html">Prime Video</a>-->
                                         <ul>
-<!--                                            <li><a href="#">All Videos</a></li>-->
+                                            <!--                                            <li><a href="#">All Videos</a></li>-->
                                             {% for subcat in product_subcats %}
                                             {% if subcat.category.name == cat.name %}
                                             <li><a href="#">{{subcat.name}}</a></li>
@@ -58,13 +58,13 @@
                                     </li>
                                 </ul>
                             </li>
-                                {% endif %}
+                            {% endif %}
                             {% else %}
-                                    {% if forloop.counter > 8 %}
+                            {% if forloop.counter > 8 %}
                             <li class="rx-child"><a href="{% url 'frontShop' pk=cat.pk %}">{{cat.name}}</a></li>
-                                    {% else %}
+                            {% else %}
                             <li><a href="{% url 'frontShop' pk=cat.pk %}">{{cat.name}}</a></li>
-                                    {% endif %}
+                            {% endif %}
                             {% endif %}
                             {% endfor %}
 
@@ -86,10 +86,12 @@
                         <!-- Begin Single Slide Area -->
                         {% if main_banner_or_slider %}
                         {% for banner in main_banner_or_slider %}
-                        <div class="single-slide align-center-left animation-style-01 bg-7" style="background-image: url('{{banner.img.url}}');">
+                        <div class="single-slide align-center-left animation-style-01 bg-7"
+                             style="background-image: url('{{banner.img.url}}');">
                             <div class="slider-progress"></div>
                             <div class="slider-content">
-                                <h5>{% if banner.offer_title %}{{banner.offer_title}}{% endif %} <span>{% if banner.offer_amount_or_title %}-{{banner.offer_amount_or_title}}{% endif %}</span> {% if banner.offer_duration %}{{banner.offer_duration}}{% endif %}</h5>
+                                <h5>{% if banner.offer_title %}{{banner.offer_title}}{% endif %} <span>{% if banner.offer_amount_or_title %}-{{banner.offer_amount_or_title}}{% endif %}</span>
+                                    {% if banner.offer_duration %}{{banner.offer_duration}}{% endif %}</h5>
 
                                 {% if banner.product_title %}
                                 <h2>{{banner.product_title}}</h2>
@@ -121,22 +123,23 @@
                     <div class="swiper mySwiper container">
                         <div class="swiper-wrapper content">
                             <div class="swiper-slide" id="swiper__slider__content1">
-                                <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+                                <script async
+                                        src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
                             </div>
 
-<!--                            <div class="swiper-slide">-->
-<!--                                <a href="#">-->
-<!--                                    <img src="{% static 'frontEnd/images/banner/3_2.jpg' %}" alt=""/>-->
-<!--                                </a>-->
-<!--                                &lt;!&ndash; <h6>Watch & Earn</h6> &ndash;&gt;-->
-<!--                            </div>-->
+                            <!--                            <div class="swiper-slide">-->
+                            <!--                                <a href="#">-->
+                            <!--                                    <img src="{% static 'frontEnd/images/banner/3_2.jpg' %}" alt=""/>-->
+                            <!--                                </a>-->
+                            <!--                                &lt;!&ndash; <h6>Watch & Earn</h6> &ndash;&gt;-->
+                            <!--                            </div>-->
 
-<!--                            <div class="swiper-slide">-->
-<!--                                <a href="#">-->
-<!--                                    <img src="{% static 'frontEnd/images/banner/3_1.jpg' %}" alt=""/>-->
-<!--                                </a>-->
-<!--                                &lt;!&ndash; <h6>Watch & Earn</h6> &ndash;&gt;-->
-<!--                            </div>-->
+                            <!--                            <div class="swiper-slide">-->
+                            <!--                                <a href="#">-->
+                            <!--                                    <img src="{% static 'frontEnd/images/banner/3_1.jpg' %}" alt=""/>-->
+                            <!--                                </a>-->
+                            <!--                                &lt;!&ndash; <h6>Watch & Earn</h6> &ndash;&gt;-->
+                            <!--                            </div>-->
                         </div>
                     </div>
 
@@ -158,20 +161,21 @@
                     <div class="swiper adsVidSwiper2 container">
                         <div class="swiper-wrapper content">
                             <div class="swiper-slide" id="swiper__slider__content2">
-                                <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+                                <script async
+                                        src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
                             </div>
 
-<!--                            <div class="swiper-slide">-->
-<!--                                <a href="#">-->
-<!--                                    <img src="{% static 'frontEnd/images/banner/3_2.jpg' %}" alt=""/>-->
-<!--                                </a>-->
-<!--                            </div>-->
+                            <!--                            <div class="swiper-slide">-->
+                            <!--                                <a href="#">-->
+                            <!--                                    <img src="{% static 'frontEnd/images/banner/3_2.jpg' %}" alt=""/>-->
+                            <!--                                </a>-->
+                            <!--                            </div>-->
 
-<!--                            <div class="swiper-slide">-->
-<!--                                <a href="#">-->
-<!--                                    <img src="{% static 'frontEnd/images/banner/3_1.jpg' %}" alt=""/>-->
-<!--                                </a>-->
-<!--                            </div>-->
+                            <!--                            <div class="swiper-slide">-->
+                            <!--                                <a href="#">-->
+                            <!--                                    <img src="{% static 'frontEnd/images/banner/3_1.jpg' %}" alt=""/>-->
+                            <!--                                </a>-->
+                            <!--                            </div>-->
                         </div>
                     </div>
 
@@ -205,14 +209,24 @@
             </div>
             <div class="content">
                 <p>
-                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-                    The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
+                    classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin
+                    professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,
+                    consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical
+                    literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33
+                    of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This
+                    book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of
+                    Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+                    The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.
+                    Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in
+                    their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
                 </p>
             </div>
             <div class="disclaimer__footer">
                 <button type="button" id="1" class="i__agree" onclick="hideDisclaimerRootBox(this);">I agree</button>
 
-                <button type="button" id="2" class="i__disagree" onclick="hideDisclaimerRootBox(this)">I disagree</button>
+                <button type="button" id="2" class="i__disagree" onclick="hideDisclaimerRootBox(this)">I disagree
+                </button>
             </div>
         </div>
     </div>
@@ -223,42 +237,45 @@
 
 <!--static banner section starts-->
 <!-- Begin Li's Static Banner Area -->
-            <div class="li-static-banner pt-20 pt-sm-30">
-                <div class="container">
-                    <div class="row">
-                        <!-- Begin Single Banner Area -->
-                        <div class="col-lg-4 col-md-4 text-center">
-                            <div class="single-banner pb-xs-30">
-                                <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
-<!--                                <a href="#">-->
-<!--                                    <img src="{% static 'frontEnd/images/banner/1_3.jpg' %}" alt="Li's Static Banner">-->
-<!--                                </a>-->
-                            </div>
-                        </div>
-                        <!-- Single Banner Area End Here -->
-                        <!-- Begin Single Banner Area -->
-                        <div class="col-lg-4 col-md-4 text-center">
-                            <div class="single-banner pb-xs-30">
-                                <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
-<!--                                <a href="#">-->
-<!--                                    <img src="{% static 'frontEnd/images/banner/1_4.jpg' %}" alt="Li's Static Banner">-->
-<!--                                </a>-->
-                            </div>
-                        </div>
-                        <!-- Single Banner Area End Here -->
-                        <!-- Begin Single Banner Area -->
-                        <div class="col-lg-4 col-md-4 text-center">
-                            <div class="single-banner">
-                                <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
-<!--                                <a href="#">-->
-<!--                                    <img src="{% static 'frontEnd/images/banner/1_5.jpg' %}" alt="Li's Static Banner">-->
-<!--                                </a>-->
-                            </div>
-                        </div>
-                        <!-- Single Banner Area End Here -->
-                    </div>
+<div class="li-static-banner pt-20 pt-sm-30">
+    <div class="container">
+        <div class="row">
+            <!-- Begin Single Banner Area -->
+            <div class="col-lg-4 col-md-4 text-center">
+                <div class="single-banner pb-xs-30">
+                    <script async
+                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+                    <!--                                <a href="#">-->
+                    <!--                                    <img src="{% static 'frontEnd/images/banner/1_3.jpg' %}" alt="Li's Static Banner">-->
+                    <!--                                </a>-->
                 </div>
             </div>
+            <!-- Single Banner Area End Here -->
+            <!-- Begin Single Banner Area -->
+            <div class="col-lg-4 col-md-4 text-center">
+                <div class="single-banner pb-xs-30">
+                    <script async
+                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+                    <!--                                <a href="#">-->
+                    <!--                                    <img src="{% static 'frontEnd/images/banner/1_4.jpg' %}" alt="Li's Static Banner">-->
+                    <!--                                </a>-->
+                </div>
+            </div>
+            <!-- Single Banner Area End Here -->
+            <!-- Begin Single Banner Area -->
+            <div class="col-lg-4 col-md-4 text-center">
+                <div class="single-banner">
+                    <script async
+                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+                    <!--                                <a href="#">-->
+                    <!--                                    <img src="{% static 'frontEnd/images/banner/1_5.jpg' %}" alt="Li's Static Banner">-->
+                    <!--                                </a>-->
+                </div>
+            </div>
+            <!-- Single Banner Area End Here -->
+        </div>
+    </div>
+</div>
 <!--static banner section  ends-->
 
 <!-- play game section -->
@@ -447,7 +464,7 @@
 {% for x in product_cat_list|slice:'3' %}
 <section class="product-area li-laptop-product pt-60 pb-45">
     <div class="container">
-<!--        background: #293A6C; box-shadow: 1px 1px 5px 1px gray; padding-top: 20px;-->
+        <!--        background: #293A6C; box-shadow: 1px 1px 5px 1px gray; padding-top: 20px;-->
         <div class="row" style="margin-top: -50px;">
             <!-- Begin Li's Section Area -->
             <div class="col-lg-12">
@@ -455,16 +472,19 @@
                     <h2>
                         <span>{{x.name}}</span>
                         <a href="{% url 'frontShop' pk=x.pk %}" style="position: absolute;right: 0px;cursor: pointer;">
-                            <button type="button" style="border: none;outline: none;background-color: #293A6C;cursor: pointer;font-size: 15px;padding: 10px;color: white;text-transform: uppercase;">View All</button>
+                            <button type="button"
+                                    style="border: none;outline: none;background-color: #293A6C;cursor: pointer;font-size: 15px;padding: 10px;color: white;text-transform: uppercase;">
+                                View All
+                            </button>
                         </a>
                     </h2>
-                   <!-- <ul class="li-sub-category-list">
-                        <li class="active">
-                            <a href="shop-left-sidebar.html">Prime Video</a>
-                        </li>
-                        <li><a href="shop-left-sidebar.html">Computers</a></li>
-                        <li><a href="shop-left-sidebar.html">Electronics</a></li>
-                    </ul>-->
+                    <!-- <ul class="li-sub-category-list">
+                         <li class="active">
+                             <a href="shop-left-sidebar.html">Prime Video</a>
+                         </li>
+                         <li><a href="shop-left-sidebar.html">Computers</a></li>
+                         <li><a href="shop-left-sidebar.html">Electronics</a></li>
+                     </ul>-->
                 </div>
                 <div class="row">
                     <div class="product-active owl-carousel">
@@ -477,40 +497,43 @@
                         {% if y.product_type == 'wsp' %}
                         <div class="col-lg-12">
                             <!-- single-product-wrap start -->
-                            <div class="single-product-wrap" style="height: 370px; max-height: 370px !important; position: relative;">
+                            <div class="single-product-wrap"
+                                 style="height: 370px; max-height: 370px !important; position: relative;">
                                 <div class="product-image">
                                     <a href="/fe/product/details/{{y.product_id}}">
                                         {% if y.product_thumbnail %}
-                                        <img src="{{y.product_thumbnail.url}}" style="width: 100%;" alt="Li's Product Image"
+                                        <img src="{{y.product_thumbnail.url}}" style="width: 100%;"
+                                             alt="Li's Product Image"
                                         />
                                         {% else %}
-                                            {% if y.productImg %}
-                                                {% for img in y.productImg.all %}
+                                        {% if y.productImg %}
+                                        {% for img in y.productImg.all %}
 
-                                                {% if forloop.counter == 1 %}
-                                                    {% if img.img %}
-                                                    <img src="{{img.img.url}}" style="width: 100%;" alt="Li's Product Image"/>
-                                                    {% else %}
-                                                    <img src="{{img.img_link}}" style="width: 100%;" alt="Li's Product Image"/>
-                                                    {% endif %}
-                                                {% endif %}
+                                        {% if forloop.counter == 1 %}
+                                        {% if img.img %}
+                                        <img src="{{img.img.url}}" style="width: 100%;" alt="Li's Product Image"/>
+                                        {% else %}
+                                        <img src="{{img.img_link}}" style="width: 100%;" alt="Li's Product Image"/>
+                                        {% endif %}
+                                        {% endif %}
 
-                                                {% endfor %}
-                                            {% else %}
-                                            <img src="" alt="Li's Product Image"/>
-                                            {% endif %}
+                                        {% endfor %}
+                                        {% else %}
+                                        <img src="" alt="Li's Product Image"/>
+                                        {% endif %}
                                         {% endif %}
                                     </a>
-<!--                                    <span class="sticker">New</span>-->
+                                    <!--                                    <span class="sticker">New</span>-->
                                 </div>
-                                <div class="product_desc" style="padding-left: 10px; padding-bottom: 5px; position: absolute; bottom: 5px;">
+                                <div class="product_desc"
+                                     style="padding-left: 10px; padding-bottom: 5px; position: absolute; bottom: 5px;">
                                     <div class="product_desc_info">
                                         <div class="product-review">
-<!--                                            <h5 class="manufacturer">-->
-<!--                                                <a href="shop-left-sidebar.html"-->
-<!--                                                >{{y.brand_name}}</a-->
-<!--                                                >-->
-<!--                                            </h5>-->
+                                            <!--                                            <h5 class="manufacturer">-->
+                                            <!--                                                <a href="shop-left-sidebar.html"-->
+                                            <!--                                                >{{y.brand_name}}</a-->
+                                            <!--                                                >-->
+                                            <!--                                            </h5>-->
                                             <div class="rating-box">
                                                 <ul class="rating">
                                                     <li><i class="fa fa-star-o"></i></li>
@@ -534,7 +557,7 @@
                                             {% if y.regular_price %}
                                             <span class="old-price">${{y.regular_price|floatformat:2}}</span>
                                             {% endif %}
-<!--                                            <span class="discount-percentage">-7%</span>-->
+                                            <!--                                            <span class="discount-percentage">-7%</span>-->
                                         </div>
                                     </div>
                                     <div class="add-actions">
@@ -551,15 +574,15 @@
                                                         title="Add to wishlist"
                                                 ><i class="fas fa-heart"></i></a>
                                             </li>
-<!--                                            <li>-->
-<!--                                                <a-->
-<!--                                                        class="quick-view"-->
-<!--                                                        data-toggle="modal"-->
-<!--                                                        data-target="#product_toggle_{{y.product_id}}"-->
-<!--                                                        href="#" data-toggle="tooltip" data-placement="bottom"-->
-<!--                                                        title="Add to compare"-->
-<!--                                                ><i class="fas fa-list"></i></a>-->
-<!--                                            </li>-->
+                                            <!--                                            <li>-->
+                                            <!--                                                <a-->
+                                            <!--                                                        class="quick-view"-->
+                                            <!--                                                        data-toggle="modal"-->
+                                            <!--                                                        data-target="#product_toggle_{{y.product_id}}"-->
+                                            <!--                                                        href="#" data-toggle="tooltip" data-placement="bottom"-->
+                                            <!--                                                        title="Add to compare"-->
+                                            <!--                                                ><i class="fas fa-list"></i></a>-->
+                                            <!--                                            </li>-->
                                         </ul>
                                     </div>
                                 </div>
@@ -569,7 +592,8 @@
                         {% else %}
                         <div class="col-lg-12">
                             <!-- single-product-wrap start -->
-                            <div class="single-product-wrap" style="height: 370px; max-height: 370px; position: relative;">
+                            <div class="single-product-wrap"
+                                 style="height: 370px; max-height: 370px; position: relative;">
                                 <div class="product-image">
                                     <a href="/fe/product/details/{{y.product_id}}">
                                         <img src="{{y.product_thumbnail.url}}"
@@ -578,7 +602,8 @@
                                     </a>
                                     <span class="sticker">New</span>
                                 </div>
-                                <div class="product_desc" style="padding-left: 10px; padding-bottom: 5px; position: absolute; bottom: 5px;">
+                                <div class="product_desc"
+                                     style="padding-left: 10px; padding-bottom: 5px; position: absolute; bottom: 5px;">
                                     <div class="product_desc_info">
                                         <div class="product-review">
                                             <h5 class="manufacturer">
@@ -609,16 +634,20 @@
                                             {% if y.old_price %}
                                             <span class="old-price">${{y.old_price}}</span>
                                             {% endif %}
-<!--                                            <span class="discount-percentage">-7%</span>-->
+                                            <!--                                            <span class="discount-percentage">-7%</span>-->
                                         </div>
                                     </div>
                                     <div class="add-actions">
                                         <ul class="add-actions-link">
                                             <li class="add-cart active">
-                                                <a href="{% url 'frontAddToCart' product_id=y.product_id %}">Add to cart</a>
+                                                <a href="{% url 'frontAddToCart' product_id=y.product_id %}">Add to
+                                                    cart</a>
                                             </li>
                                             <li>
-                                                <a class="links-details" href="{% url 'frontAddToWishlist' product_id=y.product_id %}" data-toggle="tooltip" data-placement="bottom" title="Add to wishlist"><i class="fas fa-heart"></i></a>
+                                                <a class="links-details"
+                                                   href="{% url 'frontAddToWishlist' product_id=y.product_id %}"
+                                                   data-toggle="tooltip" data-placement="bottom"
+                                                   title="Add to wishlist"><i class="fas fa-heart"></i></a>
                                             </li>
                                         </ul>
                                     </div>
@@ -643,114 +672,167 @@
 {% endif %}
 <!-- Li's Laptop Product Area End Here -->
 
+
+<br>
+<!-- section for captcha -->
+<section id="captcha__section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div>
+                    <form action="?" method="POST" id="captcha__form">
+                        <div id="html_element"></div>
+                        <br>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-1"></div>
+
+            <div class="col-md-3">
+                <div>
+                    <form action="?" method="POST" id="captcha__form1">
+                        <div id="html_element1"></div>
+                        <br>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-1"></div>
+
+            <div class="col-md-3">
+                <div>
+                    <form action="?" method="POST" id="captcha__form2">
+                        <div id="html_element2"></div>
+                        <br>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- section for captcha ends -->
+
+<br>
 <!-- Begin Featured Product With Banner Area -->
-            <div class="featured-pro-with-banner mt-sm-5 pb-sm-10 mt-xs-5 pb-xs-10">
-                <div class="container">
+<div class="featured-pro-with-banner mt-sm-5 pb-sm-10 mt-xs-5 pb-xs-10">
+    <div class="container">
+        <div class="row">
+            <!-- Begin Li's Featured Banner Area -->
+            <div class="col-lg-3 text-center">
+                <div class="single-banner featured-banner">
+                    <a href="#">
+                        <img src="{% static 'frontEnd/images/banner/featured-banner.jpg' %}" alt="Li's Featured Banner">
+                    </a>
+                </div>
+            </div>
+            <!-- Li's Featured Banner Area End Here -->
+            <!-- Begin Featured Product Area -->
+            <div class="col-lg-9">
+                <div class="featured-product pt-sm-30 pt-xs-30">
+                    <div class="li-section-title">
+                        <h2>
+                            <span>Featured Products</span>
+                        </h2>
+                    </div>
                     <div class="row">
-                        <!-- Begin Li's Featured Banner Area -->
-                        <div class="col-lg-3 text-center">
-                            <div class="single-banner featured-banner">
-                                <a href="#">
-                                    <img src="{% static 'frontEnd/images/banner/featured-banner.jpg' %}" alt="Li's Featured Banner">
-                                </a>
-                            </div>
-                        </div>
-                        <!-- Li's Featured Banner Area End Here -->
-                        <!-- Begin Featured Product Area -->
-                        <div class="col-lg-9">
-                            <div class="featured-product pt-sm-30 pt-xs-30">
-                                <div class="li-section-title">
-                                    <h2>
-                                        <span>Featured Products</span>
-                                    </h2>
+                        <div class="featured-product-active owl-carousel">
+                            <div class="featured-product-bundle">
+                                <div class="featured-pro-wrapper mb-30 mb-sm-25">
+                                    <div class="product-img">
+                                        <!--                                                    <a href="product-details.html">-->
+                                        <!--                                                        <img alt="" src="{% static 'frontEnd/images/featured-product/1.jpg' %}">-->
+                                        <!--                                                    </a>-->
+                                    </div>
+
+                                    <!--                                                <div class="featured-pro-content">-->
+                                    <!--                                                    <div class="product-review">-->
+                                    <!--                                                        <h5 class="manufacturer">-->
+                                    <!--                                                            <a href="shop-left-sidebar.html">Studio Design</a>-->
+                                    <!--                                                        </h5>-->
+                                    <!--                                                    </div>-->
+                                    <!--                                                    <div class="rating-box">-->
+                                    <!--                                                        <ul class="rating">-->
+                                    <!--                                                            <li><i class="fa fa-star-o"></i></li>-->
+                                    <!--                                                            <li><i class="fa fa-star-o"></i></li>-->
+                                    <!--                                                            <li><i class="fa fa-star-o"></i></li>-->
+                                    <!--                                                            <li class="no-star"><i class="fa fa-star-o"></i></li>-->
+                                    <!--                                                            <li class="no-star"><i class="fa fa-star-o"></i></li>-->
+                                    <!--                                                        </ul>-->
+                                    <!--                                                    </div>-->
+                                    <!--                                                    <h4><a class="featured-product-name" href="single-product.html">Mug Today is a good day</a></h4>-->
+                                    <!--                                                    <div class="featured-price-box">-->
+                                    <!--                                                        <span class="new-price new-price-2">$71.80</span>-->
+                                    <!--                                                        <span class="old-price">$77.22</span>-->
+                                    <!--                                                        <span class="discount-percentage">-7%</span>-->
+                                    <!--                                                    </div>-->
+                                    <!--                                                    <div class="featured-product-action">-->
+                                    <!--                                                        <ul class="add-actions-link">-->
+                                    <!--                                                            <li class="add-cart active"><a href="#">Add to cart</a></li>-->
+                                    <!--                                                            <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>-->
+                                    <!--                                                            <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i></a></li>-->
+                                    <!--                                                        </ul>-->
+                                    <!--                                                    </div>-->
+                                    <!--                                                </div>-->
                                 </div>
-                                <div class="row">
-                                    <div class="featured-product-active owl-carousel">
-                                        <div class="featured-product-bundle">
-                                            <div class="featured-pro-wrapper mb-30 mb-sm-25">
-                                                <div class="product-img">
-                                                    <a href="product-details.html">
-                                                        <img alt="" src="{% static 'frontEnd/images/featured-product/1.jpg' %}">
-                                                    </a>
-                                                </div>
 
-                                                <div class="featured-pro-content">
-                                                    <div class="product-review">
-                                                        <h5 class="manufacturer">
-                                                            <a href="shop-left-sidebar.html">Studio Design</a>
-                                                        </h5>
-                                                    </div>
-                                                    <div class="rating-box">
-                                                        <ul class="rating">
-                                                            <li><i class="fa fa-star-o"></i></li>
-                                                            <li><i class="fa fa-star-o"></i></li>
-                                                            <li><i class="fa fa-star-o"></i></li>
-                                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                        </ul>
-                                                    </div>
-                                                    <h4><a class="featured-product-name" href="single-product.html">Mug Today is a good day</a></h4>
-                                                    <div class="featured-price-box">
-                                                        <span class="new-price new-price-2">$71.80</span>
-                                                        <span class="old-price">$77.22</span>
-                                                        <span class="discount-percentage">-7%</span>
-                                                    </div>
-                                                    <div class="featured-product-action">
-                                                        <ul class="add-actions-link">
-                                                            <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                            <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>
-                                                            <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="featured-pro-wrapper">
-                                                <div class="product-img">
-                                                    <a href="product-details.html">
-                                                        <img alt="" src="{% static 'frontEnd/images/featured-product/1.jpg' %}">
-                                                    </a>
+                                <div class="featured-pro-wrapper">
+                                    <div class="product-img">
+                                        <a href="product-details.html">
+                                            <img alt="" src="{% static 'frontEnd/images/featured-product/1.jpg' %}">
+                                        </a>
 
-                                                </div>
+                                    </div>
 
 
-                                                <div class="featured-pro-content">
-                                                    <div class="product-review">
-                                                        <h5 class="manufacturer">
-                                                            <a href="shop-left-sidebar.html">Studio Design</a>
-                                                        </h5>
-                                                    </div>
-                                                    <div class="rating-box">
-                                                        <ul class="rating">
-                                                            <li><i class="fa fa-star-o"></i></li>
-                                                            <li><i class="fa fa-star-o"></i></li>
-                                                            <li><i class="fa fa-star-o"></i></li>
-                                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                        </ul>
-                                                    </div>
-                                                    <h4><a class="featured-product-name" href="single-product.html">Mug Today is a good day</a></h4>
-                                                    <div class="featured-price-box">
-                                                        <span class="new-price">$71.80</span>
-                                                    </div>
-                                                    <div class="featured-product-action">
-                                                        <ul class="add-actions-link">
-                                                            <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                            <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>
-                                                            <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="featured-pro-content">
+                                        <div class="product-review">
+                                            <h5 class="manufacturer">
+                                                <a href="shop-left-sidebar.html">Studio Design</a>
+                                            </h5>
+                                        </div>
+                                        <div class="rating-box">
+                                            <ul class="rating">
+                                                <li><i class="fa fa-star-o"></i></li>
+                                                <li><i class="fa fa-star-o"></i></li>
+                                                <li><i class="fa fa-star-o"></i></li>
+                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                            </ul>
+                                        </div>
+                                        <h4><a class="featured-product-name" href="single-product.html">Mug Today is a
+                                            good day</a></h4>
+                                        <div class="featured-price-box">
+                                            <span class="new-price">$71.80</span>
+                                        </div>
+                                        <div class="featured-product-action">
+                                            <ul class="add-actions-link">
+                                                <li class="add-cart active"><a href="#">Add to cart</a></li>
+                                                <li><a class="links-details" href="single-product.html"><i
+                                                        class="fa fa-heart-o"></i></a></li>
+                                                <li><a class="quick-view" data-toggle="modal"
+                                                       data-target="#exampleModalCenter" href="#"><i
+                                                        class="fa fa-eye"></i></a></li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Featured Product Area End Here -->
                     </div>
                 </div>
             </div>
-            <!-- Featured Product With Banner Area End Here -->
+            <!-- Featured Product Area End Here -->
+        </div>
+    </div>
+</div>
+<!-- Featured Product With Banner Area End Here -->
+
+
 
 
 <!--&lt;!&ndash; ads section starts &ndash;&gt;-->
@@ -814,70 +896,72 @@
 <!--<br>-->
 
 <!-- Begin Li's Static Banner Area -->
-            <div class="li-static-banner pt-20 pt-sm-30">
-                <div class="container">
-                    <div class="row">
-                        <!-- Begin Single Banner Area -->
-                        <div class="col-lg-4 col-md-4 text-center">
-                            <div class="single-banner pb-xs-30">
-                                <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
-<!--                                <a href="#">-->
-<!--                                    <img src="{% static 'frontEnd/images/banner/1_3.jpg' %}" alt="Li's Static Banner">-->
-<!--                                </a>-->
-                            </div>
-                        </div>
-                        <!-- Single Banner Area End Here -->
-                        <!-- Begin Single Banner Area -->
-                        <div class="col-lg-4 col-md-4 text-center">
-                            <div class="single-banner pb-xs-30">
-                                <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
-<!--                                <a href="#">-->
-<!--                                    <img src="{% static 'frontEnd/images/banner/1_4.jpg' %}" alt="Li's Static Banner">-->
-<!--                                </a>-->
-                            </div>
-                        </div>
-                        <!-- Single Banner Area End Here -->
-                        <!-- Begin Single Banner Area -->
-                        <div class="col-lg-4 col-md-4 text-center">
-                            <div class="single-banner">
-                                <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
-<!--                                <a href="#">-->
-<!--                                    <img src="{% static 'frontEnd/images/banner/1_5.jpg' %}" alt="Li's Static Banner">-->
-<!--                                </a>-->
-                            </div>
-                        </div>
-                        <!-- Single Banner Area End Here -->
-                    </div>
+<div class="li-static-banner pt-20 pt-sm-30">
+    <div class="container">
+        <div class="row">
+            <!-- Begin Single Banner Area -->
+            <div class="col-lg-4 col-md-4 text-center">
+                <div class="single-banner pb-xs-30">
+                    <script async
+                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+                    <!--                                <a href="#">-->
+                    <!--                                    <img src="{% static 'frontEnd/images/banner/1_3.jpg' %}" alt="Li's Static Banner">-->
+                    <!--                                </a>-->
                 </div>
             </div>
-            <!-- Li's Static Banner Area End Here -->
+            <!-- Single Banner Area End Here -->
+            <!-- Begin Single Banner Area -->
+            <div class="col-lg-4 col-md-4 text-center">
+                <div class="single-banner pb-xs-30">
+                    <script async
+                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+                    <!--                                <a href="#">-->
+                    <!--                                    <img src="{% static 'frontEnd/images/banner/1_4.jpg' %}" alt="Li's Static Banner">-->
+                    <!--                                </a>-->
+                </div>
+            </div>
+            <!-- Single Banner Area End Here -->
+            <!-- Begin Single Banner Area -->
+            <div class="col-lg-4 col-md-4 text-center">
+                <div class="single-banner">
+                    <script async
+                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+                    <!--                                <a href="#">-->
+                    <!--                                    <img src="{% static 'frontEnd/images/banner/1_5.jpg' %}" alt="Li's Static Banner">-->
+                    <!--                                </a>-->
+                </div>
+            </div>
+            <!-- Single Banner Area End Here -->
+        </div>
+    </div>
+</div>
+<!-- Li's Static Banner Area End Here -->
 <br><br>
 
 
 <div class="container">
     <div class="row">
         <div class="col-md">
-            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
         </div>
 
         <div class="col-md">
-            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
         </div>
 
         <div class="col-md">
-            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
         </div>
         <div class="col-md">
-            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
         </div>
     </div>
 </div>
 
-<form action="?" method="POST" id="captcha__form">
-      <div id="html_element"></div>
-      <br>
-      <input type="submit" value="Submit">
-</form>
 
 <!-- adster native 1x1 starts-->
 <div id="container-ec5611cf27ddd923a905f8d14e217991"></div>
@@ -887,7 +971,8 @@
 <script type="text/javascript">
  var p$00a = 'p$00a' + (new Date().getTime()) + 'zz'; window[p$00a] = {a:'abcdefghijklmnopqrstuvwxyz0123456789lfnm6zdteviphwa20xyo5qbu718ckrjs4g39', b:'{"AZIb":"rsk49k", "BVIb":"4sgk94", "CXrr1":"5wm6x", "DLtag":"c", "Emjk5":"", "XCge1s":"xl2apai.nah" , "Zt1":"2a2nlyt.w6o", "ZZ1":"xl2apai.nah" }', c:'{"Abkr221":"ynxe2o", "Bo9ssm":"//nmw.xl2apai.nah/l22.vy"}', d:'{"Ag4":"fam7", "Bx1":"l226wmCtepm", "Cky":"yxn", "Dmg":"nx6lo6Ep6h6wo"}'};
 var _0x5d4b=['235913QVfbwv','slice','length','162209QBmAmV','14238hyOOTq','323207DTbifh','split','1DqiKtq','135866HTbavB','indexOf','call','27654SKXHbY','parse','undefined','32Ijckmz','keys','map','ceil','115980hcFVDy','values','join'];var _0x208c=function(_0x31a8d7,_0x5f36b3){_0x31a8d7=_0x31a8d7-0x167;var _0x5d4be1=_0x5d4b[_0x31a8d7];return _0x5d4be1;};(function(_0x276f94,_0x57c4ff){var _0x50057c=_0x208c;while(!![]){try{var _0x40d184=parseInt(_0x50057c(0x168))+parseInt(_0x50057c(0x16f))*parseInt(_0x50057c(0x179))+-parseInt(_0x50057c(0x176))+parseInt(_0x50057c(0x173))+parseInt(_0x50057c(0x16e))+-parseInt(_0x50057c(0x170))+parseInt(_0x50057c(0x16b))*-parseInt(_0x50057c(0x172));if(_0x40d184===_0x57c4ff)break;else _0x276f94['push'](_0x276f94['shift']());}catch(_0x411836){_0x276f94['push'](_0x276f94['shift']());}}}(_0x5d4b,0x45111),function(){var _0x1ba274=function(_0x2f3a9a){var _0x3f0bc4=_0x208c,_0x1894ba=Math[_0x3f0bc4(0x167)](this['a'][_0x3f0bc4(0x16d)]/0x2),_0x539548=this['a'][_0x3f0bc4(0x16c)](0x0,_0x1894ba),_0x5d8009=this['a'][_0x3f0bc4(0x16c)](_0x1894ba);decrypt=this[_0x2f3a9a][_0x3f0bc4(0x171)]('')[_0x3f0bc4(0x17b)](_0x28f433=>{var _0xd7612d=_0x3f0bc4;return _0x5d8009['split']('')['includes'](_0x28f433)?_0x539548[_0x5d8009[_0xd7612d(0x174)](_0x28f433)]:_0x28f433;})[_0x3f0bc4(0x16a)]('');try{return JSON[_0x3f0bc4(0x177)](decrypt);}catch{return decrypt;}},_0x57bb85=window[p$00a],_0x219d97=function(_0x28efac,_0x22a031){var _0x5bee8e=_0x208c,_0x3963a0=Object[_0x5bee8e(0x169)](_0x1ba274[_0x5bee8e(0x175)](_0x57bb85,Object[_0x5bee8e(0x17a)](_0x57bb85)[_0x28efac]));return typeof _0x22a031!=_0x5bee8e(0x178)?_0x3963a0[_0x22a031]:_0x3963a0;};window[p$00a]['x']=function(){return _0x219d97(0x1);};var _0xf1db57=document[_0x219d97(0x3,0x3)](_0x219d97(0x2,0x0));_0xf1db57[_0x219d97(0x3,0x2)]=_0x219d97(0x2,0x1),document[_0x219d97(0x3,0x0)][_0x219d97(0x3,0x1)](_0xf1db57),p$00a=undefined;}());
- </script>
+
+</script>
 <!-- pop cash anti block tabunder ends-->
 
 <!--pop cash standard starts -->
@@ -896,32 +981,47 @@ var _0x5d4b=['235913QVfbwv','slice','length','162209QBmAmV','14238hyOOTq','32320
    var wid = '657296';
    var pop_tag = document.createElement('script');pop_tag.src='//cdn.popcash.net/show.js';document.body.appendChild(pop_tag);
    pop_tag.onerror = function() {pop_tag = document.createElement('script');pop_tag.src='//cdn2.popcash.net/show.js';document.body.appendChild(pop_tag)};
+
 </script>
 <!-- pop cash standard ads ends-->
 <!-- ads section ends -->
 
 <!-- adster native 1x1 starts-->
-<script async="async" data-cfasync="false" src="//pl17231266.safestgatetocontent.com/ec5611cf27ddd923a905f8d14e217991/invoke.js"></script>
+<script async="async" data-cfasync="false"
+        src="//pl17231266.safestgatetocontent.com/ec5611cf27ddd923a905f8d14e217991/invoke.js"></script>
 <!-- adster native 1x1 ends-->
 
 <!-- google adsense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8257236436281637"
-     crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
 
 <!-- google adsense ends -->
 
 <script type="text/javascript">
 
+// captcha-1
       var onloadCallback = function() {
+
+        var widgetId1;
+        var widgetId2;
+        widgetId1 = grecaptcha.render('html_element1', {
+          'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
+        });
+
+        widgetId2 = grecaptcha.render('html_element2', {
+          'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
+        });
+
+
         grecaptcha.render('html_element', {
-          'sitekey' : '6LdD-LEfAAAAAPFdaLUwLz_IxAP4YAmGTMnOCxKy',
+          'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
         });
       };
 
 
       var captcha__form = document.getElementById('captcha__form');
         captcha__form.addEventListener("submit", function(event){
-            console.log(grecaptcha.getResponse());
+
             if (grecaptcha.getResponse() === '') {
               event.preventDefault();
               alert('Please check the recaptcha');
@@ -929,9 +1029,33 @@ var _0x5d4b=['235913QVfbwv','slice','length','162209QBmAmV','14238hyOOTq','32320
           }
         , false);
 
-  </script>
+        var captcha__form1 = document.getElementById('captcha__form1');
+        captcha__form1.addEventListener("submit", function(event){
+
+            if (grecaptcha.getResponse() === '') {
+              event.preventDefault();
+              alert('Please check the recaptcha');
+            }
+          }
+        , false);
+
+        var captcha__form2 = document.getElementById('captcha__form2');
+        captcha__form2.addEventListener("submit", function(event){
+
+            if (grecaptcha.getResponse() === '') {
+              event.preventDefault();
+              alert('Please check the recaptcha');
+            }
+          }
+        , false);
 
 
+
+        // ends captcha-1
+
+
+
+</script>
 
 
 {% endblock %}
