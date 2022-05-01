@@ -652,12 +652,46 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row point__wallet">
                                 <div class="col-md-12">
+                                    <h5>Your Point Wallet Status:</h5>
                                     <table class="table">
                                         <thead>
                                         <tr>
                                             <th scope="col">Available Points</th>
+                                            <th scope="col">Purchased</th>
+                                            <th scope="col">Point Spent</th>
+                                            <th scope="col">Spent Amount</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% if user_point_wallet %}
+                                        <tr>
+                                            <td>{{user_point_wallet.available|floatformat:2}}</td>
+                                            <td>{{user_point_wallet.purchased|floatformat:2}}</td>
+                                            <td>{{user_point_wallet.spent|floatformat:2}}</td>
+                                            <td>{{user_point_wallet.spent_amount|floatformat:2}}</td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td>00.00</td>
+                                            <td>00.00</td>
+                                            <td>00.00</td>
+                                        </tr>
+                                        {% endif %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                            <div class="row credit__wallet">
+                                <div class="col-md-12">
+                                    <h5>Your Credit Wallet Status:</h5>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Available Credits</th>
                                             <th scope="col">Purchased</th>
                                             <th scope="col">Point Spent</th>
                                             <th scope="col">Spent Amount</th>

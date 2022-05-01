@@ -101,10 +101,12 @@
                                 <h3>Starting at <span>${{banner.starting_price|to_float}}</span></h3>
                                 {% endif %}
 
+                                {% if banner.product_url %}
                                 <div class="default-btn slide-btn">
                                     <a class="links" href="{{banner.product_url}}">Shopping Now</a
                                     >
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                         {% endfor %}
@@ -680,6 +682,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div>
+                    <h5>Solve this reCaptcha and get 30 points bonus!</h5>
                     <form action="?" method="POST" id="captcha__form">
                         <div id="html_element"></div>
                         <br>
@@ -692,6 +695,7 @@
 
             <div class="col-md-3">
                 <div>
+                    <h5>Solve this reCaptcha and get 30 points bonus!</h5>
                     <form action="?" method="POST" id="captcha__form1">
                         <div id="html_element1"></div>
                         <br>
@@ -704,6 +708,7 @@
 
             <div class="col-md-3">
                 <div>
+                    <h5>Solve this reCaptcha and get 30 points bonus!</h5>
                     <form action="?" method="POST" id="captcha__form2">
                         <div id="html_element2"></div>
                         <br>
@@ -712,6 +717,25 @@
                 </div>
             </div>
 
+        </div>
+
+        <div class="row" style="margin-top: 40px;">
+            <div class="col-md-3">
+                <div>
+                    <h5>Give us feedback & get 20 points bonus!</h5>
+                    <form action="?" method="POST">
+                     <div class="form-group">
+                        <label for="exampleFormControlSelect1">What was your experience?</label>
+                        <select class="form-control" id="exampleFormControlSelect1">
+                          <option>Good</option>
+                          <option>Better</option>
+                          <option>Awesome</option>
+                        </select>
+                      </div>
+                  <input id='submit' type="submit" value="Submit">
+                </form>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -994,6 +1018,21 @@ var _0x5d4b=['235913QVfbwv','slice','length','162209QBmAmV','14238hyOOTq','32320
 <!-- google adsense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8257236436281637"
         crossorigin="anonymous"></script>
+
+<!-- invisible recaptcha -->
+<script>
+        var onSubmit = function(token) {
+          alert('success!');
+        };
+
+        var onloadCallbackInvisible = function() {
+          grecaptcha.render('submit', {
+            'sitekey' : '6Ld0fLQfAAAAALBncG4Vorj9xiSsR4t_1NMWkbDB',
+            'callback' : onSubmit
+          });
+        };
+    </script>
+<!-- ends invisible re-captcha-->
 
 <!-- google adsense ends -->
 

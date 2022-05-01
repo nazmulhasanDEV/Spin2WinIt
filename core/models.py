@@ -13,6 +13,16 @@ class PointWallet(models.Model):
 
     def __str__(self):
         return self.user.email
+# user credit wallet
+class CreditWallet(models.Model):
+    user = models.OneToOneField(Account, on_delete=models.CASCADE, blank=True)
+    available = models.CharField(max_length=255, default='0')
+    purchased = models.CharField(max_length=255, default='0')
+    spent = models.CharField(max_length=255, default='0')
+    spent_amount = models.CharField(max_length=255, blank=True, null=True, default='0')
+
+    def __str__(self):
+        return self.user.email + " || " + self.available
 
 # number of chance to play/spin the game
 class WinningChance(models.Model):
