@@ -118,7 +118,21 @@
 
 
 .point__wallet h5 {
-    color: #
+    color: #293A6C;
+}
+
+.credit__wallet h5 {
+    color: #293A6C;
+}
+
+.point__wallet .convert_to_credit_btn button {
+    outline: none;
+    border: none;
+    background: #293A6C;
+    color: white;
+    border-radius: 5px;
+    height: 32px;
+    cursor: pointer;
 }
 
 
