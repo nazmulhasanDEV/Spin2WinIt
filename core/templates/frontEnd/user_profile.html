@@ -3,26 +3,26 @@
 
 {% block main_block %}
 <!-- user profile picture******************************** -->
-<br>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            {% if messages %}
-            {% for message in messages %}
+<!--<br>-->
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-12">-->
+<!--            {% if messages %}-->
+<!--            {% for message in messages %}-->
 
-            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"
-                 {% endif %}>
-                <strong>{{ message }}!</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+<!--            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"-->
+<!--                 {% endif %}>-->
+<!--                <strong>{{ message }}!</strong>-->
+<!--                <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
 
-            {% endfor %}
-            {% endif %}
-        </div>
-    </div>
-</div>
+<!--            {% endfor %}-->
+<!--            {% endif %}-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 <section id="user__profile__section" class="mt-50">
     <div class="container">
@@ -544,26 +544,35 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Invite & Get <strong style="color: #293a6c;">50</strong> Reward Point as Bonus!</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Invite & Get <strong
+                                                            style="color: #293a6c;">50</strong> Reward Point as Bonus!
+                                                    </h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="{% url 'frontSendEmailInvitation' %}" method="post" enctype="multipart/form-data">
+                                                    <form action="{% url 'frontSendEmailInvitation' %}" method="post"
+                                                          enctype="multipart/form-data">
                                                         {% csrf_token %}
                                                         <div class="form-group">
                                                             <label for="recipient-name" class="col-form-label">Recipient:</label>
-                                                            <input type="text" name="email" placeholder="Email" class="form-control" id="recipient-name">
+                                                            <input type="text" name="email" placeholder="Email"
+                                                                   class="form-control" id="recipient-name">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="message-text"
                                                                    class="col-form-label">Message:</label>
-                                                            <textarea class="form-control" name="msg" placeholder="Message" id="message-text"></textarea>
+                                                            <textarea class="form-control" name="msg"
+                                                                      placeholder="Message"
+                                                                      id="message-text"></textarea>
                                                         </div>
                                                         <div class="form-group">
-                                                            <button type="submit" class="btn" style="background: #293A6C;color: white;">Send Invitation</button>
+                                                            <button type="submit" class="btn"
+                                                                    style="background: #293A6C;color: white;">Send
+                                                                Invitation
+                                                            </button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -577,7 +586,9 @@
                                     </div>
                                     <!--                                    modal ends-->
                                     <div class="content">
-                                        <button type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="fas fa-envelope-open-text"></i> Invite</button>
+                                        <button type="button" data-toggle="modal" data-target="#exampleModal"
+                                                data-whatever="@mdo"><i class="fas fa-envelope-open-text"></i> Invite
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -632,7 +643,7 @@
                                             {% if user_winning_chances %}
                                             <strong>{{user_winning_chances.remaining_chances}}</strong>
                                             {% else %}
-                                            <strong>00.00</strong>
+                                            <strong>0</strong>
                                             {% endif %}
                                         </h4>
                                     </div>
@@ -654,14 +665,14 @@
 
                             <div class="row point__wallet">
                                 <div class="col-md-12">
-                                    <h5>Your Point Wallet Status:</h5>
+                                    <h5>Point Wallet Status:</h5>
                                     <table class="table">
                                         <thead>
                                         <tr>
                                             <th scope="col">Available Points</th>
                                             <th scope="col">Purchased</th>
                                             <th scope="col">Point Spent</th>
-                                            <th scope="col">Spent Amount</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -670,24 +681,61 @@
                                             <td>{{user_point_wallet.available|floatformat:2}}</td>
                                             <td>{{user_point_wallet.purchased|floatformat:2}}</td>
                                             <td>{{user_point_wallet.spent|floatformat:2}}</td>
-                                            <td>{{user_point_wallet.spent_amount|floatformat:2}}</td>
+                                            <td>
+                                                <a href="#"
+                                                   class="convert_to_credit_btn" data-toggle="modal" data-target="#confirm_conversion">
+                                                    <button type="button">Convert to Credit</button>
+                                                </a></td>
                                         </tr>
                                         {% else %}
                                         <tr>
                                             <td>00.00</td>
                                             <td>00.00</td>
                                             <td>00.00</td>
+                                            <td>
+                                                <a href="#"
+                                                   class="convert_to_credit_btn" data-toggle="modal" data-target="#confirm_conversion">
+                                                    <button type="button">Convert to Credit</button>
+                                                </a>
+                                            </td>
                                         </tr>
                                         {% endif %}
                                         </tbody>
                                     </table>
+
+                                    <!--                                    confirmation modal ************************-->
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="confirm_conversion" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Are you sure want to convert points into credit?</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close
+                                                    </button>
+                                                    <a href="{% url 'frontConvertPointIntoCredit' username=request.user.username %}">
+                                                        <button type="button" class="btn btn-primary">Yes, I am</button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--                                    confirmation modal ends************************-->
 
                                 </div>
                             </div>
 
                             <div class="row credit__wallet">
                                 <div class="col-md-12">
-                                    <h5>Your Credit Wallet Status:</h5>
+                                    <h5>Credit Wallet Status:</h5>
                                     <table class="table">
                                         <thead>
                                         <tr>
@@ -698,15 +746,16 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {% if user_point_wallet %}
+                                        {% if user_credit_wallet %}
                                         <tr>
-                                            <td>{{user_point_wallet.available|floatformat:2}}</td>
-                                            <td>{{user_point_wallet.purchased|floatformat:2}}</td>
-                                            <td>{{user_point_wallet.spent|floatformat:2}}</td>
-                                            <td>{{user_point_wallet.spent_amount|floatformat:2}}</td>
+                                            <td>{{user_credit_wallet.available|floatformat:2}}</td>
+                                            <td>{{user_credit_wallet.purchased|floatformat:2}}</td>
+                                            <td>{{user_credit_wallet.spent|floatformat:2}}</td>
+                                            <td>{{user_credit_wallet.spent_amount|floatformat:2}}</td>
                                         </tr>
                                         {% else %}
                                         <tr>
+                                            <td>00.00</td>
                                             <td>00.00</td>
                                             <td>00.00</td>
                                             <td>00.00</td>

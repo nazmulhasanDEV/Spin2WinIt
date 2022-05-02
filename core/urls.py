@@ -9,6 +9,13 @@ urlpatterns = [
 
     re_path(r'^fe/index/$', views.front_index, name="frontEndIndex"),
     re_path(r'^$', views.front_home, name='frontEndHome'),
+
+    # checkbox captcha solving and bonus
+    re_path(r'^fe/checkbox/captcha/bonus/$', views.front_checkBoxCaptchaBonus, name='frontCheckBoxCaptchaBonus'),
+
+    # invisible captcha solving
+    re_path(r'^fe/invisible/captcha/bonus/$', views.front_invisibleCaptchaBonus, name='frontInvisibleCaptchaBonus'),
+
     re_path(r'^fe/login/register/$', views.front_loginRegister, name='frontEndLoginRegister'),
     re_path(r'^fe/login/user/$', views.front_loginUser, name="frontEndLoginUser"),
 
@@ -30,6 +37,9 @@ urlpatterns = [
 
     # user profile section **************************
     re_path(r'^fe/buyer/user/profile/(?P<username>\w+)/$', views.front_user_profile, name='frontEndUserProfile'),
+
+    # convert point into credit points
+    re_path(r'^fe/convert/point/into/wallet/(?P<username>[-\w]+)/$', views.front_ConvertPointInto_credit, name='frontConvertPointIntoCredit'),
 
     # user invitation
     re_path(r'^fe/send/mail/invitation/$', views.front_send_email_invitation, name='frontSendEmailInvitation'),

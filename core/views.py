@@ -17,9 +17,9 @@ from game.models import *
 from adminPanel.models import *
 from product.models import *
 from advertisement.models import *
-from .models import PointWallet, WinningChance, PrizeList
+from .models import *
 from django.core.paginator import Paginator, EmptyPage
-
+from datetime import datetime, timedelta
 
 
 def get_User_ip(request):
@@ -198,6 +198,102 @@ def front_home(request):
     }
 
     return render(request, 'frontEnd/home.html', context)
+
+# check box captcha solving
+@login_required(login_url='/fe/login/register')
+def front_checkBoxCaptchaBonus(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = CheckBoxCaptcha.objects.filter(user=request.user).first()
+        if user:
+            expired_date = user.created + timedelta(days=2)
+            today = datetime.today()
+            print(today)
+            print(expired_date)
+            if True:
+                # deleting previous one
+                user.delete()
+
+                # updating new one
+                checkBox_captchaModel = CheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 30
+                    usr_point_wllt.save()
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=30)
+            else:
+                messages.warning(request, "You already got bonus! Try every two days later!")
+                return redirect('frontEndHome')
+        else:
+            # updating new one
+            checkBox_captchaModel = CheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 30
+                usr_point_wllt.save()
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=30)
+
+        messages.success(request, "Thanks for your afford. You got 30 reward points as bonus. Try two days later to get bonus again!")
+        return redirect('frontEndHome')
+
+    return redirect('frontEndHome')
+
+
+@login_required(login_url='/fe/login/register')
+def front_invisibleCaptchaBonus(reqeust):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == "POST":
+        feedback = request.POST.get('invisible_captcha')
+
+        if feedback:
+            usr = InvisibleFeedbackCaptcha.objects.filter(user=request.user).first()
+
+            if usr:
+                expired_date = user.created + timedelta(days=2)
+                today = datetime.today()
+                if today >= expired_date:
+                    usr.delete()
+
+                    # update with new value
+                    invisible_cptcha_model = InvisibleFeedbackCaptcha.objects.create(user=request.user, feedback=feedback)
+
+                    # user point wallet
+                    usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                    if usr_point_wllt:
+                        usr_point_wllt.available = int(usr_point_wllt.available) + 30
+                        usr_point_wllt.save()
+                    else:
+                        usr_point_wallet = PointWallet.objects.create(user=request.user, available=30)
+                else:
+                    messages.warning(request, "You already got bonus! Try every two days later!")
+                    return redirect('frontEndHome')
+
+            else:
+                # update with new value
+                invisible_cptcha_model = InvisibleFeedbackCaptcha.objects.create(user=request.user, feedback=feedback)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 30
+                    usr_point_wllt.save()
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=30)
+
+    return redirect('frontEndHome')
 
 
 def send__mail(email):
@@ -1381,21 +1477,21 @@ def front_buy_winning_chance(request):
 
     if request.method == 'POST':
         number_of_winning_chance = request.POST.get('number_of_winning_chance')
-        point_to_be_charged = request.POST.get('point_to_be_charged')
+        credit_point_to_be_charged = request.POST.get('point_to_be_charged')
 
-        if number_of_winning_chance and point_to_be_charged:
-            user_point_wallet = PointWallet.objects.filter(user=request.user).first()
+        if number_of_winning_chance and credit_point_to_be_charged:
+            user_credit_point_wallet = CreditWallet.objects.filter(user=request.user).first()
 
-            if user_point_wallet and user_point_wallet.available:
-                if int(user_point_wallet.available) >= int(point_to_be_charged):
+            if user_credit_point_wallet and user_credit_point_wallet.available:
+                if int(user_credit_point_wallet.available) >= int(credit_point_to_be_charged):
                     if len(WinningChance.objects.filter(user=request.user)) > 0:
                         user_winning_chance_model = WinningChance.objects.get(user=request.user)
-                        user_winning_chance_model.remaining_chances = number_of_winning_chance
+                        user_winning_chance_model.remaining_chances = int(user_winning_chance_model.remaining_chances) + int(number_of_winning_chance)
                         user_winning_chance_model.save()
 
                         # updating point wallet after buying
-                        user_point_wallet.available = int(user_point_wallet.available) - int(point_to_be_charged)
-                        user_point_wallet.save()
+                        user_credit_point_wallet.available = int(user_credit_point_wallet.available) - int(credit_point_to_be_charged)
+                        user_credit_point_wallet.save()
 
                         messages.success(request, "Successfully bought new chances!")
                         return redirect('frontEndUserProfile', username=request.user.username)
@@ -1405,26 +1501,26 @@ def front_buy_winning_chance(request):
                         user_winning_chance_model.save()
 
                         # updating point wallet after buying
-                        user_point_wallet.available = int(user_point_wallet.available) - int(point_to_be_charged)
-                        user_point_wallet.save()
+                        user_credit_point_wallet.available = int(user_credit_point_wallet.available) - int(credit_point_to_be_charged)
+                        user_credit_point_wallet.save()
 
                         messages.success(request, "Successfully bought new chances!")
                         return redirect('frontEndUserProfile', username=request.user.username)
                 else:
-                    # current available chance
-                    available__points = int(user_point_wallet.available)
+                    # current available credits
+                    available__credit_points = int(user_credit_point_wallet.available)
 
                     # finding lack of points to buy chance
-                    lack_of_points = int(point_to_be_charged) - available__points
+                    lack_of_points = int(credit_point_to_be_charged) - available__credit_points
 
                     # payable amount for buying chance for lack of points
-                    payable_amount = (lack_of_points) / 20
+                    payable_amount = (lack_of_points) / 2
 
 
                     context = {
                         'payable_amount' : payable_amount,
-                        'available_points': available__points,
-                        'necessary_points' : point_to_be_charged,
+                        'available_points': available__credit_points,
+                        'necessary_points' : credit_point_to_be_charged,
                         'winning_chance' : number_of_winning_chance,
 
                         'site_logo': site_logo,
@@ -1708,6 +1804,9 @@ def front_user_profile(request, username):
     # user points wallet
     user_point_wallet = PointWallet.objects.filter(user=request.user).first()
 
+    # user credit wallet
+    user_credit_wallet = CreditWallet.objects.filter(user=request.user).first()
+
     # user winning chances
     user_winning_chances = WinningChance.objects.filter(user=request.user).first()
 
@@ -1720,7 +1819,9 @@ def front_user_profile(request, username):
         'order_list' : order_list,
         'user_profile_pic' : user_profile_pic,
         'user_point_wallet' : user_point_wallet,
+        'user_credit_wallet': user_credit_wallet,
         'user_winning_chances' : user_winning_chances,
+
         'site_logo' : site_logo,
         'contact_info': contact_info,
         'free_delivery_content_setting': free_delivery_content_setting,
@@ -1729,6 +1830,47 @@ def front_user_profile(request, username):
         'help_center_content_setting': help_center_content_setting,
     }
     return render(request, 'frontEnd/user_profile.html', context)
+
+
+@login_required(login_url='/fe/login/register')
+def front_ConvertPointInto_credit(request, username):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    # point wallet model
+    pnt_wallet_model = PointWallet.objects.filter(user=request.user).first()
+
+    if pnt_wallet_model:
+        user_currnt_available_pnt = int(pnt_wallet_model.available)
+
+        # assuming 100 pnts = 1 credit
+        credit_amount = math.ceil((user_currnt_available_pnt) / 100)
+
+        # update user credit wallet
+        user_credit_wallet = CreditWallet.objects.filter(user=request.user).first()
+
+        if user_credit_wallet:
+            user_credit_wallet.available = int(user_credit_wallet.available) + credit_amount
+            user_credit_wallet.save()
+
+            # updating point wallet after conversion
+            pnt_wallet_model.available = 0
+            pnt_wallet_model.save()
+
+            messages.success(request, "Successfully converted!")
+            return redirect('frontEndUserProfile', username=request.user.username)
+        else:
+            user_credit_wallet_model = CreditWallet.objects.create(user=request.user, available=credit_amount)
+
+            # updating point wallet after conversion
+            pnt_wallet_model.available = 0
+            pnt_wallet_model.save()
+
+            messages.success(request, "Successfully converted!")
+            return redirect('frontEndUserProfile', username=request.user.username)
+
+    return redirect('frontEndUserProfile', username=request.user.username)
 
 @login_required(login_url='/fe/login/register')
 def front_send_email_invitation(request):

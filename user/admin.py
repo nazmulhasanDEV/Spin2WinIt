@@ -87,3 +87,7 @@ admin.site.register(UserMailInvitations)
 
 # disclaimer ip list
 admin.site.register(DisclaimerAgreeDisagreeIPList)
+
+# captcha
+admin.site.register(CheckBoxCaptcha)
+admin.site.register(InvisibleFeedbackCaptcha)

@@ -176,3 +176,28 @@ class DisclaimerAgreeDisagreeIPList(models.Model):
 
     def __str__(self):
         return self.ip
+
+# checkbox captcha
+class CheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+
+    def __str__(self):
+        return str(self.user.email)
+
+
+# invisible captcha
+class InvisibleFeedbackCaptcha(models.Model):
+
+    option = (
+        ('g', "Good"),
+        ('b', "Better"),
+        ('a', "Awesome"),
+    )
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    feedback = models.CharField(max_length=255, choices=option, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)

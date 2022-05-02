@@ -183,7 +183,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 # new section **********************************************
-from .cdn.conf import *
+# from .cdn.conf import *
 
 # new section ends ************************************************
 

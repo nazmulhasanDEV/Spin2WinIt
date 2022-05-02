@@ -680,183 +680,30 @@
 <section id="captcha__section">
     <div class="container">
         <div class="row">
+            <div class="col-md-5">
+                <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            </div>
             <div class="col-md-3">
                 <div>
                     <h5>Solve this reCaptcha and get 30 points bonus!</h5>
-                    <form action="?" method="POST" id="captcha__form">
+                    <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form">
+                        {% csrf_token %}
                         <div id="html_element"></div>
                         <br>
                         <input type="submit" value="Submit">
                     </form>
                 </div>
             </div>
-
-            <div class="col-md-1"></div>
-
-            <div class="col-md-3">
-                <div>
-                    <h5>Solve this reCaptcha and get 30 points bonus!</h5>
-                    <form action="?" method="POST" id="captcha__form1">
-                        <div id="html_element1"></div>
-                        <br>
-                        <input type="submit" value="Submit">
-                    </form>
-                </div>
+            <div class="col-md-4">
+                <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
             </div>
-
-            <div class="col-md-1"></div>
-
-            <div class="col-md-3">
-                <div>
-                    <h5>Solve this reCaptcha and get 30 points bonus!</h5>
-                    <form action="?" method="POST" id="captcha__form2">
-                        <div id="html_element2"></div>
-                        <br>
-                        <input type="submit" value="Submit">
-                    </form>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="row" style="margin-top: 40px;">
-            <div class="col-md-3">
-                <div>
-                    <h5>Give us feedback & get 20 points bonus!</h5>
-                    <form action="?" method="POST">
-                     <div class="form-group">
-                        <label for="exampleFormControlSelect1">What was your experience?</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                          <option>Good</option>
-                          <option>Better</option>
-                          <option>Awesome</option>
-                        </select>
-                      </div>
-                  <input id='submit' type="submit" value="Submit">
-                </form>
-                </div>
             </div>
         </div>
     </div>
 </section>
 <!-- section for captcha ends -->
-
-<br>
-<!-- Begin Featured Product With Banner Area -->
-<div class="featured-pro-with-banner mt-sm-5 pb-sm-10 mt-xs-5 pb-xs-10">
-    <div class="container">
-        <div class="row">
-            <!-- Begin Li's Featured Banner Area -->
-            <div class="col-lg-3 text-center">
-                <div class="single-banner featured-banner">
-                    <a href="#">
-                        <img src="{% static 'frontEnd/images/banner/featured-banner.jpg' %}" alt="Li's Featured Banner">
-                    </a>
-                </div>
-            </div>
-            <!-- Li's Featured Banner Area End Here -->
-            <!-- Begin Featured Product Area -->
-            <div class="col-lg-9">
-                <div class="featured-product pt-sm-30 pt-xs-30">
-                    <div class="li-section-title">
-                        <h2>
-                            <span>Featured Products</span>
-                        </h2>
-                    </div>
-                    <div class="row">
-                        <div class="featured-product-active owl-carousel">
-                            <div class="featured-product-bundle">
-                                <div class="featured-pro-wrapper mb-30 mb-sm-25">
-                                    <div class="product-img">
-                                        <!--                                                    <a href="product-details.html">-->
-                                        <!--                                                        <img alt="" src="{% static 'frontEnd/images/featured-product/1.jpg' %}">-->
-                                        <!--                                                    </a>-->
-                                    </div>
-
-                                    <!--                                                <div class="featured-pro-content">-->
-                                    <!--                                                    <div class="product-review">-->
-                                    <!--                                                        <h5 class="manufacturer">-->
-                                    <!--                                                            <a href="shop-left-sidebar.html">Studio Design</a>-->
-                                    <!--                                                        </h5>-->
-                                    <!--                                                    </div>-->
-                                    <!--                                                    <div class="rating-box">-->
-                                    <!--                                                        <ul class="rating">-->
-                                    <!--                                                            <li><i class="fa fa-star-o"></i></li>-->
-                                    <!--                                                            <li><i class="fa fa-star-o"></i></li>-->
-                                    <!--                                                            <li><i class="fa fa-star-o"></i></li>-->
-                                    <!--                                                            <li class="no-star"><i class="fa fa-star-o"></i></li>-->
-                                    <!--                                                            <li class="no-star"><i class="fa fa-star-o"></i></li>-->
-                                    <!--                                                        </ul>-->
-                                    <!--                                                    </div>-->
-                                    <!--                                                    <h4><a class="featured-product-name" href="single-product.html">Mug Today is a good day</a></h4>-->
-                                    <!--                                                    <div class="featured-price-box">-->
-                                    <!--                                                        <span class="new-price new-price-2">$71.80</span>-->
-                                    <!--                                                        <span class="old-price">$77.22</span>-->
-                                    <!--                                                        <span class="discount-percentage">-7%</span>-->
-                                    <!--                                                    </div>-->
-                                    <!--                                                    <div class="featured-product-action">-->
-                                    <!--                                                        <ul class="add-actions-link">-->
-                                    <!--                                                            <li class="add-cart active"><a href="#">Add to cart</a></li>-->
-                                    <!--                                                            <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>-->
-                                    <!--                                                            <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i></a></li>-->
-                                    <!--                                                        </ul>-->
-                                    <!--                                                    </div>-->
-                                    <!--                                                </div>-->
-                                </div>
-
-                                <div class="featured-pro-wrapper">
-                                    <div class="product-img">
-                                        <a href="product-details.html">
-                                            <img alt="" src="{% static 'frontEnd/images/featured-product/1.jpg' %}">
-                                        </a>
-
-                                    </div>
-
-
-                                    <div class="featured-pro-content">
-                                        <div class="product-review">
-                                            <h5 class="manufacturer">
-                                                <a href="shop-left-sidebar.html">Studio Design</a>
-                                            </h5>
-                                        </div>
-                                        <div class="rating-box">
-                                            <ul class="rating">
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                            </ul>
-                                        </div>
-                                        <h4><a class="featured-product-name" href="single-product.html">Mug Today is a
-                                            good day</a></h4>
-                                        <div class="featured-price-box">
-                                            <span class="new-price">$71.80</span>
-                                        </div>
-                                        <div class="featured-product-action">
-                                            <ul class="add-actions-link">
-                                                <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                <li><a class="links-details" href="single-product.html"><i
-                                                        class="fa fa-heart-o"></i></a></li>
-                                                <li><a class="quick-view" data-toggle="modal"
-                                                       data-target="#exampleModalCenter" href="#"><i
-                                                        class="fa fa-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Featured Product Area End Here -->
-        </div>
-    </div>
-</div>
-<!-- Featured Product With Banner Area End Here -->
-
-
 
 
 <!--&lt;!&ndash; ads section starts &ndash;&gt;-->
@@ -987,9 +834,7 @@
 </div>
 
 
-<!-- adster native 1x1 starts-->
-<div id="container-ec5611cf27ddd923a905f8d14e217991"></div>
-<!-- adster native 1x1 ends-->
+
 
 <!-- pop cash anti block tabunder-->
 <script type="text/javascript">
@@ -1015,14 +860,15 @@ var _0x5d4b=['235913QVfbwv','slice','length','162209QBmAmV','14238hyOOTq','32320
         src="//pl17231266.safestgatetocontent.com/ec5611cf27ddd923a905f8d14e217991/invoke.js"></script>
 <!-- adster native 1x1 ends-->
 
-<!-- google adsense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8257236436281637"
-        crossorigin="anonymous"></script>
+
 
 <!-- invisible recaptcha -->
 <script>
         var onSubmit = function(token) {
-          alert('success!');
+          if (grecaptcha.getResponse() === '') {
+              event.preventDefault();
+              alert('Please check the recaptcha');
+            }
         };
 
         var onloadCallbackInvisible = function() {
@@ -1041,15 +887,15 @@ var _0x5d4b=['235913QVfbwv','slice','length','162209QBmAmV','14238hyOOTq','32320
 // captcha-1
       var onloadCallback = function() {
 
-        var widgetId1;
-        var widgetId2;
-        widgetId1 = grecaptcha.render('html_element1', {
-          'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
-        });
+        //var widgetId1;
+        //var widgetId2;
+        //widgetId1 = grecaptcha.render('html_element1', {
+          //'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
+        //});
 
-        widgetId2 = grecaptcha.render('html_element2', {
-          'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
-        });
+        //widgetId2 = grecaptcha.render('html_element2', {
+          //'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
+        //});
 
 
         grecaptcha.render('html_element', {
@@ -1095,7 +941,25 @@ var _0x5d4b=['235913QVfbwv','slice','length','162209QBmAmV','14238hyOOTq','32320
 
 
 </script>
-
+<!--<div class="row" style="margin-top: 40px;">-->
+<!--            <div class="col-md-3">-->
+<!--                <div>-->
+<!--                    <h5>Give us feedback & get 20 points bonus!</h5>-->
+<!--                    <form action="{% url 'frontInvisibleCaptchaBonus' %}" method="POST" enctype="multipart/form-data">-->
+<!--                        {% csrf_token %}-->
+<!--                     <div class="form-group">-->
+<!--                        <label for="exampleFormControlSelect1">What was your experience?</label>-->
+<!--                        <select class="form-control" name="invisible_captcha" id="exampleFormControlSelect1">-->
+<!--                          <option value="g">Good</option>-->
+<!--                          <option value="b">Better</option>-->
+<!--                          <option value="a">Awesome</option>-->
+<!--                        </select>-->
+<!--                      </div>-->
+<!--                  <input id='submit' type="submit" value="Submit">-->
+<!--                </form>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
 {% endblock %}
 
