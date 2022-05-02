@@ -13,7 +13,7 @@ class BannerProdDetail(models.Model):
     def __str__(self):
         return self.banner_id
 
-# banner at shop page
+# banner at shop page by category
 class ShopPageBanner(models.Model):
     banner_id = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(Account, on_delete=models.PROTECT, blank=True, null=True)

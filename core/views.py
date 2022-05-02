@@ -212,8 +212,6 @@ def front_checkBoxCaptchaBonus(request):
         if user:
             expired_date = user.created + timedelta(days=2)
             today = datetime.today()
-            print(today)
-            print(expired_date)
             if True:
                 # deleting previous one
                 user.delete()
@@ -622,6 +620,9 @@ def front_shop(request, pk):
     # product list by current category
     products = ProductList.objects.filter(Q(category=cat) | Q(cat_name__icontains=cat.name))
 
+    # shop page banner by category
+    banner_at_shop_page_by_cat = ShopPageBanner.objects.filter(status=True).first()
+
     # django pagination
     paginator = Paginator(products, 8)
 
@@ -668,6 +669,7 @@ def front_shop(request, pk):
 
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
+        'banner_at_shop_page_by_cat': banner_at_shop_page_by_cat,
     }
     return render(request, 'frontEnd/shop/shop.html', context)
 
