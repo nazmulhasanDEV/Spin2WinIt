@@ -10,6 +10,23 @@
 {% endblock %}
 
 {% block main_block %}
+
+<!-- ads -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <!--yllx 468x60 starts &*************************************-->
+            <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+            <!--yllx ends here **********************************-->
+        </div>
+        <div class="col-md-6">
+            <!--yllx 468x60 starts &*************************************-->
+            <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+            <!--yllx ends here **********************************-->
+        </div>
+    </div>
+</div>
+<!-- ads ends here-->
 <!-- game section starts -->
 
 <!--    prize flash message-->
@@ -204,6 +221,39 @@
         {% endif %}
     </div>
 
+    <!-- yllx 468x60 starts here************************** -->
+    <div class="container">
+                            <div class="row">
+<!--                                <div class="col-md-4">-->
+<!--                                    <div>-->
+<!--                                        <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/468x60.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+                                <div class="col-md-6">
+                                    <div>
+                                        <script type="text/javascript">
+                                            atOptions = {
+                                                'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
+                                                'format' : 'iframe',
+                                                'height' : 60,
+                                                'width' : 468,
+                                                'params' : {}
+                                            };
+                                            document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
+                                        </script>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div>
+                                        <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/468x60.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+    <!-- yllx 468x60 ends here**************************** -->
 </section>
 <!-- game section ends ends -->
 
@@ -219,7 +269,15 @@
         </div>
 
         <div class="col-md">
-            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <div>
+                    <h5>Solve this reCaptcha and get 50 points bonus!</h5>
+                    <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form_game">
+                        {% csrf_token %}
+                        <div id="html_element_game"></div>
+                        <br>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
         </div>
 
         <div class="col-md">
@@ -240,6 +298,32 @@
 
 {{segments|json_script:"segments"}}
 
+
+<script type="text/javascript">
+
+// captcha-1
+      var onloadCallback = function() {
+
+
+        grecaptcha.render('html_element_game', {
+          'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
+        });
+      };
+
+
+      var captcha__form_game = document.getElementById('captcha__form_game');
+        captcha__form_game.addEventListener("submit", function(event){
+
+            if (grecaptcha.getResponse() === '') {
+              event.preventDefault();
+              alert('Please check the recaptcha');
+            }
+          }
+        , false);
+
+        // ends captcha-1
+
+</script>
 
 <!-- game scripts -->
     <script>

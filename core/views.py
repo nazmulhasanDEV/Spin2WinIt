@@ -20,7 +20,7 @@ from advertisement.models import *
 from .models import *
 from django.core.paginator import Paginator, EmptyPage
 from datetime import datetime, timedelta
-
+from django.utils import timezone
 
 def get_User_ip(request):
 
@@ -209,12 +209,14 @@ def front_checkBoxCaptchaBonus(request):
     if request.method == 'POST':
 
         user = CheckBoxCaptcha.objects.filter(user=request.user).first()
+
         if user:
-            expired_date = user.created + timedelta(days=2)
-            today = datetime.today()
-            if True:
+            expired_date = user.created + timedelta(seconds=5)
+            today = timezone.now()
+
+            if today >= expired_date:
                 # deleting previous one
-                user.delete()
+                # user.delete()
 
                 # updating new one
                 checkBox_captchaModel = CheckBoxCaptcha.objects.create(user=request.user)
@@ -222,13 +224,13 @@ def front_checkBoxCaptchaBonus(request):
                 # user point wallet
                 usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
                 if usr_point_wllt:
-                    usr_point_wllt.available = int(usr_point_wllt.available) + 30
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
                     usr_point_wllt.save()
                 else:
-                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=30)
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
             else:
                 messages.warning(request, "You already got bonus! Try every two days later!")
-                return redirect('frontEndHome')
+                return redirect(request.META.get('HTTP_REFERER'))
         else:
             # updating new one
             checkBox_captchaModel = CheckBoxCaptcha.objects.create(user=request.user)
@@ -236,15 +238,15 @@ def front_checkBoxCaptchaBonus(request):
             # user point wallet
             usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
             if usr_point_wllt:
-                usr_point_wllt.available = int(usr_point_wllt.available) + 30
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
                 usr_point_wllt.save()
             else:
-                usr_point_wallet = PointWallet.objects.create(user=request.user, available=30)
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
 
-        messages.success(request, "Thanks for your afford. You got 30 reward points as bonus. Try two days later to get bonus again!")
-        return redirect('frontEndHome')
+        messages.success(request, "Thanks for your afford. You got 50 reward points as bonus. Try two days later to get bonus again!")
+        return redirect(request.META.get('HTTP_REFERER'))
 
-    return redirect('frontEndHome')
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required(login_url='/fe/login/register')
@@ -397,6 +399,9 @@ def front_loginUser(request):
                         if user.is_seller:
                             login(request, authenticate_user)
                             return redirect('sellerDashboardHome', username=user.username)
+                else:
+                    messages.success(request, "User not found! Try again!")
+                    return redirect('frontEndLoginRegister')
             except:
                 user = get_object_or_404(Account, email=email)
                 if user and user.status == '1' and user.is_active == True:
