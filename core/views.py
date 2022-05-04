@@ -103,6 +103,12 @@ def front_home(request):
     # help center setting
     help_center_content_setting = HelpCenter.objects.filter().first()
 
+    # home page slider starts
+    home_pg_mini_top_slidr = HomeMiniTopBanner.objects.filter(status=True)
+
+    # home page bottom slider
+    home_pg_bottom_slidr = HomeMiniBottomBanner.objects.filter(status=True)
+
     # home page main banner/slider
     main_banner_or_slider = BannerList.objects.all()
 
@@ -179,6 +185,8 @@ def front_home(request):
             'safe_payment_content_setting': safe_payment_content_setting,
             'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
             'help_center_content_setting': help_center_content_setting,
+            'home_pg_mini_top_slidr' : home_pg_mini_top_slidr,
+            'home_pg_bottom_slidr' : home_pg_bottom_slidr,
         }
         return render(request, 'frontEnd/home.html', context)
 
@@ -195,6 +203,9 @@ def front_home(request):
         'safe_payment_content_setting': safe_payment_content_setting,
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
+
+        'home_pg_mini_top_slidr': home_pg_mini_top_slidr,
+        'home_pg_bottom_slidr': home_pg_bottom_slidr,
     }
 
     return render(request, 'frontEnd/home.html', context)
@@ -215,9 +226,6 @@ def front_checkBoxCaptchaBonus(request):
             today = timezone.now()
 
             if today >= expired_date:
-                # deleting previous one
-                # user.delete()
-
                 # updating new one
                 checkBox_captchaModel = CheckBoxCaptcha.objects.create(user=request.user)
 
@@ -240,11 +248,12 @@ def front_checkBoxCaptchaBonus(request):
             if usr_point_wllt:
                 usr_point_wllt.available = int(usr_point_wllt.available) + 50
                 usr_point_wllt.save()
+                messages.success(request, "You already got 50 reward points as bonus. Try one days later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
             else:
                 usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
-
-        messages.success(request, "Thanks for your afford. You got 50 reward points as bonus. Try two days later to get bonus again!")
-        return redirect(request.META.get('HTTP_REFERER'))
+                messages.success(request, "You already got 50 reward points as bonus. Try one days later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect(request.META.get('HTTP_REFERER'))
 

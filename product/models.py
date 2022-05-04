@@ -252,7 +252,7 @@ class WishList(models.Model):
         super(WishList, self).save(*args, **kwargs)
 
 
-# banner section
+# home page main banner section
 class BannerList(models.Model):
     banner_id = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
@@ -268,6 +268,30 @@ class BannerList(models.Model):
     def __str__(self):
         return self.user.email + " || " + self.product_title
 
+# home page mini top banner
+class HomeMiniTopBanner(models.Model):
+    banner_id = models.CharField(max_length=255, blank=True, null=True)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    img = models.ImageField(upload_to='banner', blank=True, null=True)
+    url = models.CharField(max_length=350, blank=True, null=True)
+    status = models.BooleanField(default=False, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.banner_id + "||" + str(self.user.email)
+
+
+# home page mini bottom banner
+class HomeMiniBottomBanner(models.Model):
+    banner_id = models.CharField(max_length=255, blank=True, null=True)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    img = models.ImageField(upload_to='banner', blank=True, null=True)
+    url = models.CharField(max_length=350, blank=True, null=True)
+    status = models.BooleanField(default=False, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.banner_id + "||" + str(self.user.email)
 
 
 

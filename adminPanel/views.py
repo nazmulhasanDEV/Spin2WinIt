@@ -191,6 +191,94 @@ def ap_fetch_woocommerce_store_prdct(request):
     # ends new section *********************************
 
     return redirect('apWoocommerceStoreList')
+def ap_fetch_woocommerce_store_prdct(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # updated new section *****************************
+
+    page = 1  # The first page number to loop is page 1
+    try:
+        while True:
+            prods = wcapi.get('products', params={"per_page": 20, "page": page})
+            page += 1
+            if prods.text:
+                p = json.loads(prods.text)
+
+                try:
+                    for x in p:
+                        # combining multiple categories of one product
+                        cats = ''
+                        for cat in x['categories']:
+                            cats = cats + cat['name'] + ' ,'
+
+                        if len(ProductList.objects.filter(product_id=x['id'])) <= 0:
+                            product_list_model = ProductList.objects.create(
+                                user=request.user,
+                                product_id=x['id'],
+                                product_type='wsp',
+                                title=x['name'],
+                                slug=x['slug'],
+                                details=x['description'],
+                                regular_price=x['regular_price'],
+                                price=x['price'],
+                                total_sold=x['total_sales'],
+                                in_stock=x['stock_status'],
+                                avrg_rating=x['average_rating'],
+                                rating_count=x['rating_count'],
+                                cat_id=x['categories'][0]['id'],
+                                cat_name=cats,
+                                subcat_id='1',
+                                subcat_name='subcat_name',
+                                security_policy='apcp',
+                                return_policy='apcp',
+                                delivery_policy='apcp'
+                            )
+
+                            for img in x['images']:
+                                product_img_model = ProductImg.objects.create(product_id=x['id'], product_type='wsp',
+                                                                              img_link=img['src'])
+                                product_list_model.productImg.add(product_img_model)
+                                product_list_model.save()
+
+                        if len(WoocommerceProductList.objects.filter(product_id=x['id'])) <= 0:
+
+                            woocomrc_prdct_list_model = WoocommerceProductList.objects.create(
+                                product_id=x['id'],
+                                name=x['name'],
+                                slug=x['slug'],
+                                description=x['description'],
+                                price=x['price'],
+                                regular_price=x['regular_price'],
+                                total_sales=x['total_sales'],
+                                cat_id=x['categories'][0]['id'],
+                                cat_name=x['categories'][0]['name'],
+                                subcat_id='1',
+                                subcat_name='subcat',
+                                stock_status=x['stock_status'],
+                                avrg_rating=x['average_rating'],
+                                rating_count=x['rating_count']
+                            )
+
+                            for img in x['images']:
+                                product_img_model = ProductImg.objects.create(product_id=x['id'], product_type='wsp',
+                                                                              img_link=img['src'])
+
+                                woocomrc_prdct_list_model.product_img.add(product_img_model)
+                                woocomrc_prdct_list_model.save()
+                except:
+
+                    messages.warning(request, "Can't import products or server error! Try again!a")
+                    return redirect('apWoocommerceStoreList')
+            if len(json.loads(prods.text)) <= 0:
+                break
+    except:
+        return redirect('apWoocommerceStoreList')
+
+    # ends new section *********************************
+
+    return redirect('apWoocommerceStoreList')
 
 
 @login_required(login_url='/ap/register/updated')
@@ -3419,6 +3507,8 @@ def ap_my_profile(request, username):
 
 
 # banner section starts ******************************************************************
+
+# Home page main banner
 @login_required(login_url='/ap/register/updated')
 def ap_add_banner(request):
 
@@ -3556,6 +3646,200 @@ def ap_banner_list(request):
     }
 
     return render(request, 'backEnd_superAdmin/banner_section/banner_list.html', context)
+
+
+# home page mini top banner
+@login_required(login_url='/ap/register/updated')
+def ap_home_pageMini_topBanner(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        banner_img = request.FILES['banner_img']
+        url = request.POST.get('url')
+
+        bnr_id = uuid.uuid4()
+
+        if banner_img and url:
+            mini_top_bnr = HomeMiniTopBanner.objects.create(banner_id=bnr_id, user=request.user, img=banner_img, url=url)
+            messages.success(request, "Successfully added!")
+            return redirect('apAddHomePageMiniTopBanner')
+        else:
+            messages.warning(request, "Can't be added! Try again!")
+            return redirect('apAddHomePageMiniTopBanner')
+
+    return render(request, 'backEnd_superAdmin/mini_home_page_slider/add_to_mini_top_slider.html')
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_home_pageMini_topBanrList(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    home_top_bnr_list = HomeMiniTopBanner.objects.all()
+    context = {
+        'home_top_slider_list': home_top_bnr_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/mini_home_page_slider/mini_top_slider_list.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_activate_home_pageMini_topBanr(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_obj = HomeMiniTopBanner.objects.get(pk=pk)
+        current_obj.status = True
+        current_obj.save()
+        messages.success(request, "Successfully activated!")
+        return redirect('apHomePageMiniTopBannerList')
+
+    except:
+        messages.warning(request, "Can't be activated! Try again!")
+        return redirect('apHomePageMiniTopBannerList')
+
+    return redirect('apHomePageMiniTopBannerList')
+
+@login_required(login_url='/ap/register/updated')
+def ap_de_activate_home_pageMini_topBanr(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_obj = HomeMiniTopBanner.objects.get(pk=pk)
+        current_obj.status = False
+        current_obj.save()
+        messages.success(request, "Successfully de-activated!")
+        return redirect('apHomePageMiniTopBannerList')
+
+    except:
+        messages.warning(request, "Can't be de-activated! Try again!")
+        return redirect('apHomePageMiniTopBannerList')
+
+    return redirect('apHomePageMiniTopBannerList')
+
+@login_required(login_url='/ap/register/updated')
+def ap_delete_home_pageMiniTopBanner(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_obj = HomeMiniTopBanner.objects.get(pk=pk)
+        fs = FileSystemStorage()
+        fs.delete(current_obj.img.name)
+        current_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apHomePageMiniTopBannerList')
+    except:
+        messages.warning(request, "Can't deleted!")
+        return redirect('apHomePageMiniTopBannerList')
+
+    return redirect('apHomePageMiniTopBannerList')
+
+
+# home page mini bottom banner
+@login_required(login_url='/ap/register/updated')
+def ap_home_pageMini_bottomBanner(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        banner_img = request.FILES['banner_img']
+        url = request.POST.get('url')
+
+        bnr_id = uuid.uuid4()
+
+        if banner_img and url:
+            mini_top_bnr = HomeMiniBottomBanner.objects.create(banner_id=bnr_id, user=request.user, img=banner_img, url=url)
+            messages.success(request, "Successfully added!")
+            return redirect('apAddHomePageMiniTopBanner')
+        else:
+            messages.warning(request, "Can't be added! Try again!")
+            return redirect('apAddHomePageMiniTopBanner')
+
+    return render(request, 'backEnd_superAdmin/mini_home_page_slider/add_to_mini_bottom_slider.html')
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_home_pageMini_BottomBanrList(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    home_bottom_bnr_list = HomeMiniBottomBanner.objects.all()
+
+    context = {
+        'home_bottom_bnr_list': home_bottom_bnr_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/mini_home_page_slider/mini_bottom_slider_list.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_activate_home_pageMini_BottomBanr(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_obj = HomeMiniBottomBanner.objects.get(pk=pk)
+        current_obj.status = True
+        current_obj.save()
+        messages.success(request, "Successfully activated!")
+        return redirect('apHomePageMiniBottomBannerList')
+
+    except:
+        messages.warning(request, "Can't be activated! Try again!")
+        return redirect('apHomePageMiniBottomBannerList')
+
+    return redirect('apHomePageMiniBottomBannerList')
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_de_activate_home_pageMini_bottomBanr(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_obj = HomeMiniBottomBanner.objects.get(pk=pk)
+        current_obj.status = False
+        current_obj.save()
+        messages.success(request, "Successfully de-activated!")
+        return redirect('apHomePageMiniBottomBannerList')
+
+    except:
+        messages.warning(request, "Can't be de-activated! Try again!")
+        return redirect('apHomePageMiniBottomBannerList')
+
+    return redirect('apHomePageMiniBottomBannerList')
+
+@login_required(login_url='/ap/register/updated')
+def ap_delete_home_pageMiniBottomBanner(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_obj = HomeMiniBottomBanner.objects.get(pk=pk)
+        fs = FileSystemStorage()
+        fs.delete(current_obj.img.name)
+        current_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apHomePageMiniBottomBannerList')
+    except:
+        messages.warning(request, "Can't deleted!")
+        return redirect('apHomePageMiniBottomBannerList')
+
+    return redirect('apHomePageMiniBottomBannerList')
+
 
 @login_required(login_url='/ap/register/updated')
 def ap_del_banner(request, pk):

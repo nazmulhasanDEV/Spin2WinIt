@@ -124,24 +124,26 @@
 
                     <div class="swiper mySwiper container">
                         <div class="swiper-wrapper content">
-                            <div class="swiper-slide" id="swiper__slider__content1">
-                                <script async
-                                        src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+<!--                            <div class="swiper-slide" id="swiper__slider__content1">-->
+<!--                                <script async-->
+<!--                                        src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
+<!--                            </div>-->
+
+                            {% if home_pg_mini_top_slidr %}
+                            <div class="swiper-slide">
+                                <a href="#">
+                                    {% for x in home_pg_mini_top_slidr %}
+                                    <img src="{{x.img.url}}" alt=""/>
+                                    {% endfor %}
+                                </a>
                             </div>
-
-                            <!--                            <div class="swiper-slide">-->
-                            <!--                                <a href="#">-->
-                            <!--                                    <img src="{% static 'frontEnd/images/banner/3_2.jpg' %}" alt=""/>-->
-                            <!--                                </a>-->
-                            <!--                                &lt;!&ndash; <h6>Watch & Earn</h6> &ndash;&gt;-->
-                            <!--                            </div>-->
-
-                            <!--                            <div class="swiper-slide">-->
-                            <!--                                <a href="#">-->
-                            <!--                                    <img src="{% static 'frontEnd/images/banner/3_1.jpg' %}" alt=""/>-->
-                            <!--                                </a>-->
-                            <!--                                &lt;!&ndash; <h6>Watch & Earn</h6> &ndash;&gt;-->
-                            <!--                            </div>-->
+                            {% else %}
+                            <div class="swiper-slide">
+                                <a href="#">
+                                    <img src="{% static 'frontEnd/images/banner/3_2.jpg' %}" alt=""/>
+                                </a>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -162,22 +164,26 @@
 
                     <div class="swiper adsVidSwiper2 container">
                         <div class="swiper-wrapper content">
-                            <div class="swiper-slide" id="swiper__slider__content2">
-                                <script async
-                                        src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+<!--                            <div class="swiper-slide" id="swiper__slider__content2">-->
+<!--                                <script async-->
+<!--                                        src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
+<!--                            </div>-->
+                            {% if home_pg_bottom_slidr %}
+                            <div class="swiper-slide">
+                                <a href="#">
+                                    {% for x in home_pg_bottom_slidr %}
+                                    <img src="{{x.img.url}}" alt=""/>
+                                    {% endfor %}
+                                </a>
                             </div>
+                            {% else %}
+                            <div class="swiper-slide">
+                                <a href="#">
+                                    <img src="{% static 'frontEnd/images/banner/3_2.jpg' %}" alt=""/>
+                                </a>
+                            </div>
+                            {% endif %}
 
-                            <!--                            <div class="swiper-slide">-->
-                            <!--                                <a href="#">-->
-                            <!--                                    <img src="{% static 'frontEnd/images/banner/3_2.jpg' %}" alt=""/>-->
-                            <!--                                </a>-->
-                            <!--                            </div>-->
-
-                            <!--                            <div class="swiper-slide">-->
-                            <!--                                <a href="#">-->
-                            <!--                                    <img src="{% static 'frontEnd/images/banner/3_1.jpg' %}" alt=""/>-->
-                            <!--                                </a>-->
-                            <!--                            </div>-->
                         </div>
                     </div>
 

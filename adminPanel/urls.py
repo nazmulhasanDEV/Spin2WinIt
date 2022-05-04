@@ -149,12 +149,26 @@ urlpatterns = [
     re_path(r'^ap/update/user/full/name/$', views.ap_update_user_full_name, name='apUpdateUserProfileFullname'),
     re_path(r'^ap/update/user/password/$', views.ap_update_user_password, name='apUpdateUserPassword'),
 
-    # banner section starts ****************************************************
+    # Home page main banner section starts ****************************************************
     re_path(r'^ap/add/banner/$', views.ap_add_banner, name='apAddBanner'),
     re_path(r'^ap/banner/list/$', views.ap_banner_list, name='apBannerList'),
     re_path(r'^ap/update/banner/(?P<pk>\d+)/(?P<banner_id>[-\w]+)/$', views.ap_update_banner, name='apUpdateBannerInfo'),
     re_path(r'^ap/banner/(?P<pk>\d+)/(?P<banner_id>[-\w]+)/details/$', views.ap_banner_details, name='apBannerDetails'),
     re_path(r'^ap/del/banner/(?P<pk>\d+)/$', views.ap_del_banner, name='apDelBanner'),
+
+    # home page mini top banner
+    re_path(r'^ap/add/home/page/mini/top/banner/$', views.ap_home_pageMini_topBanner, name='apAddHomePageMiniTopBanner'),
+    re_path(r'^ap/home/page/mini/top/banner/list/$', views.ap_home_pageMini_topBanrList, name='apHomePageMiniTopBannerList'),
+    re_path(r'^ap/home/page/activate/top/mini/banner/(?P<pk>\d+)/$', views.ap_activate_home_pageMini_topBanr, name='apHomeActivateTopBanner'),
+    re_path(r'^ap/home/page/de_activate/top/mini/banner/(?P<pk>\d+)/$', views.ap_de_activate_home_pageMini_topBanr, name='apHomeDe_ActivateTopBanner'),
+    re_path(r'^ap/home/page/deleted/top/mini/banner/(?P<pk>\d+)/$', views.ap_delete_home_pageMiniTopBanner, name='apHomeDeleteTopBanner'),
+
+    # home page mini top banner
+    re_path(r'^ap/add/home/page/mini/bottom/banner/$', views.ap_home_pageMini_bottomBanner, name='apAddHomePageMiniBottomBanner'),
+    re_path(r'^ap/home/page/mini/bottom/banner/list/$', views.ap_home_pageMini_BottomBanrList, name='apHomePageMiniBottomBannerList'),
+    re_path(r'^ap/home/page/activate/mini/bottom/banner/(?P<pk>\d+)/$', views.ap_activate_home_pageMini_BottomBanr, name='apActivateHomePageMiniBottomBanner'),
+    re_path(r'^ap/home/page/de_activate/mini/bottom/banner/(?P<pk>\d+)/$', views.ap_de_activate_home_pageMini_bottomBanr, name='apDe_ActivateHomePageMiniBottomBanner'),
+    re_path(r'^ap/home/page/delete/mini/bottom/banner/(?P<pk>\d+)/$', views.ap_delete_home_pageMiniBottomBanner, name='apDeleteHomePageMiniBottomBanner'),
 
     # logo section **********************************************
     re_path(r'^ap/add/logo/$', views.ap_add_site_logo, name='apAddSiteLogo'),

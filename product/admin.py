@@ -21,7 +21,11 @@ admin.site.register(WoocommerceProductList)
 
 # admin.site.register(AllProductList)
 
+
+# home page sliders
 admin.site.register(BannerList)
+admin.site.register(HomeMiniTopBanner)
+admin.site.register(HomeMiniBottomBanner)
 
 # cart
 class CartAdmin(admin.ModelAdmin):
