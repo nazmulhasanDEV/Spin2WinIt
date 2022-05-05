@@ -6,7 +6,8 @@
 }
 
 .game__product_prize_section {
-    background-color: rgba(0, 0, 0, .3);
+    /*background-color: rgba(0, 0, 0, .3);*/
+    background: #001D37;
     padding: 20px;
     padding: 20px;
     color:  #FFD700;
