@@ -130,13 +130,13 @@
 <!--                            </div>-->
 
                             {% if home_pg_mini_top_slidr %}
+                            {% for x in home_pg_mini_top_slidr %}
                             <div class="swiper-slide">
                                 <a href="#">
-                                    {% for x in home_pg_mini_top_slidr %}
                                     <img src="{{x.img.url}}" alt=""/>
-                                    {% endfor %}
                                 </a>
                             </div>
+                            {% endfor %}
                             {% else %}
                             <div class="swiper-slide">
                                 <a href="#">
@@ -169,13 +169,13 @@
 <!--                                        src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
 <!--                            </div>-->
                             {% if home_pg_bottom_slidr %}
+                            {% for x in home_pg_bottom_slidr %}
                             <div class="swiper-slide">
                                 <a href="#">
-                                    {% for x in home_pg_bottom_slidr %}
                                     <img src="{{x.img.url}}" alt=""/>
-                                    {% endfor %}
                                 </a>
                             </div>
+                            {% endfor %}
                             {% else %}
                             <div class="swiper-slide">
                                 <a href="#">

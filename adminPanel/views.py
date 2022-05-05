@@ -2326,6 +2326,50 @@ def ap_sponsored_prdacts_for_game(request):
     return render(request, 'backEnd_superAdmin/game/sponsored_prdct_list.html', context)
 
 
+@login_required(login_url='/ap/register/updated')
+def ap_add_new_segment(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        name = request.POST.get('segment_name')
+
+        if name and len(Segment.objects.filter(name=name)) < 0:
+            segment_model = Segment.objects.create(name=name)
+            messages.success(request, "Successfully added!")
+            return redirect('apAddNewSegment')
+        else:
+            messages.warning(request, "Can't be added!")
+            return redirect('apAddNewSegment')
+
+    # segments list
+    segments_list = Segment.objects.all()
+
+    context = {
+        'segments_list': segments_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/game/add_segment.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_new_segment(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_obj = Segment.objects.filter(pk=pk)
+        current_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apAddNewSegment')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apAddNewSegment')
+
+    return redirect('apAddNewSegment')
+
+
 # deactivate other sponsored product for winning chance
 def deactivateOtherProductFor_winning_chance(obj):
 

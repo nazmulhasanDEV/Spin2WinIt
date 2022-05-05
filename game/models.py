@@ -30,7 +30,7 @@ class PointAs_Prize(models.Model):
     def __str__(self):
         return self.point_amount
 
-# segments
+# segments list
 class Segment(models.Model):
     name = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True)
