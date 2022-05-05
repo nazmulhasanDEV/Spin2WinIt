@@ -66,4 +66,15 @@ class SegmentList(models.Model):
         self.segment_no = self.segment_no + 1
         super().save(*args, **kwargs)
 
+# applicable rules/regulations for prize winner
+class ApplicableRulesForWinner(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.PROTECT, blank=True, null=True)
+    product = models.OneToOneField(SponsoredProductForPrize, on_delete=models.CASCADE, blank=True, null=True)
+    applicable_rules = models.TextField()
+
+    def __str__(self):
+        return self.product.product.title
+
+
+
 

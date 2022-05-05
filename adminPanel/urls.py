@@ -64,6 +64,8 @@ urlpatterns = [
     re_path(r'^ap/deactivate/game/segment/(?P<pk>\d+)/$', views.ap_deactivate_game_setting, name='apDeActivateGameSegment'),
     re_path(r'^ap/update/game/segment/(?P<pk>\d+)/$', views.ap_update_game_setting, name='apUpdateGameSegment'),
     re_path(r'^ap/del/game/segment/(?P<pk>\d+)/$', views.ap_delete_game_setting, name='apDeleteGameSegment'),
+    re_path(r'^ap/applicable/rules/for/winning/prize/$', views.ap_applicable_rules_for_prize_winner, name='apApplicableRuleWinningPrize'),
+    re_path(r'^ap/remove/product/with/applicable/rule/(?P<pk>\d+)/$', views.ap_remove_prduct_with_applicable_rules, name='apRemoveProductWithApplicableRule'),
 
     # gaming sponsored product list
     re_path(r'^ap/game/sponsored/products/$',views.ap_sponsored_prdacts_for_game, name='apGameSponsoredProducts'),

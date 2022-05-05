@@ -2395,6 +2395,58 @@ def ap_del_sponsored_product(request, pk):
 
     return redirect('apGameSponsoredProducts')
 
+
+# add applicable rules for prize winner
+@login_required(login_url='/ap/register/updated')
+def ap_applicable_rules_for_prize_winner(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # sponsored product list
+    sponsored_product_list = SponsoredProductForPrize.objects.all()
+
+    if request.method == 'POST':
+        product_pk = request.POST.get('product')
+        rules = request.POST.get('applicable_rules')
+
+        if product_pk and rules:
+            product = SponsoredProductForPrize.objects.filter(pk=product_pk).first()
+            applicable_rules_model = ApplicableRulesForWinner.objects.create(user=request.user, product=product, applicable_rules=rules)
+            messages.success(request, "Successfully added!")
+            return redirect('apApplicableRuleWinningPrize')
+
+        else:
+            messages.warning(request, "Can't be added! Try again!")
+            return redirect('apApplicableRuleWinningPrize')
+
+    # product list with applicable rules
+    product_list_with_app_rules = ApplicableRulesForWinner.objects.all()
+
+    context = {
+        'sponsored_product_list': sponsored_product_list,
+        'product_list_with_app_rules' : product_list_with_app_rules,
+    }
+
+    return render(request, 'backEnd_superAdmin/game/applicable_rules_setting_for_winner.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_prduct_with_applicable_rules(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        product = ApplicableRulesForWinner.objects.get(pk=pk)
+        product.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apApplicableRuleWinningPrize')
+    except:
+        messages.warning(request, "can't be deleted! Try again please!")
+        return redirect('apApplicableRuleWinningPrize')
+
+    return redirect('apApplicableRuleWinningPrize')
 # gaming section starts ends *****************************************************************
 
 

@@ -1376,6 +1376,11 @@ def front_game(request):
     # grabing sponsored product sponsored product
     sponsored_product = SponsoredProductForPrize.objects.filter(status=True).first()
 
+    # applicable rules for sponsored product
+    applicable_rules = None
+    if sponsored_product:
+        applicable_rules = ApplicableRulesForWinner.objects.filter(product=sponsored_product).first()
+
     if request.user.is_authenticated:
 
         # getting current spinning chances
@@ -1417,6 +1422,7 @@ def front_game(request):
             'help_center_content_setting': help_center_content_setting,
 
             'sponsored_product' : sponsored_product,
+            'applicable_rules': applicable_rules,
 
             'user_total_remaining_chances' : user_total_remaining_chances,
             'game_setting': game_setting,
@@ -1439,6 +1445,7 @@ def front_game(request):
         'help_center_content_setting': help_center_content_setting,
 
         'sponsored_product': sponsored_product,
+        'applicable_rules' : applicable_rules,
     }
     return render(request, 'frontEnd/game.html', context)
 
@@ -1498,6 +1505,8 @@ def front_buy_winning_chance(request):
         if number_of_winning_chance and credit_point_to_be_charged:
             user_credit_point_wallet = CreditWallet.objects.filter(user=request.user).first()
 
+            # asumptions: $1 = 2 credits, 100 points = 1 credit
+
             if user_credit_point_wallet and user_credit_point_wallet.available:
                 if int(user_credit_point_wallet.available) >= int(credit_point_to_be_charged):
                     if len(WinningChance.objects.filter(user=request.user)) > 0:
@@ -1527,10 +1536,10 @@ def front_buy_winning_chance(request):
                     available__credit_points = int(user_credit_point_wallet.available)
 
                     # finding lack of points to buy chance
-                    lack_of_points = int(credit_point_to_be_charged) - available__credit_points
+                    lack_of_credit_points = int(credit_point_to_be_charged) - available__credit_points
 
                     # payable amount for buying chance for lack of points
-                    payable_amount = (lack_of_points) / 2
+                    payable_amount = (lack_of_credit_points) / 2
 
 
                     context = {
@@ -1553,12 +1562,12 @@ def front_buy_winning_chance(request):
 
                     return render(request, 'frontEnd/pay_for_purchasing_wnning_chance.html', context)
             else:
-                payable_amount = int(point_to_be_charged) / 20
+                payable_amount = int(credit_point_to_be_charged) / 2
 
                 context = {
                     'payable_amount': payable_amount,
                     'available_points': 0,
-                    'necessary_points' : point_to_be_charged,
+                    'necessary_points' : credit_point_to_be_charged,
                     'winning_chance': number_of_winning_chance,
 
                     'site_logo': site_logo,

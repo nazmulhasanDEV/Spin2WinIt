@@ -50,3 +50,5 @@ class OrderAdmin(admin.ModelAdmin):
 admin.site.register(OrderList, OrderAdmin)
 admin.site.register(OrderedItem)
 
+
+

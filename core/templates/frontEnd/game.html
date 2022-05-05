@@ -132,12 +132,13 @@
 
                                         <div class="prize__applicable_points">
                                             <h5>Below points are applicable for winner:</h5>
-                                            <ul>
-                                                <li>Lorem Ipsum deller summet up</li>
-                                                <li>Lorem Ipsum deller summet up</li>
-                                                <li>Lorem Ipsum deller summet up</li>
-                                                <li>Lorem Ipsum deller summet up</li>
+                                            {% if applicable_rules %}
+                                            <ul style="color: white;">
+                                                {{applicable_rules.applicable_rules|safe}}
                                             </ul>
+                                            {% else %}
+                                            <h6 style="color: white;">Not speicified yet!</h6>
+                                            {% endif %}
                                         </div>
 
                                         {% else %}
