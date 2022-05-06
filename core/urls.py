@@ -73,10 +73,12 @@ urlpatterns = [
     re_path(r'^fe/wishlist/(?P<username>[-\w]+)/$', views.front_wishlist, name='frontWishlist'),
     re_path(r'^fe/remove/item/wishlist/(?P<username>[-\w]+)/(?P<pk>\d+)/$', views.front_remove_item_from_wishlist, name='frontRemoveItemFromWishlist'),
 
-    # gameing urls
+    # gameing urls and winning chance purchase
     re_path(r'^fe/game/$', views.front_game, name='frontGame'),
     re_path(r'^fe/buy/winning/chance/$', views.front_buy_winning_chance, name='frontBuyWinningChance'),
     re_path(r'^fe/pay/for/game/purchasing/chance/$', views.front_pay_for_purchasing_wnning_chance, name='frontPayForPurchasingGame'),
+    re_path(r'^fe/purchaing/winning/chance/success/message/(?P<username>[-\w]+)/$', views.front_winning_chance_purchasing_succss_msg, name="frontWinningChancePurchasingSccssMsg"),
+    # payment successfull message purchasing product
     re_path(r'^fe/payment/successfull/msg/(?P<username>[-\w]+)/$', views.front_payment_successfull_msg, name='frontPaymentSuccessfullmsg'),
 
     # policy section

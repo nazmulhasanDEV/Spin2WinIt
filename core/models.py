@@ -33,7 +33,6 @@ class CreditPurchasingHistory(models.Model):
     paid_amount = models.CharField(max_length=255, blank=True, null=True) # in usd
 
     # payment details
-
     # payee infomations
     payment_id = models.CharField(max_length=255, blank=True, null=True)
     payee_email = models.CharField(max_length=255, blank=True, null=True)
@@ -83,6 +82,9 @@ class WinningChancePurchasingHistory(models.Model):
     payer_country_code = models.CharField(max_length=255, blank=True, null=True)
 
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.email
 
 
 # user won prizes

@@ -1752,7 +1752,25 @@ def front_pay_for_purchasing_wnning_chance(request):
                 payer_country_code=payer_country_code,
             )
 
+            # sending details to buyer/payer email
+            subject = f"Winning Chance Purchase Details"
 
+            context_info = {
+                'number_of_winning_chance': purchased_chances,
+                'credit_point_to_be_charged': available_credit_points,
+
+                'paymentID': paymentID,
+                'paid_amount': paid_amount,
+                'payer_name': payer_name,
+                'payer_email': payer_email,
+                'payer_id': payer_id,
+                'payer_post_code': payer_post_code,
+                'payer_country_code': payer_country_code,
+            }
+            html_content = render_to_string('frontEnd/buy_winning_chance/winning_chnce_purchase_cnfrm_mail.html',context_info)
+            email = EmailMessage(subject, html_content, to=[request.user.email])
+            email.content_subtype = 'html'
+            EmailThreading(email).start()
 
     context = {
         'site_logo': site_logo,
@@ -1768,6 +1786,15 @@ def front_pay_for_purchasing_wnning_chance(request):
     }
 
     return render(request, 'frontEnd/pay_for_purchasing_wnning_chance.html', context)
+
+@login_required(login_url='/fe/login/register')
+def front_winning_chance_purchasing_succss_msg(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    return render(request, 'frontEnd/buy_winning_chance/success_msg.html')
+
 
 @login_required(login_url='/fe/login/register')
 def front_payment_successfull_msg(request, username):
