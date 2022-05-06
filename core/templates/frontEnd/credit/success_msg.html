@@ -42,11 +42,11 @@
 
         <div class="col-md">
             <div>
-                <h5>Solve this reCaptcha and get 50 points bonus!</h5>
+                <h5>Click to this reCaptcha and get 50 points bonus!</h5>
                 <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
-                      id="captcha__form_sccess">
+                      id="captcha__form_credit_buy">
                     {% csrf_token %}
-                    <div id="html_element_success"></div>
+                    <div id="html_element_credit_buy"></div>
                     <br>
                     <input type="submit" value="Submit">
                 </form>
@@ -170,14 +170,14 @@
       var onloadCallback = function() {
 
 
-        grecaptcha.render('html_element_success', {
+        grecaptcha.render('html_element_credit_buy', {
           'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
         });
       };
 
 
-      var captcha__form_sccess = document.getElementById('captcha__form_sccess');
-        captcha__form_sccess.addEventListener("submit", function(event){
+      var captcha__form_credit_buy = document.getElementById('captcha__form_credit_buy');
+        captcha__form_credit_buy.addEventListener("submit", function(event){
 
             if (grecaptcha.getResponse() === '') {
               event.preventDefault();

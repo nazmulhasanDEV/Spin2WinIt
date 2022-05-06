@@ -139,10 +139,10 @@
 
         <div class="col-md">
             <div>
-                    <h5>Solve this reCaptcha and get 50 points bonus!</h5>
-                    <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form_all_cats">
+                    <h5>Click to this reCaptcha and get 50 points bonus!</h5>
+                    <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form_buy_credit">
                         {% csrf_token %}
-                        <div id="html_element_all_cats"></div>
+                        <div id="html_element_buy_credit"></div>
                         <br>
                         <input type="submit" value="Submit">
                     </form>
@@ -254,14 +254,14 @@
       var onloadCallback = function() {
 
 
-        grecaptcha.render('html_element_all_cats', {
+        grecaptcha.render('html_element_buy_credit', {
           'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
         });
       };
 
 
-      var captcha__form_all_cats = document.getElementById('captcha__form_all_cats');
-        captcha__form_all_cats.addEventListener("submit", function(event){
+      var captcha__form_buy_credit = document.getElementById('captcha__form_buy_credit');
+        captcha__form_buy_credit.addEventListener("submit", function(event){
 
             if (grecaptcha.getResponse() === '') {
               event.preventDefault();

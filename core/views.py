@@ -1689,6 +1689,20 @@ def front_pay_for_purchasing_wnning_chance(request):
     # help center setting
     help_center_content_setting = HelpCenter.objects.filter().first()
 
+    # user cart status
+    user_cart_status = Cart.objects.filter(user=request.user)
+
+    # user wishlist status
+    user_wishlist_status = WishList.objects.filter(user=request.user)
+
+    total_amount = 0
+    if user_cart_status:
+        for x in user_cart_status:
+            if x.product.product_type == 'wsp':
+                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+            if x.product.product_type == 'mcp':
+                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+
     # user payment status
     if request.method == 'GET':
 
@@ -1788,12 +1802,55 @@ def front_pay_for_purchasing_wnning_chance(request):
     return render(request, 'frontEnd/pay_for_purchasing_wnning_chance.html', context)
 
 @login_required(login_url='/fe/login/register')
-def front_winning_chance_purchasing_succss_msg(request):
+def front_winning_chance_purchasing_succss_msg(request, username):
 
     if request.user.is_authenticated and request.user.is_buyer != True:
         return redirect('frontEndLoginRegister')
 
-    return render(request, 'frontEnd/buy_winning_chance/success_msg.html')
+    # site logo
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+    # user cart status
+    user_cart_status = Cart.objects.filter(user=request.user)
+
+    # user wishlist status
+    user_wishlist_status = WishList.objects.filter(user=request.user)
+
+    total_amount = 0
+    if user_cart_status:
+        for x in user_cart_status:
+            if x.product.product_type == 'wsp':
+                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+            if x.product.product_type == 'mcp':
+                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+
+    context = {
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
+        'user_cart_status': user_cart_status,
+        'user_wishlist_status': user_wishlist_status,
+        'total_amount': total_amount,
+    }
+
+    return render(request, 'frontEnd/buy_winning_chance/success_msg.html', context)
 
 
 @login_required(login_url='/fe/login/register')
@@ -1932,9 +1989,39 @@ def front_buy_credit_point(request, username):
 @login_required(login_url='/fe/login/register')
 def front_pay_for_purchasing_point(request):
 
-
     if request.user.is_authenticated and request.user.is_buyer != True:
         return redirect('frontEndLoginRegister')
+
+
+    # site logo
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+    # user cart status
+    user_cart_status = Cart.objects.filter(user=request.user)
+
+    # user wishlist status
+    user_wishlist_status = WishList.objects.filter(user=request.user)
+
+    total_amount = 0
+    if user_cart_status:
+        for x in user_cart_status:
+            if x.product.product_type == 'wsp':
+                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+            if x.product.product_type == 'mcp':
+                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
 
     if request.method == 'GET':
         paid_amount = request.GET.get('paid_amount')
@@ -2043,12 +2130,70 @@ def front_pay_for_purchasing_point(request):
                 email.content_subtype = 'html'
                 EmailThreading(email).start()
 
-    return render(request, 'frontEnd/credit/payment.html')
+    context = {
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
+        'user_cart_status': user_cart_status,
+        'user_wishlist_status': user_wishlist_status,
+        'total_amount': total_amount,
+    }
+    return render(request, 'frontEnd/credit/payment.html', context)
 
 @login_required(login_url='/fe/login/register')
 def fron_credit_purchase_success_msg(request, username):
 
-    return render(request, 'frontEnd/credit/success_msg.html')
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    # site logo
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+    # user cart status
+    user_cart_status = Cart.objects.filter(user=request.user)
+
+    # user wishlist status
+    user_wishlist_status = WishList.objects.filter(user=request.user)
+
+    total_amount = 0
+    if user_cart_status:
+        for x in user_cart_status:
+            if x.product.product_type == 'wsp':
+                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+            if x.product.product_type == 'mcp':
+                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+
+    context = {
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
+        'user_cart_status': user_cart_status,
+        'user_wishlist_status': user_wishlist_status,
+        'total_amount': total_amount,
+    }
+
+    return render(request, 'frontEnd/credit/success_msg.html', context)
 
 
 # ends buy credit point section
