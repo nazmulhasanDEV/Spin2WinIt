@@ -753,7 +753,12 @@
 
                             <div class="row credit__wallet">
                                 <div class="col-md-12">
-                                    <h5>Credit Wallet Status:</h5>
+                                    <div class="credit__wlt_header">
+                                        <h5>Point Wallet Status:</h5>
+                                        <a href="{% url 'frontBuyCreditPoint' username=request.user.username %}" id="buy_btn">
+                                            <button type="button">Buy Credit Point</button>
+                                        </a>
+                                    </div>
                                     <table class="table">
                                         <thead>
                                         <tr>

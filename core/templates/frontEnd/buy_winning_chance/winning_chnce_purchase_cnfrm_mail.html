@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Credit Purchase Confirmation Email</title>
+    <!--  bootstrap 4 link-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+
+    <style>
+      .credt_prchased_snd_email_main_tmplt {
+          position: relative;
+          margin-top: 20px;
+          background-color: white;
+          box-shadow: 1px 1px 1px 1px gray;
+      }
+
+      .credt_prchased_snd_email_main_tmplt .header{
+        background-color: #293A6C;
+        width: 100%;
+      }
+
+      .credt_prchased_snd_email_main_tmplt .header h3{
+        background-color: #293A6C;
+        padding: 5px;
+        color: white;
+        text-align: center;
+      }
+
+      .credt_prchased_snd_email_main_tmplt .content {
+          position: relative;
+          margin-top: 25px;
+          padding: 10px;
+      }
+
+      .credt_prchased_snd_email_main_tmplt .content h4{
+          text-align: center;
+          color: #293A6C;
+      }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="credt_prchased_snd_email_main_tmplt">
+
+                <div class="header">
+                    <h3 class="text-center">
+                        Thanks for being with us!
+                    </h3>
+                </div>
+
+                <div class="content">
+                    <h4>
+                        Your <strong>Winning Chance</strong> purchase details
+                    </h4>
+                    <table>
+
+                        <tr>
+                            <th scope="row"><strong>Number of Winning Chance Purchased :</strong></th>
+                            <td>{{number_of_winning_chance}}</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row"><strong>Credit Charged :</strong></th>
+                            <td>{{credit_point_to_be_charged}}</td>
+                        </tr>
+
+                        {% if paymentID %}
+                        <tr>
+                            <th scope="row"><strong>Payment ID:</strong></th>
+                            <td>{{paymentID}}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if paid_amount %}
+                        <tr>
+                            <th scope="row"><strong>Amount Paid:</strong></th>
+                            <td>{{paid_amount}}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if payer_name %}
+                        <tr>
+                            <th scope="row"><strong>Payer Name:</strong></th>
+                            <td>{{payer_name}}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if payer_email %}
+                        <tr>
+                            <th scope="row"><strong>Payer Email:</strong></th>
+                            <td>{{payer_email}}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if payer_country_code %}
+                        <tr>
+                            <th scope="row"><strong>Payer Country Code:</strong></th>
+                            <td>{{payer_country_code}}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if payer_post_code %}
+                        <tr>
+                            <th scope="row"><strong>Payer Post Code:</strong></th>
+                            <td>{{payer_post_code}}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+</body>
+</html>

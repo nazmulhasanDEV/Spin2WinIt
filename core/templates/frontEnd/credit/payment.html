@@ -45,61 +45,62 @@
             <div class="col-md-3"></div>
             <div class="col-md-6">
                 <div class="content">
+                    {% if crnt_user_credit_wallet %}
                     <div>
-                        <h6 style="margin-bottom: 10px; opacity: .7">Available Credits: {{available_points}}</h6>
-                        <h6 style="margin-bottom: 10px; opacity: .7">Neccessary Credits: {{necessary_points}}</h6>
-                        <h6 style="margin-bottom: 10px; opacity: .7">Winning chance: {{winning_chance}}</h6>
-                        <h6 style="margin-bottom: 15px; opacity: .7">Total payable amount: ${{payable_amount}} ($1 for 2
-                            credit points)</h6>
+                        <h6 style="margin-bottom: 10px; opacity: .7">Available Credits: {{crnt_user_credit_wallet.available}}</h6>
+                        <h6 style="margin-bottom: 10px; opacity: .7">Going to buy: {{credit__amount}}</h6>
+                        <h6 style="margin-bottom: 15px; opacity: .7">Total payable amount: ${{amount_to_be_charged}} ($1 for 2 credit points)</h6>
                     </div>
+                    {% endif %}
                     <div id="paypal-button-container"></div>
                 </div>
             </div>
             <div class="col-md-3">
 
-                <!-- ads -->
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <!--yllx 468x60 starts &*************************************-->
-                            <script type="text/javascript"
-                                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
-                            <!--yllx ends here **********************************-->
-                        </div>
-                        <div class="col-md-12">
-                            <!--yllx 468x60 starts &*************************************-->
-                            <script type="text/javascript"
-                                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
-                            <!--yllx ends here **********************************-->
-                        </div>
+            <!-- ads -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!--yllx 468x60 starts &*************************************-->
+                        <script type="text/javascript"
+                                src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+                        <!--yllx ends here **********************************-->
+                    </div>
+                    <div class="col-md-12">
+                        <!--yllx 468x60 starts &*************************************-->
+                        <script type="text/javascript"
+                                src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+                        <!--yllx ends here **********************************-->
+                    </div>
 
-                        <div class="col-md-12">
-                            <!--yllx 468x60 starts &*************************************-->
-                            <script type="text/javascript"
-                                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
-                            <!--yllx ends here **********************************-->
-                        </div>
+                     <div class="col-md-12">
+                        <!--yllx 468x60 starts &*************************************-->
+                        <script type="text/javascript"
+                                src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+                        <!--yllx ends here **********************************-->
+                    </div>
 
-                        <div class="col-md-12">
-                            <!--yllx 468x60 starts &*************************************-->
-                            <script type="text/javascript"
-                                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
-                            <!--yllx ends here **********************************-->
-                        </div>
+                     <div class="col-md-12">
+                        <!--yllx 468x60 starts &*************************************-->
+                        <script type="text/javascript"
+                                src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+                        <!--yllx ends here **********************************-->
+                    </div>
 
-                        <div class="col-md-12">
-                            <!--yllx 468x60 starts &*************************************-->
-                            <script type="text/javascript"
-                                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
-                            <!--yllx ends here **********************************-->
-                        </div>
+                     <div class="col-md-12">
+                        <!--yllx 468x60 starts &*************************************-->
+                        <script type="text/javascript"
+                                src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+                        <!--yllx ends here **********************************-->
                     </div>
                 </div>
-                <!-- ads ends here-->
+            </div>
+            <!-- ads ends here-->
             </div>
         </div>
     </div>
 </section>
+
 
 
 <br><br>
@@ -206,8 +207,6 @@
                                             };
                                             document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
 
-
-
                 </script>
             </div>
         </div>
@@ -223,8 +222,6 @@
                                                 'params' : {}
                                             };
                                             document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
-
-
 
                 </script>
             </div>
@@ -267,8 +264,6 @@
         // ends captcha-1
 
 
-
-
 </script>
 {% endblock %}
 
@@ -289,7 +284,7 @@
           return actions.order.create({
             purchase_units: [{
               amount: {
-                value: '{{payable_amount}}' // Can also reference a variable or function
+                value: '{{amount_to_be_charged}}' // Can also reference a variable or function
               }
             }]
           });
@@ -308,13 +303,11 @@
 
             // ajax request
             $.ajax({
-                url: '/fe/pay/for/game/purchasing/chance/',
+                url: '/fe/pay/for/purchasing/credit/point/',
                 type: 'get',
                 data: {
-                    paid_amount: "{{payable_amount}}",
-                    purchased_chances: "{{winning_chance}}",
-                    necessary_points: "{{necessary_points}}",
-                    available_points: "{{available_points}}",
+                    paid_amount: "{{amount_to_be_charged}}",
+                    credit__amount: "{{credit__amount}}",
                     order_data: JSON.stringify(orderData, null, 2),
                 },
                 success: function(response){
@@ -324,13 +317,10 @@
             // ajax
 
             // Simulate a mouse click:
-            window.location.href = "/fe/payment/successfull/msg/{{request.user.username}}";
-
+            window.location.href = "/fe/purchase/credit/success/msg/{{request.user.username}}";
           });
         }
       }).render('#paypal-button-container');
-
-
 
 </script>
 

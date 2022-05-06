@@ -1,3 +1,4 @@
+import json
 import math
 import threading
 import uuid
@@ -1348,8 +1349,6 @@ def front_remove_item_from_wishlist(request, username, pk):
     if request.user.is_authenticated and request.user.is_buyer != True:
         return redirect('frontEndLoginRegister')
 
-
-
     current_wishlist = WishList.objects.get(pk=pk)
     current_wishlist.delete()
 
@@ -1485,12 +1484,13 @@ def front_buy_winning_chance(request):
             if x.product.product_type == 'mcp':
                 total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
 
-
-
     user = Account.objects.get(email=request.user.email)
 
     # user point wallet
     point_wallet = PointWallet.objects.filter(user=request.user).first()
+
+    # usr credit wallet
+    usr_credit_wllet = CreditWallet.objects.filter(user=request.user).first()
 
     # ajax part starts ***********************************************
     number_of_winnging_chance = request.GET.get('winning_chance_number')
@@ -1518,6 +1518,42 @@ def front_buy_winning_chance(request):
                         user_credit_point_wallet.available = int(user_credit_point_wallet.available) - int(credit_point_to_be_charged)
                         user_credit_point_wallet.save()
 
+                        # save to user purchase history
+                        user_winning_change_prchase_history_model = WinningChancePurchasingHistory.objects.create(
+                            user=request.user,
+                            point_charged = credit_point_to_be_charged,
+                            chance_purchased= number_of_winning_chance
+                        )
+
+                        # sending details to buyer/payer email
+                        subject = f"Winning Chance Purchase Details"
+
+                        paymentID = None
+                        paid_amount = None
+                        payer_name = None
+                        payer_email = None
+                        payer_id = None
+                        payer_post_code = None
+                        payer_country_code = None
+
+                        context_info = {
+                            'number_of_winning_chance': number_of_winning_chance,
+                            'credit_point_to_be_charged': credit_point_to_be_charged,
+
+                            'paymentID': paymentID,
+                            'paid_amount': paid_amount,
+                            'payer_name': payer_name,
+                            'payer_email': payer_email,
+                            'payer_id': payer_id,
+                            'payer_post_code': payer_post_code,
+                            'payer_country_code': payer_country_code,
+                        }
+                        html_content = render_to_string('frontEnd/buy_winning_chance/winning_chnce_purchase_cnfrm_mail.html',
+                                                        context_info)
+                        email = EmailMessage(subject, html_content, to=[request.user.email])
+                        email.content_subtype = 'html'
+                        EmailThreading(email).start()
+
                         messages.success(request, "Successfully bought new chances!")
                         return redirect('frontEndUserProfile', username=request.user.username)
                     else:
@@ -1529,6 +1565,41 @@ def front_buy_winning_chance(request):
                         user_credit_point_wallet.available = int(user_credit_point_wallet.available) - int(credit_point_to_be_charged)
                         user_credit_point_wallet.save()
 
+                        # save to user purchase history
+                        user_winning_change_prchase_history_model = WinningChancePurchasingHistory.objects.create(
+                            user=request.user,
+                            point_charged=credit_point_to_be_charged,
+                            chance_purchased=number_of_winning_chance
+                        )
+
+                        # sending details to payer email
+                        subject = f"Winning Chance Purchase Details"
+
+                        paymentID = None
+                        paid_amount = None
+                        payer_name = None
+                        payer_email = None
+                        payer_id = None
+                        payer_post_code = None
+                        payer_country_code = None
+
+                        context_info = {
+                            'number_of_winning_chance': number_of_winning_chance,
+                            'credit_point_to_be_charged': credit_point_to_be_charged,
+
+                            'paymentID': paymentID,
+                            'paid_amount': paid_amount,
+                            'payer_name': payer_name,
+                            'payer_email': payer_email,
+                            'payer_id': payer_id,
+                            'payer_post_code': payer_post_code,
+                            'payer_country_code': payer_country_code,
+                        }
+                        html_content = render_to_string('frontEnd/buy_winning_chance/winning_chnce_purchase_cnfrm_mail.html',context_info)
+                        email = EmailMessage(subject, html_content, to=[request.user.email])
+                        email.content_subtype = 'html'
+                        EmailThreading(email).start()
+
                         messages.success(request, "Successfully bought new chances!")
                         return redirect('frontEndUserProfile', username=request.user.username)
                 else:
@@ -1539,7 +1610,7 @@ def front_buy_winning_chance(request):
                     lack_of_credit_points = int(credit_point_to_be_charged) - available__credit_points
 
                     # payable amount for buying chance for lack of points
-                    payable_amount = (lack_of_credit_points) / 2
+                    payable_amount = (lack_of_credit_points) * (0.5)
 
 
                     context = {
@@ -1562,7 +1633,7 @@ def front_buy_winning_chance(request):
 
                     return render(request, 'frontEnd/pay_for_purchasing_wnning_chance.html', context)
             else:
-                payable_amount = int(credit_point_to_be_charged) / 2
+                payable_amount = int(credit_point_to_be_charged) * (0.5)
 
                 context = {
                     'payable_amount': payable_amount,
@@ -1581,6 +1652,7 @@ def front_buy_winning_chance(request):
     context = {
         # 'game_setting': game_setting,
         'point_wallet' : point_wallet,
+        'usr_credit_wllet': usr_credit_wllet,
         'site_logo': site_logo,
         'contact_info': contact_info,
         'free_delivery_content_setting': free_delivery_content_setting,
@@ -1618,33 +1690,69 @@ def front_pay_for_purchasing_wnning_chance(request):
     help_center_content_setting = HelpCenter.objects.filter().first()
 
     # user payment status
-    paid_amount = request.GET.get('paid_amount')
-    purchased_chances = request.GET.get('purchased_chances')
-    necessary_points = request.GET.get('necessary_points')
+    if request.method == 'GET':
 
-    # user winning chance model
-    winning_chance_model = WinningChance.objects.filter(user=request.user).first()
+        paid_amount = request.GET.get('paid_amount')
+        purchased_chances = request.GET.get('purchased_chances')
+        necessary_points = request.GET.get('necessary_points')
+        available_credit_points = request.GET.get('available_points')
+        order_data = request.GET.get('order_data')
 
-    if winning_chance_model:
-        winning_chance_model.remaining_chances = int(winning_chance_model.remaining_chances) + int(purchased_chances)
-        winning_chance_model.save()
-    if winning_chance_model is None:
-        winning_chance_model = WinningChance.objects.create(user=request.user, remaining_chances=purchased_chances)
 
-    # user point wallet
-    point_wallet_model = PointWallet.objects.filter(user=request.user).first()
+        if paid_amount and purchased_chances and necessary_points:
 
-    if point_wallet_model:
-        if point_wallet_model.spent:
-            point_wallet_model.spent = float(point_wallet_model.spent) + (int(necessary_points) - (float(paid_amount) * 20))  # since $1 = 20 points
-            point_wallet_model.save()
-        if point_wallet_model.spent_amount:
-            point_wallet_model.spent_amount = float(point_wallet_model.spent_amount) + float(paid_amount)
-            point_wallet_model.save()
+            # order_data
+            orderData = json.loads(order_data)
+            paymentID = orderData['id']
 
-    if point_wallet_model is None:
-        point_wallet = PointWallet(user=request.user, spent_amount=paid_amount)
-        point_wallet.save()
+            # payee info
+            payee_email = orderData['purchase_units'][0]['payee']['email_address']
+            payee_marchnt_id = orderData['purchase_units'][0]['payee']['merchant_id']
+
+            # payer info
+            payer_name = orderData['payer']['name']['given_name'] + ' ' + orderData['payer']['name']['surname']
+            payer_email = orderData['payer']['email_address']
+            payer_id = orderData['payer']['payer_id']
+            payer_post_code = orderData['payer']['address']['postal_code']
+            payer_country_code = orderData['payer']['address']['country_code']
+
+            usr_credit_wallet = CreditWallet.objects.filter(user=request.user).first()
+
+            if usr_credit_wallet:
+                usr_credit_wallet.available = '0'
+                usr_credit_wallet.spent = int(usr_credit_wallet.spent) + int(available_credit_points)
+                usr_credit_wallet.save()
+
+            # user winning chance model
+            winning_chance_model = WinningChance.objects.filter(user=request.user).first()
+
+            # user credit point model
+            usr_credit_point_model = CreditWallet.objects.filter(user=request.user).first()
+
+            if winning_chance_model:
+                winning_chance_model.remaining_chances = int(winning_chance_model.remaining_chances) + int(purchased_chances)
+                winning_chance_model.save()
+            if winning_chance_model is None:
+                winning_chance_model = WinningChance.objects.create(user=request.user, remaining_chances=purchased_chances)
+
+
+            # usr winning chance buying history
+            winning_chance_buying_history_model = WinningChancePurchasingHistory.objects.create(
+                user=request.user,
+                point_charged=available_credit_points,
+                amount_paid=paid_amount,
+                chance_purchased=purchased_chances,
+                payment_id=paymentID,
+                payee_email=payee_email,
+                payee_marchnt_id=payee_marchnt_id,
+                payer_name=payer_name,
+                payer_email=payer_email,
+                payer_id=payer_id,
+                payer_post_code=payer_post_code,
+                payer_country_code=payer_country_code,
+            )
+
+
 
     context = {
         'site_logo': site_logo,
@@ -1712,6 +1820,211 @@ def front_payment_successfull_msg(request, username):
     return render(request, 'frontEnd/payment_successfull_msg.html', context)
 
 
+# buy credit ****************************************
+@login_required(login_url='/fe/login/register')
+def front_buy_credit_point(request, username):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    # site logo
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+    # user cart status
+    user_cart_status = Cart.objects.filter(user=request.user)
+
+    # user wishlist status
+    user_wishlist_status = WishList.objects.filter(user=request.user)
+
+    # available credits
+    user_available_credits = CreditWallet.objects.filter(user=request.user).first()
+
+    # available points
+    usr_available_points = PointWallet.objects.filter(user=request.user).first()
+
+    # ajax part starts for buying credit points ***********************************************
+    # assuming 1 credit point = $0.10
+    credit_amount = request.GET.get('credit_amount')
+    if request.is_ajax():
+        return JsonResponse({'credit_amount': credit_amount})
+
+    total_amount = 0
+    if user_cart_status:
+        for x in user_cart_status:
+            if x.product.product_type == 'wsp':
+                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+            if x.product.product_type == 'mcp':
+                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+
+    if request.method == 'POST':
+        credit__amount = request.POST.get('credit__point__amount')
+        amount_to_be_charged = request.POST.get('amount_to_be_charged')
+
+        # current user credit wallet
+        crnt_user_credit_wallet = CreditWallet.objects.filter(user=request.user).first()
+
+        context = {
+            'credit__amount': credit__amount,
+            'amount_to_be_charged': amount_to_be_charged,
+            'crnt_user_credit_wallet': crnt_user_credit_wallet,
+        }
+        return render(request, 'frontEnd/credit/payment.html', context)
+
+    context = {
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
+        'user_cart_status': user_cart_status,
+        'user_wishlist_status': user_wishlist_status,
+        'total_amount': total_amount,
+        'username': username,
+        'user_available_credits': user_available_credits,
+        'usr_available_points': usr_available_points,
+    }
+
+    return render(request, 'frontEnd/credit/buy_credit.html', context)
+
+
+@login_required(login_url='/fe/login/register')
+def front_pay_for_purchasing_point(request):
+
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'GET':
+        paid_amount = request.GET.get('paid_amount')
+        credit__amount = request.GET.get('credit__amount')
+        order_data = request.GET.get('order_data')
+
+        if paid_amount and credit__amount and order_data:
+            orderData = json.loads(order_data)
+
+            paymentID = orderData['id']
+
+            # payee info
+            payee_email = orderData['purchase_units'][0]['payee']['email_address']
+            payee_marchnt_id = orderData['purchase_units'][0]['payee']['merchant_id']
+
+            # payer info
+            payer_name = orderData['payer']['name']['given_name'] + ' ' + orderData['payer']['name']['surname']
+            payer_email = orderData['payer']['email_address']
+            payer_id = orderData['payer']['payer_id']
+            payer_post_code = orderData['payer']['address']['postal_code']
+            payer_country_code = orderData['payer']['address']['country_code']
+
+            # user credit wallet
+            user_credit_wallet = CreditWallet.objects.filter(user=request.user).first()
+
+            if user_credit_wallet:
+                user_credit_wallet.available = int(user_credit_wallet.available) + int(credit__amount)
+                user_credit_wallet.save()
+
+                # save payment details to credit purchase history
+                usr_credit_purchase_history = CreditPurchasingHistory.objects.create(
+                    user=request.user,
+                    purchased_credit_amnt=credit__amount,
+                    paid_amount=paid_amount,
+                    payment_id=paymentID,
+                    payee_email=payee_email,
+                    payee_marchnt_id=payee_marchnt_id,
+
+                    payer_name=payer_name,
+                    payer_email=payer_email,
+                    payer_id=payer_id,
+                    payer_post_code=payer_post_code,
+                    payer_country_code=payer_country_code,
+                )
+
+                # print(f'PaymentID: {paymentID}')
+                # print(f'Payee email: {payee_email}')
+                # print(f'Payee marchantID: {payee_marchnt_id}')
+                # print(f'Payer Namae: {payer_name}')
+                # print(f'Payer email: {payer_email}')
+                # print(f'Payer id: {payer_id}')
+                # print(f'Payer post code: {payer_post_code}')
+                # print(f'Payer country code: {payer_country_code}')
+
+                # sending details to payer email
+                subject = f"Credit Purchase Details"
+
+                context_info = {
+                    'paymentID': paymentID,
+                    'paid_amount': paid_amount,
+                    'credit__amount': credit__amount,
+                    'payer_name': payer_name,
+                    'payer_email': payer_email,
+                    'payer_id': payer_id,
+                    'payer_post_code': payer_post_code,
+                    'payer_country_code': payer_country_code,
+                }
+                html_content = render_to_string('frontEnd/credit/credit_purchase_cnfirm_mail.html', context_info)
+                email = EmailMessage(subject, html_content, to=[request.user.email])
+                email.content_subtype = 'html'
+                EmailThreading(email).start()
+
+            else:
+                usr_credit_wallet = CreditWallet.objects.create(user=request.user, available=credit__amount)
+
+                # save payment details to credit purchase history
+                usr_credit_purchase_history = CreditPurchasingHistory.objects.create(
+                    user=request.user,
+                    purchased_credit_amnt=credit__amount,
+                    paid_amount=paid_amount,
+                    payment_id=paymentID,
+                    payee_email=payee_email,
+                    payee_marchnt_id=payee_marchnt_id,
+
+                    payer_name=payer_name,
+                    payer_email=payer_email,
+                    payer_id=payer_id,
+                    payer_post_code=payer_post_code,
+                    payer_country_code=payer_country_code,
+                )
+
+                # sending details to payer email
+                subject = f"Credit Purchase Details"
+                context_info = {
+                    'paymentID': paymentID,
+                    'paid_amount': paid_amount,
+                    'credit__amount': credit__amount,
+                    'payer_name': payer_name,
+                    'payer_email': payer_email,
+                    'payer_id': payer_id,
+                    'payer_post_code': payer_post_code,
+                    'payer_country_code': payer_country_code,
+                }
+                html_content = render_to_string('frontEnd/credit/credit_purchase_cnfirm_mail.html', context_info)
+                email = EmailMessage(subject, html_content, to=[request.user.email])
+                email.content_subtype = 'html'
+                EmailThreading(email).start()
+
+    return render(request, 'frontEnd/credit/payment.html')
+
+@login_required(login_url='/fe/login/register')
+def fron_credit_purchase_success_msg(request, username):
+
+    return render(request, 'frontEnd/credit/success_msg.html')
+
+
+# ends buy credit point section
 def front_give_email_to_reset_pass(request):
 
     site_logo = SiteLogo.objects.filter().first()

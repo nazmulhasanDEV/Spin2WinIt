@@ -1,8 +1,8 @@
-from django.core.management.utils import get_random_secret_key
+# from django.core.management.utils import get_random_secret_key
 from pathlib import Path
 import os
 import sys
-import dj_database_url
+# import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -12,18 +12,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECRET_KEY = 'django-insecure-*4rc-p-ii51jo7yzd*gtsh1gu21ks%j!z1@)ekvf2!1!mx5nt2'
-# DEBUG = True
-# ALLOWED_HOSTS = []
+SECRET_KEY = 'django-insecure-*4rc-p-ii51jo7yzd*gtsh1gu21ks%j!z1@)ekvf2!1!mx5nt2'
+DEBUG = True
+ALLOWED_HOSTS = []
 # ends prev section *******************************************************
 
 # # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False") == "True"
-
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+# SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
+#
+# # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = os.getenv("DEBUG", "False") == "True"
+#
+# ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
 # Application definition
 
@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # third party packages
-    'storages',
+    # 'storages',
 
     'core',
     'adminPanel',
@@ -87,16 +87,16 @@ AUTH_USER_MODEL = 'user.Account'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 #  prev section *************************************************
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'spinit2win',
-#         'USER': 'postgres',
-#         'PASSWORD': 'eastern747406^%',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'spinit2win',
+        'USER': 'postgres',
+        'PASSWORD': 'eastern747406^%',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 # ends prev section &**********************************************
 
@@ -113,20 +113,20 @@ AUTH_USER_MODEL = 'user.Account'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 
-DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
-if DEVELOPMENT_MODE is True:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-        }
-    }
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-    if os.getenv("DATABASE_URL", None) is None:
-        raise Exception("DATABASE_URL environment variable not defined")
-    DATABASES = {
-        "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
-    }
+# DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+# if DEVELOPMENT_MODE is True:
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.db.backends.sqlite3",
+#             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+#         }
+#     }
+# elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+#     if os.getenv("DATABASE_URL", None) is None:
+#         raise Exception("DATABASE_URL environment variable not defined")
+#     DATABASES = {
+#         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+#     }
 
 
 
@@ -173,13 +173,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # old ************************************
 #
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # old section ends *************************************
 
 
 # new section **********************************************
-from .cdn.conf import *
+# from .cdn.conf import *
 
 # new section ends ************************************************
 

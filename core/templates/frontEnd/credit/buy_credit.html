@@ -45,22 +45,25 @@
     <div class="col-md-3"></div>
     <div class="col-md-6">
         <div class="buy_winning_chances">
-            <h4 style="margin-bottom: 20px;">It will charge 2 credits or $1 usd per chance*</h4>
-            {% if usr_credit_wllet.available %}
-            <h6>Your available credit points: <strong style="color: #293A6C;">{{usr_credit_wllet.available}}.00</strong></h6>
-            {% else %}
-            <h6>Your available credits: <strong style="color: #293A6C;">0</strong></h6>
+            <h4 style="margin-bottom: 20px;">It will charge $0.1 usd for every two credits*</h4>
+            {% if usr_available_points.available %}
+            <h6>Your available points: <strong style="color: #293A6C;">{{usr_available_points.available}}.00</strong></h6>
             {% endif %}
-            <form action="{% url 'frontBuyWinningChance' %}" method="post" enctype="multipart/form-data">
+
+            {% if user_available_credits.available %}
+            <h6>Your available credits: <strong style="color: #293A6C;">{{user_available_credits.available}}</strong></h6>
+            {% endif %}
+
+            <form action="{% url 'frontBuyCreditPoint' username=username %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="number_of_winning_chance" class="form-label">Number of winning chance</label>
-                        <input type="number" min="1" step="1" name="number_of_winning_chance" placeholder="Number of winning chance" onkeydown="if(event.key==='.'){event.preventDefault();}" class="form-control" id="number_of_winning_chance" required />
+                        <label for="credit_amount" class="form-label">Credit point amount</label>
+                        <input type="number" min="1" step="1" name="credit__point__amount" placeholder="Credit point amount" onkeydown="if(event.key==='.'){event.preventDefault();}" class="form-control credit__amount" id="credit_amount" required />
                     </div>
                     <div class="col-md-6">
-                        <label for="point_to_be_charged" class="form-label">Credits to be charged</label>
-                        <input type="number" class="form-control" name="point_to_be_charged" placeholder="00.00" id="point_to_be_charged" readonly required/>
+                        <label for="amount_to_be_charged" class="form-label">Amount to be charged</label>
+                        <input type="number" class="form-control amount_to__be_charged" name="amount_to_be_charged" placeholder="00.00" id="amount_to_be_charged" readonly required/>
                     </div>
 
                     <div class="col-md-6">
@@ -136,7 +139,7 @@
 
         <div class="col-md">
             <div>
-                    <h5>Click to this reCaptcha and get 50 reward points as bonus!</h5>
+                    <h5>Solve this reCaptcha and get 50 points bonus!</h5>
                     <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form_all_cats">
                         {% csrf_token %}
                         <div id="html_element_all_cats"></div>
@@ -270,4 +273,8 @@
         // ends captcha-1
 
 </script>
+{% endblock %}
+
+{% block buy_credit_js %}
+<script src="{% static 'frontEnd/js/buy_credit.js' %}"></script>
 {% endblock %}

@@ -60,6 +60,11 @@ urlpatterns = [
     # buy now
     re_path(r'^fe/buy/now/(?P<product_id>[-\w]+)/$', views.front_buy_now, name='frontBuyNow'),
 
+    # buy credit
+    re_path(r'^fe/buy/credit/points/(?P<username>[-\w]+)/$', views.front_buy_credit_point, name='frontBuyCreditPoint'),
+    re_path(r'^fe/pay/for/purchasing/credit/point/$', views.front_pay_for_purchasing_point, name='frontPayForPurchasingPoint'),
+    re_path(r'^fe/purchase/credit/success/msg/(?P<username>[-\w]+)/$', views.fron_credit_purchase_success_msg, name='frontCreditPurchaseSuccessMsg'),
+
     # leave review
     re_path(r'^fe/leave/review/(?P<product_id>[-\w]+)/$', views.front_leave_product_review, name="frontLeaveProductReview"),
 

@@ -135,6 +135,33 @@
     cursor: pointer;
 }
 
+.credit__wallet {
+    position: relative;
+}
+
+.credit__wlt_header {
+    width: 100%;
+    position: relative;
+}
+.credit__wlt_header #buy_btn{
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+}
+
+.credit__wlt_header #buy_btn button{
+    background: #001D37;
+    outline: none;
+    border: none;
+    color: white;
+    height: 35px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+
 
 
 
