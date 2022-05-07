@@ -220,10 +220,10 @@ def front_checkBoxCaptchaBonus(request):
 
     if request.method == 'POST':
 
-        user = CheckBoxCaptcha.objects.filter(user=request.user).first()
+        user = CheckBoxCaptcha.objects.filter(user=request.user).last()
 
         if user:
-            expired_date = user.created + timedelta(seconds=5)
+            expired_date = user.created + timedelta(days=1)
             today = timezone.now()
 
             if today >= expired_date:
@@ -235,10 +235,12 @@ def front_checkBoxCaptchaBonus(request):
                 if usr_point_wllt:
                     usr_point_wllt.available = int(usr_point_wllt.available) + 50
                     usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
                 else:
                     usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
             else:
-                messages.warning(request, "You already got bonus! Try every two days later!")
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
                 return redirect(request.META.get('HTTP_REFERER'))
         else:
             # updating new one
@@ -249,11 +251,11 @@ def front_checkBoxCaptchaBonus(request):
             if usr_point_wllt:
                 usr_point_wllt.available = int(usr_point_wllt.available) + 50
                 usr_point_wllt.save()
-                messages.success(request, "You already got 50 reward points as bonus. Try one days later to get bonus again!")
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
                 return redirect(request.META.get('HTTP_REFERER'))
             else:
                 usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
-                messages.success(request, "You already got 50 reward points as bonus. Try one days later to get bonus again!")
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
                 return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect(request.META.get('HTTP_REFERER'))

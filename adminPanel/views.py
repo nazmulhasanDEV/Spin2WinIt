@@ -2335,7 +2335,9 @@ def ap_add_new_segment(request):
     if request.method == 'POST':
         name = request.POST.get('segment_name')
 
-        if name and len(Segment.objects.filter(name=name)) < 0:
+        print(name)
+
+        if name and len(Segment.objects.filter(name=name)) <= 0:
             segment_model = Segment.objects.create(name=name)
             messages.success(request, "Successfully added!")
             return redirect('apAddNewSegment')

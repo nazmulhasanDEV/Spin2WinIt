@@ -162,26 +162,26 @@
                                     <br/>
                                     <br/>
 <!--                                    power controls starts *****************************************-->
-<!--                                    <table class="power" cellpadding="10" cellspacing="0">-->
-<!--                                        <tr>-->
-<!--                                            <th align="center">Power</th>-->
-<!--                                        </tr>-->
-<!--                                        <tr>-->
-<!--                                            <td width="78" align="center" id="pw3" onClick="powerSelected(3);">-->
-<!--                                                High-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
-<!--                                        <tr>-->
-<!--                                            <td align="center" id="pw2" onClick="powerSelected(2);">-->
-<!--                                                Med-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
-<!--                                        <tr>-->
-<!--                                            <td align="center" id="pw1" onClick="powerSelected(1);">-->
-<!--                                                Low-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
-<!--                                    </table>-->
+                                    <table class="power" cellpadding="10" cellspacing="0" style="visibility: hidden;position: absolute;">
+                                        <tr>
+                                            <th align="center">Power</th>
+                                        </tr>
+                                        <tr>
+                                            <td width="78" align="center" id="pw3" onClick="powerSelected(3);">
+                                                High
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" id="pw2" onClick="powerSelected(2);">
+                                                Med
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" id="pw1" onClick="powerSelected(1);">
+                                                Low
+                                            </td>
+                                        </tr>
+                                    </table>
 <!--                                    power controls ends **********************************************-->
                                     <br/>
 <!--                                    <p style="color: red; display:none;" id="spining_warning_alert"><strong>Note:</strong> You don't have any chances to spin</p>-->
@@ -191,8 +191,8 @@
                                     <button id="spin_button" onClick="startSpin();" style="cursor: pointer;" disabled>Start to spin</button>
                                     {% endif %}
                                     <br/><br/>
-                                    &nbsp;&nbsp;<button id="reset__spin__btn" onClick="resetWheel(); return false;" style="cursor: pointer;">Play Again</button>
-                                    <br/><span style="color: white;">(Reset)</span>
+                                    &nbsp;&nbsp;<button id="reset__spin__btn" onClick="resetWheel(); return false;" style="cursor: pointer;">Reset to Spin</button>
+<!--                                    <br/><span style="color: white;">(Reset)</span>-->
                                 </div>
                             </td>
                             <td width="438" height="582" class="the_wheel" align="center" valign="center">
