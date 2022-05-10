@@ -15,7 +15,7 @@ $.ajax({
          },
          success: function(response){
             let credit_amnt = response.credit_amount;
-            amount_to__be_charged.value = (credit_amnt * (0.10)).toFixed(2);
+            amount_to__be_charged.value = (credit_amnt * (0.50)).toFixed(2);
          },
        });
 //ajax ends

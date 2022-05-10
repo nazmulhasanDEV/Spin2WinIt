@@ -74,7 +74,7 @@
                                 <select name="product_as_prize" class="form-control" id="">
                                     {% if sponsored_products %}
                                     {% for x in sponsored_products %}
-                                    <option value="{{x.pk}}">{{x.product.title}}</option>
+                                    <option value="{{x.pk}}">{{x.product.title|safe|truncatechars:50}}</option>
                                     {% endfor %}
                                     {% else %}
                                     <option>No product sponsored yet!</option>
@@ -85,6 +85,11 @@
                         </div>
 
                         <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Prize Title</label>
+                                <input type="text" name="prize_title" class="form-control" placeholder="Prize Title">
+                            </div>
+
                             <div class="col-md-6">
                                 <label>Select segment status</label>
                                 <select name="segment_status" class="form-control" id="segment_prize__type" required>

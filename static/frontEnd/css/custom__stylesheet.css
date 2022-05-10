@@ -159,7 +159,13 @@
 
 
 
+/* product detials section ******************************************/
 
+#product-details img {
+    max-width: 320px;
+}
+
+/* product detials section ends ******************************************/
 
 
 

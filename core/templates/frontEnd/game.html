@@ -3,7 +3,7 @@
 
 {% block gaming_css_block %}
 <link rel="stylesheet" href="{% static 'frontEnd/gaming_files/custom.css' %}" type="text/css">
-<link rel="stylesheet" href="{% static 'frontEnd/gaming_files/main.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'frontEnd/gaming_files/main.css' %}" type="text/css"/>
 <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>-->
 <script src="{% static 'frontEnd/gaming_files/twinMax.js' %}"></script>
 <script type="text/javascript" src="{% static 'frontEnd/gaming_files/Winwheel.js' %}"></script>
@@ -16,12 +16,14 @@
     <div class="row">
         <div class="col-md-6">
             <!--yllx 468x60 starts &*************************************-->
-            <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+            <script type="text/javascript"
+                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
             <!--yllx ends here **********************************-->
         </div>
         <div class="col-md-6">
             <!--yllx 468x60 starts &*************************************-->
-            <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+            <script type="text/javascript"
+                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
             <!--yllx ends here **********************************-->
         </div>
     </div>
@@ -30,25 +32,25 @@
 <!-- game section starts -->
 
 <!--    prize flash message-->
-    <div class="">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="game__prize__flash__message">
-                    <div class="flash_msg_main_content">
-                        <div class="flash__msg_content">
-                            <div class="close">
+<div class="">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="game__prize__flash__message">
+                <div class="flash_msg_main_content">
+                    <div class="flash__msg_content">
+                        <div class="close">
                                 <span class="span_inner" id="span_inner_close_btn">
                                     <i class="fas fa-times"></i>
                                 </span>
-                            </div>
+                        </div>
 
-                            <div class="content">
-                                <h2>congratulations! You Won</h2>
-                                <h4 class="text-center won__prize_poin_amnt">50 Points</h4>
-                                
-                                <div class="prize__img">
-                                    <img class="won__prize__img" src="{% static 'frontEnd/images/product/large-size/4.jpg' %}" alt="">
-                                </div>
+                        <div class="content">
+                            <h2>congratulations! You Won</h2>
+                            <h4 class="text-center won__prize_poin_amnt">50 Points</h4>
+
+                            <div class="prize__img">
+                                <img class="won__prize__img"
+                                     src="{% static 'frontEnd/images/product/large-size/4.jpg' %}" alt="">
                             </div>
                         </div>
                     </div>
@@ -56,6 +58,7 @@
             </div>
         </div>
     </div>
+</div>
 <!-- ends prize flash message-->
 
 <!-- winning moment audio -->
@@ -97,118 +100,148 @@
         {% if game_setting %}
         <div class="row">
             <div class="col-md-12" id="gaming__main__section">
+
+                <!--                game section new-->
                 <div class="row">
-                    <div class="col-md-4 col-sm-12 game__product_prize_section">
+                    <div class="col-md-12 col-sm-12"
+                         style="background-image: url({% static 'frontEnd/gaming_files/background.jpeg' %}); bacground-repeat: no-repeat; background-size: cover; width: 100%;">
+                        <!--                            row for spin wheel -->
                         <div class="row">
-                            <div class="col-12">
-                                <div class="">
-                                    <div class="title">
-                                        <h2 class="text-center">Today's Attraction</h2>
-                                        <h6 class="text-center">Start to play and win this product!</h6>
-                                    </div>
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <div>
+                                    <div align="center">
+                                        <h1 class="text-center spinning___title">Play & Win Attractive Prizes</h1>
+                                        <br/>
+<!--                                        <img src="{% static 'frontEnd/gaming_files/bg4.png' %}" style="width: 100%;" alt="">-->
+<!--                                        <img src="{% static 'frontEnd/gaming_files/wheel_back.png' %}" style="width: 100%;" alt="">-->
+                                        <table cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td>
+                                                    <div class="power_controls" style="width: 100%;">
+                                                        <br/>
+                                                        <br/>
+                                                        <!--                                    power controls starts *****************************************-->
+                                                        <table class="power" cellpadding="10" cellspacing="0"
+                                                               style="visibility: hidden;position: absolute;">
+                                                            <tr>
+                                                                <th align="center">Power</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="78" align="center" id="pw3"
+                                                                    onClick="powerSelected(3);">
+                                                                    High
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center" id="pw2"
+                                                                    onClick="powerSelected(2);">
+                                                                    Med
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center" id="pw1"
+                                                                    onClick="powerSelected(1);">
+                                                                    Low
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                        <!--                                    power controls ends **********************************************-->
+                                                        <br/>
+                                                        <!--                                    <p style="color: red; display:none;" id="spining_warning_alert"><strong>Note:</strong> You don't have any chances to spin</p>-->
+                                                        <div style="width: 100%; position: relative; padding-top: 30px; padding-bottom: 30px;">
+                                                            <div style="width: 200px; display: flex; position: absolute; left: 45%; transform: translate(-50%, -50%);">
+                                                                {% if request.user.is_authenticated %}
+                                                                <button id="spin_button" onClick="startSpin();"
+                                                                        style="cursor: pointer;">
+                                                                    Start to spin
+                                                                </button>
+                                                                {% else %}
+                                                                <button id="spin_button" onClick="startSpin();"
+                                                                        style="cursor: pointer;"
+                                                                        disabled>Start to spin
+                                                                </button>
+                                                                {% endif %}
+                                                                <br/><br/>
+                                                                <button id="reset__spin__btn"
+                                                                                    onClick="resetWheel(); return false;"
+                                                                                    style="cursor: pointer;">Reset to Spin
+                                                            </button>
+                                                            </div>
+                                                        </div>
+                                                        <!--                                    <br/><span style="color: white;">(Reset)</span>-->
+                                                    </div>
+                                                </td>
+                                                <td width="438" height="582" class="the_wheel" align="center"
+                                                    valign="center">
 
-                                    <div class="prize__img" id="prize__section">
-                                        {% if sponsored_product %}
-
-                                         {% if sponsored_product.product.product_thumbnail %}
-                                        <img class="current__product__as_prize" src="{{sponsored_product.product.product_thumbnail.url}}" alt="">
-                                         {% else %}
-                                            {% if sponsored_product.product.productImg.all %}
-                                                {% for img in sponsored_product.product.productImg.all %}
-                                                    {% if forloop.counter == 1 %}
-                                                    {% if img.img %}
-                                                    <img class="current__product__as_prize" src="{{img.url}}" alt="">
-                                                    {% else %}
-                                                    <img class="current__product__as_prize" src="{{img.img_link}}" alt="">
-                                                    {% endif %}
-                                                    {% endif %}
-                                                {% endfor %}
-                                            {% endif %}
-                                        {% endif %}
-
-                                        <a href="{% url 'frontEndProductDetails' product_id=sponsored_product.product.product_id %}">
-                                            <button type="button">View Details</button>
-                                        </a>
-
-                                        <div class="prize__applicable_points">
-                                            <h5>Below points are applicable for winner:</h5>
-                                            {% if applicable_rules %}
-                                            <ul style="color: white;">
-                                                {{applicable_rules.applicable_rules|safe}}
-                                            </ul>
-                                            {% else %}
-                                            <h6 style="color: white;">Not speicified yet!</h6>
-                                            {% endif %}
-                                        </div>
-
-                                        {% else %}
-                                        <h3>Product not sponsored yet!</h3>
-                                        {% endif %}
+                                                    <canvas id="canvas" width="434" height="434">
+                                                        <p style="color: white" align="center">
+                                                            Sorry, your browser doesn't support canvas. Please try
+                                                            another.
+                                                        </p>
+                                                    </canvas>
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-2"></div>
                         </div>
-                    </div>
-                    <div class="col-md-1"></div>
-<!--                    background-image: url({% static 'frontEnd/3.jpeg' %});-->
-                    <div class="col-md-7 col-sm-12" style="background-image: url({% static 'frontEnd/gaming_files/new_bg.jpeg' %}); bacground-repeat: no-repeat; background-size: cover;">
-                    <div align="center">
-                    <h1 class="text-center spinning___title">Play & Win</h1>
-                    <br/>
-                    <table cellpadding="0" cellspacing="0" border="0">
-                        <tr>
-                            <td>
-                                <div class="power_controls">
-                                    <br/>
-                                    <br/>
-<!--                                    power controls starts *****************************************-->
-                                    <table class="power" cellpadding="10" cellspacing="0" style="visibility: hidden;position: absolute;">
-                                        <tr>
-                                            <th align="center">Power</th>
-                                        </tr>
-                                        <tr>
-                                            <td width="78" align="center" id="pw3" onClick="powerSelected(3);">
-                                                High
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td align="center" id="pw2" onClick="powerSelected(2);">
-                                                Med
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td align="center" id="pw1" onClick="powerSelected(1);">
-                                                Low
-                                            </td>
-                                        </tr>
-                                    </table>
-<!--                                    power controls ends **********************************************-->
-                                    <br/>
-<!--                                    <p style="color: red; display:none;" id="spining_warning_alert"><strong>Note:</strong> You don't have any chances to spin</p>-->
-                                    {% if request.user.is_authenticated %}
-                                    <button id="spin_button" onClick="startSpin();" style="cursor: pointer;">Start to spin</button>
-                                    {% else %}
-                                    <button id="spin_button" onClick="startSpin();" style="cursor: pointer;" disabled>Start to spin</button>
-                                    {% endif %}
-                                    <br/><br/>
-                                    &nbsp;&nbsp;<button id="reset__spin__btn" onClick="resetWheel(); return false;" style="cursor: pointer;">Reset to Spin</button>
-<!--                                    <br/><span style="color: white;">(Reset)</span>-->
-                                </div>
-                            </td>
-                            <td width="438" height="582" class="the_wheel" align="center" valign="center">
+                        <!--                            row for spin wheel -->
 
-                                <canvas id="canvas" width="434" height="434" style="position: absolute; top: 52%; left: 50%; transform: translate(-50%, -50%);">
-                                    <p style="color: white" align="center">
-                                        Sorry, your browser doesn't support canvas. Please try
-                                        another.
-                                    </p>
-                                </canvas>
-                            </td>
-                        </tr>
-                    </table>
+                        <!--         prize list for game                   -->
+                        <div class="row">
+                            {% if active_segment_list %}
+                                {% for product in active_segment_list %}
+                                    {% if product.segment_prize_type == '1' %}
+                            <div class="col-md-3">
+                                <div class="card game_prize_card" style="width: 100%;">
+                                    <div style="width: 100%; max-height: 300px;">
+                                        {% if product.product_as_prize.product.product_type == 'wsp' %}
+                                            {% if product.product_as_prize.product.product_thumbnail %}
+                                        <img class="card-img-top"
+                                             src="{{product.product_as_prize.product.product_thumbnail.url}}"
+                                             style="width: 100%;" alt="Card image cap">
+                                        {% else %}
+                                            {% if product.product_as_prize.product.productImg %}
+                                            {% for p in product.product_as_prize.product.productImg.all %}
+                                            {% if forloop.counter == 1 %}
+                                            <img class="card-img-top"
+                                                 src="{{p.img_link}}"
+                                                 style="width: 100%;" alt="Card image cap">
+                                            {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+
+                                        {% else %}
+                                        <img class="card-img-top"
+                                             src="{{product.img.url}}"
+                                             style="width: 100%;" alt="Card image cap">
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{product.prize_title}}</h5>
+<!--                                        <p class="card-text">Some quick example text to build on the card title and make-->
+<!--                                            up the-->
+<!--                                            bulk of the card's content.</p>-->
+                                        <a href="{% url 'frontEndProductDetails' product_id=product.product_as_prize.product.product_id %}" class="btn">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <!--         prize list for game ends                   -->
+                        <br><br>
+                    </div>
                 </div>
-            </div>
-                </div>
+
+                <br><br>
+                <!--                game section new ends-->
             </div>
         </div>
         {% else %}
@@ -224,16 +257,16 @@
 
     <!-- yllx 468x60 starts here************************** -->
     <div class="container">
-                            <div class="row">
-<!--                                <div class="col-md-4">-->
-<!--                                    <div>-->
-<!--                                        <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/468x60.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>-->
-<!--                                    </div>-->
-<!--                                </div>-->
+        <div class="row">
+            <!--                                <div class="col-md-4">-->
+            <!--                                    <div>-->
+            <!--                                        <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/468x60.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>-->
+            <!--                                    </div>-->
+            <!--                                </div>-->
 
-                                <div class="col-md-6">
-                                    <div>
-                                        <script type="text/javascript">
+            <div class="col-md-6">
+                <div>
+                    <script type="text/javascript">
                                             atOptions = {
                                                 'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
                                                 'format' : 'iframe',
@@ -242,18 +275,24 @@
                                                 'params' : {}
                                             };
                                             document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
-                                        </script>
-                                    </div>
-                                </div>
 
-                                <div class="col-md-6">
-                                    <div>
-                                        <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/468x60.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
-                                    </div>
-                                </div>
 
-                            </div>
-                        </div>
+
+                    </script>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div>
+                    <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                            src="//ylx-aff.advertica-cdn.com/pub/468x60.png"
+                            style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                            alt="ylliX - Online Advertising Network"/></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <!-- yllx 468x60 ends here**************************** -->
 </section>
 <!-- game section ends ends -->
@@ -261,31 +300,35 @@
 <br/><br/><br/><br/>
 
 
- <!-- paid ads section starts -->
+<!-- paid ads section starts -->
 
 <div class="container">
     <div class="row">
         <div class="col-md">
-            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
         </div>
 
         <div class="col-md">
             <div>
-                    <h5>Click to this reCaptcha and get 50 points bonus!</h5>
-                    <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form_game">
-                        {% csrf_token %}
-                        <div id="html_element_game"></div>
-                        <br>
-                        <input type="submit" value="Submit">
-                    </form>
-                </div>
+                <h5>Click to this reCaptcha and get 50 points bonus!</h5>
+                <form action="{% url 'frontGamePageCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
+                      id="captcha__form_game">
+                    {% csrf_token %}
+                    <div id="html_element_game"></div>
+                    <br>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
         </div>
 
         <div class="col-md">
-            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
         </div>
         <div class="col-md">
-            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
         </div>
     </div>
 </div>
@@ -324,14 +367,17 @@
 
         // ends captcha-1
 
+
+
+
 </script>
 
 <!-- game scripts -->
-    <script>
+<script>
 
         // Create new wheel object specifying the parameters at creation time.
         let theWheel = new Winwheel({
-            outerRadius: 180, // Set outer radius so wheel fits inside the background. Default was: 214
+            outerRadius: 187, // Set outer radius so wheel fits inside the background. Default was: 214
             innerRadius: 65, // Make wheel hollow so segments don't go all way to center. Default was: 75
             textFontSize: 24, // Set default font size for the segments. Defulat was: 24
             textOrientation: "vertical", // Make text vertial so goes down from the outside of wheel.
@@ -344,10 +390,10 @@
                 {% if x.segment_prize_type == '1' %}
                 {
                     fillStyle: "{{x.bg_color}}",
-                    text: "Product",
+                    text: "{{x.prize_title}}",
                     textFontSize: 16,
                     textFillStyle: "#ffffff",
-                    textOrientation: "horizontal",
+                     textOrientation: "horizontal",
                  },
                 {% else %}
                 {
@@ -587,17 +633,20 @@
             }
         }
 
-    </script>
-    <!-- game scripts ends -->
+
+
+
+</script>
+<!-- game scripts ends -->
 
 <!-- efficient starts -->
-<script>(function(s,u,z,p){s.src=u,s.setAttribute('data-zone',z),p.appendChild(s);})(document.createElement('script'),'https://inklinkor.com/tag.min.js',5032527,document.body||document.documentElement)</script>
+<!--<script>(function(s,u,z,p){s.src=u,s.setAttribute('data-zone',z),p.appendChild(s);})(document.createElement('script'),'https://inklinkor.com/tag.min.js',5032527,document.body||document.documentElement)</script>-->
 <!-- efficient ends -->
 
 <!--ppcsh tbunder starts ********************8-->
-<script type="text/javascript">
- var p$00a = 'p$00a' + (new Date().getTime()) + 'zz'; window[p$00a] = {a:'abcdefghijklmnopqrstuvwxyz0123456789iua09mzkwt6nsd7lbfrogjve351h2yxpc48q', b:'{"AZIb":"yp2cq2", "BVIb":"cp42qc", "CXrr1":"gd09f", "DLtag":"h", "Emjk5":"", "XCge1s":"fil7n76.a7s" , "Zt1":"l7lairk.d9o", "ZZ1":"fil7n76.a7s" }', c:'{"Abkr221":"rafwlo", "Bo9ssm":"//a0d.fil7n76.a7s/ill.tr"}', d:'{"Ag4":"u703", "Bx1":"ill9d0Ckwn0", "Cky":"rfa", "Dmg":"af9io9En9s9do"}'};
-var _0x5d4b=['235913QVfbwv','slice','length','162209QBmAmV','14238hyOOTq','323207DTbifh','split','1DqiKtq','135866HTbavB','indexOf','call','27654SKXHbY','parse','undefined','32Ijckmz','keys','map','ceil','115980hcFVDy','values','join'];var _0x208c=function(_0x31a8d7,_0x5f36b3){_0x31a8d7=_0x31a8d7-0x167;var _0x5d4be1=_0x5d4b[_0x31a8d7];return _0x5d4be1;};(function(_0x276f94,_0x57c4ff){var _0x50057c=_0x208c;while(!![]){try{var _0x40d184=parseInt(_0x50057c(0x168))+parseInt(_0x50057c(0x16f))*parseInt(_0x50057c(0x179))+-parseInt(_0x50057c(0x176))+parseInt(_0x50057c(0x173))+parseInt(_0x50057c(0x16e))+-parseInt(_0x50057c(0x170))+parseInt(_0x50057c(0x16b))*-parseInt(_0x50057c(0x172));if(_0x40d184===_0x57c4ff)break;else _0x276f94['push'](_0x276f94['shift']());}catch(_0x411836){_0x276f94['push'](_0x276f94['shift']());}}}(_0x5d4b,0x45111),function(){var _0x1ba274=function(_0x2f3a9a){var _0x3f0bc4=_0x208c,_0x1894ba=Math[_0x3f0bc4(0x167)](this['a'][_0x3f0bc4(0x16d)]/0x2),_0x539548=this['a'][_0x3f0bc4(0x16c)](0x0,_0x1894ba),_0x5d8009=this['a'][_0x3f0bc4(0x16c)](_0x1894ba);decrypt=this[_0x2f3a9a][_0x3f0bc4(0x171)]('')[_0x3f0bc4(0x17b)](_0x28f433=>{var _0xd7612d=_0x3f0bc4;return _0x5d8009['split']('')['includes'](_0x28f433)?_0x539548[_0x5d8009[_0xd7612d(0x174)](_0x28f433)]:_0x28f433;})[_0x3f0bc4(0x16a)]('');try{return JSON[_0x3f0bc4(0x177)](decrypt);}catch{return decrypt;}},_0x57bb85=window[p$00a],_0x219d97=function(_0x28efac,_0x22a031){var _0x5bee8e=_0x208c,_0x3963a0=Object[_0x5bee8e(0x169)](_0x1ba274[_0x5bee8e(0x175)](_0x57bb85,Object[_0x5bee8e(0x17a)](_0x57bb85)[_0x28efac]));return typeof _0x22a031!=_0x5bee8e(0x178)?_0x3963a0[_0x22a031]:_0x3963a0;};window[p$00a]['x']=function(){return _0x219d97(0x1);};var _0xf1db57=document[_0x219d97(0x3,0x3)](_0x219d97(0x2,0x0));_0xf1db57[_0x219d97(0x3,0x2)]=_0x219d97(0x2,0x1),document[_0x219d97(0x3,0x0)][_0x219d97(0x3,0x1)](_0xf1db57),p$00a=undefined;}());
- </script>
+<!--<script type="text/javascript">-->
+<!-- var p$00a = 'p$00a' + (new Date().getTime()) + 'zz'; window[p$00a] = {a:'abcdefghijklmnopqrstuvwxyz0123456789iua09mzkwt6nsd7lbfrogjve351h2yxpc48q', b:'{"AZIb":"yp2cq2", "BVIb":"cp42qc", "CXrr1":"gd09f", "DLtag":"h", "Emjk5":"", "XCge1s":"fil7n76.a7s" , "Zt1":"l7lairk.d9o", "ZZ1":"fil7n76.a7s" }', c:'{"Abkr221":"rafwlo", "Bo9ssm":"//a0d.fil7n76.a7s/ill.tr"}', d:'{"Ag4":"u703", "Bx1":"ill9d0Ckwn0", "Cky":"rfa", "Dmg":"af9io9En9s9do"}'};-->
+<!--var _0x5d4b=['235913QVfbwv','slice','length','162209QBmAmV','14238hyOOTq','323207DTbifh','split','1DqiKtq','135866HTbavB','indexOf','call','27654SKXHbY','parse','undefined','32Ijckmz','keys','map','ceil','115980hcFVDy','values','join'];var _0x208c=function(_0x31a8d7,_0x5f36b3){_0x31a8d7=_0x31a8d7-0x167;var _0x5d4be1=_0x5d4b[_0x31a8d7];return _0x5d4be1;};(function(_0x276f94,_0x57c4ff){var _0x50057c=_0x208c;while(!![]){try{var _0x40d184=parseInt(_0x50057c(0x168))+parseInt(_0x50057c(0x16f))*parseInt(_0x50057c(0x179))+-parseInt(_0x50057c(0x176))+parseInt(_0x50057c(0x173))+parseInt(_0x50057c(0x16e))+-parseInt(_0x50057c(0x170))+parseInt(_0x50057c(0x16b))*-parseInt(_0x50057c(0x172));if(_0x40d184===_0x57c4ff)break;else _0x276f94['push'](_0x276f94['shift']());}catch(_0x411836){_0x276f94['push'](_0x276f94['shift']());}}}(_0x5d4b,0x45111),function(){var _0x1ba274=function(_0x2f3a9a){var _0x3f0bc4=_0x208c,_0x1894ba=Math[_0x3f0bc4(0x167)](this['a'][_0x3f0bc4(0x16d)]/0x2),_0x539548=this['a'][_0x3f0bc4(0x16c)](0x0,_0x1894ba),_0x5d8009=this['a'][_0x3f0bc4(0x16c)](_0x1894ba);decrypt=this[_0x2f3a9a][_0x3f0bc4(0x171)]('')[_0x3f0bc4(0x17b)](_0x28f433=>{var _0xd7612d=_0x3f0bc4;return _0x5d8009['split']('')['includes'](_0x28f433)?_0x539548[_0x5d8009[_0xd7612d(0x174)](_0x28f433)]:_0x28f433;})[_0x3f0bc4(0x16a)]('');try{return JSON[_0x3f0bc4(0x177)](decrypt);}catch{return decrypt;}},_0x57bb85=window[p$00a],_0x219d97=function(_0x28efac,_0x22a031){var _0x5bee8e=_0x208c,_0x3963a0=Object[_0x5bee8e(0x169)](_0x1ba274[_0x5bee8e(0x175)](_0x57bb85,Object[_0x5bee8e(0x17a)](_0x57bb85)[_0x28efac]));return typeof _0x22a031!=_0x5bee8e(0x178)?_0x3963a0[_0x22a031]:_0x3963a0;};window[p$00a]['x']=function(){return _0x219d97(0x1);};var _0xf1db57=document[_0x219d97(0x3,0x3)](_0x219d97(0x2,0x0));_0xf1db57[_0x219d97(0x3,0x2)]=_0x219d97(0x2,0x1),document[_0x219d97(0x3,0x0)][_0x219d97(0x3,0x1)](_0xf1db57),p$00a=undefined;}());-->
+<!-- </script>-->
 <!--ppcsh tbunder ends ********************8-->
 {% endblock %}

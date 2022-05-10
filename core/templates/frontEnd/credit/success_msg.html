@@ -43,7 +43,7 @@
         <div class="col-md">
             <div>
                 <h5>Click to this reCaptcha and get 50 points bonus!</h5>
-                <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
+                <form action="{% url 'frontPurchaseCreditPaymentSccessPgCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
                       id="captcha__form_credit_buy">
                     {% csrf_token %}
                     <div id="html_element_credit_buy"></div>

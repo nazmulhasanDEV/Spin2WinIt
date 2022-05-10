@@ -16,11 +16,13 @@ from product.models import *
 from game.models import *
 import uuid
 from django.core.files.storage import FileSystemStorage
+from django.utils.crypto import get_random_string
 import json
 import asyncio
 import threading
 from product.models import *
 from advertisement.models import *
+
 
 # woocomerce to connect with woocommerce store
 from woocommerce import API
@@ -2137,11 +2139,12 @@ def ap_segment_setting(request):
 
         segments_list = Segment.objects.all()
 
-        sponsored_products = SponsoredProductForPrize.objects.all()
+        sponsored_products = SponsoredProductForPrize.objects.filter(status=True)
 
         if request.method == 'POST':
             segment = request.POST.get('segment_name')
             bg_color = request.POST.get('bg_color')
+            prize_title = request.POST.get('prize_title')
             segment_prize__type = request.POST.get('segment_prize__type')
             point_as_prize = request.POST.get('point_as_prize')
             product_as_prize = request.POST.get('product_as_prize')
@@ -2153,14 +2156,14 @@ def ap_segment_setting(request):
                     current_segment = Segment.objects.get(pk=segment)
                     current_prodct_as_prize = SponsoredProductForPrize.objects.get(pk=product_as_prize)
 
-                    segment_list_model = SegmentList(segment=current_segment, bg_color=bg_color, segment_prize_type='1', product_as_prize=current_prodct_as_prize, status=segment_status)
+                    segment_list_model = SegmentList(segment=current_segment, bg_color=bg_color, prize_title=prize_title, segment_prize_type='1', product_as_prize=current_prodct_as_prize, status=segment_status)
                     segment_list_model.save()
                     messages.success(request, "Succesfully added!")
                     return redirect('apSegmentSettings')
                 if segment_prize__type == 'point':
                     current_segment = Segment.objects.get(pk=segment)
 
-                    segment_list_model = SegmentList(segment=current_segment, bg_color=bg_color, segment_prize_type='2', prize_point_amount=point_as_prize, status=segment_status)
+                    segment_list_model = SegmentList(segment=current_segment, bg_color=bg_color, prize_title=prize_title, segment_prize_type='2', prize_point_amount=point_as_prize, status=segment_status)
                     segment_list_model.save()
                     messages.success(request, "Succesfully added!")
                     return redirect('apSegmentSettings')
@@ -2241,6 +2244,7 @@ def ap_update_segment_setting(request, pk):
         if request.method == 'POST':
             segment = request.POST.get('segment_name')
             bg_color = request.POST.get('bg_color')
+            prize_title = request.POST.get('prize_title')
             segment_prize__type = request.POST.get('segment_prize__type')
             point_as_prize = request.POST.get('point_as_prize')
             product_as_prize = request.POST.get('product_as_prize')
@@ -2257,6 +2261,7 @@ def ap_update_segment_setting(request, pk):
                     segment_list_model.segment_prize_type='1'
                     segment_list_model.product_as_prize=current_prodct_as_prize
                     segment_list_model.status=segment_status
+                    segment_list_model.prize_title = prize_title
                     segment_list_model.save()
 
                     messages.success(request, "Succesfully updated!")
@@ -2271,6 +2276,7 @@ def ap_update_segment_setting(request, pk):
                     segment_list_model.segment_prize_type='2'
                     segment_list_model.prize_point_amount=point_as_prize
                     segment_list_model.status=segment_status
+                    segment_list_model.prize_title = prize_title
                     segment_list_model.save()
 
                     messages.success(request, "Succesfully updated!")
@@ -2373,13 +2379,13 @@ def ap_remove_new_segment(request, pk):
 
 
 # deactivate other sponsored product for winning chance
-def deactivateOtherProductFor_winning_chance(obj):
-
-    if obj:
-        for x in obj:
-            x.status = False
-            x.save()
-    return True
+# def deactivateOtherProductFor_winning_chance(obj):
+#
+#     if obj:
+#         for x in obj:
+#             x.status = False
+#             x.save()
+#     return True
 
 @login_required(login_url='/ap/register/updated')
 def ap_activate_spnsored_prdct_for_game(request, pk):
@@ -2390,12 +2396,13 @@ def ap_activate_spnsored_prdct_for_game(request, pk):
     try:
         current_obj = SponsoredProductForPrize.objects.get(pk=pk)
         current_obj.status = True
+        current_obj.prodct_id = get_random_string(8)
         current_obj.save()
 
         # threading de-activation process
-        other_active_products = SponsoredProductForPrize.objects.filter(status=True).exclude(pk=pk)
-        de_activate_other_prdcts = threading.Thread(target=deactivateOtherProductFor_winning_chance, args=[other_active_products])
-        de_activate_other_prdcts.start()
+        # other_active_products = SponsoredProductForPrize.objects.filter(status=True).exclude(pk=pk)
+        # de_activate_other_prdcts = threading.Thread(target=deactivateOtherProductFor_winning_chance, args=[other_active_products])
+        # de_activate_other_prdcts.start()
 
         messages.success(request, "This product has been activated for game to win!")
         return redirect('apGameSponsoredProducts')

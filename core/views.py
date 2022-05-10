@@ -22,6 +22,7 @@ from .models import *
 from django.core.paginator import Paginator, EmptyPage
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django.utils.crypto import get_random_string
 
 def get_User_ip(request):
 
@@ -211,7 +212,7 @@ def front_home(request):
 
     return render(request, 'frontEnd/home.html', context)
 
-# check box captcha solving
+# check box captcha solving for home page
 @login_required(login_url='/fe/login/register')
 def front_checkBoxCaptchaBonus(request):
 
@@ -260,6 +261,847 @@ def front_checkBoxCaptchaBonus(request):
 
     return redirect(request.META.get('HTTP_REFERER'))
 
+
+# check box captcha solving for shop page
+@login_required(login_url='/fe/login/register')
+def front_ShopCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = ShopCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = ShopCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = ShopCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+# check box captcha solving for shop page by category
+@login_required(login_url='/fe/login/register')
+def front_CategoryShopCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = CategoryShopCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = CategoryShopCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = CategoryShopCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+# check box captcha solving for product details page
+@login_required(login_url='/fe/login/register')
+def front_ProductDetailsCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = ProductDetailsCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = ProductDetailsCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = ProductDetailsCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+# check box captcha solving for game page
+@login_required(login_url='/fe/login/register')
+def front_GameCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = GameCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = GameCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = GameCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+# check box captcha solving for user profile page
+@login_required(login_url='/fe/login/register')
+def front_UsrProfileCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = UsrProfileCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = UsrProfileCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = UsrProfileCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+# check box captcha solving for purchase winning chance page
+@login_required(login_url='/fe/login/register')
+def front_BuyWinningChanceBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = BuyWinningChanceBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = BuyWinningChanceBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = BuyWinningChanceBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+# check box captcha solving for cart page
+@login_required(login_url='/fe/login/register')
+def front_CartCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = CartCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = CartCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = CartCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+# check box captcha solving for checkout page
+@login_required(login_url='/fe/login/register')
+def front_CheckoutCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = CheckoutCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = CheckoutCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = CheckoutCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+# check box captcha solving for contact-us page
+@login_required(login_url='/fe/login/register')
+def front_ContactUsCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = ContactUsCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = ContactUsCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = ContactUsCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+# check box captcha solving for payment page for purchasing winning chance page
+@login_required(login_url='/fe/login/register')
+def front_PaymentWinningChnceCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = PaymentWinningChnceCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = PaymentWinningChnceCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = PaymentWinningChnceCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+# check box captcha solving for product purchase payment page
+@login_required(login_url='/fe/login/register')
+def front_ProductPurchaseCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = ProductPurchaseCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = ProductPurchaseCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = ProductPurchaseCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+# checkbox captcha for payment success page after purchasing product
+@login_required(login_url='/fe/login/register')
+def front_ProdctPaymntSccssCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = ProdctPaymntSccssCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = ProdctPaymntSccssCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = ProdctPaymntSccssCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+# checkbox captcha for wishlist
+@login_required(login_url='/fe/login/register')
+def front_WishlistCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = WishlistCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = WishlistCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = WishlistCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+# checkbox captcha for purchase credit page
+@login_required(login_url='/fe/login/register')
+def front_PurchaseCreditCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = PurchaseCreditCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = PurchaseCreditCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = PurchaseCreditCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+# checkbox captcha for purchase credit payment page
+@login_required(login_url='/fe/login/register')
+def front_CreditPurchasePaymntCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = CreditPurchasePaymntCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = CreditPurchasePaymntCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = CreditPurchasePaymntCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+# checkbox captcha for purchase credit payment success page
+@login_required(login_url='/fe/login/register')
+def front_CreditPurchaseSuccessCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = CreditPurchaseSuccessCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = CreditPurchaseSuccessCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = CreditPurchaseSuccessCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+# checkbox captcha for purchase credit payment success page
+@login_required(login_url='/fe/login/register')
+def front_WnChancePurchaseSccMsgCheckBoxCaptcha(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        user = WnChancePurchaseSccMsgCheckBoxCaptcha.objects.filter(user=request.user).last()
+
+        if user:
+            expired_date = user.created + timedelta(days=1)
+            today = timezone.now()
+
+            if today >= expired_date:
+                # updating new one
+                checkBox_captchaModel = WnChancePurchaseSccMsgCheckBoxCaptcha.objects.create(user=request.user)
+
+                # user point wallet
+                usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+                if usr_point_wllt:
+                    usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                    usr_point_wllt.save()
+                    messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                    return redirect(request.META.get('HTTP_REFERER'))
+                else:
+                    usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+            else:
+                messages.warning(request, "You already got bonus! Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            # updating new one
+            checkBox_captchaModel = WnChancePurchaseSccMsgCheckBoxCaptcha.objects.create(user=request.user)
+
+            # user point wallet
+            usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
+            if usr_point_wllt:
+                usr_point_wllt.available = int(usr_point_wllt.available) + 50
+                usr_point_wllt.save()
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations. You got 50 reward points as bonus.Try one day later to get bonus again!")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required(login_url='/fe/login/register')
 def front_invisibleCaptchaBonus(reqeust):
@@ -323,7 +1165,7 @@ def front_loginRegister(request):
         email = request.POST['email']
         username = request.POST['username']
         phone = request.POST['phone']
-        nid__card_no = request.POST['nid__card_no']
+        # nid__card_no = request.POST['nid__card_no']
         user_role = request.POST['user_role']
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
@@ -973,6 +1815,12 @@ def front_checkout(request, username):
     # user cart status
     user_wishlist_status = WishList.objects.filter(user=request.user)
 
+    # user default shipping address
+    usr_deflt_shipping_addrss = DefalutShippingInfo.objects.filter(user=request.user).first()
+
+    # user default billing address
+    usr_deflt_billing_address = DefaultBillingInfo.objects.filter(user=request.user).first()
+
     total_amount = 0
 
     if user_cart_status:
@@ -993,6 +1841,8 @@ def front_checkout(request, username):
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
+        'usr_deflt_shipping_addrss': usr_deflt_shipping_addrss,
+        'usr_deflt_billing_address': usr_deflt_billing_address,
     }
 
     return render(request, 'frontEnd/checkout.html', context)
@@ -1005,6 +1855,11 @@ def front_confirm_order(request, username):
 
 
     if request.method == 'POST':
+
+        # default shipping and billing address
+        use_defalt_billing__adrs = request.POST.get('use_defalt_billin__adrs')
+        use_defalt_shipping_addrss = request.POST.get('use_defalt_shipping_addrss')
+
         # billing informations
         country_b = request.POST.get('country_b')
         fname_b = request.POST.get('fname_b')
@@ -1064,36 +1919,56 @@ def front_confirm_order(request, username):
                     total_amount = total_amount + float(x.total_amount)
 
                 # saving billing informations
-                billing_info_model = BillingInfo.objects.create(
-                    info_id=id,
-                    user=request.user,
-                    fname=fname_b,
-                    lname=lanme_b,
-                    country=country_b,
-                    company=company_b,
-                    address=address_b,
-                    town_or_city=town_city_b,
-                    state=state_b,
-                    postcode=postcode_b,
-                    email=email_b,
-                    phone=phone_b
-                )
+
+                if use_defalt_billing__adrs:
+                    current_usr_billing_adrs = DefaultBillingInfo.objects.filter(user=request.user).first()
+                    print(current_usr_billing_adrs)
+                    billing_info_model = BillingInfo.objects.create(
+                        info_id=id,
+                        user=request.user,
+                        use_defalut_address=True,
+                        default_billingAddress=current_usr_billing_adrs,
+                    )
+                else:
+                    billing_info_model = BillingInfo.objects.create(
+                        info_id=id,
+                        user=request.user,
+                        fname=fname_b,
+                        lname=lanme_b,
+                        country=country_b,
+                        company=company_b,
+                        address=address_b,
+                        town_or_city=town_city_b,
+                        state=state_b,
+                        postcode=postcode_b,
+                        email=email_b,
+                        phone=phone_b
+                    )
 
                 # saving shipping informations
-                shipping_information_model = ShippingInfo.objects.create(
-                    info_id=id,
-                    user=request.user,
-                    fname=fname_s,
-                    lname=lanme_s,
-                    country=country_s,
-                    company=company_s,
-                    address=address_s,
-                    town_or_city=town_city_s,
-                    state=state_s,
-                    postcode=postcode_s,
-                    email=email_s,
-                    phone=phone_s,
-                )
+                if use_defalt_shipping_addrss:
+                    current_usr_dflt_shipping_addrs = DefalutShippingInfo.objects.filter(user=request.user).first()
+                    shipping_information_model = ShippingInfo.objects.create(
+                        info_id=id,
+                        user=request.user,
+                        use_deflt_address=True,
+                        default_shipping_address=current_usr_dflt_shipping_addrs,
+                    )
+                else:
+                    shipping_information_model = ShippingInfo.objects.create(
+                        info_id=id,
+                        user=request.user,
+                        fname=fname_s,
+                        lname=lanme_s,
+                        country=country_s,
+                        company=company_s,
+                        address=address_s,
+                        town_or_city=town_city_s,
+                        state=state_s,
+                        postcode=postcode_s,
+                        email=email_s,
+                        phone=phone_s,
+                    )
 
                 # saving the order
 
@@ -2325,6 +3200,12 @@ def front_user_profile(request, username):
     # user orders
     order_list = OrderList.objects.filter(user=request.user).filter()
 
+    # user default shipping address
+    user_dflt_shipping_address = DefalutShippingInfo.objects.filter(user=request.user).first()
+
+    # usr default billing address
+    usr_default_biling_address = DefaultBillingInfo.objects.filter(user=request.user).first()
+
 
     context = {
         'username' : username,
@@ -2334,12 +3215,16 @@ def front_user_profile(request, username):
         'user_credit_wallet': user_credit_wallet,
         'user_winning_chances' : user_winning_chances,
 
+        'user_dflt_shipping_address': user_dflt_shipping_address,
+        'usr_default_biling_address': usr_default_biling_address,
+
         'site_logo' : site_logo,
         'contact_info': contact_info,
         'free_delivery_content_setting': free_delivery_content_setting,
         'safe_payment_content_setting': safe_payment_content_setting,
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
+
     }
     return render(request, 'frontEnd/user_profile.html', context)
 
@@ -2502,6 +3387,181 @@ def front_update_internal_password(request):
                 return redirect('frontEndUserProfile', username=request.user.username)
 
     return render(request, 'frontEnd/user_profile.html')
+
+@login_required(login_url='/fe/login/register')
+def front_add_default_billing_info(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+        country_b = request.POST.get('country_b')
+        city = request.POST.get('city')
+        postcode = request.POST.get('postcode')
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
+
+        if DefaultBillingInfo.objects.filter(user=request.user).count() > 0:
+            messages.warning(request, "Default address already exists!")
+            return redirect('frontEndUserProfile', username=request.user.username)
+        else:
+            id = get_random_string(8)
+            default_billing_adres = DefaultBillingInfo.objects.create(
+                info_id=id,
+                user=request.user,
+                country=country_b,
+                fname=name,
+                address=address,
+                town_or_city=city,
+                postcode=postcode,
+                email=email,
+                phone=phone,
+            )
+            messages.success(request, "Deault billing address added successfully!")
+            return redirect('frontEndUserProfile', username=request.user.username)
+
+    return redirect('frontEndUserProfile', username=request.user.username)
+
+@login_required(login_url='/fe/login/register')
+def front_update_default_billing_info(request, pk):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+        country_b = request.POST.get('country_b')
+        city = request.POST.get('city')
+        postcode = request.POST.get('postcode')
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
+
+
+        try:
+            current_obj = get_object_or_404(DefaultBillingInfo, pk=pk)
+            current_obj.country = country_b
+            current_obj.fname = name
+            current_obj.address = address
+            current_obj.town_or_city = city
+            current_obj.postcode = postcode
+            current_obj.email = email
+            current_obj.phone = phone
+            current_obj.save()
+            messages.success(request, "Billing information successfully updated!")
+            return redirect('frontEndUserProfile', username=request.user.username)
+        except:
+            messages.warning(request, "Billing information not found!")
+            return redirect('frontEndUserProfile', username=request.user.username)
+
+    return redirect('frontEndUserProfile', username=request.user.username)
+
+@login_required(login_url='/fe/login/register')
+def front_delete_default_billing_info(request, pk):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    try:
+        current_obj = get_object_or_404(DefaultBillingInfo, pk=pk)
+        current_obj.delete()
+        messages.success(request, "Billing info successfully deleted!")
+        return redirect('frontEndUserProfile', username=request.user.username)
+    except:
+        messages.warning(request, "Billing info can't be deleted!")
+        return redirect('frontEndUserProfile', username=request.user.username)
+
+    return redirect('frontEndUserProfile', username=request.user.username)
+
+@login_required(login_url='/fe/login/register')
+def front_add_default_shipping_info(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+        country_b = request.POST.get('country_b')
+        city = request.POST.get('city')
+        postcode = request.POST.get('postcode')
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
+
+        if DefalutShippingInfo.objects.filter(user=request.user).count() > 0:
+            messages.warning(request, "Default shipping address already exists!")
+            return redirect('frontEndUserProfile', username=request.user.username)
+        else:
+            id = get_random_string(8)
+
+            default_shipping_adres = DefalutShippingInfo.objects.create(
+                info_id=id,
+                user=request.user,
+                country=country_b,
+                fname=name,
+                address=address,
+                town_or_city=city,
+                postcode=postcode,
+                email=email,
+                phone=phone,
+            )
+            messages.success(request, "Default shipping address added successfully!")
+            return redirect('frontEndUserProfile', username=request.user.username)
+
+    return redirect('frontEndUserProfile', username=request.user.username)
+
+@login_required(login_url='/fe/login/register')
+def front_update_default_shipping_info(request, pk):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+        country_b = request.POST.get('country_b')
+        city = request.POST.get('city')
+        postcode = request.POST.get('postcode')
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
+
+
+        try:
+            current_obj = get_object_or_404(DefalutShippingInfo, pk=pk)
+            current_obj.country = country_b
+            current_obj.fname = name
+            current_obj.address = address
+            current_obj.town_or_city = city
+            current_obj.postcode = postcode
+            current_obj.email = email
+            current_obj.phone = phone
+            current_obj.save()
+            messages.success(request, "Shipping information successfully updated!")
+            return redirect('frontEndUserProfile', username=request.user.username)
+        except:
+            messages.warning(request, "Shipping information not found!")
+            return redirect('frontEndUserProfile', username=request.user.username)
+
+    return redirect('frontEndUserProfile', username=request.user.username)
+
+@login_required(login_url='/fe/login/register')
+def front_delete_default_shipping_info(request, pk):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    try:
+        current_obj = get_object_or_404(DefalutShippingInfo, pk=pk)
+        current_obj.delete()
+        messages.success(request, "Shipping info successfully deleted!")
+        return redirect('frontEndUserProfile', username=request.user.username)
+    except:
+        messages.warning(request, "Shipping info can't be deleted!")
+        return redirect('frontEndUserProfile', username=request.user.username)
+
+    return redirect('frontEndUserProfile', username=request.user.username)
 
 def front_refund_policy(request):
 
@@ -2770,7 +3830,6 @@ def front_delivery_policy(request):
 
     return render(request, 'frontEnd/policy/delivery_policy.html', context)
 
-
 def front_about_us(request):
 
     if request.user.is_authenticated and request.user.is_buyer != True:
@@ -2837,7 +3896,6 @@ def front_about_us(request):
 
     return render(request, 'frontEnd/company/about_us.html', context)
 
-
 def front_cookie_policy(request):
 
     if request.user.is_authenticated and request.user.is_buyer != True:
@@ -2903,7 +3961,6 @@ def front_cookie_policy(request):
     }
 
     return render(request, 'frontEnd/company/cookie.html', context)
-
 
 def front_terms_conditions(request):
 
@@ -3054,7 +4111,6 @@ def front_signup_for_newletter(request):
             messages.warning(request, "You already signed up! But we appreciate your effort!")
             return redirect('frontEndHome')
     return redirect('frontEndHome')
-
 
 def front_contact_us(request):
 

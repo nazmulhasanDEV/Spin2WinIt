@@ -165,7 +165,7 @@
                     <div class="col-md">
                         <div>
                                 <h5>Click to this reCaptcha and get 50 points bonus!</h5>
-                                <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form_wishlist">
+                                <form action="{% url 'frontWishlistCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form_wishlist">
                                     {% csrf_token %}
                                     <div id="html_element_wishlist"></div>
                                     <br>

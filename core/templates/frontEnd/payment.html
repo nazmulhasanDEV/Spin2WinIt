@@ -61,58 +61,127 @@
                     <div class="row">
                         <div class="col-lg-6 col-12">
                             <div>
-                                {% csrf_token %}
                                 <div class="checkbox-form">
                                     <h3>Billing Details</h3>
                                     {% if current_order %}
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p><strong>Country: </strong>{{current_order.billing_info.country}}</p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p><strong>Name: </strong>{{current_order.billing_info.fname}} {{current_order.billing_info.lname}}</p>
-                                        </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p><strong>Company: </strong>{{current_order.billing_info.company}}</p>
+                                        {% if current_order.billing_info.use_defalut_address %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Country: </strong>{{current_order.billing_info.default_billingAddress.country}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Name: </strong>{{current_order.billing_info.default_billingAddress.fname}}</p>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p><strong>Address: </strong>{{current_order.billing_info.address}}</p>
-                                        </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p><strong>Town: </strong>{{current_order.billing_info.town_or_city}}</p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Town: </strong>{{current_order.billing_info.default_billingAddress.town_or_city}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Address: </strong>{{current_order.billing_info.default_billingAddress.address}}</p>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p><strong>State: </strong>{{current_order.billing_info.state}}</p>
-                                        </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p><strong>Post code: </strong>{{current_order.billing_info.postcode}}</p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Post code: </strong>{{current_order.billing_info.default_billingAddress.postcode}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>E-mail: </strong>{{current_order.billing_info.default_billingAddress.email}}</p>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p><strong>E-mail: </strong>{{current_order.billing_info.email}}</p>
-                                        </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p><strong>Phone: </strong>{{current_order.billing_info.phone}}</p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Phone: </strong>{{current_order.billing_info.default_billingAddress.phone}}</p>
+                                            </div>
                                         </div>
-                                    </div>
+                                        {% else %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Country: </strong>{{current_order.billing_info.country}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Name: </strong>{{current_order.billing_info.fname}} {{current_order.billing_info.lname}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Company: </strong>{{current_order.billing_info.company}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Address: </strong>{{current_order.billing_info.address}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Town: </strong>{{current_order.billing_info.town_or_city}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>State: </strong>{{current_order.billing_info.state}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Post code: </strong>{{current_order.billing_info.postcode}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>E-mail: </strong>{{current_order.billing_info.email}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Phone: </strong>{{current_order.billing_info.phone}}</p>
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
 
                                 <div class="checkbox-form">
                                     <h3>Shipping Details</h3>
                                     {% if current_order %}
-                                    <div class="row">
+                                        {% if current_order.shipping_info.use_deflt_address %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Country: </strong>{{current_order.shipping_info.default_shipping_address.country}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Name: </strong>{{current_order.shipping_info.default_shipping_address.fname}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Town: </strong>{{current_order.shipping_info.default_shipping_address.town_or_city}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Address: </strong>{{current_order.shipping_info.default_shipping_address.address}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Post code: </strong>{{current_order.shipping_info.default_shipping_address.postcode}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>E-mail: </strong>{{current_order.shipping_info.default_shipping_address.email}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Phone: </strong>{{current_order.shipping_info.default_shipping_address.phone}}</p>
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <div class="row">
                                         <div class="col-md-6">
                                             <p><strong>Country: </strong>{{current_order.shipping_info.country}}</p>
                                         </div>
@@ -121,38 +190,39 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p><strong>Company: </strong>{{current_order.shipping_info.company}}</p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Company: </strong>{{current_order.shipping_info.company}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Address: </strong>{{current_order.shipping_info.address}}</p>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p><strong>Address: </strong>{{current_order.shipping_info.address}}</p>
-                                        </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p><strong>Town: </strong>{{current_order.shipping_info.town_or_city}}</p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Town: </strong>{{current_order.shipping_info.town_or_city}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>State: </strong>{{current_order.shipping_info.state}}</p>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p><strong>State: </strong>{{current_order.shipping_info.state}}</p>
-                                        </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p><strong>Post code: </strong>{{current_order.shipping_info.postcode}}</p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Post code: </strong>{{current_order.shipping_info.postcode}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>E-mail: </strong>{{current_order.shipping_info.email}}</p>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p><strong>E-mail: </strong>{{current_order.shipping_info.email}}</p>
-                                        </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p><strong>Phone: </strong>{{current_order.shipping_info.phone}}</p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Phone: </strong>{{current_order.shipping_info.phone}}</p>
+                                            </div>
                                         </div>
-                                    </div>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </div>
@@ -269,7 +339,7 @@
         <div class="col-md">
             <div>
                 <h5>Click to this reCaptcha and get 50 points bonus!</h5>
-                <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
+                <form action="{% url 'frontPymntPgProdctPurchaseCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
                       id="captcha__form_payment">
                     {% csrf_token %}
                     <div id="html_element_payment"></div>
@@ -420,8 +490,8 @@
 {% endblock %}
 
 {% block payment_integration_block %}
-<!--AcAWRV3bad-SO2OtqY-HdU2lO24a23hLfwJygHg5pj0Rpj0VehocsqOF4jtdqvAAZMgK525Pe0dor0lE-->
-<script src="https://www.paypal.com/sdk/js?client-id=AZCZ-SPWtsvWifDAEVsJwDwndfhyNBvbzaPyRWf9-Uqfp7vN55ZN60D3szeGs32QkClayqGw65DjpFkF&currency=USD"></script>
+<!--AZCZ-SPWtsvWifDAEVsJwDwndfhyNBvbzaPyRWf9-Uqfp7vN55ZN60D3szeGs32QkClayqGw65DjpFkF-->
+<script src="https://www.paypal.com/sdk/js?client-id=AcAWRV3bad-SO2OtqY-HdU2lO24a23hLfwJygHg5pj0Rpj0VehocsqOF4jtdqvAAZMgK525Pe0dor0lE&currency=USD"></script>
 
 <script>
       paypal.Buttons({

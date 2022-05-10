@@ -130,8 +130,8 @@ class VerificationCode(models.Model):
         return str(self.user_email) + '|| Code: ' + self.code
 
 
-# user billing informations
-class BillingInfo(models.Model):
+# user default billing informations
+class DefaultBillingInfo(models.Model):
     info_id = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     country = models.CharField(max_length=255, blank=True, null=True)
@@ -148,8 +148,32 @@ class BillingInfo(models.Model):
     def __str__(self):
         return str(self.user.email)
 
-# user billing informations
-class ShippingInfo(models.Model):
+# user billing informations(newly added on checkout page)
+class BillingInfo(models.Model):
+
+    info_id = models.CharField(max_length=255, blank=True, null=True)
+
+    use_defalut_address = models.BooleanField(default=False, blank=True, null=True)
+    default_billingAddress = models.ForeignKey(DefaultBillingInfo, on_delete=models.CASCADE, blank=True, null=True)
+
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    country = models.CharField(max_length=255, blank=True, null=True)
+    fname = models.CharField(max_length=255, blank=True, null=True)
+    lname = models.CharField(max_length=255, blank=True, null=True)
+    company = models.CharField(max_length=255, blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    town_or_city = models.CharField(max_length=255, blank=True, null=True)
+    state = models.CharField(max_length=255, blank=True, null=True)
+    postcode = models.CharField(max_length=255, blank=True, null=True)
+    email = models.CharField(max_length=255, blank=True, null=True)
+    phone = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+
+# user default billing informations
+class DefalutShippingInfo(models.Model):
     info_id = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
 
@@ -168,6 +192,30 @@ class ShippingInfo(models.Model):
     def __str__(self):
         return str(self.user.email)
 
+# user billing informations(newly added on checkout page)
+class ShippingInfo(models.Model):
+    info_id = models.CharField(max_length=255, blank=True, null=True)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+
+    use_deflt_address = models.BooleanField(default=False, blank=True, null=True)
+    default_shipping_address = models.ForeignKey(DefalutShippingInfo, on_delete=models.CASCADE, blank=True, null=True)
+
+    fname = models.CharField(max_length=255, blank=True, null=True)
+    lname = models.CharField(max_length=255, blank=True, null=True)
+    country = models.CharField(max_length=255, blank=True, null=True)
+    company = models.CharField(max_length=255, blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    appartment = models.TextField(blank=True, null=True)
+    town_or_city = models.CharField(max_length=255, blank=True, null=True)
+    state = models.CharField(max_length=255, blank=True, null=True)
+    postcode = models.CharField(max_length=255, blank=True, null=True)
+    email = models.CharField(max_length=255, blank=True, null=True)
+    phone = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+
 # disclaimer model
 class DisclaimerAgreeDisagreeIPList(models.Model):
     ip = models.CharField(max_length=255, blank=True, null=True)
@@ -177,15 +225,150 @@ class DisclaimerAgreeDisagreeIPList(models.Model):
     def __str__(self):
         return self.ip
 
-# checkbox captcha
+# checkbox captcha for home page
 class CheckBoxCaptcha(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, blank=True)
 
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for shop page
+class ShopCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):
         return str(self.user.email)
 
+# checkbox captcha for shop page by category
+class CategoryShopCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for product details page
+class ProductDetailsCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+
+# checkbox captcha for game page
+class GameCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for user-profile page
+class UsrProfileCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for buy winning chance page
+class BuyWinningChanceBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for cart page
+class CartCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for checkout page
+class CheckoutCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for contact us page
+class ContactUsCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for payment page for purchasing winning chance
+class PaymentWinningChnceCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for payment page for product purchasing
+class ProductPurchaseCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for payment success page after purchasing product
+class ProdctPaymntSccssCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for wishlisht page
+class WishlistCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for purchase credit page
+class PurchaseCreditCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for credit purchasing payment page
+class CreditPurchasePaymntCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for credit purchase success msg page
+class CreditPurchaseSuccessCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+# checkbox captcha for succcess msg of winning chance purchase
+class WnChancePurchaseSccMsgCheckBoxCaptcha(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.email)
 
 # invisible captcha
 class InvisibleFeedbackCaptcha(models.Model):

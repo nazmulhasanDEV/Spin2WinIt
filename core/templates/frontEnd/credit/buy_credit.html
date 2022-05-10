@@ -45,7 +45,7 @@
     <div class="col-md-3"></div>
     <div class="col-md-6">
         <div class="buy_winning_chances">
-            <h4 style="margin-bottom: 20px;">It will charge $0.1 usd for every two credits*</h4>
+            <h4 style="margin-bottom: 20px;">It will charge $0.5 usd for every two credits*</h4>
             {% if usr_available_points.available %}
             <h6>Your available points: <strong style="color: #293A6C;">{{usr_available_points.available}}.00</strong></h6>
             {% endif %}
@@ -140,7 +140,7 @@
         <div class="col-md">
             <div>
                     <h5>Click to this reCaptcha and get 50 points bonus!</h5>
-                    <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form_buy_credit">
+                    <form action="{% url 'frontPurchaseCreditCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form_buy_credit">
                         {% csrf_token %}
                         <div id="html_element_buy_credit"></div>
                         <br>

@@ -139,9 +139,9 @@
                         </div>
                         <div class="price-box pt-20">
                             {% if current_product.regular_price %}
-                            <del>${{current_product.regular_price}}</del>
+                            <del>${{current_product.regular_price|floatformat:2}}</del>
                             {% endif %}
-                            <span class="new-price new-price-2">${{current_product.price}}</span>
+                            <span class="new-price new-price-2">${{current_product.price|floatformat:2}}</span>
                         </div>
                         {% if current_product.in_stock %}
                             <li>Stock status: <strong>In stock</strong></li>
@@ -1249,9 +1249,7 @@
             </div>
 <!-- Li's Static Banner Area End Here -->
 
-
 <br><br>
-
 
 <div class="container">
     <div class="row">
@@ -1264,7 +1262,7 @@
         <div class="col-md">
             <div>
                     <h5>Click to this reCaptcha and get 50 points bonus!</h5>
-                    <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form_prdct_details">
+                    <form action="{% url 'frontProductDetailsCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form_prdct_details">
                         {% csrf_token %}
                         <div id="html_element_prdct_details"></div>
                         <br>

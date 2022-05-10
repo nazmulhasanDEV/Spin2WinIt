@@ -12,6 +12,28 @@ urlpatterns = [
 
     # checkbox captcha solving and bonus
     re_path(r'^fe/checkbox/captcha/bonus/$', views.front_checkBoxCaptchaBonus, name='frontCheckBoxCaptchaBonus'),
+    re_path(r'^fe/shop/page/checkbox/captcha/bonus/$', views.front_ShopCheckBoxCaptcha, name='frontShopCheckBoxCaptchaBonus'),
+    re_path(r'^fe/shop/page/by/category/checkbox/captcha/bonus/$', views.front_CategoryShopCheckBoxCaptcha, name='frontCategoryShopCheckBoxCaptchaBonus'),
+    re_path(r'^fe/product/details/checkbox/captcha/bonus/$', views.front_ProductDetailsCheckBoxCaptcha, name='frontProductDetailsCheckBoxCaptchaBonus'),
+
+    re_path(r'^fe/game/page/checkbox/captcha/bonus/$', views.front_GameCheckBoxCaptcha, name='frontGamePageCheckBoxCaptchaBonus'),
+    re_path(r'^fe/user/profile/page/checkbox/captcha/bonus/$', views.front_UsrProfileCheckBoxCaptcha, name='frontGUsrProfilePgCheckBoxCaptchaBonus'),
+    re_path(r'^fe/purchase/winning/chance/page/checkbox/captcha/bonus/$', views.front_BuyWinningChanceBoxCaptcha, name='frontPurchaseWinningChncePgCheckBoxCaptchaBonus'),
+    re_path(r'^fe/cart/page/checkbox/captcha/bonus/$', views.front_CartCheckBoxCaptcha, name='frontCartPgCheckBoxCaptchaBonus'),
+
+    re_path(r'^fe/checkout/page/checkbox/captcha/bonus/$', views.front_CheckoutCheckBoxCaptcha, name='frontCheckOutPgCheckBoxCaptchaBonus'),
+    re_path(r'^fe/contact/us/page/checkbox/captcha/bonus/$', views.front_ContactUsCheckBoxCaptcha, name='frontContactUsPgCheckBoxCaptchaBonus'),
+    re_path(r'^fe/payment/page/purchasing/winning/chance/checkbox/captcha/bonus/$', views.front_PaymentWinningChnceCheckBoxCaptcha, name='frontPymntPgPrchasingWinningChnceCheckBoxCaptchaBonus'),
+    re_path(r'^fe/product/purchasing/payment/checkbox/captcha/bonus/$', views.front_ProductPurchaseCheckBoxCaptcha, name='frontPymntPgProdctPurchaseCheckBoxCaptchaBonus'),
+
+    re_path(r'^fe/product/purchasing/payment/success/checkbox/captcha/bonus/$', views.front_ProdctPaymntSccssCheckBoxCaptcha, name='frontPymntPgProdctPurchaseSuccessCheckBoxCaptchaBonus'),
+    re_path(r'^fe/wishlist/page/checkbox/captcha/bonus/$', views.front_WishlistCheckBoxCaptcha, name='frontWishlistCheckBoxCaptchaBonus'),
+    re_path(r'^fe/purchase/credit/page/checkbox/captcha/bonus/$', views.front_PurchaseCreditCheckBoxCaptcha, name='frontPurchaseCreditCheckBoxCaptchaBonus'),
+    re_path(r'^fe/purchase/credit/payment/page/checkbox/captcha/bonus/$', views.front_CreditPurchasePaymntCheckBoxCaptcha, name='frontPurchaseCreditPaymentPgCheckBoxCaptchaBonus'),
+
+    re_path(r'^fe/purchase/credit/payment/success/page/checkbox/captcha/bonus/$', views.front_CreditPurchaseSuccessCheckBoxCaptcha, name='frontPurchaseCreditPaymentSccessPgCheckBoxCaptchaBonus'),
+    re_path(r'^fe/winning/chance/purchase/success/page/checkbox/captcha/bonus/$', views.front_WnChancePurchaseSccMsgCheckBoxCaptcha, name='frontWinningChancePymntSccessPgCheckBoxCaptchaBonus'),
+
 
     # invisible captcha solving
     re_path(r'^fe/invisible/captcha/bonus/$', views.front_invisibleCaptchaBonus, name='frontInvisibleCaptchaBonus'),
@@ -37,6 +59,14 @@ urlpatterns = [
 
     # user profile section **************************
     re_path(r'^fe/buyer/user/profile/(?P<username>\w+)/$', views.front_user_profile, name='frontEndUserProfile'),
+
+    re_path(r'^fe/add/default/billing/infor/$', views.front_add_default_billing_info, name='frontAddDefaultBillingInfo'),
+    re_path(r'^fe/update/billing/infor/(?P<pk>\d+)/$', views.front_update_default_billing_info, name='frontUpdateDefaultBillingInfo'),
+    re_path(r'^fe/del/billing/info/(?P<pk>\d+)/$', views.front_delete_default_billing_info, name='frontDeleteDefaultBillingInfo'),
+
+    re_path(r'^fe/add/default/shipping/infor/$', views.front_add_default_shipping_info, name='frontAddDefaultShippingInfo'),
+    re_path(r'^fe/update/shipping/infor/(?P<pk>\d+)/$', views.front_update_default_shipping_info, name='frontUpdateDefaultShippingInfo'),
+    re_path(r'^fe/del/shipping/info/(?P<pk>\d+)/$', views.front_delete_default_shipping_info, name='frontDeleteDefaultShippingInfo'),
 
     # convert point into credit points
     re_path(r'^fe/convert/point/into/wallet/(?P<username>[-\w]+)/$', views.front_ConvertPointInto_credit, name='frontConvertPointIntoCredit'),

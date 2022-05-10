@@ -1,6 +1,32 @@
 const billing_country_list = document.querySelector('#billing_country_list');
 const shipping_address_cn_list = document.querySelector('#shipping_address_cn_list');
 
+
+// checkout billing and shipping address hide/show
+const checkout_dflt_billing_adrs = document.querySelector('.checkout_dflt_billing_adrs');
+const checkout_dflt_shipping_adrs = document.querySelector('.checkout_dflt_shipping_adrs');
+
+const new__billing__address_fields = document.querySelector('#new__billing__address_fields');
+const new__shipping__address_fields = document.querySelector('#new__shipping__address_fields');
+
+function default_billingAdrsCheckBox() {
+    if (checkout_dflt_billing_adrs.checked == true) {
+        new__billing__address_fields.style.display = 'none';
+    }else{
+        new__billing__address_fields.style.display = 'inherit';
+    }
+}
+
+function default_ShippingAdrsCheckBox() {
+    if (checkout_dflt_shipping_adrs.checked == true) {
+        new__shipping__address_fields.style.display = 'none';
+    }else{
+        new__shipping__address_fields.style.display = 'inherit';
+    }
+}
+
+// checkout billing and shipping address hide/show ends
+
 var countries = [
     { "text": "Afghanistan", "value": "Afghanistan" },
     { "text": "Åland Islands", "value": "Åland Islands" },

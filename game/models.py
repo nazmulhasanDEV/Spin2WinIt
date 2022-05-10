@@ -1,10 +1,12 @@
 from django.db import models
 from user.models import Account, UserProfilePicture
 from product.models import *
+from django.utils.crypto import get_random_string
 
 
 # sponsored products for game
 class SponsoredProductForPrize(models.Model):
+    prodct_id = models.CharField(max_length=255, blank=True, null=True)
     product = models.ForeignKey(ProductList, on_delete=models.CASCADE, blank=True, null=True)
     status = models.BooleanField(default=False, blank=True, null=True)
 
@@ -50,9 +52,9 @@ class SegmentList(models.Model):
     segment = models.ForeignKey(Segment, on_delete=models.CASCADE, blank=True, null=True)
     bg_color = models.CharField(max_length=255)
     segment_prize_type = models.CharField(max_length=255, choices=option)
+    prize_title = models.CharField(max_length=255, blank=True, null=True)
 
     point_as_prize = models.ForeignKey(PointAs_Prize, on_delete=models.CASCADE, blank=True, null=True) # not necessary
-
     product_as_prize = models.ForeignKey(SponsoredProductForPrize, on_delete=models.CASCADE, blank=True, null=True)
     prize_point_amount = models.CharField(max_length=255, blank=True, null=True)
     status = models.BooleanField(default=False, blank=True, null=True)

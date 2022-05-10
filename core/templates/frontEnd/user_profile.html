@@ -42,8 +42,7 @@
                             {% else %}
                             <h5 class="card-title text-center">Not Added yet!</h5>
                             {% endif %}
-                            <p class="card-text text-center">Some quick example text to build on the card title and
-                                make up the bulk of the card's content.</p>
+                            <p class="card-text text-center">Shopper</p>
                         </div>
                     </div>
                 </div>
@@ -517,7 +516,7 @@
     <div class="container">
         <!-- profile nav bar**************************** -->
 
-        <div class="row">
+        <div class="row" style="background: #F5F5F5; padding: 15px;">
             <div class="col-md-12">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
@@ -540,7 +539,6 @@
                         <a class="nav-link" id="stores_reviews-tab" data-toggle="tab" href="#stores_reviews"
                            role="tab" aria-controls="stores_reviews" aria-selected="false">My Stores & Reviews</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" id="settings-tab" data-toggle="tab" href="#setting" role="tab"
                            aria-controls="setting" aria-selected="false">Settings</a>
@@ -650,6 +648,433 @@
                                     <!--                                    </table>-->
                                 </div>
                             </div>
+
+                            <!--                            user default shipping and billing information -->
+
+                            <div class="row">
+                                {% if user_dflt_shipping_address %}
+                                <div class="col-md-5">
+                                    <div>
+                                        <h5>Default Shipping Address</h5>
+                                    </div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">Name</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                {{user_dflt_shipping_address.fname}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">E-mail</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{user_dflt_shipping_address.email}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Phone</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{user_dflt_shipping_address.phone}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Address</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{user_dflt_shipping_address.address}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Post code</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{user_dflt_shipping_address.postcode}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">City</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{user_dflt_shipping_address.town_or_city}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Country</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{user_dflt_shipping_address.country}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row"><a href="#">
+                                                <button type="button" id="shipping_info_updt_mdl_btn"
+                                                        data-toggle="modal"
+                                                        data-target="#updateShippingAddress" data-whatever="@mdo"><i
+                                                        class="fas fa-edit"></i> Update
+                                                </button>
+                                                <!-- update billing address modal -->
+                                                <div class="modal fade" id="updateShippingAddress" tabindex="-1"
+                                                     role="dialog"
+                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Update
+                                                                    Shipping Info</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form method="post"
+                                                                      action="{% url 'frontUpdateDefaultShippingInfo' pk=user_dflt_shipping_address.pk %}"
+                                                                      enctype="multipart/form-data">
+                                                                    {% csrf_token %}
+                                                                    <div class="form-group">
+                                                                        <label>Country <span
+                                                                                class="required">*</span></label>
+                                                                        <select name="country_b" class="wide"
+                                                                                id="update_shipping_country_list"
+                                                                                required>
+                                                                            <option value="{{user_dflt_shipping_address.country}}"
+                                                                                    selected>
+                                                                                {{user_dflt_shipping_address.country}}
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label>City <span
+                                                                                class="required">*</span></label>
+                                                                        <input type="text" name="city"
+                                                                               value="{{user_dflt_shipping_address.town_or_city}}"
+                                                                               class="form-control"
+                                                                               placeholder="City" required>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="postcode">Post code</label>
+                                                                        <input type="text" name="postcode"
+                                                                               class="form-control" id="postcode"
+                                                                               placeholder="Post Code"
+                                                                               value="{{user_dflt_shipping_address.postcode}}"
+                                                                               required>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="name">Name</label>
+                                                                        <input type="text" name="name"
+                                                                               class="form-control"
+                                                                               id="name"
+                                                                               value="{{user_dflt_shipping_address.fname}}"
+                                                                               placeholder="Name" required>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="email">Email*</label>
+                                                                        <input type="email" name="email"
+                                                                               class="form-control" id="email"
+                                                                               aria-describedby="emailHelp"
+                                                                               placeholder="Enter email"
+                                                                               value="{{user_dflt_shipping_address.email}}"
+                                                                               required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="username">Phone</label>
+                                                                        <input type="text" name="phone"
+                                                                               class="form-control"
+                                                                               id="phone"
+                                                                               placeholder="Phone"
+                                                                               value="{{user_dflt_shipping_address.phone}}"
+                                                                               required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="address">Address</label>
+                                                                        <textarea name="address" id="address"
+                                                                                  class="form-control" cols="30"
+                                                                                  rows="3" placeholder="Address"
+                                                                                  required>{{user_dflt_shipping_address.address}}</textarea>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                                data-dismiss="modal">Close
+                                                                        </button>
+                                                                        <button type="submit"
+                                                                                id="shipping_info_updt_mdl_btn">Update
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- update billing address modal ends-->
+                                            </a></th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <button type="button" id="shipping_info_delete_mdl_btn"
+                                                        data-toggle="modal"
+                                                        data-target="#delShippingInfo{{user_dflt_shipping_address.pk}}">
+                                                    <i
+                                                            class="fas fa-backspace"></i> Delete
+                                                </button>
+                                                <!-- delete shipping info modal ****************************************-->
+                                                <div class="modal fade"
+                                                     id="delShippingInfo{{user_dflt_shipping_address.pk}}"
+                                                     tabindex="-1"
+                                                     role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title" id="exampleModalLongTitle">Are
+                                                                    sure want to
+                                                                    delete this shipping informations?</h6>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">No
+                                                                </button>
+                                                                <a href="{% url 'frontDeleteDefaultShippingInfo' pk=user_dflt_shipping_address.pk %}">
+                                                                    <button type="button" class="btn btn-primary"
+                                                                            id="billing_info_delete_mdl_btn">Yes, I'm
+                                                                    </button>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- delete shipping info modal ends**********************************-->
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    </table>
+                                </div>
+                                <div class="col-md-2"></div>
+                                {% endif %}
+
+                                {% if usr_default_biling_address %}
+                                <div class="col-md-5">
+                                    <div>
+                                        <h5>Default Billing Address</h5>
+                                    </div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">Name</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{usr_default_biling_address.fname}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">E-mail</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{usr_default_biling_address.email}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Phone</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{usr_default_biling_address.phone}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Address</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{usr_default_biling_address.address}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Post code</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{usr_default_biling_address.postcode}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">City</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{usr_default_biling_address.town_or_city}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Country</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{usr_default_biling_address.country}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">
+                                                <button type="button" id="billing_info_updt_mdl_btn" data-toggle="modal"
+                                                        data-target="#updateBillingAddress{{usr_default_biling_address.pk}}"
+                                                        data-whatever="@mdo"><i
+                                                        class="fas fa-edit"></i> Update
+                                                </button>
+                                            </th>
+                                            <!-- update billing address modal -->
+                                            <div class="modal fade"
+                                                 id="updateBillingAddress{{usr_default_biling_address.pk}}"
+                                                 tabindex="-1"
+                                                 role="dialog"
+                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Update
+                                                                Billing Info</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form method="post"
+                                                                  action="{% url 'frontUpdateDefaultBillingInfo' pk=usr_default_biling_address.pk %}"
+                                                                  enctype="multipart/form-data">
+                                                                {% csrf_token %}
+                                                                <div class="form-group">
+                                                                    <label>Country <span
+                                                                            class="required">*</span></label>
+                                                                    <select name="country_b" class="wide"
+                                                                            id="update_billing_country_list"
+                                                                            required>
+                                                                        <option value="{{usr_default_biling_address.country}}"
+                                                                                selected>
+                                                                            {{usr_default_biling_address.country}}
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label>City <span class="required">*</span></label>
+                                                                    <input type="text"
+                                                                           value="{{usr_default_biling_address.town_or_city}}"
+                                                                           class="form-control" name="city"
+                                                                           placeholder="City">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="postcode">Post code</label>
+                                                                    <input type="text" name="postcode"
+                                                                           class="form-control" id="postcode"
+                                                                           placeholder="Post Code"
+                                                                           value="{{usr_default_biling_address.postcode}}"
+                                                                           required>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="name">Name</label>
+                                                                    <input type="text" name="name" class="form-control"
+                                                                           id="name"
+                                                                           value="{{usr_default_biling_address.fname}}"
+                                                                           placeholder="Name" required>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="email">Email*</label>
+                                                                    <input type="email" name="email"
+                                                                           class="form-control" id="email"
+                                                                           aria-describedby="emailHelp"
+                                                                           placeholder="Enter email"
+                                                                           value="{{usr_default_biling_address.email}}"
+                                                                           required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="username">Phone</label>
+                                                                    <input type="text" name="phone" class="form-control"
+                                                                           id="phone"
+                                                                           placeholder="Phone"
+                                                                           value="{{usr_default_biling_address.phone}}"
+                                                                           required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="address">Address</label>
+                                                                    <textarea name="address" id="address"
+                                                                              class="form-control" cols="30"
+                                                                              rows="3" placeholder="Address">{{usr_default_biling_address.address}}</textarea>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                            data-dismiss="modal">Close
+                                                                    </button>
+                                                                    <button type="submit" class="btn"
+                                                                            id="shipping_info_updt_mdl_btn">Update
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- update billing address modal ends-->
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <button type="button" id="billing_info_delete_mdl_btn"
+                                                        data-toggle="modal"
+                                                        data-target="#delBilllingInfo{{usr_default_biling_address.pk}}">
+                                                    <i
+                                                            class="fas fa-backspace"></i> Delete
+                                                </button>
+
+                                                <!-- delete billing info modal ****************************************-->
+                                                <div class="modal fade"
+                                                     id="delBilllingInfo{{usr_default_biling_address.pk}}"
+                                                     tabindex="-1"
+                                                     role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title" id="exampleModalLongTitle">Are
+                                                                    sure want
+                                                                    to delete this billing informations?</h6>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">No
+                                                                </button>
+                                                                <a href="{% url 'frontDeleteDefaultBillingInfo' pk=usr_default_biling_address.pk %}">
+                                                                    <button type="button" class="btn btn-primary"
+                                                                            id="billing_info_delete_mdl_btn">Yes, I'm
+                                                                    </button>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- delete billing info modal ends**********************************-->
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    </table>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <!--                            user default shipping and billing information  ends -->
                         </div>
                     </div>
                     <div class="tab-pane fade" id="my_wallet" role="tabpanel" aria-labelledby="my_wallet-tab">
@@ -701,7 +1126,8 @@
                                             <td>{{user_point_wallet.spent|floatformat:2}}</td>
                                             <td>
                                                 <a href="#"
-                                                   class="convert_to_credit_btn" data-toggle="modal" data-target="#confirm_conversion">
+                                                   class="convert_to_credit_btn" data-toggle="modal"
+                                                   data-target="#confirm_conversion">
                                                     <button type="button">Convert to Credit</button>
                                                 </a></td>
                                         </tr>
@@ -712,7 +1138,8 @@
                                             <td>00.00</td>
                                             <td>
                                                 <a href="#"
-                                                   class="convert_to_credit_btn" data-toggle="modal" data-target="#confirm_conversion">
+                                                   class="convert_to_credit_btn" data-toggle="modal"
+                                                   data-target="#confirm_conversion">
                                                     <button type="button" disabled>Convert to Credit</button>
                                                 </a>
                                             </td>
@@ -728,7 +1155,8 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Are you sure want to convert points into credit?</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Are you sure want to
+                                                        convert points into credit?</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
@@ -755,7 +1183,8 @@
                                 <div class="col-md-12">
                                     <div class="credit__wlt_header">
                                         <h5>Point Wallet Status:</h5>
-                                        <a href="{% url 'frontBuyCreditPoint' username=request.user.username %}" id="buy_btn">
+                                        <a href="{% url 'frontBuyCreditPoint' username=request.user.username %}"
+                                           id="buy_btn">
                                             <button type="button">Buy Credit Point</button>
                                         </a>
                                     </div>
@@ -1138,7 +1567,8 @@
                                                    placeholder="New Password" required>
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary">Update</button>
+                                        <button type="submit" class="btn" id="shipping_info_updt_mdl_btn">Update
+                                        </button>
                                     </form>
                                 </div>
 
@@ -1157,7 +1587,8 @@
                                                        accept="image/*" required>
                                             </div>
 
-                                            <button type="submit" class="btn btn-primary">Change</button>
+                                            <button type="submit" class="btn" id="shipping_info_updt_mdl_btn">Change
+                                            </button>
                                         </form>
                                     </div>
 
@@ -1178,7 +1609,112 @@
                                                        id="new_username"
                                                        placeholder="New Username">
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Change</button>
+                                            <button type="submit" class="btn" id="shipping_info_updt_mdl_btn">Change
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="usr_profile_shipping_adrs">
+                                        <h5>Add Shipping Info</h5>
+                                        <form method="post" action="{% url 'frontAddDefaultShippingInfo' %}"
+                                              enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label>Country <span class="required">*</span></label>
+                                                <select name="country_b" class="wide" id="shipping_country_list"
+                                                        required>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>City <span class="required">*</span></label>
+                                                <input type="text" name="city" class="form-control" placeholder="City">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="postcode">Post code</label>
+                                                <input type="text" name="postcode" class="form-control" id="postcode"
+                                                       placeholder="Post Code" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="name">Name</label>
+                                                <input type="text" name="name" class="form-control" id="name"
+                                                       placeholder="Name" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="email">Email*</label>
+                                                <input type="email" name="email" class="form-control" id="email"
+                                                       aria-describedby="emailHelp" placeholder="Enter email" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="username">Phone</label>
+                                                <input type="text" name="phone" class="form-control" id="phone"
+                                                       placeholder="Phone" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="address">Address</label>
+                                                <textarea name="address" id="address" class="form-control" cols="30"
+                                                          rows="5" placeholder="Address"></textarea>
+                                            </div>
+
+                                            <button type="submit" class="btn" id="shipping_info_updt_mdl_btn">ADD
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="usr_profile_shipping_adrs">
+                                        <h5>Add Billing Info</h5>
+                                        <form method="post" action="{% url 'frontAddDefaultBillingInfo' %}"
+                                              enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label>Country <span class="required">*</span></label>
+                                                <select name="country_b" class="wide" id="billing_country_list"
+                                                        required>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>City <span class="required">*</span></label>
+                                                <input type="text" name="city" class="form-control" placeholder="City">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="postcode">Post code</label>
+                                                <input type="text" name="postcode" class="form-control" id="postcode"
+                                                       placeholder="Post Code" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="name">Name</label>
+                                                <input type="text" name="name" class="form-control" id="name"
+                                                       placeholder="Name" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="email">Email*</label>
+                                                <input type="email" name="email" class="form-control" id="email"
+                                                       aria-describedby="emailHelp" placeholder="Enter email" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="username">Phone</label>
+                                                <input type="text" name="phone" class="form-control" id="phone"
+                                                       placeholder="Phone" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="address">Address</label>
+                                                <textarea name="address" id="address" class="form-control" cols="30"
+                                                          rows="5" placeholder="Address"></textarea>
+                                            </div>
+
+                                            <button type="submit" class="btn" id="shipping_info_updt_mdl_btn">ADD
+                                            </button>
                                         </form>
                                     </div>
                                 </div>
@@ -1202,9 +1738,9 @@
 
 <div class="container">
     <div class="row">
-    <div class="col-md-6">
-        <div>
-            <script type="text/javascript">
+        <div class="col-md-6">
+            <div>
+                <script type="text/javascript">
                                                             atOptions = {
                                                                 'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
                                                                 'format' : 'iframe',
@@ -1213,50 +1749,53 @@
                                                                 'params' : {}
                                                             };
                                                             document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
+                </script>
+            </div>
+        </div>
 
-            </script>
+        <div class="col-md-6">
+            <div>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/468x60.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
+            </div>
         </div>
     </div>
-
-    <div class="col-md-6">
-        <div>
-            <a href="https://yllix.com/publishers/444213" target="_blank"><img
-                    src="//ylx-aff.advertica-cdn.com/pub/468x60.png"
-                    style="border:none;margin:0;padding:0;vertical-align:baseline;"
-                    alt="ylliX - Online Advertising Network"/></a>
-        </div>
-    </div>
-</div>
 </div>
 
 
 <!--    ads start        -->
-            <div class="container">
-                <div class="row">
-                    <div class="col-md">
-                        <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
-                    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+        </div>
 
-                    <div class="col-md">
-                        <div>
-                                <h5>Click to this reCaptcha and get 50 points bonus!</h5>
-                                <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__user_profile">
-                                    {% csrf_token %}
-                                    <div id="html_element_usr_profile"></div>
-                                    <br>
-                                    <input type="submit" value="Submit">
-                                </form>
-                            </div>
-                    </div>
-
-                    <div class="col-md">
-                        <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
-                    </div>
-                    <div class="col-md">
-                        <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
-                    </div>
-                </div>
+        <div class="col-md">
+            <div>
+                <h5>Click to this reCaptcha and get 50 points bonus!</h5>
+                <form action="{% url 'frontGUsrProfilePgCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
+                      id="captcha__user_profile">
+                    {% csrf_token %}
+                    <div id="html_element_usr_profile"></div>
+                    <br>
+                    <input type="submit" value="Submit">
+                </form>
             </div>
+        </div>
+
+        <div class="col-md">
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+        </div>
+        <div class="col-md">
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+        </div>
+    </div>
+</div>
 
 
 <!-- yllx 120x60 starts here -->
@@ -1264,7 +1803,10 @@
     <div class="row">
         <div class="col-md-2">
             <div>
-                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/120x600.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/120x600.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
             </div>
         </div>
 
@@ -1277,21 +1819,26 @@
         <div class="col-md-2">
             <div>
                 <!-- ylliex 120x60 -->
-                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
                 <!-- yllix 120x60 ends here -->
             </div>
         </div>
 
         <div class="col-md-2">
             <div>
-                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/120x600.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/120x600.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
             </div>
         </div>
 
         <div class="col-md-2">
             <div>
                 <!-- ylliex 120x60 -->
-                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
                 <!-- yllix 120x60 ends here -->
             </div>
         </div>
@@ -1301,9 +1848,9 @@
 <!-- yllx 120x60 ends here -->
 
 
-
 <!-- adster 1x1 native ads-->
-<script async="async" data-cfasync="false" src="//pl17231266.safestgatetocontent.com/ec5611cf27ddd923a905f8d14e217991/invoke.js"></script>
+<script async="async" data-cfasync="false"
+        src="//pl17231266.safestgatetocontent.com/ec5611cf27ddd923a905f8d14e217991/invoke.js"></script>
 <!-- adster 1x1 native ads ends-->
 
 <script type="text/javascript">
@@ -1330,7 +1877,21 @@
 
         // ends captcha-1
 
+
+
+
+
+
+
+
+
+
+
 </script>
 
 <!-- ads section ends -->
+{% endblock %}
+
+{% block user_profile_js %}
+<script src="{% static 'frontEnd/js/user_profile.js' %}"></script>
 {% endblock %}

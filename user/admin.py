@@ -80,6 +80,8 @@ admin.site.register(ResetPermissionStatus)
 admin.site.register(VerificationCode)
 
 admin.site.register(BillingInfo)
+admin.site.register(DefalutShippingInfo)
+admin.site.register(DefaultBillingInfo)
 admin.site.register(ShippingInfo)
 
 # user mail invitations
@@ -90,4 +92,29 @@ admin.site.register(DisclaimerAgreeDisagreeIPList)
 
 # captcha
 admin.site.register(CheckBoxCaptcha)
+admin.site.register(ShopCheckBoxCaptcha)
+admin.site.register(CategoryShopCheckBoxCaptcha)
+admin.site.register(ProductDetailsCheckBoxCaptcha)
+
+admin.site.register(GameCheckBoxCaptcha)
+admin.site.register(UsrProfileCheckBoxCaptcha)
+admin.site.register(BuyWinningChanceBoxCaptcha)
+admin.site.register(CartCheckBoxCaptcha)
+admin.site.register(CheckoutCheckBoxCaptcha)
+
+admin.site.register(ContactUsCheckBoxCaptcha)
+admin.site.register(PaymentWinningChnceCheckBoxCaptcha)
+admin.site.register(ProductPurchaseCheckBoxCaptcha)
+admin.site.register(ProdctPaymntSccssCheckBoxCaptcha)
+
+admin.site.register(WishlistCheckBoxCaptcha)
+admin.site.register(PurchaseCreditCheckBoxCaptcha)
+admin.site.register(CreditPurchasePaymntCheckBoxCaptcha)
+admin.site.register(CreditPurchaseSuccessCheckBoxCaptcha)
+admin.site.register(WnChancePurchaseSccMsgCheckBoxCaptcha)
+
+
+
+
+
 admin.site.register(InvisibleFeedbackCaptcha)
