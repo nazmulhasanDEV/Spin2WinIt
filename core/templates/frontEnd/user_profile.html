@@ -655,7 +655,7 @@
                                 {% if user_dflt_shipping_address %}
                                 <div class="col-md-5">
                                     <div>
-                                        <h5>Default Shipping Address</h5>
+                                        <h5>Primary Shipping Address</h5>
                                     </div>
                                     <table class="table table-striped">
                                         <thead>
@@ -867,7 +867,7 @@
                                 {% if usr_default_biling_address %}
                                 <div class="col-md-5">
                                     <div>
-                                        <h5>Default Billing Address</h5>
+                                        <h5>Primary Billing Address</h5>
                                     </div>
                                     <table class="table table-striped">
                                         <thead>
@@ -1108,7 +1108,7 @@
 
                             <div class="row point__wallet">
                                 <div class="col-md-12">
-                                    <h5>Point Wallet Status:</h5>
+                                    <h5>Spin Point Status:</h5>
                                     <table class="table">
                                         <thead>
                                         <tr>
@@ -1182,10 +1182,10 @@
                             <div class="row credit__wallet">
                                 <div class="col-md-12">
                                     <div class="credit__wlt_header">
-                                        <h5>Point Wallet Status:</h5>
+                                        <h5>Spin Credit Status:</h5>
                                         <a href="{% url 'frontBuyCreditPoint' username=request.user.username %}"
                                            id="buy_btn">
-                                            <button type="button">Buy Credit Point</button>
+                                            <button type="button">Buy Spin Credit</button>
                                         </a>
                                     </div>
                                     <table class="table">
@@ -1193,7 +1193,7 @@
                                         <tr>
                                             <th scope="col">Available Credits</th>
                                             <th scope="col">Purchased</th>
-                                            <th scope="col">Point Spent</th>
+                                            <th scope="col">Credit Spent</th>
                                             <th scope="col">Spent Amount</th>
                                         </tr>
                                         </thead>
@@ -1227,83 +1227,74 @@
                     <div class="tab-pane fade" id="my_prizes" role="tabpanel" aria-labelledby="my_prizes-tab">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-6">
+                                {% if usr_won_prize_list %}
+
+                                {% for prize in usr_won_prize_list %}
+                                    {% if prize.prize_type == 'point' %}
+                                <div class="col-md-6" {% if forloop.counter > 2 %}style="margin-top: 15px;"{% endif %}>
                                     <table class="table">
-                                        <thead>
+                                        <thead style="background: #293A6C; color: white;">
                                         <tr>
-                                            <th scope="col">Discount</th>
-                                            <th scope="col">Won</th>
-                                            <th scope="col">Valid Till</th>
+                                            <th scope="col">Spin Point</th>
+                                            <th scope="col">Won At</th>
+                                            <th scope="col">Status</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td>15%</td>
-                                            <td>07 Jan, 2020</td>
-                                            <td>10 Jan, 2020</td>
+                                            <td>{{prize.pirze}}</td>
+                                            <td>{{prize.created}}</td>
+                                            <td><strong>Added to Wallet</strong></td>
                                         </tr>
 
                                         </tbody>
                                     </table>
-
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">Gaming Credits</th>
-                                            <th scope="col">Won</th>
-                                            <th scope="col">Valid Till</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>150</td>
-                                            <td>07 Jan, 2020</td>
-                                            <td>10 Jan, 2020</td>
-                                        </tr>
-
-                                        </tbody>
-                                    </table>
-
                                 </div>
+                                    {% endif %}
 
-                                <div class="col-md-6">
+                                    {% if prize.prize_type == 'product' %}
+                                <div class="col-md-6" {% if forloop.counter > 2 %}style="margin-top: 15px;"{% endif %}>
                                     <table class="table">
-                                        <thead>
+                                        <thead style="background: #293A6C; color: white;">
                                         <tr>
-                                            <th scope="col">Discount</th>
+                                            <th scope="col">Product Title</th>
                                             <th scope="col">Won</th>
-                                            <th scope="col">Valid Till</th>
+                                            <th scope="col">Status</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td>15%</td>
-                                            <td>07 Jan, 2020</td>
-                                            <td>10 Jan, 2020</td>
+                                            <td>{{prize.product_as_prize.title|safe|truncatechars:25}}</td>
+                                            <td>{{prize.created}}</td>
+                                            <td>
+                                                <a href="{% url 'frontEndProductDetails' product_id=prize.product_as_prize.product_id %}">
+                                                    <button type="button" class="btn_for_priz_detail_view">
+                                                        <i class="fas fa-eye"></i> View
+                                                    </button>
+                                                </a>
+                                                {% if prize.delivery_status %}
+                                                <button type="button" class="btn_for_priz_delivry_status">Delivered</button>
+                                                {% else %}
+                                                <a href="#">
+                                                    <button type="button" class="btn_for_priz_delivry_status">Deliver Now</button>
+                                                </a>
+                                                {% endif %}
+                                            </td>
                                         </tr>
 
                                         </tbody>
                                     </table>
-
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">Product Credits</th>
-                                            <th scope="col">Won</th>
-                                            <th scope="col">Valid Till</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>150</td>
-                                            <td>07 Jan, 2020</td>
-                                            <td>10 Jan, 2020</td>
-                                        </tr>
-
-                                        </tbody>
-                                    </table>
-
                                 </div>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% else %}
+                                <div class="col-md-12">
+                                    <div>
+                                        <h4 class="text-center">Don't won any product to show!</h4>
+                                    </div>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -1536,7 +1527,6 @@
 
                         </div>
                     </div>
-
                     <div class="tab-pane fade" id="setting" role="tabpanel" aria-labelledby="settings-tab">
                         <div class="container">
                             <div class="row">
@@ -1615,9 +1605,9 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6 mt-5">
                                     <div class="usr_profile_shipping_adrs">
-                                        <h5>Add Shipping Info</h5>
+                                        <h5>Add Primary Shipping Info</h5>
                                         <form method="post" action="{% url 'frontAddDefaultShippingInfo' %}"
                                               enctype="multipart/form-data">
                                             {% csrf_token %}
@@ -1667,9 +1657,63 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                {% if user_dflt_shipping_address %}
+                                <div class="col-md-6 mt-8">
                                     <div class="usr_profile_shipping_adrs">
-                                        <h5>Add Billing Info</h5>
+                                        <h5>Add Primary Billing Info</h5>
+                                        <form method="post" action="{% url 'frontAddDefaultBillingInfo' %}"
+                                              enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label>Country <span class="required">*</span></label>
+                                                <select name="country_b" class="wide" id="billing_country_list"
+                                                        required>
+                                                    <option value="{{user_dflt_shipping_address.country}}" selected>{{user_dflt_shipping_address.country}}</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>City <span class="required">*</span></label>
+                                                <input type="text" name="city" value="{{user_dflt_shipping_address.town_or_city}}" class="form-control" placeholder="City">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="postcode">Post code</label>
+                                                <input type="text" name="postcode" class="form-control" id="postcode"
+                                                       placeholder="Post Code" value="{{user_dflt_shipping_address.postcode}}" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="name">Name</label>
+                                                <input type="text" name="name" class="form-control" id="name"
+                                                       placeholder="Name" value="{{user_dflt_shipping_address.fname}}" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="email">Email*</label>
+                                                <input type="email" name="email" class="form-control" id="email"
+                                                       aria-describedby="emailHelp" value="{{user_dflt_shipping_address.email}}" placeholder="Enter email" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="username">Phone</label>
+                                                <input type="text" name="phone" class="form-control" id="phone"
+                                                       placeholder="Phone" value="{{user_dflt_shipping_address.phone}}" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="address">Address</label>
+                                                <textarea name="address" id="address" class="form-control" cols="30"
+                                                          rows="5" placeholder="Address">{{user_dflt_shipping_address.address}}</textarea>
+                                            </div>
+
+                                            <button type="submit" class="btn" id="shipping_info_updt_mdl_btn">ADD
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="col-md-6 mt-8">
+                                    <div class="usr_profile_shipping_adrs">
+                                        <h5>Add Primary Billing Info</h5>
                                         <form method="post" action="{% url 'frontAddDefaultBillingInfo' %}"
                                               enctype="multipart/form-data">
                                             {% csrf_token %}
@@ -1718,6 +1762,7 @@
                                         </form>
                                     </div>
                                 </div>
+                                {% endif %}
 
                             </div>
                         </div>

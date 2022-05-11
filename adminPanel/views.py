@@ -712,9 +712,21 @@ def home(request):
 
     user_list = Account.objects.all()
 
+    # total orders
+    total_number_of_orders = OrderList.objects.all().count()
+
+    # total number of registered user
+    total_registered_usr = Account.objects.all().count()
+
+    # total number of products
+    total_number_of_products = ProductList.objects.all().count()
+
     context = {
         'user_list' : user_list,
         'profile_pic' : profile_pic,
+        'total_number_of_orders': total_number_of_orders,
+        'total_registered_usr': total_registered_usr,
+        'total_number_of_products': total_number_of_products,
     }
 
     return render(request, 'backEnd_superAdmin/home.html', context)

@@ -2277,10 +2277,9 @@ def front_game(request):
 
         # grabing user won prize
         won_prize = request.GET.get('won_prize')
-        print(won_prize)
+
         # converting won prize text into array
         last_str_of_won_prize = str(won_prize).split()[-1]
-        print(last_str_of_won_prize)
         if won_prize:
             # checking if the won prize is a point
             is_point = any(s.isdigit() for s in won_prize)
@@ -3234,6 +3233,9 @@ def front_user_profile(request, username):
     # usr default billing address
     usr_default_biling_address = DefaultBillingInfo.objects.filter(user=request.user).first()
 
+    # user prize list
+    usr_won_prize_list = PrizeList.objects.filter(user=request.user)
+
 
     context = {
         'username' : username,
@@ -3245,6 +3247,7 @@ def front_user_profile(request, username):
 
         'user_dflt_shipping_address': user_dflt_shipping_address,
         'usr_default_biling_address': usr_default_biling_address,
+        'usr_won_prize_list': usr_won_prize_list,
 
         'site_logo' : site_logo,
         'contact_info': contact_info,

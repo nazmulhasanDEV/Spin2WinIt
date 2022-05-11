@@ -97,7 +97,16 @@ class PrizeList(models.Model):
     prize_type = models.CharField(max_length=10, default='', choices=option)
     pirze = models.CharField(max_length=255, default='') # prize as ponts
     product_as_prize = models.ForeignKey(ProductList, on_delete=models.PROTECT, blank=True, null=True)
+    delivery_status = models.BooleanField(default=False, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    class Meta:
+        ordering = ['-pk']
+
+    def save(self, *args, **kwargs):
+        if self.prize_type  == 'point':
+            self.delivery_status = True
+            super(PrizeList, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.user.email
