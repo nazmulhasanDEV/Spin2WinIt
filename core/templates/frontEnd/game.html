@@ -45,12 +45,12 @@
                         </div>
 
                         <div class="content">
-                            <h2>congratulations! You Won</h2>
-                            <h4 class="text-center won__prize_poin_amnt">50 Points</h4>
+                            <h2 style="visibility: hidden;">congratulations! You Won</h2>
+                            <h5 class="text-center won__prize_poin_amnt">50 Points</h5>
 
                             <div class="prize__img">
                                 <img class="won__prize__img"
-                                     src="{% static 'frontEnd/images/product/large-size/4.jpg' %}" alt="">
+                                     src="{% static 'frontEnd/images/product/large-size/4.jpeg' %}" alt="">
                             </div>
                         </div>
                     </div>
@@ -165,7 +165,7 @@
                                                                 <br/><br/>
                                                                 <button id="reset__spin__btn"
                                                                                     onClick="resetWheel(); return false;"
-                                                                                    style="cursor: pointer;">Reset to Spin
+                                                                                    style="cursor: pointer;">Play Again
                                                             </button>
                                                             </div>
                                                         </div>
@@ -223,7 +223,7 @@
                                         {% endif %}
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="card-title">{{product.prize_title}}</h5>
+                                        <h5 class="card-title product___prize__title">{{product.prize_title}}</h5>
 <!--                                        <p class="card-text">Some quick example text to build on the card title and make-->
 <!--                                            up the-->
 <!--                                            bulk of the card's content.</p>-->
@@ -317,7 +317,7 @@
                     {% csrf_token %}
                     <div id="html_element_game"></div>
                     <br>
-                    <input type="submit" value="Submit">
+                    <input type="submit" value="Collect">
                 </form>
             </div>
         </div>
@@ -390,7 +390,7 @@
                 {% if x.segment_prize_type == '1' %}
                 {
                     fillStyle: "{{x.bg_color}}",
-                    text: "{{x.prize_title}}",
+                    text: "PC - {{x.prize_title}}",
                     textFontSize: 16,
                     textFillStyle: "#ffffff",
                      textOrientation: "horizontal",
@@ -591,7 +591,7 @@
                         won_prize: indicatedSegment.text,
                      },
                      success: function(response){
-                          console.log("prize");
+
                      },
 
                    });
@@ -599,7 +599,23 @@
 
             // Just alert to the user what happened.
             // In a real project probably want to do something more interesting than this with the result.
-            if (indicatedSegment.text === "Product") {
+            current_prize_txt = indicatedSegment.text;
+            if (current_prize_txt.toString().includes('PC')) {
+                //let winning__moment__audio = document.querySelector('#winning__moment__audio');
+                //let game__prize__flash__message = document.querySelector('.game__prize__flash__message');
+                //const flash_msg_main_content = document.querySelector('.flash_msg_main_content');
+                //let flash__msg_content = document.querySelector('.flash__msg_content');
+                //let won__prize_poin_amnt = document.querySelector('.won__prize_poin_amnt');
+                //let won__prize__img = document.querySelector('.won__prize__img');
+                //let current__product__as_prize = document.querySelector('.current__product__as_prize');
+
+                //winning__moment__audio.play();
+                //won__prize_poin_amnt.style.display = 'none';
+                //game__prize__flash__message.style.display = 'inherit';
+                //flash_msg_main_content.style.display = 'inherit';
+                //flash__msg_content.style.display = 'inherit';
+                //won__prize__img.src = current__product__as_prize.src;
+
                 let winning__moment__audio = document.querySelector('#winning__moment__audio');
                 let game__prize__flash__message = document.querySelector('.game__prize__flash__message');
                 const flash_msg_main_content = document.querySelector('.flash_msg_main_content');
@@ -609,11 +625,11 @@
                 let current__product__as_prize = document.querySelector('.current__product__as_prize');
 
                 winning__moment__audio.play();
-                won__prize_poin_amnt.style.display = 'none';
+                won__prize_poin_amnt.innerHTML = indicatedSegment.text + ' Prize';
                 game__prize__flash__message.style.display = 'inherit';
                 flash_msg_main_content.style.display = 'inherit';
                 flash__msg_content.style.display = 'inherit';
-                won__prize__img.src = current__product__as_prize.src;
+                won__prize__img.style.display = 'none';
 
             } else {
                 let winning__moment__audio = document.querySelector('#winning__moment__audio');

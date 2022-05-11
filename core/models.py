@@ -89,8 +89,13 @@ class WinningChancePurchasingHistory(models.Model):
 
 # user won prizes
 class PrizeList(models.Model):
+    option = (
+        ('point', 'Point'),
+        ('product', 'Product'),
+    )
     user = models.ForeignKey(Account,  on_delete=models.CASCADE)
-    pirze = models.CharField(max_length=255, default='')
+    prize_type = models.CharField(max_length=10, default='', choices=option)
+    pirze = models.CharField(max_length=255, default='') # prize as ponts
     product_as_prize = models.ForeignKey(ProductList, on_delete=models.PROTECT, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 

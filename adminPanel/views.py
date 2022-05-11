@@ -51,7 +51,7 @@ wcapi = API(
 #         "postcode": "94103",
 #         "country": "US",
 #         "email": "john.doe@example.com",
-#         "phone": "(555) 555-5555"
+#         "phone": "(555) 555-5555",
 #     },
 #     "shipping": {
 #         "first_name": "John",

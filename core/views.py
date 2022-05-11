@@ -2277,10 +2277,38 @@ def front_game(request):
 
         # grabing user won prize
         won_prize = request.GET.get('won_prize')
-
+        print(won_prize)
+        # converting won prize text into array
+        last_str_of_won_prize = str(won_prize).split()[-1]
+        print(last_str_of_won_prize)
         if won_prize:
-            user_prize_list_model = PrizeList(user=request.user, pirze=won_prize)
-            user_prize_list_model.save()
+            # checking if the won prize is a point
+            is_point = any(s.isdigit() for s in won_prize)
+
+            if is_point:
+                user_prize_list_model = PrizeList(user=request.user, prize_type='point', pirze=won_prize)
+                user_prize_list_model.save()
+
+                # UPDATE USER SPIN POINT WALLET
+                usr_spin_point_wallet = PointWallet.objects.filter(user=request.user).first()
+                if usr_spin_point_wallet:
+                    usr_spin_point_wallet.available = int(usr_spin_point_wallet.available) + int(won_prize)
+                    usr_spin_point_wallet.save()
+            # checking if the won prize is a point ends *******************************************
+
+            # checking if the won prize is a product
+            segments_with_won_product = SegmentList.objects.filter(Q(segment_prize_type='1') & Q(prize_title__icontains=last_str_of_won_prize) & Q(status=True)).first()
+
+            if segments_with_won_product:
+                # getting won product informations
+                won_product_id = segments_with_won_product.product_as_prize.product.product_id
+                won_product = ProductList.objects.filter(product_id=won_product_id).first()
+
+                user_prize_list_model = PrizeList.objects.create(
+                    user=request.user,
+                    prize_type='product',
+                    product_as_prize=won_product
+                )
 
         # grabing game settings
         game_setting = GameSetting.objects.filter(status=True).first()
