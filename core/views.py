@@ -370,9 +370,8 @@ def front_ProductDetailsCheckBoxCaptcha(request):
         return redirect('frontEndLoginRegister')
 
     if request.method == 'POST':
-
-        user = ProductDetailsCheckBoxCaptcha.objects.filter(user=request.user).last()
-
+        product_id = request.POST.get('product_id')
+        user = ProductDetailsCheckBoxCaptcha.objects.filter(Q(user=request.user) & Q(product_id=product_id)).last()
         if user:
             expired_date = user.created + timedelta(days=1)
             today = timezone.now()
@@ -395,7 +394,7 @@ def front_ProductDetailsCheckBoxCaptcha(request):
                 return redirect(request.META.get('HTTP_REFERER'))
         else:
             # updating new one
-            checkBox_captchaModel = ProductDetailsCheckBoxCaptcha.objects.create(user=request.user)
+            checkBox_captchaModel = ProductDetailsCheckBoxCaptcha.objects.create(user=request.user, product_id=product_id)
 
             # user point wallet
             usr_point_wllt = PointWallet.objects.filter(user=request.user).first()
@@ -2277,9 +2276,10 @@ def front_game(request):
 
         # grabing user won prize
         won_prize = request.GET.get('won_prize')
-
+        print(won_prize)
         # converting won prize text into array
         last_str_of_won_prize = str(won_prize).split()[-1]
+        print(last_str_of_won_prize)
         if won_prize:
             # checking if the won prize is a point
             is_point = any(s.isdigit() for s in won_prize)
@@ -2302,12 +2302,13 @@ def front_game(request):
                 # getting won product informations
                 won_product_id = segments_with_won_product.product_as_prize.product.product_id
                 won_product = ProductList.objects.filter(product_id=won_product_id).first()
-
-                user_prize_list_model = PrizeList.objects.create(
+                print(won_product)
+                user_prize_list_model = PrizeList(
                     user=request.user,
                     prize_type='product',
                     product_as_prize=won_product
                 )
+                user_prize_list_model.save()
 
         # grabing game settings
         game_setting = GameSetting.objects.filter(status=True).first()

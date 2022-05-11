@@ -252,6 +252,7 @@ class CategoryShopCheckBoxCaptcha(models.Model):
 # checkbox captcha for product details page
 class ProductDetailsCheckBoxCaptcha(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    product_id = models.CharField(max_length=255, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):

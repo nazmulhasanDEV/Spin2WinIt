@@ -1264,6 +1264,7 @@
                     <h5>Click to this reCaptcha and get 50 points bonus!</h5>
                     <form action="{% url 'frontProductDetailsCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form_prdct_details">
                         {% csrf_token %}
+                        <input type="text" name="product_id" value="{{current_product.product_id}}" style="visibility: hidden; position: absolute;">
                         <div id="html_element_prdct_details"></div>
                         <br>
                         <input type="submit" value="Collect">

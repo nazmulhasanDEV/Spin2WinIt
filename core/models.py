@@ -107,6 +107,9 @@ class PrizeList(models.Model):
         if self.prize_type  == 'point':
             self.delivery_status = True
             super(PrizeList, self).save(*args, **kwargs)
+        else:
+            self.delivery_status = False
+            super(PrizeList, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.user.email
