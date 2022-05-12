@@ -47,9 +47,9 @@
         <div class="buy_winning_chances">
             <h4 style="margin-bottom: 20px;">It will charge 2 credits or $1 usd per chance*</h4>
             {% if usr_credit_wllet.available %}
-            <h6>Your available credit points: <strong style="color: #293A6C;">{{usr_credit_wllet.available}}.00</strong></h6>
+            <h6>Available spin credit: <strong style="color: #293A6C;">{{usr_credit_wllet.available}}.00</strong></h6>
             {% else %}
-            <h6>Your available credits: <strong style="color: #293A6C;">0</strong></h6>
+            <h6>Available spin credits: <strong style="color: #293A6C;">0</strong></h6>
             {% endif %}
             <form action="{% url 'frontBuyWinningChance' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -141,7 +141,8 @@
                         {% csrf_token %}
                         <div id="html_element_all_cats"></div>
                         <br>
-                        <input type="submit" value="Collect">
+<!--                        <input type="submit" value="Collect">-->
+                        <button type="submit" class="captcha_submit__btn"><img src="{% static 'frontEnd/images/logo/logo.jpeg' %}" alt=""> &nbsp; Click to Collect</button>
                     </form>
                 </div>
         </div>

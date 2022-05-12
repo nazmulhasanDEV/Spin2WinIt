@@ -81,6 +81,20 @@ body {
 	/*background: #F5F5F5;*/
 }
 
+/* captcha submit btn section starts ***********************************/
+.captcha_submit__btn {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.captcha_submit__btn img {
+    width: 35px; height: 35px;
+}
+
+/* captcha submit btn section ends***********************************/
+
 /* custom code #home page view button# *********** */
 .product_area_title_section { width: 100%;}
 .product_area_title_section {

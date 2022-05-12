@@ -68,12 +68,12 @@
 }
 
 .play_buy_chance_btns a button {
-    width: 120px;
+    /*width: 120px;*/
     height: 40px;
     border: none;
     outline: none;
     cursor: pointer;
-    background: #FBE252;
+    background: #85B649;
     color: white;
     font-weight: 600;
     font-size: 18px;
@@ -83,11 +83,10 @@
 .buy_winning_chances {
     position: relative;
     width: 100%;
-    height: 250px;
+    /*height: 250px;*/
     background-color: #F7F7F7;
     padding: 30px 30px 30px 30px;
     margin-top: 30px;
-    margin-bottom: 100px;
 }
 
 .buy_winning_chances form {
@@ -128,10 +127,10 @@
 .point__wallet .convert_to_credit_btn button {
     outline: none;
     border: none;
-    background: #293A6C;
+    background: #85B649;
     color: white;
     border-radius: 5px;
-    height: 32px;
+    /*height: 32px;*/
     cursor: pointer;
 }
 
@@ -143,18 +142,18 @@
     width: 100%;
     position: relative;
 }
-.credit__wlt_header #buy_btn{
+/*.credit__wlt_header #buy_btn{
     position: absolute;
     right: 10px;
     bottom: 0;
-}
+}*/
 
-.credit__wlt_header #buy_btn button{
-    background: #001D37;
+#crdit__wlt_buy_btn button{
+    background: #85B649;
     outline: none;
     border: none;
     color: white;
-    height: 35px;
+    /*height: 35px;*/
     border-radius: 5px;
     cursor: pointer;
 }

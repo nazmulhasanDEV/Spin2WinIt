@@ -39,7 +39,8 @@
         <div class="row">
             
             {% block login_user_block %}
-            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
+            <div class="col-md-4 col-lg-3"></div>
+            <div class="col-sm-12 col-md-8 col-xs-12 col-lg-6 mb-30">
                 <!-- Login Form s-->
                 <form action="{% url 'frontEndLoginUser' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -84,71 +85,79 @@
                                 <a href="#"> Forgotten pasward?</a>
                             </div>
                             <div class="col-md-12">
-                                <button type="submit" class="register-button mt-0">Login</button>
+                                <button type="submit" class="register-button mt-0" style="cursor: pointer;">Login</button>
                             </div>
                         </div>
+
+                        <p> Don't have account?
+                            <a href="/fe/login/register">
+                                <strong>Register</strong>
+                            </a>
+                            here
+                        </p>
                     </div>
                 </form>
             </div>
+            <div class="col-md-4 col-lg-3"></div>
             {% endblock %}
             
-            <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
-                <form action="{% url 'frontEndLoginRegister' %}" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="login-form">
-                        <h4 class="login-title">Register</h4>
-                        <div class="row">
-                            <div class="col-md-6 col-12 mb-20">
-                                <label>First Name</label>
-                                <input class="mb-0" type="text" name="fname" placeholder="First Name">
-                            </div>
-                            <div class="col-md-6 col-12 mb-20">
-                                <label>Last Name</label>
-                                <input class="mb-0" type="text" name="lname" placeholder="Last Name">
-                            </div>
-                            <div class="col-md-12 mb-20">
-                                <label>Email Address*</label>
-                                <input class="mb-0" type="email" name="email" placeholder="Email Address">
-                            </div>
-                            <div class="col-md-6 mb-20">
-                                <label>Username*</label>
-                                <input class="mb-0" type="text" name="username" placeholder="Username">
-                            </div>
+<!--            <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">-->
+<!--                <form action="{% url 'frontEndLoginRegister' %}" method="post" enctype="multipart/form-data">-->
+<!--                    {% csrf_token %}-->
+<!--                    <div class="login-form">-->
+<!--                        <h4 class="login-title">Register</h4>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-6 col-12 mb-20">-->
+<!--                                <label>First Name</label>-->
+<!--                                <input class="mb-0" type="text" name="fname" placeholder="First Name">-->
+<!--                            </div>-->
+<!--                            <div class="col-md-6 col-12 mb-20">-->
+<!--                                <label>Last Name</label>-->
+<!--                                <input class="mb-0" type="text" name="lname" placeholder="Last Name">-->
+<!--                            </div>-->
+<!--                            <div class="col-md-12 mb-20">-->
+<!--                                <label>Email Address*</label>-->
+<!--                                <input class="mb-0" type="email" name="email" placeholder="Email Address">-->
+<!--                            </div>-->
+<!--                            <div class="col-md-6 mb-20">-->
+<!--                                <label>Username*</label>-->
+<!--                                <input class="mb-0" type="text" name="username" placeholder="Username">-->
+<!--                            </div>-->
 
-                            <div class="col-md-6 mb-20">
-                                <label>Phone*</label>
-                                <input class="mb-0" id="phonee" name="phone" type="tel">
-                            </div>
+<!--                            <div class="col-md-6 mb-20">-->
+<!--                                <label>Phone*</label>-->
+<!--                                <input class="mb-0" id="phonee" name="phone" type="tel">-->
+<!--                            </div>-->
 
-                            <div class="col-md-6 mb-20">
-                                <label>National ID No.*</label>
-                                <input class="mb-0" id="nid__card_no" name="nid__card_no" type="text"
-                                       placeholder="NID No.">
-                            </div>
+<!--                            <div class="col-md-6 mb-20">-->
+<!--                                <label>National ID No.*</label>-->
+<!--                                <input class="mb-0" id="nid__card_no" name="nid__card_no" type="text"-->
+<!--                                       placeholder="NID No.">-->
+<!--                            </div>-->
 
-                            <div class="col-md-6 mb-20">
-                                <label>Select user role</label>
-                                <select name="user_role" id="">
-                                    <option value="b_r" selected>Buyer</option>
-                                    <option value="s_r">Seller</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-20">
-                                <label>Password</label>
-                                <input class="mb-0" type="password" name="password" placeholder="Password">
-                            </div>
-                            <div class="col-md-6 mb-20">
-                                <label>Confirm Password</label>
-                                <input class="mb-0" type="password" name="confirm_password"
-                                       placeholder="Confirm Password">
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="register-button mt-0">Register</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+<!--                            <div class="col-md-6 mb-20">-->
+<!--                                <label>Select user role</label>-->
+<!--                                <select name="user_role" id="">-->
+<!--                                    <option value="b_r" selected>Buyer</option>-->
+<!--                                    <option value="s_r">Seller</option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-6 mb-20">-->
+<!--                                <label>Password</label>-->
+<!--                                <input class="mb-0" type="password" name="password" placeholder="Password">-->
+<!--                            </div>-->
+<!--                            <div class="col-md-6 mb-20">-->
+<!--                                <label>Confirm Password</label>-->
+<!--                                <input class="mb-0" type="password" name="confirm_password"-->
+<!--                                       placeholder="Confirm Password">-->
+<!--                            </div>-->
+<!--                            <div class="col-12">-->
+<!--                                <button type="submit" class="register-button mt-0">Register</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
         </div>
     </div>
 </div>

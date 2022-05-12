@@ -1169,10 +1169,9 @@ def front_loginRegister(request):
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
 
-        if fname and lname and email and username and phone and nid__card_no and user_role and password and password == confirm_password:
+        if fname and lname and email and username and phone and user_role and password and password == confirm_password:
             try:
-                if len(Account.objects.filter(email=email)) <= 0 and len(Account.objects.filter(username=username)) <= 0 and len(Account.objects.filter(phone_no=phone)) <= 0:
-
+                if len(Account.objects.filter(email=email)) <= 0 or len(Account.objects.filter(username=username)) <= 0 or len(Account.objects.filter(phone_no=phone)) <= 0:
                     # # sending verification email with code*********************************
                     # verification__code = rand_num_gen(3)
                     #
@@ -1196,7 +1195,7 @@ def front_loginRegister(request):
                         user.save()
                     user.fname = fname
                     user.lname = lname
-                    user.nid_no = nid__card_no
+                    # user.nid_no = nid__card_no
                     user.save()
 
                     verification_url = f'http://spinit2win.com/user/account/veirfication/{username}/{phone}'
@@ -1205,17 +1204,50 @@ def front_loginRegister(request):
                                                     context={'verification_url': verification_url})
                     email = EmailMessage(subject, html_content, to=[email])
                     email.content_subtype = 'html'
-                    email.send(fail_silently=False)
-                    # EmailThreading(email).start()
-
-
-
+                    # email.send(fail_silently=False)
+                    EmailThreading(email).start()
                     messages.success(request, "Verification link sent to your mail!")
                     return redirect('frontEndLoginRegister')
             except:
+                # getting existing user without verification and deleting
                 user = Account.objects.filter(email=email).first()
-                if user:
+                now = timezone.now()
+                expired_date = user.joined_at + timedelta(days=1)
+
+                # delete user if does not verify in a specific time
+                if user and now >= expired_date:
                     user.delete()
+
+                    # creating new account
+                    user = Account.objects.create_user(email=email, username=username, phone_no=phone,
+                                                       password=password)
+                    if user_role == 'b_r':
+                        user.is_buyer = True
+                        user.save()
+                    if user_role == 's_r':
+                        user.is_seller = True
+                        user.save()
+                    user.fname = fname
+                    user.lname = lname
+                    # user.nid_no = nid__card_no
+                    user.save()
+
+                    verification_url = f'http://spinit2win.com/user/account/veirfication/{username}/{phone}'
+                    subject = f"Verification code"
+                    html_content = render_to_string('backEnd_superAdmin/verification_template.html',
+                                                    context={'verification_url': verification_url})
+                    email = EmailMessage(subject, html_content, to=[email])
+                    email.content_subtype = 'html'
+                    # email.send(fail_silently=False)
+                    EmailThreading(email).start()
+
+                    messages.success(request, "Verification link sent to your mail!")
+                    return redirect('frontEndLoginRegister')
+                else:
+                    messages.warning(request, "User already exist with these credentials! Check your mail to verify!")
+                    return redirect('frontEndLoginRegister')
+
+
                 messages.success(request, "Account already exists with these email or username Or email not may be found! Try again!")
                 return redirect('frontEndLoginRegister')
 

@@ -1082,7 +1082,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="remaining_chances_to_win">
-                                        <h4>Remaining chances to win:
+                                        <h4>Available spin tokens:
                                             {% if user_winning_chances %}
                                             <strong>{{user_winning_chances.remaining_chances}}</strong>
                                             {% else %}
@@ -1099,7 +1099,7 @@
                                             </a>
 
                                             <a href="/fe/buy/winning/chance">
-                                                <button type="button">Buy Chance</button>
+                                                <button type="button">Buy Spin Tokens</button>
                                             </a>
                                         </div>
                                     </div>
@@ -1183,10 +1183,6 @@
                                 <div class="col-md-12">
                                     <div class="credit__wlt_header">
                                         <h5>Spin Credit Status:</h5>
-                                        <a href="{% url 'frontBuyCreditPoint' username=request.user.username %}"
-                                           id="buy_btn">
-                                            <button type="button">Buy Spin Credit</button>
-                                        </a>
                                     </div>
                                     <table class="table">
                                         <thead>
@@ -1195,6 +1191,7 @@
                                             <th scope="col">Purchased</th>
                                             <th scope="col">Credit Spent</th>
                                             <th scope="col">Spent Amount</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -1204,6 +1201,11 @@
                                             <td>{{user_credit_wallet.purchased|floatformat:2}}</td>
                                             <td>{{user_credit_wallet.spent|floatformat:2}}</td>
                                             <td>{{user_credit_wallet.spent_amount|floatformat:2}}</td>
+                                            <td>
+                                                <a href="{% url 'frontBuyCreditPoint' username=request.user.username %}" id="crdit__wlt_buy_btn">
+                                                    <button type="button">Buy Spin Credit</button>
+                                                </a>
+                                            </td>
                                         </tr>
                                         {% else %}
                                         <tr>
@@ -1211,6 +1213,11 @@
                                             <td>00.00</td>
                                             <td>00.00</td>
                                             <td>00.00</td>
+                                            <td>
+                                                <a href="{% url 'frontBuyCreditPoint' username=request.user.username %}" id="buy_btn">
+                                                    <button type="button">Buy Spin Credit</button>
+                                                </a>
+                                            </td>
                                         </tr>
                                         {% endif %}
                                         </tbody>
@@ -1826,7 +1833,8 @@
                     {% csrf_token %}
                     <div id="html_element_usr_profile"></div>
                     <br>
-                    <input type="submit" value="Collect">
+                    <button type="submit" class="captcha_submit__btn"><img src="{% static 'frontEnd/images/logo/logo.jpeg' %}" alt=""> &nbsp; Click to Collect</button>
+<!--                    <input type="submit" value="Collect">-->
                 </form>
             </div>
         </div>
