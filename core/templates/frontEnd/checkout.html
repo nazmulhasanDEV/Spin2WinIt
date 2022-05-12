@@ -16,25 +16,25 @@
 <!-- Li's Breadcrumb Area End Here -->
 
 <!--   django message         -->
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            {% if messages %}
-            {% for message in messages %}
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-12">-->
+<!--            {% if messages %}-->
+<!--            {% for message in messages %}-->
 
-            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"
-                 {% endif %}>
-                <strong>{{ message }}!</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+<!--            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"-->
+<!--                 {% endif %}>-->
+<!--                <strong>{{ message }}!</strong>-->
+<!--                <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
 
-            {% endfor %}
-            {% endif %}
-        </div>
-    </div>
-</div>
+<!--            {% endfor %}-->
+<!--            {% endif %}-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <!-- ends django message -->
 
 <!-- ads -->
@@ -74,7 +74,7 @@
                                            id="customControlValidation2"
                                            name="use_defalt_billin__adrs" onclick="default_billingAdrsCheckBox()" required>
                                     <label class="custom-control-label" for="customControlValidation2"><strong>Use
-                                        default
+                                        primary
                                         billing address</strong></label>
                                 </div>
                             </div>
@@ -163,7 +163,7 @@
                                         <input type="checkbox" class="custom-control-input checkout_dflt_shipping_adrs"
                                                id="shippingAddress2"
                                                name="use_defalt_shipping_addrss" onclick="default_ShippingAdrsCheckBox()">
-                                        <label class="custom-control-label" for="shippingAddress2"><strong>Use default
+                                        <label class="custom-control-label" for="shippingAddress2"><strong>Use primary
                                             shipping address</strong></label>
                                     </div>
                                 </div>

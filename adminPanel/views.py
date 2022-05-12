@@ -83,14 +83,14 @@ wcapi = API(
 #     ]
 # }
 
-# def create_order(request):
-#
-#     order = wcapi.post("orders", data).json()
-#     if order:
-#         print(order)
-#         return redirect('apHome')
-#
-#     return redirect('apHome')
+def create_orderToWcmrceStore(order_data):
+
+    order = wcapi.post("orders", order_data).json()
+    print(order)
+    if order:
+        print("Order sent to woocommerce")
+
+    return True
 
 
 # def add_woocommerce_product_to_product_list(obj, user):

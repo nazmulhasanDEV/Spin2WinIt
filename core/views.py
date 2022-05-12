@@ -24,6 +24,8 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 
+from adminPanel.views import create_orderToWcmrceStore
+
 def get_User_ip(request):
 
     if request.method == 'GET':
@@ -1878,6 +1880,9 @@ def front_checkout(request, username):
 
     return render(request, 'frontEnd/checkout.html', context)
 
+
+# send the order to woocommerce store
+
 @login_required(login_url='/fe/login/register')
 def front_confirm_order(request, username):
 
@@ -1953,7 +1958,7 @@ def front_confirm_order(request, username):
 
                 if use_defalt_billing__adrs:
                     current_usr_billing_adrs = DefaultBillingInfo.objects.filter(user=request.user).first()
-                    print(current_usr_billing_adrs)
+
                     billing_info_model = BillingInfo.objects.create(
                         info_id=id,
                         user=request.user,
@@ -2018,7 +2023,92 @@ def front_confirm_order(request, username):
                     x.order_status = 'curnt'
                     x.save()
 
-                # removing cart items
+                # sending order to woocommerce store
+                order_data = None
+                bill_fname = order_list_model.billing_info.fname
+                bill_address_1 = order_list_model.billing_info.address
+                bill_city = order_list_model.billing_info.town_or_city
+                bill_state = order_list_model.billing_info.state
+                bill_postcode = order_list_model.billing_info.postcode
+                bill_country = order_list_model.billing_info.country
+                bill_email = order_list_model.billing_info.email
+                bill_phone = order_list_model.billing_info.phone
+
+                ship_fname = order_list_model.shipping_info.email
+                ship_address_1 = order_list_model.shipping_info.email
+                ship_city = order_list_model.shipping_info.email
+                ship_state = order_list_model.shipping_info.email
+                ship_postcode = order_list_model.shipping_info.email
+                ship_country = order_list_model.shipping_info.email
+                ship_email = order_list_model.shipping_info.email
+                ship_phone = order_list_model.shipping_info.email
+                print("OKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+                if order_list_model.billing_info.default_billingAddress:
+                    bill_fname = order_list_model.billing_info.default_billingAddress.fname
+                    bill_address_1 = order_list_model.billing_info.default_billingAddress.address
+                    bill_city = order_list_model.billing_info.default_billingAddress.town_or_city
+                    bill_state = order_list_model.billing_info.default_billingAddress.state
+                    bill_postcode = order_list_model.billing_info.default_billingAddress.postcode
+                    bill_country = order_list_model.billing_info.default_billingAddress.country
+                    bill_email = order_list_model.billing_info.default_billingAddress.email
+                    bill_phone = order_list_model.billing_info.default_billingAddress.phone
+
+                if order_list_model.shipping_info.default_shipping_address:
+                    ship_fname = order_list_model.shipping_info.default_shipping_address.fname
+                    ship_address_1 = order_list_model.shipping_info.default_shipping_address.address
+                    ship_city = order_list_model.shipping_info.default_shipping_address.town_or_city
+                    ship_state = order_list_model.shipping_info.default_shipping_address.state
+                    ship_postcode = order_list_model.shipping_info.default_shipping_address.postcode
+                    ship_country = order_list_model.shipping_info.default_shipping_address.country
+                    ship_email = order_list_model.shipping_info.default_shipping_address.email
+                    ship_phone = order_list_model.shipping_info.default_shipping_address.phone
+
+                order_data = {
+                    "payment_method": "Paypal",
+                    "payment_method_title": "Paypal",
+                    "set_paid": True,
+                    "billing": {
+                        "first_name": str(bill_fname),
+                        "last_name": "",
+                        "address_1": str(bill_address_1),
+                        "address_2": "",
+                        "city": str(bill_city),
+                        "state": str(bill_state),
+                        "postcode": str(bill_postcode),
+                        "country": str(bill_country),
+                        "email": str(bill_email),
+                        "phone": str(bill_phone),
+                    },
+                    "shipping": {
+                        "first_name": str(ship_fname),
+                        "last_name": "",
+                        "address_1": str(ship_address_1),
+                        "address_2": "",
+                        "city": str(ship_city),
+                        "state": str(ship_state),
+                        "postcode": str(ship_postcode),
+                        "country": str(ship_country)
+                    },
+                    "line_items": [
+                        {'product_id': item.product.product_id, 'quantity': item.quantity} for item in order_list_model.items.all()
+                    ],
+                    "shipping_lines": [
+                        {
+                            "method_id": "flat_rate",
+                            "method_title": "Flat Rate",
+                            "total": str(order_list_model.total_amount)
+                        }
+                    ]
+                }
+
+                if order_data:
+                    # create_orderToWcmrceStore(order_data)
+                    order_send_thread = threading.Thread(target=create_orderToWcmrceStore, args=[order_data])
+                    order_send_thread.start()
+
+                # sending order to woocommerce store ends here
+
+                # removing cart items after confirming order
                 for cart in user_cart_items:
                     cart.delete()
                 return redirect('frontCompletePayment', username=request.user.username, order_id=id)
