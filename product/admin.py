@@ -50,5 +50,13 @@ class OrderAdmin(admin.ModelAdmin):
 admin.site.register(OrderList, OrderAdmin)
 admin.site.register(OrderedItem)
 
+# coupon code
+class CouponCodeAdmin(admin.ModelAdmin):
+    list_display = ('user', 'coupon_code', 'discount_amnt')
+    list_filter = ('coupon_code', 'discount_amnt',)
+    list_display_links = ( 'coupon_code', 'discount_amnt',)
+admin.site.register(CouponCode, CouponCodeAdmin)
+
+admin.site.register(AppliedCouponHistory)
 
 

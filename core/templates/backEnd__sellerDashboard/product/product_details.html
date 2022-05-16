@@ -34,7 +34,7 @@
                 </h1>
                 <ol class="breadcrumb">
                     <div style="position: relative;padding-top: 15px; padding-bottom: 15px;">
-                        <a href="/ap/admin/product/list" style="position: absolute; right: 0; bottom: 15px;">
+                        <a href="{% url 'sellerCustomProductList' %}" style="position: absolute; right: 0; bottom: 15px;">
                             <button type="button" style="width: 130px;border: none; outline: none;color: white; border-radius: 5px; padding: 5px; background:#222D32;"><i class="fas fa-list"></i>&nbsp; Product List</button>
                         </a>
                     </div>
@@ -58,34 +58,12 @@
                         </div>
                         {% endif %}
 
-                        {% if currnt_prdct_img_list.img %}
+                        {% if current_product.productImg %}
+                        {% for img in current_product.productImg.all %}
                         <div class="col-md-2 admin__product__details">
-                            <img class="" src="{{currnt_prdct_img_list.img.url}}">
+                            <img class="" src="{{img.img.url}}">
                         </div>
-                        {% endif %}
-
-                        {% if currnt_prdct_img_list.img1 %}
-                        <div class="col-md-2 admin__product__details">
-                            <img class="" src="{{currnt_prdct_img_list.img1.url}}">
-                        </div>
-                        {% endif %}
-
-                        {% if currnt_prdct_img_list.img2 %}
-                        <div class="col-md-2 admin__product__details">
-                            <img class="" src="{{currnt_prdct_img_list.img2.url}}">
-                        </div>
-                        {% endif %}
-
-                        {% if currnt_prdct_img_list.img3 %}
-                        <div class="col-md-2 admin__product__details">
-                            <img class="" src="{{currnt_prdct_img_list.img3.url}}">
-                        </div>
-                        {% endif %}
-
-                        {% if currnt_prdct_img_list.img4 %}
-                        <div class="col-md-2 admin__product__details">
-                            <img class="" src="{{currnt_prdct_img_list.img4.url}}">
-                        </div>
+                        {% endfor %}
                         {% endif %}
 
                     </div>
@@ -109,7 +87,7 @@
                         <li><a href="#">Total Sold <span class="pull-right badge bg-aqua">{{current_product.total_sold}}</span></a></li>
                         <li><a href="#">In Stock <span class="pull-right badge bg-aqua">{{current_product.in_stock}}</span></a></li>
 
-                        {% if current_product.sponsor_status %}
+                        {% if current_product.sponsor_status == 'yes' %}
                         <li><a href="#">Sponsor status(for game) <span class="pull-right badge bg-aqua">yes, sponsored</span></a></li>
                         {% else %}
                         <li><a href="#">Sponsor status(for game) <span class="pull-right badge bg-aqua">Not sponsored</span></a></li>
@@ -120,7 +98,7 @@
             </div>
             <!-- /.widget-user -->
 
-            <a href="{% url 'apAdminProductList' %}">
+            <a href="{% url 'sellerCustomProductList' %}">
                 <button type="button" style="border:none; background: #00C0EF;color:white;">
                     Back to product list
                 </button>
@@ -150,7 +128,7 @@
                             <button type="button" class="btn btn-secondary"
                                     data-dismiss="modal">Close
                             </button>
-                            <a href="{% url 'apDelAdminProduct' pk=current_pk %}">
+                            <a href="{% url 'sellerDelCustomProduct' pk=current_pk product_id=current_product.product_id %}">
                                 <button type="button" class="btn btn-primary">
                                     Confirm
                                 </button>
@@ -161,7 +139,7 @@
             </div>
             <!--                                        modal for deleting object ends-->
 
-            <a href="{% url 'apUpdateAdminProduct' pk=current_pk %}">
+            <a href="{% url 'sellerCustomProductUpdate' pk=current_product.pk %}">
                 <button type="button" style="border:none; background: #00C0EF;color:white;">
                     Update
                 </button>

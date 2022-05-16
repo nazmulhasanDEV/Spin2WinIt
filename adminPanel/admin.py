@@ -32,3 +32,6 @@ admin.site.register(SafePayment)
 admin.site.register(ShopWithConfidence)
 admin.site.register(HelpCenter)
 admin.site.register(CustomerMessageList)
+
+admin.site.register(VisitorInfo)
+admin.site.register(TotalNumVisitor)

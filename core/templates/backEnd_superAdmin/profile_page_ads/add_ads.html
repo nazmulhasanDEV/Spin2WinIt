@@ -1,0 +1,137 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-12">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+
+
+            <div style="position: relative;padding-top: 15px; padding-bottom: 15px;">
+                <a href="/ap/user/profile/ads/list" style="position: absolute; right: 0; bottom: 15px;">
+                    <button type="button" style="width: 130px;border: none; outline: none;color: white; border-radius: 5px; padding: 5px; background:#222D32;"><i class="fas fa-list"></i>&nbsp; Banner List</button>
+                </a>
+            </div>
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Add New Ads(User Profile Page)</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="{% url 'apAddAdsToUserProfilePg' %}" method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label for="select_ads_type">Select Ads Type</label>
+                                <select name="ads_type" id="select_ads_type" class="form-control">
+                                    <option value="product" selected>Product</option>
+                                    <option value="banner">Banner</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ads_as_product">Select Product</label>
+                                <select name="product" id="ads_as_product" class="form-control">
+                                    {% if product_list %}
+                                    {% for p in product_list %}
+                                    <option value="{{p.product_id}}">{{p.title|safe|truncatechars:40}}</option>
+                                    {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group" id="banner_as_ads">
+                            <div class="col-md-6">
+                                <label for="banner_img_upload_btn">Upload Banner <span style="color: red;">(Width: 280px, Height: 380px)</span></label>
+                                <input type="file" name="banner_img" class="banner_img_upload_field" id="banner_img_upload_field" style="visibility: hidden;" accept="image/*" />
+                                <button type="button" class="banner_img_upload_btn" id="banner_img_upload_btn" style="width: 100%; height: 40px; padding: 10px; border: none: outline: none; background-color: #3C8DBC;color: white;">
+                                    <strong><i class="fas fa-upload"></i> Upload banner image</strong>
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <img src="{% static 'backEnd/dist/img/avatar.png' %}" class="prev_banner_img" style="width: 100%; height: 200px" alt="">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary add_main__banner admin__prdctAdd_btn">LET'S ADD</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block dropzone_block %}
+
+<script>
+    const banner_img_upload_field = document.querySelector('.banner_img_upload_field');
+    const banner_img_upload_btn = document.querySelector('.banner_img_upload_btn');
+    const  prev_banner_img = document.querySelector('.prev_banner_img');
+    const  add_main__banner = document.querySelector('.add_main__banner');
+
+    const select_ads_type = document.querySelector('#select_ads_type');
+    const ads_as_product = document.querySelector('#ads_as_product');
+    const banner_as_ads = document.querySelector('#banner_as_ads');
+
+    banner_as_ads.style.display = 'none';
+
+    select_ads_type.onchange = (e)=>{
+        if (e.target.value === 'banner'){
+            banner_as_ads.style.display = 'inherit';
+            ads_as_product.style.display = 'none';
+        }else{
+            banner_as_ads.style.display = 'none';
+            ads_as_product.style.display = 'inherit';
+        }
+    }
+
+    banner_img_upload_field.onchange = ()=>{
+        const [banner_img] = banner_img_upload_field.files;
+
+        if (banner_img) {
+            prev_banner_img.src = URL.createObjectURL(banner_img);
+            prev_banner_img.onload = () =>{
+                if(parseFloat(prev_banner_img.naturalWidth) != 280 || parseFloat(prev_banner_img.naturalHeight) != 380){
+                     add_main__banner.disabled = false;
+                }else{
+                    add_main__banner.disabled = false;
+                }
+            }
+        }
+    }
+
+    banner_img_upload_btn.onclick =()=>{
+        banner_img_upload_field.click();
+    }
+
+</script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}
+

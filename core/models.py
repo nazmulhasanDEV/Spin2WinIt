@@ -51,15 +51,18 @@ class CreditPurchasingHistory(models.Model):
         return self.user.email + '||' + self.purchased_credit_amnt + "||" + self.paid_amount
 
 
-# number of chance to play/spin the game
+# number of chance/spin tokens to play/spin the game
 class WinningChance(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE)
     remaining_chances = models.CharField(max_length=255)
+    purchased = models.CharField(default='', blank=True, null=True, max_length=255)
+    spent = models.CharField(default='', blank=True, null=True, max_length=255)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return self.user.email
 
-# Winning chance purchasing history
+# Winning chance/spin token purchasing history
 class WinningChancePurchasingHistory(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True, null=True)
     point_charged = models.CharField(max_length=255, blank=True, null=True)

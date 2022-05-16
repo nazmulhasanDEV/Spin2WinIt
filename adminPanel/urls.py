@@ -32,7 +32,8 @@ urlpatterns = [
     re_path(r'^ap/woocommerce/store/product/list/$', views.ap_woocommerce_store_list, name='apWoocommerceStoreList'),
     re_path(r'^ap/woocommerce/product/details/(?P<pk>\d+)/$', views.ap_wcmrce_prdct_details, name='apWoocmrcePrdctDetails'),
 
-    # order section
+    # order section*********************************************
+
     re_path(r'^ap/current/order/list/$', views.ap_current_orders, name='apCurrentOrderList'),
     re_path(r'^ap/current/order/details/(?P<order_id>[-\w]+)/$', views.ap_current_order_details, name='apCurrentOrderDetails'),
     re_path(r'^ap/change/order/status/to/onTheWay/(?P<order_id>[-\w]+)/$', views.ap_set_crrnt_order_to_on_the_way, name='apSetCrrntOrderStatusToOnTheWay'),
@@ -47,6 +48,13 @@ urlpatterns = [
 
     # cancelled orders
     re_path(r'^ap/cacelled/order/list/$', views.ap_cancelled_order_list, name='apCanCelledOrderList'),
+
+    # coupon section
+    re_path(r'^ap/add/coupon/code/$', views.ap_add_couponCode, name='apAddCouponoCode'),
+    re_path(r'^ap/coupon/code/list/$', views.ap_couponCode_list, name='apCouponCodeList'),
+    re_path(r'^ap/coupon/code/activate/deactivate/(?P<pk>\d+)/$', views.ap_activate_orDeactivate_couponCode, name='apActivateOrDeactivateCouponCode'),
+    re_path(r'^ap/update/coupon/code/(?P<pk>\d+)/$', views.ap_update_couponCode, name='apUpdateCouponCode'),
+    re_path(r'^ap/del/coupon/code/(?P<pk>\d+)/$', views.ap_remove_couponCode, name='apDelCouponCode'),
 
     # updated product section ****************************************
     re_path(r'^ap/all/product/list/', views.ap_all_products, name='apAllProductList'),
@@ -174,6 +182,15 @@ urlpatterns = [
     re_path(r'^ap/home/page/activate/mini/bottom/banner/(?P<pk>\d+)/$', views.ap_activate_home_pageMini_BottomBanr, name='apActivateHomePageMiniBottomBanner'),
     re_path(r'^ap/home/page/de_activate/mini/bottom/banner/(?P<pk>\d+)/$', views.ap_de_activate_home_pageMini_bottomBanr, name='apDe_ActivateHomePageMiniBottomBanner'),
     re_path(r'^ap/home/page/delete/mini/bottom/banner/(?P<pk>\d+)/$', views.ap_delete_home_pageMiniBottomBanner, name='apDeleteHomePageMiniBottomBanner'),
+
+
+    # user profile page ads section
+    re_path(r'^ap/add/ads/user/profile/pg/$', views.ap_add_ads_toUser_profilePage, name='apAddAdsToUserProfilePg'),
+    re_path(r'^ap/user/profile/ads/list/$', views.ap_user_profile_ads_list, name='apUserProfileAdsList'),
+    re_path(r'^ap/del/user/profile/ads/(?P<pk>\d+)/$', views.ap_del_usr_profile_ads, name='apDelUserProfileAds'),
+    re_path(r'^ap/activate/user/profile/ads/(?P<pk>\d+)/$', views.ap_activate_usr_profile_ads, name='apActivateUserProfileAds'),
+    re_path(r'^ap/de_activate/user/profile/ads/(?P<pk>\d+)/$', views.ap_deactivate_usr_profile_ads, name='apDe_ActivateUserProfileAds'),
+
 
     # logo section **********************************************
     re_path(r'^ap/add/logo/$', views.ap_add_site_logo, name='apAddSiteLogo'),

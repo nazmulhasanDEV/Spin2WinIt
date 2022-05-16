@@ -11,8 +11,8 @@ urlpatterns = [
     re_path(r'^seller/add/product/$', views.seller_add_product, name='sellerAddProduct'),
     re_path(r'^seller/custom/product/list/$', views.seller_custom_product_list, name='sellerCustomProductList'),
     re_path(r'^seller/custom/product/update/(?P<pk>\d+)/$', views.seller_update_custom_product, name='sellerCustomProductUpdate'),
-    re_path(r'^seller/custom/product/details/(?P<pk>\d+)/$', views.seller_custom_product_detail, name='sellerCustomProductDetails'),
-    re_path(r'^seller/del/custom/product/(?P<pk>\d+)/$', views.seller_del_custom_product, name='sellerDelCustomProduct'),
+    re_path(r'^seller/custom/product/details/(?P<pk>\d+)/(?P<product_id>[-\w]+)/$', views.seller_custom_product_detail, name='sellerCustomProductDetails'),
+    re_path(r'^seller/del/custom/product/(?P<pk>\d+)/(?P<product_id>[-\w]+)/$', views.seller_del_custom_product, name='sellerDelCustomProduct'),
 
     # collection
     re_path(r'^seller/collect/product/$', views.seller_collect_product, name='sellerCollectProduct'),

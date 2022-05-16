@@ -66,7 +66,7 @@
 
                             <div class="col-md-6">
                                 <label>Select sub-category</label>
-                                <select name="sub_category" class="form-control ap_addProduct_subcategory" required>
+                                <select name="sub_category" class="form-control ap_addProduct_subcategory">
                                     {% for x in product_subcategory %}
                                     {% if x.pk == current_product_data.subcategory.pk %}
                                     <option value="{{x.pk}}" selected>{{x.name}}</option>
@@ -99,11 +99,11 @@
                         <div class="row form-group">
                             <div class="col-md-6">
                                 <label>Product new price(usd)</label>
-                                <input type="number" name="new_price" class="form-control" value="{{current_product_data.new_price}}" placeholder="$50" required>
+                                <input type="number" name="new_price" class="form-control" value="{{current_product_data.new_price}}" step="0.01" placeholder="$50" required>
                             </div>
                             <div class="col-md-6">
                                 <label>Product old price(usd)</label>
-                                <input type="number" name="old_price" class="form-control" value="{{current_product_data.old_price}}" placeholder="$50" required>
+                                <input type="number" name="old_price" class="form-control" value="{{current_product_data.old_price}}" step="0.01" placeholder="$50" required>
                             </div>
                         </div>
 
@@ -141,6 +141,13 @@
                         </div>
 
                         <div class="row form-group">
+                            <div class="col-md-12 col-sm-12">
+                                <label>
+                                    <input type="checkbox" name="delete_old_images"> Delete Old Images
+                                </label>
+                            </div>
+                            <br><br>
+
                             <div class="col-md-6 col-sm-12">
 <!--                                <label for="product__extra__images_btn">File input</label>-->
                                 <input type="file" name="product__extra__images" class="product__extra__images" id="file" accept="image/*" multiple>

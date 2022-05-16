@@ -154,3 +154,17 @@ class CustomerMessageList(models.Model):
 
     def __str__(self):
         return self.name + " || " + self.msg
+
+# visitors/shopper list/information
+class VisitorInfo(models.Model):
+    visitor_ip = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.visitor_ip
+
+# total visitors
+class TotalNumVisitor(models.Model):
+    num_of_visitor = models.IntegerField(default=0, blank=True)
+
+    def __str__(self):
+        return str(self.num_of_visitor)

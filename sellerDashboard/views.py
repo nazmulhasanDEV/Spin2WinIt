@@ -60,7 +60,7 @@ def seller_add_product(request):
         title = request.POST['title']
         brand__name = request.POST['brand__name']
         category = request.POST['category']
-        sub_category = request.POST['sub_category']
+        sub_category = request.POST.get('sub_category')
         short_des = request.POST['short_des']
         details = request.POST['details']
         new_price = float(request.POST['new_price'])
@@ -81,7 +81,9 @@ def seller_add_product(request):
 
         product_id = uuid.uuid4()
         curnt_product_cat = ProductCategory.objects.get(pk=category)
-        curnt_product_subcat = ProductSubCategory.objects.get(pk=sub_category)
+        curnt_product_subcat = None
+        if sub_category:
+            curnt_product_subcat = ProductSubCategory.objects.get(pk=sub_category)
 
 
         try:
@@ -89,8 +91,11 @@ def seller_add_product(request):
             length_of_extra_imgs = len(extra_imgs)
 
             if length_of_extra_imgs >= 0:
+                for img in extra_imgs:
+                    product_img_model = ProductImg.objects.create(product_id=product_id, product_type='mcp', img=img)
+
                 if policy == 'company':
-                    product_list_model = Product_list(
+                    product_list_model = ProductList(
                         product_id=product_id,
                         product_type='mcp',
                         user=request.user,
@@ -105,9 +110,9 @@ def seller_add_product(request):
                         product_thumbnail=thumbnail_img,
                         use_case=use_cases,
                         benefits=benefits,
-                        security_policy="security_policy",
-                        return_policy="return_policy",
-                        delivery_policy="delivery_policy",
+                        security_policy="apcp",
+                        return_policy="apcp",
+                        delivery_policy="apcp",
                         store_name=store__name,
                         store_link=store_link,
                         about_store=about_store,
@@ -119,11 +124,11 @@ def seller_add_product(request):
 
                     # saving to Game sponsored product list
                     if sponsor_status == 'yes':
-                        spnsored_prdct = Product_list.objects.get(product_id=product_id)
+                        spnsored_prdct = ProductList.objects.get(product_id=product_id)
                         sponsord_prdct_for_game = SponsoredProductForPrize(product=spnsored_prdct)
                         sponsord_prdct_for_game.save()
                 if policy == 'own':
-                    product_list_model = Product_list(
+                    product_list_model = ProductList(
                         product_id=product_id,
                         product_type='mcp',
                         user=request.user,
@@ -146,49 +151,22 @@ def seller_add_product(request):
                         about_store=about_store,
                         in_stock=in_stock,
                         policy_followed=policy,
+                        sponsor_status=sponsor_status
                     )
                     product_list_model.save()
 
                     # saving to Game sponsored product list
                     if sponsor_status == 'yes':
-                        spnsored_prdct = Product_list.objects.get(product_id=product_id)
+                        spnsored_prdct = ProductList.objects.get(product_id=product_id)
                         sponsord_prdct_for_game = SponsoredProductForPrize(product=spnsored_prdct)
                         sponsord_prdct_for_game.save()
-
-
-                current_product = Product_list.objects.filter(product_id=product_id).first()
-
-                if current_product:
-                    if length_of_extra_imgs == 1:
-                        product_extra_img_model = Product_image(product=current_product, img=extra_imgs[0])
-                        product_extra_img_model.save()
-                    if length_of_extra_imgs == 2:
-                        product_extra_img_model = Product_image(product=current_product, img=extra_imgs[0],
-                                                                img1=extra_imgs[1])
-                        product_extra_img_model.save()
-                    if length_of_extra_imgs == 3:
-                        product_extra_img_model = Product_image(product=current_product, img=extra_imgs[0],
-                                                                img1=extra_imgs[1],
-                                                                img2=extra_imgs[2])
-                        product_extra_img_model.save()
-                    if length_of_extra_imgs == 4:
-                        product_extra_img_model = Product_image(product=current_product, img=extra_imgs[0],
-                                                                img1=extra_imgs[1],
-                                                                img2=extra_imgs[2], img3=extra_imgs[3])
-                        product_extra_img_model.save()
-                    if length_of_extra_imgs == 5:
-                        product_extra_img_model = Product_image(product=current_product, img=extra_imgs[0],
-                                                                img1=extra_imgs[1],
-                                                                img2=extra_imgs[2], img3=extra_imgs[3],
-                                                                img4=extra_imgs[4])
-                        product_extra_img_model.save()
 
                 messages.success(request, "Successfully added!")
                 return redirect('sellerAddProduct')
 
         except:
             if policy == 'company':
-                product_list_model = Product_list(
+                product_list_model = ProductList(
                     product_id=product_id,
                     product_type='mcp',
                     user=request.user,
@@ -203,9 +181,9 @@ def seller_add_product(request):
                     product_thumbnail=thumbnail_img,
                     use_case=use_cases,
                     benefits=benefits,
-                    security_policy="security_policy",
-                    return_policy="return_policy",
-                    delivery_policy="delivery_policy",
+                    security_policy="apcp",
+                    return_policy="apcp",
+                    delivery_policy="apcp",
                     store_name=store__name,
                     store_link=store_link,
                     about_store=about_store,
@@ -217,11 +195,11 @@ def seller_add_product(request):
 
                 # saving to Game sponsored product list
                 if sponsor_status == 'yes':
-                    spnsored_prdct = Product_list.objects.get(product_id=product_id)
+                    spnsored_prdct = ProductList.objects.get(product_id=product_id)
                     sponsord_prdct_for_game = SponsoredProductForPrize(product=spnsored_prdct)
                     sponsord_prdct_for_game.save()
             if policy == 'own':
-                product_list_model = Product_list(
+                product_list_model = ProductList(
                     product_id=product_id,
                     product_type='mcp',
                     user=request.user,
@@ -250,7 +228,7 @@ def seller_add_product(request):
 
                 # saving to Game sponsored product list
                 if sponsor_status == 'yes':
-                    spnsored_prdct = Product_list.objects.get(product_id=product_id)
+                    spnsored_prdct = ProductList.objects.get(product_id=product_id)
                     sponsord_prdct_for_game = SponsoredProductForPrize(product=spnsored_prdct)
                     sponsord_prdct_for_game.save()
 
@@ -277,16 +255,14 @@ def seller_update_custom_product(request, pk):
     product_subcat = ProductSubCategory.objects.all()
 
     # get current obj
-    current_product_data = Product_list.objects.get(pk=pk)
+    current_product_data = ProductList.objects.get(pk=pk)
 
-    # current product's extra image obj
-    currnt_product_extra_img = Product_image.objects.filter(product=current_product_data)
 
     if request.method == 'POST':
         title = request.POST['title']
         brand__name = request.POST['brand__name']
         category = request.POST['category']
-        sub_category = request.POST['sub_category']
+        sub_category = request.POST.get('sub_category')
         short_des = request.POST['short_des']
         details = request.POST['details']
         new_price = float(request.POST['new_price'])
@@ -303,11 +279,27 @@ def seller_update_custom_product(request, pk):
         delivery_policy = request.POST['delivery_policy']
         sponsor_status = request.POST.get('sponsor__status')
 
+        delete_old_images = request.POST.get('delete_old_images')
+
         curnt_product_cat = ProductCategory.objects.get(pk=category)
-        curnt_product_subcat = ProductSubCategory.objects.get(pk=sub_category)
+
+        curnt_product_subcat = None
+        if sub_category:
+            curnt_product_subcat = ProductSubCategory.objects.get(pk=sub_category)
+
         fs = FileSystemStorage()
 
         try:
+
+            if delete_old_images == 'on':
+                # grabing extra images of current object
+                currnt_obj_extra_img_list = ProductImg.objects.filter(product_id=current_product_data.product_id)
+
+                if currnt_obj_extra_img_list:
+                    for img in currnt_obj_extra_img_list:
+                        fs.delete(img.img.name)
+                        img.delete()
+
             thumbnail_img = request.FILES['product__main__thumbnail__img']
 
             # removing/saving product from sponsored product prize list if sponsored status is false
@@ -323,9 +315,17 @@ def seller_update_custom_product(request, pk):
             # deleting current thumbnail
             if thumbnail_img:
                 fs.delete(current_product_data.product_thumbnail.name)
+
                 extra_imgs = request.FILES.getlist('product__extra__images')
                 length_of_extra_imgs = len(extra_imgs)
+
                 if extra_imgs:
+                    if length_of_extra_imgs > 0:
+                        for img in extra_imgs:
+                            product_extra_img_model = ProductImg.objects.create(
+                                product_id=current_product_data.product_id, product_type='mcp', img=img)
+                            current_product_data.productImg.add(product_extra_img_model)
+                            current_product_data.save()
 
                     if policy == 'company':
                         current_product_data.category = curnt_product_cat
@@ -339,9 +339,9 @@ def seller_update_custom_product(request, pk):
                         current_product_data.details = details
                         current_product_data.use_case = use_cases
                         current_product_data.benefits = benefits
-                        current_product_data.security_policy = "security_policy"
-                        current_product_data.return_policy = "return_policy"
-                        current_product_data.delivery_policy = "delivery_policy"
+                        current_product_data.security_policy = "apcp"
+                        current_product_data.return_policy = "apcp"
+                        current_product_data.delivery_policy = "apcp"
                         current_product_data.store_name = store__name
                         current_product_data.store_link = store_link
                         current_product_data.about_store = about_store
@@ -371,45 +371,6 @@ def seller_update_custom_product(request, pk):
                         current_product_data.policy_followed = policy
                         current_product_data.sponsor_status = sponsor_status
                         current_product_data.save()
-
-                    # check if there is any extra images exists for current product
-                    if currnt_product_extra_img:
-                        if currnt_product_extra_img[0].img:
-                            fs.delete(currnt_product_extra_img[0].img.name)
-                        if currnt_product_extra_img[0].img1:
-                            fs.delete(currnt_product_extra_img[0].img1.name)
-                        if currnt_product_extra_img[0].img2:
-                            fs.delete(currnt_product_extra_img[0].img2.name)
-                        if currnt_product_extra_img[0].img3:
-                            fs.delete(currnt_product_extra_img[0].img3.name)
-                        if currnt_product_extra_img[0].img4:
-                            fs.delete(currnt_product_extra_img[0].img4.name)
-
-                        if length_of_extra_imgs == 1:
-                            currnt_product_extra_img[0].img = extra_imgs[0]
-                            currnt_product_extra_img[0].save()
-                        if length_of_extra_imgs == 2:
-                            currnt_product_extra_img[0].img = extra_imgs[0]
-                            currnt_product_extra_img[0].img1 = extra_imgs[1]
-                            currnt_product_extra_img[0].save()
-                        if length_of_extra_imgs == 3:
-                            currnt_product_extra_img[0].img = extra_imgs[0]
-                            currnt_product_extra_img[0].img1 = extra_imgs[1]
-                            currnt_product_extra_img[0].img2 = extra_imgs[2]
-                            currnt_product_extra_img[0].save()
-                        if length_of_extra_imgs == 4:
-                            currnt_product_extra_img[0].img = extra_imgs[0]
-                            currnt_product_extra_img[0].img1 = extra_imgs[1]
-                            currnt_product_extra_img[0].img2 = extra_imgs[2]
-                            currnt_product_extra_img[0].img3 = extra_imgs[3]
-                            currnt_product_extra_img[0].save()
-                        if length_of_extra_imgs == 5:
-                            currnt_product_extra_img[0].img = extra_imgs[0]
-                            currnt_product_extra_img[0].img1 = extra_imgs[1]
-                            currnt_product_extra_img[0].img2 = extra_imgs[2]
-                            currnt_product_extra_img[0].img3 = extra_imgs[3]
-                            currnt_product_extra_img[0].img4 = extra_imgs[4]
-                            currnt_product_extra_img[0].save()
                     messages.success(request, "Successfully updated!")
                     return redirect('sellerCustomProductList')
 
@@ -426,9 +387,9 @@ def seller_update_custom_product(request, pk):
                         current_product_data.details = details
                         current_product_data.use_case = use_cases
                         current_product_data.benefits = benefits
-                        current_product_data.security_policy = "security_policy"
-                        current_product_data.return_policy = "return_policy"
-                        current_product_data.delivery_policy = "delivery_policy"
+                        current_product_data.security_policy = "apcp"
+                        current_product_data.return_policy = "apcp"
+                        current_product_data.delivery_policy = "apcp"
                         current_product_data.store_name = store__name
                         current_product_data.store_link = store_link
                         current_product_data.about_store = about_store
@@ -461,6 +422,16 @@ def seller_update_custom_product(request, pk):
                     messages.success(request, "Successfully updated!")
                     return redirect('sellerCustomProductList')
         except:
+
+            if delete_old_images == 'on':
+                # grabing extra images of current object
+                currnt_obj_extra_img_list = ProductImg.objects.filter(product_id=current_product_data.product_id)
+
+                if currnt_obj_extra_img_list:
+                    for img in currnt_obj_extra_img_list:
+                        fs.delete(img.img.name)
+                        img.delete()
+
             extra_imgs = request.FILES.getlist('product__extra__images')
 
             # removing/saving product from sponsored product prize list if sponsored status is false
@@ -476,6 +447,13 @@ def seller_update_custom_product(request, pk):
 
             length_of_extra_imgs = len(extra_imgs)
             if extra_imgs:
+                if length_of_extra_imgs > 0:
+                    for img in extra_imgs:
+                        product_extra_img_model = ProductImg.objects.create(
+                            product_id=current_product_data.product_id, product_type='mcp', img=img)
+                        current_product_data.productImg.add(product_extra_img_model)
+                        current_product_data.save()
+
                 if policy == 'company':
                     current_product_data.category = curnt_product_cat
                     current_product_data.subcategory = curnt_product_subcat
@@ -487,9 +465,9 @@ def seller_update_custom_product(request, pk):
                     current_product_data.details = details
                     current_product_data.use_case = use_cases
                     current_product_data.benefits = benefits
-                    current_product_data.security_policy = "security_policy"
-                    current_product_data.return_policy = "return_policy"
-                    current_product_data.delivery_policy = "delivery_policy"
+                    current_product_data.security_policy = "apcp"
+                    current_product_data.return_policy = "apcp"
+                    current_product_data.delivery_policy = "apcp"
                     current_product_data.store_name = store__name
                     current_product_data.store_link = store_link
                     current_product_data.about_store = about_store
@@ -518,44 +496,7 @@ def seller_update_custom_product(request, pk):
                     current_product_data.policy_followed = policy
                     current_product_data.sponsor_status = sponsor_status
                     current_product_data.save()
-                # check if there is any extra images exists for current product
-                if currnt_product_extra_img:
-                    if currnt_product_extra_img[0].img:
-                        fs.delete(currnt_product_extra_img[0].img.name)
-                    if currnt_product_extra_img[0].img1:
-                        fs.delete(currnt_product_extra_img[0].img1.name)
-                    if currnt_product_extra_img[0].img2:
-                        fs.delete(currnt_product_extra_img[0].img2.name)
-                    if currnt_product_extra_img[0].img3:
-                        fs.delete(currnt_product_extra_img[0].img3.name)
-                    if currnt_product_extra_img[0].img4:
-                        fs.delete(currnt_product_extra_img[0].img4.name)
 
-                if length_of_extra_imgs == 1:
-                    currnt_product_extra_img[0].img = extra_imgs[0]
-                    currnt_product_extra_img[0].save()
-                if length_of_extra_imgs == 2:
-                    currnt_product_extra_img[0].img = extra_imgs[0]
-                    currnt_product_extra_img[0].img1 = extra_imgs[1]
-                    currnt_product_extra_img[0].save()
-                if length_of_extra_imgs == 3:
-                    currnt_product_extra_img[0].img = extra_imgs[0]
-                    currnt_product_extra_img[0].img1 = extra_imgs[1]
-                    currnt_product_extra_img[0].img2 = extra_imgs[2]
-                    currnt_product_extra_img[0].save()
-                if length_of_extra_imgs == 4:
-                    currnt_product_extra_img[0].img = extra_imgs[0]
-                    currnt_product_extra_img[0].img1 = extra_imgs[1]
-                    currnt_product_extra_img[0].img2 = extra_imgs[2]
-                    currnt_product_extra_img[0].img3 = extra_imgs[3]
-                    currnt_product_extra_img[0].save()
-                if length_of_extra_imgs == 5:
-                    currnt_product_extra_img[0].img = extra_imgs[0]
-                    currnt_product_extra_img[0].img1 = extra_imgs[1]
-                    currnt_product_extra_img[0].img2 = extra_imgs[2]
-                    currnt_product_extra_img[0].img3 = extra_imgs[3]
-                    currnt_product_extra_img[0].img4 = extra_imgs[4]
-                    currnt_product_extra_img[0].save()
                 messages.success(request, "Successfully updated!")
                 return redirect('sellerCustomProductList')
             else:
@@ -570,9 +511,9 @@ def seller_update_custom_product(request, pk):
                     current_product_data.details = details
                     current_product_data.use_case = use_cases
                     current_product_data.benefits = benefits
-                    current_product_data.security_policy = "security_policy"
-                    current_product_data.return_policy = "return_policy"
-                    current_product_data.delivery_policy = "delivery_policy"
+                    current_product_data.security_policy = "apcp"
+                    current_product_data.return_policy = "apcp"
+                    current_product_data.delivery_policy = "apcp"
                     current_product_data.store_name = store__name
                     current_product_data.store_link = store_link
                     current_product_data.about_store = about_store
@@ -620,7 +561,7 @@ def seller_custom_product_list(request):
         return redirect('frontEndLoginRegister')
 
     # product list
-    product_list = Product_list.objects.filter(user=request.user)
+    product_list = ProductList.objects.filter(user=request.user)
 
     context = {
         'product_list': product_list,
@@ -630,49 +571,37 @@ def seller_custom_product_list(request):
 
 
 @login_required(login_url='/fe/login/register')
-def seller_custom_product_detail(request, pk):
+def seller_custom_product_detail(request, pk, product_id):
 
     if request.user.is_seller != True:
         return redirect('frontEndLoginRegister')
 
     # current obj
-    current_product = Product_list.objects.get(pk=pk)
-
-    # image list of current obj
-    currnt_prdct_img_list = Product_image.objects.filter(product=current_product).first()
+    current_product = ProductList.objects.get(pk=pk)
 
     context = {
         'current_pk': pk,
         'current_product': current_product,
-        'currnt_prdct_img_list': currnt_prdct_img_list,
     }
 
     return render(request, 'backEnd__sellerDashboard/product/product_details.html', context)
 
 @login_required(login_url='/fe/login/register')
-def seller_del_custom_product(request, pk):
+def seller_del_custom_product(request, pk, product_id):
 
     if request.user.is_seller != True:
         return redirect('frontEndLoginRegister')
 
     try:
-        current_obj = Product_list.objects.get(pk=pk)
+        current_obj = ProductList.objects.get(pk=pk)
         fs = FileSystemStorage()
         # checking wheathe it has any extra images or not
-        related_imgs_of_currnt_obj = Product_image.objects.filter(product=current_obj)
+        related_imgs_of_currnt_obj = ProductImg.objects.filter(product_id=product_id)
+
         if related_imgs_of_currnt_obj:
-            related_img_exact_obj = related_imgs_of_currnt_obj.first()
-            if related_img_exact_obj.img:
-                fs.delete(related_img_exact_obj.img.name)
-            if related_img_exact_obj.img1:
-                fs.delete(related_img_exact_obj.img1.name)
-            if related_img_exact_obj.img2:
-                fs.delete(related_img_exact_obj.img2.name)
-            if related_img_exact_obj.img3:
-                fs.delete(related_img_exact_obj.img3.name)
-            if related_img_exact_obj.img4:
-                fs.delete(related_img_exact_obj.img4.name)
-        related_imgs_of_currnt_obj.delete()
+            for img in related_imgs_of_currnt_obj:
+                fs.delete(img.img.name)
+                img.delete()
 
         # deleting product thumbnail obj
         fs.delete(current_obj.product_thumbnail.name)

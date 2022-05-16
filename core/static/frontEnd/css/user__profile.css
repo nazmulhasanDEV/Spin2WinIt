@@ -226,6 +226,18 @@
     cursor: pointer;
 }
 
+.ads_cart__nd__wishlist {
+    margin-top: 10px;
+}
+
+.ads_cart__nd__wishlist a button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+
+
 
 
 

@@ -381,8 +381,9 @@
             outerRadius: 187, // Set outer radius so wheel fits inside the background. Default was: 214
             innerRadius: 65, // Make wheel hollow so segments don't go all way to center. Default was: 75
             textFontSize: 24, // Set default font size for the segments. Defulat was: 24
-            textOrientation: "vertical", // Make text vertial so goes down from the outside of wheel.
-            textAlignment: "inner", // Align text to outside of wheel.
+            textOrientation: "curved", // Make text vertial so goes down from the outside of wheel.
+
+            textAlignment: "center", // Align text to outside of wheel."inner, outer, center"
             numSegments: {{number_of_segments}}, // Specify number of segments.
             // Define segments including colour and text.
             segments: [
@@ -394,7 +395,7 @@
                     text: "PC - {{x.prize_title}}",
                     textFontSize: 16,
                     textFillStyle: "#ffffff",
-                     textOrientation: "horizontal",
+                    textOrientation: "horizontal",
                  },
                 {% else %}
                 {
@@ -409,7 +410,7 @@
             animation: {
                 type: "spinToStop",
                 duration: {{game_setting.spining_duration}}, // Duration in seconds. Defualt: 10s
-                spins: {{game_setting.spining_duration}}, // Default number of complete spins. default:3
+                spins: {{game_setting.no_of_complt_spins}}, // Default number of complete spins. default:3
                 callbackFinished: alertPrize,
                 callbackSound: playSound, // Function to call when the tick sound is to be triggered.
                 soundTrigger: "pin", // Specify pins are to trigger the sound, the other option is 'segment'.

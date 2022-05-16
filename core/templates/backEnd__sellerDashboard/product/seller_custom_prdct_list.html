@@ -79,12 +79,12 @@
                                 <tr>
                                     <td>{{x.product_id}}</td>
                                     <td>{{x.title|striptags}}</td>
-                                    <td>{{x.subcategory.name}}, {{x.category.name}}</td>
+                                    <td>{{x.category.name}}, {{x.subcategory.name}}</td>
                                     <td>{{x.new_price}}</td>
                                     <td class="text-center">
-                                        <a href="{% url 'sellerCustomProductDetails' pk=x.pk %}">
+                                        <a href="{% url 'sellerCustomProductDetails' pk=x.pk product_id=x.product_id %}">
                                             <button type="button" style="border:none; background: #222D32;color:white;">
-                                                Check details</button>
+                                                Details</button>
                                         </a>
 
                                         <a href="{% url 'sellerCustomProductUpdate' pk=x.pk %}">
@@ -115,7 +115,7 @@
                                                         <button type="button" class="btn btn-secondary"
                                                                 data-dismiss="modal">Close
                                                         </button>
-                                                        <a href="{% url 'sellerDelCustomProduct' pk=x.pk %}">
+                                                        <a href="{% url 'sellerDelCustomProduct' pk=x.pk product_id=x.product_id %}">
                                                             <button type="button" class="btn btn-primary">
                                                                 Confirm
                                                             </button>

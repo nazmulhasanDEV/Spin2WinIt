@@ -37,71 +37,12 @@ wcapi = API(
     version="wc/v3",
     timeout=50,
 )
-# data = {
-#     "payment_method": "bacs",
-#     "payment_method_title": "Direct Bank Transfer",
-#     "set_paid": True,
-#     "billing": {
-#         "first_name": "John",
-#         "last_name": "Doe",
-#         "address_1": "969 Market",
-#         "address_2": "",
-#         "city": "San Francisco",
-#         "state": "CA",
-#         "postcode": "94103",
-#         "country": "US",
-#         "email": "john.doe@example.com",
-#         "phone": "(555) 555-5555",
-#     },
-#     "shipping": {
-#         "first_name": "John",
-#         "last_name": "Doe",
-#         "address_1": "969 Market",
-#         "address_2": "",
-#         "city": "San Francisco",
-#         "state": "CA",
-#         "postcode": "94103",
-#         "country": "US"
-#     },
-#     "line_items": [
-#         {
-#             "product_id": 93,
-#             "quantity": 2
-#         },
-#         {
-#             "product_id": 22,
-#             "variation_id": 23,
-#             "quantity": 1
-#         }
-#     ],
-#     "shipping_lines": [
-#         {
-#             "method_id": "flat_rate",
-#             "method_title": "Flat Rate",
-#             "total": "10.00"
-#         }
-#     ]
-# }
 
+# function for sending order to woocommerce
 def create_orderToWcmrceStore(order_data):
-
     order = wcapi.post("orders", order_data).json()
-    print(order)
-    if order:
-        print("Order sent to woocommerce")
-
     return True
 
-
-# def add_woocommerce_product_to_product_list(obj, user):
-#
-#     if obj:
-#         for x in obj:
-#             if len(Product_list.objects.filter(woocmrce_product=x)) <= 0:
-#                 product_list_model = Product_list(woocmrce_product=x, user=user)
-#                 product_list_model.save()
-#
-#     return True
 
 # ###################### woocommerce store section starts ***********************
 @login_required(login_url='/ap/register/updated')
@@ -429,6 +370,105 @@ def ap_cancel_order(request, order_id):
     return redirect('apCurrentOrderList')
 
 
+@login_required(login_url='/ap/register/updated')
+def ap_add_couponCode(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        code = request.POST.get('coupon_code')
+        discount_amount = request.POST.get('discount_amount')
+
+        if code and discount_amount and CouponCode.objects.filter(coupon_code=code).count() <= 0:
+            coupon_code_model = CouponCode.objects.create(user=request.user, coupon_code=code, discount_amnt=int(discount_amount))
+            messages.success(request, "Successfully added!")
+            return redirect('apAddCouponoCode')
+        else:
+            messages.warning(request, "This coupon code already exists! Try with new one!")
+            return redirect('apAddCouponoCode')
+
+    return render(request, 'backEnd_superAdmin/coupon_code/add_coupon.html')
+
+@login_required(login_url='/ap/register/updated')
+def ap_update_couponCode(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        coupon_code = request.POST.get('coupon_code')
+        discount_amount = request.POST.get('discount_amount')
+
+        if coupon_code and discount_amount:
+            crnt_obj = CouponCode.objects.filter(pk=pk).first()
+            crnt_obj.coupon_code = coupon_code
+            crnt_obj.discount_amnt = discount_amount
+            crnt_obj.save()
+            messages.success(request, "Successfully updated!")
+            return redirect('apCouponCodeList')
+        else:
+            messages.warning(request, "Can't be updated!")
+            return redirect('apCouponCodeList')
+
+    return redirect('apCouponCodeList')
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_couponCode(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = CouponCode.objects.filter(pk=pk).first()
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apCouponCodeList')
+
+    except:
+        messages.warning(request, "Can't be deleted!")
+        return redirect('apCouponCodeList')
+
+    return redirect('apCouponCodeList')
+
+@login_required(login_url='/ap/register/updated')
+def ap_couponCode_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # coupon code list
+    coupon_code_list = CouponCode.objects.all()
+
+    context = {
+        'coupon_code_list': coupon_code_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/coupon_code/coupon_list.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_activate_orDeactivate_couponCode(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        currnt_obj = CouponCode.objects.filter(pk=pk).first()
+
+        if currnt_obj.status:
+            currnt_obj.status = False
+            currnt_obj.save()
+        else:
+            currnt_obj.status = True
+            currnt_obj.save()
+        messages.success(request, "Successfully activated!")
+        return redirect('apCouponCodeList')
+    except:
+        messages.warning(request, "Can't be activated!")
+        return redirect('apCouponCodeList')
+
+    return redirect('apCouponCodeList')
+
 # on the way ******************
 @login_required(login_url='/ap/register/updated')
 def ap_on_the_way_order_list(request):
@@ -439,7 +479,6 @@ def ap_on_the_way_order_list(request):
     # order list which already shipped for delivery
 
     order_list = OrderList.objects.filter(Q(order_status='a') & Q(delivery_status=False) & Q(shipping_status=True))
-
 
     context = {
         'order_list' : order_list,
@@ -721,12 +760,17 @@ def home(request):
     # total number of products
     total_number_of_products = ProductList.objects.all().count()
 
+    # unique visitors
+    unique_visitors = VisitorInfo.objects.count()
+
+
     context = {
         'user_list' : user_list,
         'profile_pic' : profile_pic,
         'total_number_of_orders': total_number_of_orders,
         'total_registered_usr': total_registered_usr,
         'total_number_of_products': total_number_of_products,
+        'unique_visitors': unique_visitors,
     }
 
     return render(request, 'backEnd_superAdmin/home.html', context)
@@ -989,6 +1033,8 @@ def ap_add_admin_custsom_product(request):
                     product_img_model = ProductImg.objects.create(product_id=product_id, product_type='mcp', img=img)
 
                 if policy == 'company':
+                    # mcp stands for "My Custom Product
+                    # apcp stands for "As Per Company Policy"
                     product_list_model = ProductList.objects.create(
                         product_id=product_id,
                         product_type='mcp',
@@ -1044,6 +1090,7 @@ def ap_add_admin_custsom_product(request):
                         about_store=about_store,
                         in_stock=in_stock,
                         policy_followed=policy,
+                        sponsor_status=sponsor_status
                     )
                     product_extra_img_list = ProductImg.objects.filter(product_id=product_id)
                     if product_extra_img_list:
@@ -1117,6 +1164,7 @@ def ap_add_admin_custsom_product(request):
                     about_store=about_store,
                     in_stock=in_stock,
                     policy_followed=policy,
+                    sponsor_status=sponsor_status
                 )
                 product_extra_img_list = ProductImg.objects.filter(product_id=product_id)
                 if product_extra_img_list:
@@ -3981,7 +4029,7 @@ def ap_del_banner(request, pk):
 
 
 
-# advertisement section
+# advertisement section *******************************************
 @login_required(login_url='/ap/register/updated')
 def ap_add_banner_at_prod_detail_page(request):
 
@@ -4227,6 +4275,119 @@ def ap_de_activate_shop_page_banner(request, pk):
         return redirect('apProductDetailsPgBnrList')
 
     return redirect('apShopPageBannerList')
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_add_ads_toUser_profilePage(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # user profile picture
+    profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+
+    # product list
+    product_list = ProductList.objects.all()
+
+    if request.method == 'POST':
+        ads_type = request.POST.get('ads_type')
+
+        if ads_type == 'product':
+            product_id = request.POST.get('product')
+            if product_id:
+                product = ProductList.objects.filter(product_id=product_id).first()
+                usr_profile_ads_model = UserProfileAds.objects.create(user=request.user, ads_type=ads_type, product=product)
+                messages.success(request, "Successfully added new banner!")
+                return redirect('apAddAdsToUserProfilePg')
+        else:
+            banner_img = request.FILES['banner_img']
+            usr_profile_ads_model = UserProfileAds.objects.create(user=request.user, ads_type=ads_type, banner_img=banner_img)
+            messages.success(request, "Successfully added new banner!")
+            return redirect('apAddAdsToUserProfilePg')
+
+    context = {
+        'profile_pic': profile_pic,
+        'product_list': product_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/profile_page_ads/add_ads.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_user_profile_ads_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # all ads in user profile page
+    user_profile_page_ads = UserProfileAds.objects.all()
+
+    context = {
+        'user_profile_page_ads' : user_profile_page_ads,
+    }
+
+    return render(request, 'backEnd_superAdmin/profile_page_ads/ads_list.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_del_usr_profile_ads(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        fs = FileSystemStorage()
+        current_obj = UserProfileAds.objects.get(pk=pk)
+
+        if current_obj.ads_type == 'banner':
+            fs.delete(current_obj.banner_img.name)
+            current_obj.delete()
+            messages.success(request, "Successfully deleted!")
+            return redirect('apUserProfileAdsList')
+        else:
+            current_obj.delete()
+            messages.success(request, "Successfully deleted!")
+            return redirect('apUserProfileAdsList')
+    except:
+        messages.warning(request, "Object not found! Try again!")
+        return redirect('apUserProfileAdsList')
+
+    return redirect('apUserProfileAdsList')
+
+@login_required(login_url='/ap/register/updated')
+def ap_activate_usr_profile_ads(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_obj = UserProfileAds.objects.get(pk=pk)
+        current_obj.status = True
+        current_obj.save()
+        messages.success(request, "Successfully activated!")
+        return redirect('apUserProfileAdsList')
+    except:
+        messages.warning(request, "Object not found! Try again!")
+        return redirect('apUserProfileAdsList')
+
+    return redirect('apUserProfileAdsList')
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_deactivate_usr_profile_ads(request, pk):
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_obj = UserProfileAds.objects.get(pk=pk)
+        current_obj.status = False
+        current_obj.save()
+        messages.success(request, "Successfully de-activated!")
+        return redirect('apUserProfileAdsList')
+    except:
+        messages.warning(request, "Object not found! Try again!")
+        return redirect('apUserProfileAdsList')
+
+    return redirect('apUserProfileAdsList')
+# advertisement section ends ******************************************************************
 
 
 @login_required(login_url='/ap/register/updated')

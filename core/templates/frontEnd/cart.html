@@ -105,19 +105,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="coupon-all">
-                                            <div class="coupon">
-                                                <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
-                                                <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
-                                            </div>
-                                            <div class="coupon2">
-                                                <input class="button" name="update_cart" value="Update cart" type="submit">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <div class="row">
                                     <div class="col-md-7 order-sm-12">
                                         <div>
@@ -137,8 +125,9 @@
                                         <div class="cart-page-total">
                                             <h2>Cart totals</h2>
                                             <ul>
-                                                <li>Subtotal <span>$</span><span class="final_sub__total__amount">{{total_amount}}</span></li>
-                                                <li>Total <span>$</span><span class="final__total_amount">{{total_amount}}</span></li>
+                                                <li>Subtotal <span>$</span><span class="final_sub__total__amount">{{sub_total_amount}}</span></li>
+<!--                                                <li>Discount <span>$</span><span class="final_sub__total__amount">{{sub_total_amount}}</span></li>-->
+                                                <li>Total <span>$</span><span class="final__total_amount">{{total_amount|floatformat:2}}</span></li>
                                             </ul>
                                             <a href="{% url 'frontEndCheckOut' username=request.user.username %}">Proceed to checkout</a>
                                         </div>

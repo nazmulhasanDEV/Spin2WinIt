@@ -1,0 +1,95 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-12">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+
+
+            <div style="position: relative;padding-top: 15px; padding-bottom: 15px;">
+                <a href="{% url 'apCouponCodeList' %}" style="position: absolute; right: 0; bottom: 15px;">
+                    <button type="button" style="width: 130px;border: none; outline: none;color: white; border-radius: 5px; padding: 5px; background:#222D32;"><i class="fas fa-list"></i>&nbsp; Coupon list</button>
+                </a>
+            </div>
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Add coupon code</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="{% url 'apAddCouponoCode' %}" method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+
+                        <div class="row form-group policy__section">
+                            <div class="col-md-6">
+                                <label>Coupon code</label>
+                                <div style="position: relative;">
+                                    <input type="text" name="coupon_code" id="coupon_code" class="form-control" placeholder="Coupon Code" required>
+                                    <button type="button" id="generate_coupon_code" style="position: absolute; right: 0px; top: 0; height: 100%;">Generate Random Code</button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Discount Amount(in %)</label>
+                                <input type="number" name="discount_amount" class="form-control" placeholder="Discount Amount" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary add_main__banner admin__prdctAdd_btn">LET'S ADD</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block dropzone_block %}
+
+<script>
+    // declare all characters
+        const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const coupon_code = document.querySelector('#coupon_code');
+        const generate_coupon_code = document.querySelector('#generate_coupon_code');
+
+        function generateString(length) {
+            let result = ' ';
+            const charactersLength = characters.length;
+            for ( let i = 0; i < length; i++ ) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+
+        generate_coupon_code.onclick = () =>{
+            coupon_code.value = generateString(8)
+        }
+
+</script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}
+

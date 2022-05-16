@@ -212,6 +212,7 @@ class OrderList(models.Model):
     order_id = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderedItem, blank=True)
+    sub_total_amount = models.FloatField(blank=True, null=True)
     total_amount = models.FloatField(blank=True, null=True)
 
     start_date = models.DateTimeField(auto_now_add=True)
@@ -234,6 +235,27 @@ class OrderList(models.Model):
 
     def __str__(self):
         return str(self.user.email)
+
+
+# Coupon
+class CouponCode(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.PROTECT, blank=True, null=True)
+    coupon_code = models.CharField(max_length=30)
+    discount_amnt = models.IntegerField(default=0, blank=True, null=True) # discount in percentage(%)
+    status = models.BooleanField(default=False, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.coupon_code + "||" + str(self.discount_amnt)
+
+# Coupon applied history
+class AppliedCouponHistory(models.Model):
+    order = models.ForeignKey(OrderList, on_delete=models.CASCADE, blank=True, null=True)
+    coupon = models.ForeignKey(CouponCode, on_delete=models.CASCADE, blank=True, null=True)
+    discount_got = models.CharField(max_length=24, blank=True, null=True)
+
+    def __str__(self):
+        return self.coupon.coupon_code + "||" + self.order.order_id
 
 # wishlist
 class WishList(models.Model):

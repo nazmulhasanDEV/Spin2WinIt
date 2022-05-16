@@ -74,7 +74,7 @@
             <!-- small box -->
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h3>65</h3>
+                    <h3>{{unique_visitors}}</h3>
 
                     <p>Unique Visitors</p>
                 </div>
@@ -143,10 +143,21 @@
                         {% for x in user_list %}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{x.first_name}}</td>
+                            <td>{{x.fname}} {{x.lname}}</td>
                             <td>{{x.email}}</td>
-                            <td>{{x.is_superuser}}</td>
-                            <td>{{x.is_staff}}</td>
+
+                            <td>
+                                {% if x.is_superuser %}
+                                Superuser
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if x.is_staff %}
+                                Staff
+                                {% endif %}
+                            </td>
+
                             <td>{{x.date_joined}}</td>
                             <td class="text-center">
                                 {% if x.is_active %}

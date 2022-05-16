@@ -23,8 +23,8 @@ from django.core.paginator import Paginator, EmptyPage
 from datetime import datetime, timedelta
 from django.utils import timezone
 from django.utils.crypto import get_random_string
-
 from adminPanel.views import create_orderToWcmrceStore
+from .get_visitor_info import get_or_countVisitorInfo
 
 def get_User_ip(request):
 
@@ -81,7 +81,7 @@ def front_index(request):
         'help_center_content_setting': help_center_content_setting,
 
 
-        'product_cat_list': product_cat_list,
+        'product_cat_list_all': product_cat_list,
         'product_list': products,
 
         'user_cart_status': user_cart_status,
@@ -90,7 +90,12 @@ def front_index(request):
 
     return render(request,  'frontEnd/index.html', context)
 
+
 def front_home(request):
+
+    # saving/counting visitor informations
+    get_or_count_visitor = threading.Thread(target=get_or_countVisitorInfo, args=[request.META.get('HTTP_X_FORWARDED_FOR'), request])
+    get_or_count_visitor.start()
 
     site_logo = SiteLogo.objects.filter().first()
 
@@ -116,7 +121,7 @@ def front_home(request):
     # home page main banner/slider
     main_banner_or_slider = BannerList.objects.all()
 
-    product_cat_list = ProductCategory.objects.all()
+    product_cat_list_all = ProductCategory.objects.all()
 
     products = ProductList.objects.all()
 
@@ -133,7 +138,7 @@ def front_home(request):
 
     # product category list which has at least one product
     product_catList_with_prodct = []
-    for x in product_cat_list:
+    for x in product_cat_list_all:
         if ProductList.objects.filter(Q(category=x) | Q(cat_name__icontains=x.name)):
             product_catList_with_prodct.append(x)
 
@@ -152,51 +157,38 @@ def front_home(request):
     # filtered products by category and listing all the product by category which has at least one product
     product_list = []
 
-    if product_cat_list:
-        for cat in product_cat_list:
+    if product_cat_list_all:
+        for cat in product_cat_list_all:
             current_cat_products = ProductList.objects.filter(Q(category=cat) | Q(cat_name__icontains=cat.name))[:6]
             product_list.extend(current_cat_products)
 
-    if request.user.is_authenticated:
+    # user cart status
+    user_cart_status = None
 
+    # user wishlist status
+    user_wishlist_status = None
+
+    total_amount = 0
+
+    if request.user.is_authenticated:
         # user cart status
         user_cart_status = Cart.objects.filter(user=request.user)
 
-        total_amount = 0
+        # user wishlist status
+        user_wishlist_status = WishList.objects.filter(user=request.user)
+
         if user_cart_status:
             for x in user_cart_status:
                 if x.product.product_type == 'wsp':
-                    total_amount = total_amount + (float(x.product.price) * x.quantity)
+                    total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
                 if x.product.product_type == 'mcp':
-                    total_amount = total_amount + (x.product.new_price * x.quantity)
+                    total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
 
-        # user cart status
-        user_wishlist_status = WishList.objects.filter(user=request.user)
-
-        context = {
-            'ip_exist': ip_exist,
-            'main_banner_or_slider' : main_banner_or_slider,
-            'product_cat_list': product_catList_with_prodct,
-            'cats_in_subcats' : cats_in_subcats,
-            'product_subcats' : product_subcats,
-            'total_amount' : total_amount,
-            'product_list': product_list,
-            'site_logo': site_logo,
-            'user_cart_status': user_cart_status,
-            'user_wishlist_status': user_wishlist_status,
-            'contact_info': contact_info,
-            'free_delivery_content_setting': free_delivery_content_setting,
-            'safe_payment_content_setting': safe_payment_content_setting,
-            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
-            'help_center_content_setting': help_center_content_setting,
-            'home_pg_mini_top_slidr' : home_pg_mini_top_slidr,
-            'home_pg_bottom_slidr' : home_pg_bottom_slidr,
-        }
-        return render(request, 'frontEnd/home.html', context)
 
     context = {
         'ip_exist': ip_exist,
         'main_banner_or_slider' : main_banner_or_slider,
+        'product_cat_list_all': product_cat_list_all,
         'product_cat_list' : product_catList_with_prodct,
         'cats_in_subcats' : cats_in_subcats,
         'product_subcats': product_subcats,
@@ -207,6 +199,10 @@ def front_home(request):
         'safe_payment_content_setting': safe_payment_content_setting,
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
+
+        'user_cart_status': user_cart_status,
+        'user_wishlist_status': user_wishlist_status,
+        'total_amount': total_amount,
 
         'home_pg_mini_top_slidr': home_pg_mini_top_slidr,
         'home_pg_bottom_slidr': home_pg_bottom_slidr,
@@ -262,7 +258,6 @@ def front_checkBoxCaptchaBonus(request):
                 return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect(request.META.get('HTTP_REFERER'))
-
 
 # check box captcha solving for shop page
 @login_required(login_url='/fe/login/register')
@@ -1152,7 +1147,6 @@ def front_invisibleCaptchaBonus(reqeust):
 
 
 def send__mail(email):
-
     email.send()
     return True
 
@@ -1327,7 +1321,7 @@ def front_search(request):
     # help center setting
     help_center_content_setting = HelpCenter.objects.filter().first()
 
-    product_cat_list = ProductCategory.objects.all()
+    product_cat_list_all = ProductCategory.objects.all()
 
     if request.method == 'POST':
         product_category = request.POST.get('product_category')
@@ -1343,7 +1337,7 @@ def front_search(request):
                 'search_content': search_content,
                 'search_result' : search_result,
                 'site_logo': site_logo,
-                'product_cat_list': product_cat_list,
+                'product_cat_list_all': product_cat_list_all,
             }
             return render(request, 'frontEnd/search.html', context)
 
@@ -1373,7 +1367,7 @@ def front_search(request):
             'site_logo': site_logo,
             'user_cart_status': user_cart_status,
             'user_wishlist_status': user_wishlist_status,
-            'product_cat_list': product_cat_list,
+            'product_cat_list_all': product_cat_list_all,
         }
         return render(request, 'frontEnd/search.html', context)
 
@@ -1385,7 +1379,7 @@ def front_search(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
 
-        'product_cat_list': product_cat_list,
+        'product_cat_list_all': product_cat_list_all,
     }
 
     return render(request, 'frontEnd/search.html', context)
@@ -1410,13 +1404,13 @@ def front_shop_for_all_category(request):
     # home page main banner/slider
     main_banner_or_slider = BannerList.objects.all()
 
-    product_cat_list = ProductCategory.objects.all()
+    product_cat_list_all = ProductCategory.objects.all()
 
     products = ProductList.objects.all()
 
     # product category list which has at least one product
     product_catList_with_prodct = []
-    for x in product_cat_list:
+    for x in product_cat_list_all:
         if ProductList.objects.filter(Q(category=x) | Q(cat_name__icontains=x.name)):
             product_catList_with_prodct.append(x)
 
@@ -1433,8 +1427,8 @@ def front_shop_for_all_category(request):
     # filtered products by category and listing all the product by category which has at least one product
     product_list = []
 
-    if product_cat_list:
-        for cat in product_cat_list:
+    if product_cat_list_all:
+        for cat in product_cat_list_all:
             current_cat_products = ProductList.objects.filter(Q(category=cat) | Q(cat_name__icontains=cat.name))[:5]
             product_list.extend(current_cat_products)
 
@@ -1456,6 +1450,7 @@ def front_shop_for_all_category(request):
 
         context = {
             'main_banner_or_slider': main_banner_or_slider,
+            'product_cat_list_all': product_cat_list_all,
             'product_cat_list': product_catList_with_prodct,
             'cats_in_subcats': cats_in_subcats,
             'product_subcats': product_subcats,
@@ -1474,6 +1469,7 @@ def front_shop_for_all_category(request):
 
     context = {
         'main_banner_or_slider': main_banner_or_slider,
+        'product_cat_list_all': product_cat_list_all,
         'product_cat_list': product_catList_with_prodct,
         'cats_in_subcats': cats_in_subcats,
         'product_subcats': product_subcats,
@@ -1757,6 +1753,7 @@ def front_cart_items_list(request, username):
     product_id = request.GET.get('item_id')
     no_of_current_updated_items = request.GET.get('no_items')
 
+    sub_total_amount = 0
     total_amount = 0
 
     if product_id and no_of_current_updated_items:
@@ -1786,14 +1783,14 @@ def front_cart_items_list(request, username):
         if request.is_ajax():
             return JsonResponse({'updated_product_info': updated_product_info})
 
-
-
     if user_cart_status:
         for x in user_cart_status:
             if x.product.product_type == 'wsp':
                 total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+                sub_total_amount = total_amount
             if x.product.product_type == 'mcp':
                 total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+                sub_total_amount = total_amount
 
     # user cart status
     user_wishlist_status = WishList.objects.filter(user=request.user)
@@ -1806,6 +1803,7 @@ def front_cart_items_list(request, username):
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
+        'sub_total_amount': sub_total_amount,
 
         'site_logo': site_logo,
         'contact_info': contact_info,
@@ -1889,7 +1887,6 @@ def front_confirm_order(request, username):
     if request.user.is_authenticated and request.user.is_buyer != True:
         return redirect('frontEndLoginRegister')
 
-
     if request.method == 'POST':
 
         # default shipping and billing address
@@ -1946,7 +1943,6 @@ def front_confirm_order(request, username):
                         item.save()
 
                 # creating new order
-
                 total_amount = 0
                 # user order items
                 for x in user_cart_items:
@@ -2016,6 +2012,7 @@ def front_confirm_order(request, username):
                     billing_info=BillingInfo.objects.get(info_id=id),
                     shipping_info=ShippingInfo.objects.get(info_id=id),
                     order_note=order_note,
+                    sub_total_amount=total_amount,
                     total_amount=total_amount,
                 )
                 for x in OrderedItem.objects.filter(Q(user=request.user) & Q(order_status='curnt')):
@@ -2042,7 +2039,7 @@ def front_confirm_order(request, username):
                 ship_country = order_list_model.shipping_info.email
                 ship_email = order_list_model.shipping_info.email
                 ship_phone = order_list_model.shipping_info.email
-                print("OKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+
                 if order_list_model.billing_info.default_billingAddress:
                     bill_fname = order_list_model.billing_info.default_billingAddress.fname
                     bill_address_1 = order_list_model.billing_info.default_billingAddress.address
@@ -2163,6 +2160,27 @@ def front_complete_payment(request, username, order_id):
 
     # grabing current user order details
     current_order = OrderList.objects.filter(order_id=order_id).first()
+
+    # apply coupon code section
+    if request.method == 'POST':
+        coupon_code = request.POST.get('coupon_code')
+        if coupon_code:
+            coupon_code_model = CouponCode.objects.filter(coupon_code=coupon_code).first()
+            if coupon_code_model:
+
+                applied_coupon_history_model = AppliedCouponHistory.objects.filter(Q(order=current_order) & Q(coupon=coupon_code_model)).count()
+
+                if coupon_code_model.status and applied_coupon_history_model <= 0:
+                    discnt_amnt_got_applying_coupon = ((coupon_code_model.discount_amnt) * float(current_order.total_amount)) / 100  # Discount amount got after applying coupon code
+                    current_order.total_amount = float(current_order.total_amount) - float(discnt_amnt_got_applying_coupon)
+                    current_order.save()
+
+                    # saving to coupon applied history
+                    coupon_history_model = AppliedCouponHistory.objects.create(order=current_order, coupon=coupon_code_model, discount_got=discnt_amnt_got_applying_coupon)
+                else:
+                    messages.warning(request, "Invalid coupon code!")
+                    return redirect('frontCompletePayment', username=request.user.username, order_id=current_order.order_id)
+
 
     if request.method == 'GET':
         # confirm payment
@@ -3359,6 +3377,26 @@ def front_user_profile(request, username):
     # user prize list
     usr_won_prize_list = PrizeList.objects.filter(user=request.user)
 
+    # all product category
+    product_cat_list_all = ProductCategory.objects.all()
+
+    # ads list on user profile
+    user_profile_ads_list = UserProfileAds.objects.filter(status=True)
+
+    # user cart status
+    user_cart_status = Cart.objects.filter(user=request.user)
+
+    # user wishlist status
+    user_wishlist_status = WishList.objects.filter(user=request.user)
+
+    total_amount = 0
+    if user_cart_status:
+        for x in user_cart_status:
+            if x.product.product_type == 'wsp':
+                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+            if x.product.product_type == 'mcp':
+                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+
 
     context = {
         'username' : username,
@@ -3371,6 +3409,12 @@ def front_user_profile(request, username):
         'user_dflt_shipping_address': user_dflt_shipping_address,
         'usr_default_biling_address': usr_default_biling_address,
         'usr_won_prize_list': usr_won_prize_list,
+        'user_profile_ads_list': user_profile_ads_list,
+        'product_cat_list_all': product_cat_list_all,
+
+        'user_cart_status': user_cart_status,
+        'user_wishlist_status': user_wishlist_status,
+        'total_amount': total_amount,
 
         'site_logo' : site_logo,
         'contact_info': contact_info,
@@ -3378,7 +3422,6 @@ def front_user_profile(request, username):
         'safe_payment_content_setting': safe_payment_content_setting,
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
-
     }
     return render(request, 'frontEnd/user_profile.html', context)
 
@@ -3396,7 +3439,7 @@ def front_ConvertPointInto_credit(request, username):
         user_currnt_available_pnt = int(pnt_wallet_model.available)
 
         # assuming 100 pnts = 1 credit
-        credit_amount = math.ceil((user_currnt_available_pnt) / 100)
+        credit_amount = math.ceil((user_currnt_available_pnt) / 1000)
 
         # update user credit wallet
         user_credit_wallet = CreditWallet.objects.filter(user=request.user).first()
@@ -3515,7 +3558,6 @@ def front_update_username(reqeust):
                 return redirect('frontEndUserProfile', usernmae=reqeust.user.username)
 
     return render(reqeust, 'frontEnd/user_profile.html')
-
 
 @login_required(login_url='/fe/login/register')
 def front_update_internal_password(request):
@@ -4310,7 +4352,10 @@ def front_contact_us(request):
     return render(request, 'frontEnd/contact_us.html', context)
 
 
+# process user product prizes ***************************************************************
 
+
+# process user product prizes ends***************************************************************
 
 
 

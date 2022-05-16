@@ -131,7 +131,7 @@
                         <li><a href="#">Total Sold <span class="pull-right badge bg-aqua">{{current_product.total_sold}}</span></a></li>
                         <li><a href="#">In Stock <span class="pull-right badge bg-aqua">{{current_product.in_stock}}</span></a></li>
 
-                        {% if current_product.sponsor_status %}
+                        {% if current_product.sponsor_status == 'yes' %}
                         <li><a href="#">Sponsor status(for game) <span class="pull-right badge bg-aqua">yes, sponsored</span></a></li>
                         {% else %}
                         <li><a href="#">Sponsor status(for game) <span class="pull-right badge bg-aqua">Not sponsored</span></a></li>

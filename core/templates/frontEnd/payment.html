@@ -34,26 +34,26 @@
 </div>
 <!-- ads ends here-->
 
-            <!--   django message         -->
-            <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            {% if messages %}
-            {% for message in messages %}
+<!--            &lt;!&ndash;   django message         &ndash;&gt;-->
+<!--            <div class="container">-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-12">-->
+<!--            {% if messages %}-->
+<!--            {% for message in messages %}-->
 
-            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"  {% endif %}>
-                <strong>{{ message }}!</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+<!--            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"  {% endif %}>-->
+<!--                <strong>{{ message }}!</strong>-->
+<!--                <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
 
-            {% endfor %}
-            {% endif %}
-        </div>
-    </div>
-</div>
-            <!-- ends django message -->
+<!--            {% endfor %}-->
+<!--            {% endif %}-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--            &lt;!&ndash; ends django message &ndash;&gt;-->
 
             <!--Checkout Area Strat-->
             <div class="checkout-area pt-60 pb-30">
@@ -225,6 +225,24 @@
                                         {% endif %}
                                     {% endif %}
                                 </div>
+
+                                <div class="checkbox-form">
+                                    <h3>Have coupon?</h3>
+                                    <div class="row">
+                                        <div class="col-12">
+                                        <div class="coupon-all">
+                                            <div class="coupon">
+                                                <form action="{% url 'frontCompletePayment' username=request.user.username order_id=current_order.order_id %}" method="post" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
+                                                    <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                         <div class="col-lg-6 col-12">
@@ -254,7 +272,7 @@
                                         <tfoot>
                                             <tr class="cart-subtotal">
                                                 <th>Order Subtotal</th>
-                                                <td><span class="amount">${{current_order.total_amount|floatformat:2}}</span></td>
+                                                <td><span class="amount">${{current_order.sub_total_amount|floatformat:2}}</span></td>
                                             </tr>
                                             <tr class="order-total">
                                                 <th>Order Total</th>
