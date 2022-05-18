@@ -78,5 +78,11 @@ class ApplicableRulesForWinner(models.Model):
         return self.product.product.title
 
 
+# model for saving total number of times played the game
+class TotalNumOfTimesPlayed(models.Model):
+    num_of_times_played = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.num_of_times_played)
 
 

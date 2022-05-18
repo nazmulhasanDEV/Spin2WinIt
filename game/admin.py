@@ -10,3 +10,6 @@ admin.site.register(Segment)
 
 # applicable rules/regulation for prize winner
 admin.site.register(ApplicableRulesForWinner)
+
+# total number of times played the game/spinned the wheel
+admin.site.register(TotalNumOfTimesPlayed)

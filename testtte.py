@@ -17,15 +17,17 @@
 # s = [{'s': s} for s in range(20)]
 # print(s)
 
-s = 2
-d = 4
+# s = 2
+# d = 4
+#
+# if s:
+#     print(s)
+# else:
+#     print("z")
+#
+# if d:
+#     print(d)
+# else:
+#     print("df")
 
-if s:
-    print(s)
-else:
-    print("z")
-
-if d:
-    print(d)
-else:
-    print("df")
+print(int(1.9))

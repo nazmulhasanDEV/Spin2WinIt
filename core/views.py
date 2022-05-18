@@ -2398,8 +2398,58 @@ def front_game(request):
 
     if request.user.is_authenticated:
 
+        # segment with gold, silver, Diamond price
+        gold_prize_cost = 0
+        gold_prize_necessaary_spins = 0
+        gold_prize = SegmentList.objects.filter(prize_title='Gold').first()
+        if gold_prize:
+            if gold_prize.product_as_prize.product.product_type == 'wsp':
+                gold_prize_cost = gold_prize.product_as_prize.product.price
+                gold_prize_necessaary_spins = math.ceil(float(gold_prize_cost) / (.10)) # here .10 cent == 1 spin
+            else:
+                gold_prize_cost = gold_prize.product_as_prize.product.new_price
+                gold_prize_necessaary_spins = math.ceil(float(gold_prize_cost) / (.10)) # here .10 cent == 1 spin
+
+        silver_prize = SegmentList.objects.filter(prize_title='Silver').first()
+        silver_prize_cost = 0
+        silver_prize_necessaary_spins = 0
+
+        if silver_prize:
+            if silver_prize.product_as_prize.product.product_type == 'wsp':
+                silver_prize_cost = silver_prize.product_as_prize.product.price
+                silver_prize_necessaary_spins = math.ceil(float(silver_prize_cost) / (.10))  # here .10 cent == 1 spin
+            else:
+                silver_prize_cost = gold_prize.product_as_prize.product.new_price
+                silver_prize_necessaary_spins = math.ceil(float(silver_prize_cost) / (.10))  # here .10 cent == 1 spin
+        # for bronze prize
+        bronze_prize = SegmentList.objects.filter(prize_title='Bronze').first()
+        bronze_prize_cost = 0
+        bronze_prize_necessaary_spins = 0
+
+        if bronze_prize:
+            if bronze_prize.product_as_prize.product.product_type == 'wsp':
+                bronze_prize_cost = bronze_prize.product_as_prize.product.price
+                # gold_prize_necessaary_spins = math.ceil(float(gold_prize_cost) / (.10)) # here .10 cent == 1 spin
+                bronze_prize_necessaary_spins = math.ceil(float(bronze_prize_cost) / (.10)) # here .10 cent == 1 spin
+            else:
+                bronze_prize_cost = bronze_prize.product_as_prize.product.new_price
+                # gold_prize_necessaary_spins = math.ceil(float(bronze_prize_cost) / (.10))  # here .10 cent == 1 spin
+                bronze_prize_necessaary_spins = math.ceil(float(bronze_prize_cost) / (.10))  # here .10 cent == 1 spin
+
         # getting current spinning chances
         current_chances = request.GET.get('current_chances')
+
+        # getting request from restart spin
+        fromRestartSpin = request.GET.get('fromRestartSpin')
+
+        if fromRestartSpin:
+            totalNumberOfTimesPlayedModel = TotalNumOfTimesPlayed.objects.filter().first()
+            totalNumberOfTimesPlayedModel.num_of_times_played = int(totalNumberOfTimesPlayedModel.num_of_times_played) - 1
+            totalNumberOfTimesPlayedModel.save()
+
+            if request.is_ajax():
+                current_total_num_of_played = TotalNumOfTimesPlayed.objects.filter().first()
+                return JsonResponse({'current_total_num_of_played': current_total_num_of_played.num_of_times_played})
 
         # getting user
         user_winning_chances = WinningChance.objects.filter(user=request.user)
@@ -2414,12 +2464,28 @@ def front_game(request):
 
             user_total_remaining_chances = user_total_remaining_chances + int(user_winning_chances.first().remaining_chances)
 
+        # current chances sections
+        if current_chances:
+            total_number_of_times_played = TotalNumOfTimesPlayed.objects.filter().count()
+            if total_number_of_times_played <= 0:
+                total_num_of_times_played_model = TotalNumOfTimesPlayed.objects.create(num_of_times_played=1)
+            else:
+                total_num_of_times_played_model = TotalNumOfTimesPlayed.objects.filter().first()
+                total_num_of_times_played_model.num_of_times_played = total_num_of_times_played_model.num_of_times_played + 1
+                total_num_of_times_played_model.save()
+
+                if request.is_ajax():
+                    current_total_num_of_played = TotalNumOfTimesPlayed.objects.filter().first()
+                    return JsonResponse({'current_total_num_of_played': current_total_num_of_played.num_of_times_played})
+
+
+
         # grabing user won prize
         won_prize = request.GET.get('won_prize')
-        print(won_prize)
+
         # converting won prize text into array
         last_str_of_won_prize = str(won_prize).split()[-1]
-        print(last_str_of_won_prize)
+
         if won_prize:
             # checking if the won prize is a point
             is_point = any(s.isdigit() for s in won_prize)
@@ -2442,7 +2508,6 @@ def front_game(request):
                 # getting won product informations
                 won_product_id = segments_with_won_product.product_as_prize.product.product_id
                 won_product = ProductList.objects.filter(product_id=won_product_id).first()
-                print(won_product)
                 user_prize_list_model = PrizeList(
                     user=request.user,
                     prize_type='product',
@@ -2467,6 +2532,9 @@ def front_game(request):
 
             'sponsored_product' : sponsored_product,
             'applicable_rules': applicable_rules,
+            'gold_prize_necessaary_spins': gold_prize_necessaary_spins,
+            'silver_prize_necessaary_spins': silver_prize_necessaary_spins,
+            'bronze_prize_necessaary_spins': bronze_prize_necessaary_spins,
 
             'user_total_remaining_chances' : user_total_remaining_chances,
             'game_setting': game_setting,

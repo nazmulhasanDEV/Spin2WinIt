@@ -89,6 +89,8 @@
                         {% else %}
                         <h5><strong>Sign In to win the best prize today!</strong></h5>
                         {% endif %}
+
+                        <h5 style="position: absolute; visibility: hidden; bottom:0px;left: 0px;">Total played: <span id="total_num_of_times_played">{{current_total_num_of_played}}</span></h5>
                     </div>
                 </div>
             </div>
@@ -368,9 +370,6 @@
 
         // ends captcha-1
 
-
-
-
 </script>
 
 <!-- game scripts -->
@@ -378,6 +377,7 @@
 
         // Create new wheel object specifying the parameters at creation time.
         let theWheel = new Winwheel({
+            responsive   : true,  // This wheel is responsive!
             outerRadius: 187, // Set outer radius so wheel fits inside the background. Default was: 214
             innerRadius: 65, // Make wheel hollow so segments don't go all way to center. Default was: 75
             textFontSize: 24, // Set default font size for the segments. Defulat was: 24
@@ -408,9 +408,10 @@
             ],
             // Specify the animation to use.
             animation: {
+                easing       : 'Power2.easeInOut',
                 type: "spinToStop",
-                duration: {{game_setting.spining_duration}}, // Duration in seconds. Defualt: 10s
-                spins: {{game_setting.no_of_complt_spins}}, // Default number of complete spins. default:3
+                duration: 2, // Duration in seconds. Defualt: 10s {{game_setting.spining_duration}}
+                spins: 10, // Default number of complete spins. default:3 {{game_setting.no_of_complt_spins}}
                 callbackFinished: alertPrize,
                 callbackSound: playSound, // Function to call when the tick sound is to be triggered.
                 soundTrigger: "pin", // Specify pins are to trigger the sound, the other option is 'segment'.
@@ -420,6 +421,7 @@
                 number: {{number_of_segments}},
                 fillStyle: "silver",
                 outerRadius: 4,
+                responsive : true, // This must be set to true if pin size is to be responsive.
             },
         });
 
@@ -521,10 +523,13 @@
                                 current_numbe_of_chances.innerHTML = parseInt(current_numbe_of_chances.innerHTML) - 1;
                            }
                            spin_button.disabled  = true;
-                     },
 
+                           // updating total number of times played the game till now
+                           const total_num_of_times_played = document.getElementById('total_num_of_times_played');
+                           total_num_of_times_played.innerHTML = response.current_total_num_of_played;
+                     },
                    });
-                    //ajax ends
+            //ajax ends
             // ends newly added ajax script
 
 
@@ -541,8 +546,7 @@
                 }
 
                 // Disable the spin button so can't click again while wheel is spinning.
-                document.getElementById("spin_button").src =
-                    "{% static 'frontEnd/gaming_files/spin_off.png' %}";
+                //document.getElementById("spin_button").src = "{% static 'frontEnd/gaming_files/spin_off.png' %}";
                 document.getElementById("spin_button").className = "";
 
                 // Begin the spin animation by calling startAnimation on the wheel object.
@@ -583,7 +587,6 @@
         // Called when the spin animation has finished by the callback feature of the wheel because I specified callback in the parameters.
         // -------------------------------------------------------
         function alertPrize(indicatedSegment) {
-
             //ajax starts
 
                 $.ajax({
@@ -602,36 +605,94 @@
             // Just alert to the user what happened.
             // In a real project probably want to do something more interesting than this with the result.
             current_prize_txt = indicatedSegment.text;
+
             if (current_prize_txt.toString().includes('PC')) {
-                //let winning__moment__audio = document.querySelector('#winning__moment__audio');
-                //let game__prize__flash__message = document.querySelector('.game__prize__flash__message');
-                //const flash_msg_main_content = document.querySelector('.flash_msg_main_content');
-                //let flash__msg_content = document.querySelector('.flash__msg_content');
-                //let won__prize_poin_amnt = document.querySelector('.won__prize_poin_amnt');
-                //let won__prize__img = document.querySelector('.won__prize__img');
-                //let current__product__as_prize = document.querySelector('.current__product__as_prize');
 
-                //winning__moment__audio.play();
-                //won__prize_poin_amnt.style.display = 'none';
-                //game__prize__flash__message.style.display = 'inherit';
-                //flash_msg_main_content.style.display = 'inherit';
-                //flash__msg_content.style.display = 'inherit';
-                //won__prize__img.src = current__product__as_prize.src;
+                let total_num_of_times_played = document.querySelector('#total_num_of_times_played');
 
-                let winning__moment__audio = document.querySelector('#winning__moment__audio');
-                let game__prize__flash__message = document.querySelector('.game__prize__flash__message');
-                const flash_msg_main_content = document.querySelector('.flash_msg_main_content');
-                let flash__msg_content = document.querySelector('.flash__msg_content');
-                let won__prize_poin_amnt = document.querySelector('.won__prize_poin_amnt');
-                let won__prize__img = document.querySelector('.won__prize__img');
-                let current__product__as_prize = document.querySelector('.current__product__as_prize');
+                if (current_prize_txt.toString().includes('PC - Gold') && parseInt(total_num_of_times_played.innerHTML) % (parseInt('{{gold_prize_necessaary_spins}}')) !== 0 ) {
+                    resetWheel();
+                    startSpin();
 
-                winning__moment__audio.play();
-                won__prize_poin_amnt.innerHTML = indicatedSegment.text + ' Prize';
-                game__prize__flash__message.style.display = 'inherit';
-                flash_msg_main_content.style.display = 'inherit';
-                flash__msg_content.style.display = 'inherit';
-                won__prize__img.style.display = 'none';
+                    //ajax starts
+
+                    $.ajax({
+                         url:'/fe/game/',
+                         type:'get',
+                         data: {
+                            fromRestartSpin: 1,
+                         },
+                         success: function(response){
+                            // updating total number of times played the game till now
+                            const total_num_of_times_played = document.getElementById('total_num_of_times_played');
+                            total_num_of_times_played.innerHTML = response.current_total_num_of_played;
+                         },
+                       });
+                    //ajax ends
+                }
+
+                // for pc-silver
+                else if (current_prize_txt.toString().includes('PC - Silver') && parseInt(total_num_of_times_played.innerHTML) % (parseInt('{{silver_prize_necessaary_spins}}')) !== 0 ) {
+                    resetWheel();
+                    startSpin();
+
+                    //ajax starts
+
+                    $.ajax({
+                         url:'/fe/game/',
+                         type:'get',
+                         data: {
+                            fromRestartSpin: 1,
+                         },
+                         success: function(response){
+                            // updating total number of times played the game till now
+                            const total_num_of_times_played = document.getElementById('total_num_of_times_played');
+                            total_num_of_times_played.innerHTML = response.current_total_num_of_played;
+                         },
+                       });
+                    //ajax ends
+                }
+                // ends for pc-silver
+
+                // for pc-bronze
+                else if (current_prize_txt.toString().includes('PC - Bronze') && parseInt(total_num_of_times_played.innerHTML) % (parseInt('{{bronze_prize_necessaary_spins}}')) !== 0 ) {
+                    resetWheel();
+                    startSpin();
+
+                    //ajax starts
+
+                    $.ajax({
+                         url:'/fe/game/',
+                         type:'get',
+                         data: {
+                            fromRestartSpin: 1,
+                         },
+                         success: function(response){
+                            // updating total number of times played the game till now
+                            const total_num_of_times_played = document.getElementById('total_num_of_times_played');
+                            total_num_of_times_played.innerHTML = response.current_total_num_of_played;
+                         },
+                       });
+                    //ajax ends
+                }
+                // ends for pc-bronze
+
+                else {
+                    let winning__moment__audio = document.querySelector('#winning__moment__audio');
+                    let game__prize__flash__message = document.querySelector('.game__prize__flash__message');
+                    const flash_msg_main_content = document.querySelector('.flash_msg_main_content');
+                    let flash__msg_content = document.querySelector('.flash__msg_content');
+                    let won__prize_poin_amnt = document.querySelector('.won__prize_poin_amnt');
+                    let won__prize__img = document.querySelector('.won__prize__img');
+                    let current__product__as_prize = document.querySelector('.current__product__as_prize');
+
+                    winning__moment__audio.play();
+                    won__prize_poin_amnt.innerHTML = indicatedSegment.text + ' Prize';
+                    game__prize__flash__message.style.display = 'inherit';
+                    flash_msg_main_content.style.display = 'inherit';
+                    flash__msg_content.style.display = 'inherit';
+                    won__prize__img.style.display = 'none';
+                }
 
             } else {
                 let winning__moment__audio = document.querySelector('#winning__moment__audio');
@@ -648,6 +709,7 @@
                 flash_msg_main_content.style.display = 'inherit';
                 flash__msg_content.style.display = 'inherit';
                 won__prize__img.style.display = 'none';
+
             }
         }
 
