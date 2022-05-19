@@ -243,6 +243,8 @@ class CouponCode(models.Model):
     coupon_code = models.CharField(max_length=30)
     discount_amnt = models.IntegerField(default=0, blank=True, null=True) # discount in percentage(%)
     status = models.BooleanField(default=False, blank=True, null=True)
+    coupon_banner = models.ImageField(upload_to='coupon_banner', blank=True, null=True)
+    terms_conditions = models.TextField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

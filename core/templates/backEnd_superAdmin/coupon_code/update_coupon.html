@@ -32,7 +32,7 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form action="{% url 'apAddCouponoCode' %}" method="post" enctype="multipart/form-data" role="form">
+                <form action="{% url 'apUpdateCouponCode' pk=current_pk %}" method="post" enctype="multipart/form-data" role="form">
                     {% csrf_token %}
                     <div class="box-body">
 
@@ -40,21 +40,21 @@
                             <div class="col-md-6">
                                 <label>Coupon code</label>
                                 <div style="position: relative;">
-                                    <input type="text" name="coupon_code" id="coupon_code" class="form-control" placeholder="Coupon Code" required>
+                                    <input type="text" name="coupon_code" id="coupon_code" class="form-control" value="{{current_obj.coupon_code}}" placeholder="Coupon Code" required>
                                     <button type="button" id="generate_coupon_code" style="position: absolute; right: 0px; top: 0; height: 100%;">Generate Random Code</button>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <label>Discount Amount(in %)</label>
-                                <input type="number" name="discount_amount" class="form-control" placeholder="Discount Amount" required>
+                                <input type="number" name="discount_amount" class="form-control" value="{{current_obj.discount_amnt}}" placeholder="Discount Amount" required>
                             </div>
                         </div>
 
                         <div class="row form-group policy__section">
                             <div class="col-md-6">
                                 <label>Terms & Conditions</label>
-                                <textarea name="terms_conditions" id="terms_conditions" class="form-control" cols="30" rows="10"></textarea>
+                                <textarea name="terms_conditions" id="terms_conditions" class="form-control" cols="30" rows="10">{{current_obj.terms_conditions}}</textarea>
 
                                 <script>
                                     CKEDITOR.replace('terms_conditions');//name of textarea field
@@ -63,7 +63,7 @@
 
                             <div class="col-md-6">
                                 <label>Add Coupon Banner</label>
-                                <input type="file" name="coupon_banner" class="form-control" required>
+                                <input type="file" name="coupon_banner" class="form-control">
                             </div>
                         </div>
 

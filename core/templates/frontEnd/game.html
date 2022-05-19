@@ -381,7 +381,7 @@
             outerRadius: 187, // Set outer radius so wheel fits inside the background. Default was: 214
             innerRadius: 65, // Make wheel hollow so segments don't go all way to center. Default was: 75
             textFontSize: 24, // Set default font size for the segments. Defulat was: 24
-            textOrientation: "curved", // Make text vertial so goes down from the outside of wheel.
+            textOrientation: "vertical", // Make text vertial, curved so goes down from the outside of wheel.
 
             textAlignment: "center", // Align text to outside of wheel."inner, outer, center"
             numSegments: {{number_of_segments}}, // Specify number of segments.
@@ -408,10 +408,10 @@
             ],
             // Specify the animation to use.
             animation: {
-                easing       : 'Power2.easeInOut',
+                easing       : 'Linear.easeNone',
                 type: "spinToStop",
-                duration: 2, // Duration in seconds. Defualt: 10s {{game_setting.spining_duration}}
-                spins: 10, // Default number of complete spins. default:3 {{game_setting.no_of_complt_spins}}
+                duration: 4, // Duration in seconds. Defualt: 10s {{game_setting.spining_duration}}
+                spins: 15, // Default number of complete spins. default:3 {{game_setting.no_of_complt_spins}}
                 callbackFinished: alertPrize,
                 callbackSound: playSound, // Function to call when the tick sound is to be triggered.
                 soundTrigger: "pin", // Specify pins are to trigger the sound, the other option is 'segment'.

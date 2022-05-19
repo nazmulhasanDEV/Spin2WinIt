@@ -56,6 +56,7 @@ urlpatterns = [
     re_path(r'^ap/update/coupon/code/(?P<pk>\d+)/$', views.ap_update_couponCode, name='apUpdateCouponCode'),
     re_path(r'^ap/del/coupon/code/(?P<pk>\d+)/$', views.ap_remove_couponCode, name='apDelCouponCode'),
 
+
     # updated product section ****************************************
     re_path(r'^ap/all/product/list/', views.ap_all_products, name='apAllProductList'),
     re_path(r'^ap/add/admin/custom/product/$', views.ap_add_admin_custsom_product, name='apAddAdminCustomProduct'),

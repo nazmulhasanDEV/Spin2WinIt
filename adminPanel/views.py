@@ -379,9 +379,17 @@ def ap_add_couponCode(request):
     if request.method == 'POST':
         code = request.POST.get('coupon_code')
         discount_amount = request.POST.get('discount_amount')
+        banner = request.FILES['coupon_banner']
+        terms_conditions = request.POST.get('terms_conditions')
 
-        if code and discount_amount and CouponCode.objects.filter(coupon_code=code).count() <= 0:
-            coupon_code_model = CouponCode.objects.create(user=request.user, coupon_code=code, discount_amnt=int(discount_amount))
+        if code and discount_amount and banner and terms_conditions and CouponCode.objects.filter(coupon_code=code).count() <= 0:
+            coupon_code_model = CouponCode.objects.create(
+                user=request.user,
+                coupon_code=code,
+                discount_amnt=int(discount_amount),
+                coupon_banner=banner,
+                terms_conditions=terms_conditions
+            )
             messages.success(request, "Successfully added!")
             return redirect('apAddCouponoCode')
         else:
@@ -390,28 +398,57 @@ def ap_add_couponCode(request):
 
     return render(request, 'backEnd_superAdmin/coupon_code/add_coupon.html')
 
+
 @login_required(login_url='/ap/register/updated')
 def ap_update_couponCode(request, pk):
 
     if request.user.is_admin != True:
         return redirect('frontEndLoginUser')
 
-    if request.method == 'POST':
-        coupon_code = request.POST.get('coupon_code')
-        discount_amount = request.POST.get('discount_amount')
+    # current obj
+    current_obj = CouponCode.objects.filter(pk=pk).first()
 
-        if coupon_code and discount_amount:
-            crnt_obj = CouponCode.objects.filter(pk=pk).first()
-            crnt_obj.coupon_code = coupon_code
-            crnt_obj.discount_amnt = discount_amount
-            crnt_obj.save()
-            messages.success(request, "Successfully updated!")
-            return redirect('apCouponCodeList')
+    if request.method == 'POST':
+        code = request.POST.get('coupon_code')
+        discount_amount = request.POST.get('discount_amount')
+        terms_conditions = request.POST.get('terms_conditions')
+
+        if code and discount_amount and terms_conditions:
+            try:
+                fs = FileSystemStorage()
+
+                banner = request.FILES['coupon_banner']
+
+                if banner:
+                    # delete previous banner
+                    fs.delete(current_obj.coupon_banner.name)
+
+                    # update new informations
+                    crnt_obj = CouponCode.objects.filter(pk=pk).first()
+                    crnt_obj.coupon_code = code
+                    crnt_obj.discount_amnt = discount_amount
+                    crnt_obj.terms_conditions = terms_conditions
+                    crnt_obj.coupon_banner = banner
+                    crnt_obj.save()
+                    messages.success(request, "Successfully updated!")
+                    return redirect('apCouponCodeList')
+            except:
+                crnt_obj = CouponCode.objects.filter(pk=pk).first()
+                crnt_obj.coupon_code = code
+                crnt_obj.discount_amnt = discount_amount
+                crnt_obj.terms_conditions = terms_conditions
+                crnt_obj.save()
+                messages.success(request, "Successfully updated!")
+                return redirect('apCouponCodeList')
         else:
             messages.warning(request, "Can't be updated!")
             return redirect('apCouponCodeList')
 
-    return redirect('apCouponCodeList')
+    context = {
+        'current_obj': current_obj,
+        'current_pk': pk,
+    }
+    return render(request, 'backEnd_superAdmin/coupon_code/update_coupon.html', context)
 
 @login_required(login_url='/ap/register/updated')
 def ap_remove_couponCode(request, pk):
@@ -420,7 +457,10 @@ def ap_remove_couponCode(request, pk):
         return redirect('frontEndLoginUser')
 
     try:
+        fs = FileSystemStorage()
+
         crnt_obj = CouponCode.objects.filter(pk=pk).first()
+        fs.delete(crnt_obj.coupon_banner.name)
         crnt_obj.delete()
         messages.success(request, "Successfully deleted!")
         return redirect('apCouponCodeList')

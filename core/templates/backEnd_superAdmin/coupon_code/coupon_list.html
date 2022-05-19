@@ -72,6 +72,7 @@
                                     <th>ID</th>
                                     <th>Coupon Code</th>
                                     <th>Discount Amount</th>
+                                    <th>Banner</th>
                                     <th>Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>
@@ -83,7 +84,9 @@
                                     <td>{{forloop.counter}}</td>
                                     <td>{{x.coupon_code}}</td>
                                     <td>{{x.discount_amnt}}</td>
-
+                                    <td>
+                                        <img src="{{x.coupon_banner.url}}" style="width: 300px; height: 60px;" alt="">
+                                    </td>
                                     <td>{% if x.status %} Activated {% else %} De-activated {% endif %}</td>
                                     <td class="text-center">
                                         <!--                                        activate or de-activate coupon code ***************************************-->
@@ -159,52 +162,14 @@
 
                                         <!--                                        update coupon code **********************************************************-->
 
-                                        <button type="button" style="border:none; background: #00C0EF;color:white;"
+                                        <a href="{% url 'apUpdateCouponCode' pk=x.pk %}">
+                                            <button type="button" style="border:none; background: #00C0EF;color:white;"
                                                 data-toggle="modal"
                                                 data-target="#updateCoupon{{x.pk}}">
                                             Update
                                         </button>
+                                        </a>
 
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="updateCoupon{{x.pk}}" tabindex="-1" role="dialog"
-                                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLongTitle">Update Coupon
-                                                            Code</h5>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div>
-                                                            <form action="{% url 'apUpdateCouponCode' pk=x.pk %}" method="post" enctype="multipart/form-data">
-                                                                {% csrf_token %}
-                                                            <div class="form-group">
-                                                                <label for="coupon_code" class="col-form-label">Coupon Code:</label><br>
-                                                                <input type="text" name="coupon_code" value="{{x.coupon_code}}" class="form-control"
-                                                                       id="coupon_code" placeholder="Coupon Code" />
-                                                            </div>
-                                                            <br><br>
-                                                            <div class="form-group">
-                                                                <label for="discount_amount" class="col-form-label">Discoun Amount:</label><br>
-                                                                <input type="text" name="discount_amount" value="{{x.discount_amnt}}" class="form-control"
-                                                                       id="discount_amount" placeholder="Discount Amount" />
-                                                            </div>
-
-                                                            <br><br>
-                                                            <div class="form-group">
-                                                                <button type="Submit" class="btn btn-primary">Update</button>
-                                                            </div>
-                                                        </form>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Close
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <!--                                        update coupon code **********************************************************-->
 
                                         <!-- modal for deleting object-->
@@ -253,6 +218,7 @@
                                     <th>ID</th>
                                     <th>Coupon Code</th>
                                     <th>Discount Amount</th>
+                                    <th>Banner</th>
                                     <th>Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>
@@ -288,6 +254,8 @@
       'autoWidth'   : false
     })
   })
+
+
 
 
 </script>
