@@ -35,7 +35,7 @@ wcapi = API(
     consumer_key="ck_d7b8e625408c67fc0351b88ea84e04b6f2657ce1",
     consumer_secret="cs_ba22b43fc833f3dc319f5385c027e6d79b73aaab",
     version="wc/v3",
-    timeout=50,
+    timeout=100,
 )
 
 # function for sending order to woocommerce
@@ -63,6 +63,7 @@ def ap_fetch_woocommerce_store_prdct(request):
 
                 try:
                     for x in p:
+
                         # combining multiple categories of one product
                         cats = ''
                         for cat in x['categories']:
@@ -147,11 +148,14 @@ def ap_update_wocommerce_store_prdct(request):
         while True:
             prods = wcapi.get('products', params={"per_page": 20, "page": page})
             page += 1
+            print(prods)
             if prods.text:
-                p = json.loads(prods.text)
-
+                products = json.loads(prods.text)
                 try:
-                    for x in p:
+                    for x in products:
+                        if x['id'] == 11865:
+                            print(x)
+                        print('1')
                         # combining multiple categories of one product
                         cats = ''
                         for cat in x['categories']:

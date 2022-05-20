@@ -11,6 +11,9 @@ class ProductImg(models.Model):
     img_link = models.CharField(max_length=500, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
+    class Meta:
+        ordering = ['-pk']
+
     def __str__(self):
         return self.product_id
 
@@ -36,7 +39,7 @@ class WoocommerceProductList(models.Model):
     sponsr_as_prize = models.BooleanField(default=False, blank=True, null=True)
 
     class Meta:
-        ordering = ['-pk']
+        ordering = ['pk']
 
     def __str__(self):
         return self.name[0:10] + " || " + str(self.id)

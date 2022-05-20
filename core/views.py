@@ -184,7 +184,6 @@ def front_home(request):
                 if x.product.product_type == 'mcp':
                     total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
 
-
     context = {
         'ip_exist': ip_exist,
         'main_banner_or_slider' : main_banner_or_slider,
