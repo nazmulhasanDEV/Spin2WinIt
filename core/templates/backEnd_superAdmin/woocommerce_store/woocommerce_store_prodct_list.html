@@ -52,7 +52,16 @@
                         Fetch Product
                         </button>
                     </a>
+
+                    <a href="/ap/update/woocommerce/product">
+                        <button type="button"
+                            style="border: none; outline: none; width: 120px; height: 35px; background: #3C8DEC; border-radius: 10px;color: white;">
+                        Update Products
+                        </button>
+                    </a>
                 </ol>
+
+
             </section>
         </div>
     </div>
@@ -87,8 +96,8 @@
                                 <tr>
                                     <td>{{x.product_id}}</td>
                                     <td>{{x.name|truncatechars:50}}</td>
-                                    <td>{{x.price}}</td>
-                                    <td>{{x.regular_price}}</td>
+                                    <td>{{x.price|floatformat:2}}</td>
+                                    <td>{{x.regular_price|floatformat:2}}</td>
                                     <td>{{x.cat_name}}</td>
                                     <td>{{x.stock_status}}</td>
                                     <td class="text-center">

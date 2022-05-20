@@ -134,12 +134,13 @@ def ap_fetch_woocommerce_store_prdct(request):
     # ends new section *********************************
 
     return redirect('apWoocommerceStoreList')
-def ap_fetch_woocommerce_store_prdct(request):
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_update_wocommerce_store_prdct(request):
 
     if request.user.is_admin != True:
         return redirect('frontEndLoginUser')
-
-    # updated new section *****************************
 
     page = 1  # The first page number to loop is page 1
     try:
@@ -156,73 +157,77 @@ def ap_fetch_woocommerce_store_prdct(request):
                         for cat in x['categories']:
                             cats = cats + cat['name'] + ' ,'
 
-                        if len(ProductList.objects.filter(product_id=x['id'])) <= 0:
-                            product_list_model = ProductList.objects.create(
-                                user=request.user,
-                                product_id=x['id'],
-                                product_type='wsp',
-                                title=x['name'],
-                                slug=x['slug'],
-                                details=x['description'],
-                                regular_price=x['regular_price'],
-                                price=x['price'],
-                                total_sold=x['total_sales'],
-                                in_stock=x['stock_status'],
-                                avrg_rating=x['average_rating'],
-                                rating_count=x['rating_count'],
-                                cat_id=x['categories'][0]['id'],
-                                cat_name=cats,
-                                subcat_id='1',
-                                subcat_name='subcat_name',
-                                security_policy='apcp',
-                                return_policy='apcp',
-                                delivery_policy='apcp'
-                            )
+                        if len(ProductList.objects.filter(product_id=x['id'])) > 0:
+                            product_list_model = ProductList.objects.filter(product_id=x['id']).first()
+
+                            product_list_model.user = request.user
+                            product_list_model.product_id = x['id']
+                            product_list_model.product_type = 'wsp'
+                            product_list_model.title = x['name']
+                            product_list_model.slug = x['slug']
+                            product_list_model.details = x['description']
+                            product_list_model.regular_price = x['regular_price']
+                            product_list_model.price = x['price']
+                            product_list_model.total_sold = x['total_sales']
+                            product_list_model.in_stock = x['stock_status']
+                            product_list_model.avrg_rating = x['average_rating']
+                            product_list_model.rating_count = x['rating_count']
+                            product_list_model.cat_id = x['categories'][0]['id']
+                            product_list_model.cat_name = cats
+                            product_list_model.subcat_id = '1'
+                            product_list_model.subcat_name = 'subcat_name'
+                            product_list_model.security_policy = 'apcp'
+                            product_list_model.return_policy = 'apcp'
+                            product_list_model.delivery_policy = 'apcp'
+                            product_list_model.save()
 
                             for img in x['images']:
+                                old_product_imgs = ProductImg.objects.filter(product_id=x['id'])
+                                for img in old_product_imgs:
+                                    if img.img:
+                                        fs = FileSystemStorage()
+                                        fs.delete(img.img.name)
+                                    img.delete()
                                 product_img_model = ProductImg.objects.create(product_id=x['id'], product_type='wsp',
                                                                               img_link=img['src'])
                                 product_list_model.productImg.add(product_img_model)
                                 product_list_model.save()
 
-                        if len(WoocommerceProductList.objects.filter(product_id=x['id'])) <= 0:
+                        if len(WoocommerceProductList.objects.filter(product_id=x['id'])) > 0:
 
-                            woocomrc_prdct_list_model = WoocommerceProductList.objects.create(
-                                product_id=x['id'],
-                                name=x['name'],
-                                slug=x['slug'],
-                                description=x['description'],
-                                price=x['price'],
-                                regular_price=x['regular_price'],
-                                total_sales=x['total_sales'],
-                                cat_id=x['categories'][0]['id'],
-                                cat_name=x['categories'][0]['name'],
-                                subcat_id='1',
-                                subcat_name='subcat',
-                                stock_status=x['stock_status'],
-                                avrg_rating=x['average_rating'],
-                                rating_count=x['rating_count']
-                            )
+                            woocomrc_prdct_list_model = WoocommerceProductList.objects.filter(product_id=x['id']).first()
 
-                            for img in x['images']:
-                                product_img_model = ProductImg.objects.create(product_id=x['id'], product_type='wsp',
-                                                                              img_link=img['src'])
+                            woocomrc_prdct_list_model.product_id = x['id']
+                            woocomrc_prdct_list_model.name = x['name']
+                            woocomrc_prdct_list_model.slug = x['slug']
+                            woocomrc_prdct_list_model.description = x['description']
+                            woocomrc_prdct_list_model.price = x['price']
+                            woocomrc_prdct_list_model.regular_price = x['regular_price']
+                            woocomrc_prdct_list_model.total_sales = x['total_sales']
+                            woocomrc_prdct_list_model.cat_id = x['categories'][0]['id']
+                            woocomrc_prdct_list_model.cat_name = x['categories'][0]['name']
+                            woocomrc_prdct_list_model.subcat_id = '1'
+                            woocomrc_prdct_list_model.subcat_name = 'subcat'
+                            woocomrc_prdct_list_model.stock_status = x['stock_status']
+                            woocomrc_prdct_list_model.avrg_rating = x['average_rating']
+                            woocomrc_prdct_list_model.rating_count = x['rating_count']
+                            woocomrc_prdct_list_model.save()
 
-                                woocomrc_prdct_list_model.product_img.add(product_img_model)
-                                woocomrc_prdct_list_model.save()
+                            # for img in x['images']:
+                            #     product_img_model = ProductImg.objects.create(product_id=x['id'], product_type='wsp',
+                            #                                                   img_link=img['src'])
+                            #
+                            #     woocomrc_prdct_list_model.product_img.add(product_img_model)
+                            #     woocomrc_prdct_list_model.save()
                 except:
-
-                    messages.warning(request, "Can't import products or server error! Try again!a")
+                    messages.success(request, "Product has been updated!")
                     return redirect('apWoocommerceStoreList')
             if len(json.loads(prods.text)) <= 0:
                 break
     except:
         return redirect('apWoocommerceStoreList')
 
-    # ends new section *********************************
-
     return redirect('apWoocommerceStoreList')
-
 
 @login_required(login_url='/ap/register/updated')
 def ap_wcmrce_prdct_details(request, pk):

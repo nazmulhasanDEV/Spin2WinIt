@@ -28,6 +28,7 @@ urlpatterns = [
 
     # woocommerce store section
     re_path(r'^ap/fetch/woocommerce/product/$', views.ap_fetch_woocommerce_store_prdct, name='apWoocommerceProduct'),
+    re_path(r'^ap/update/woocommerce/product/$', views.ap_update_wocommerce_store_prdct, name='apUpdateWoocommerceProduct'),
     re_path(r'^ap/del/woocmrce/product/(?P<pk>\d+)/$', views.ap_del_woocmmrce_prdct, name='apDelWoocmrceProduct'),
     re_path(r'^ap/woocommerce/store/product/list/$', views.ap_woocommerce_store_list, name='apWoocommerceStoreList'),
     re_path(r'^ap/woocommerce/product/details/(?P<pk>\d+)/$', views.ap_wcmrce_prdct_details, name='apWoocmrcePrdctDetails'),
