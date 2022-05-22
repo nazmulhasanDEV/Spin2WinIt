@@ -4,6 +4,72 @@ from product.models import *
 from django.utils.crypto import get_random_string
 
 
+# user prize list car ** *when user will move their product to cart, it will be stored here.
+class PrizeCart(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    product = models.ForeignKey(ProductList, on_delete=models.PROTECT)
+    confirmed_for_delivery = models.BooleanField(default=False, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.email
+
+class CurrentDelivryRequestPrizeProduct(models.Model):
+
+    option = (
+        ('curnt', 'Current Order'), # curnt == current
+        ('prev', 'Previous Order'), # prev == previous
+    )
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    product = models.ForeignKey(ProductList, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0, blank=True, null=True)
+    is_current = models.BooleanField(default=False, blank=True, null=True)
+
+    def __str__(self):
+        return "Title: " + self.product.title + " || " + str(self.user.email)
+
+
+# prize deliver order
+class ProductPrizeDeliverOrder(models.Model):
+
+    option = (
+        ('a', 'Approved'),
+        ('p', 'Pending'),
+        ('c', 'Cancel'),
+    )
+
+    payment_options = (
+        ('cod', 'Cash on Delivery'),
+    )
+
+    order_id = models.CharField(max_length=255, blank=True, null=True)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    items = models.ManyToManyField(CurrentDelivryRequestPrizeProduct, blank=True)
+    sub_total_amount = models.FloatField(blank=True, null=True)
+    total_amount = models.FloatField(blank=True, null=True)
+
+    start_date = models.DateTimeField(auto_now_add=True)
+
+    order_status = models.CharField(max_length=255, choices=option, blank=True, null=True) # whether it's approved, cancelled, or Pending
+    delivery_status = models.BooleanField(default=False, blank=True, null=True) # status whether customer got the product or not
+    delivery_date = models.DateTimeField(blank=True, null=True)
+
+    shipping_status = models.BooleanField(default=False, blank=True, null=True) # wheather product left from warehouse to deliver to customer
+    shipping_date = models.DateTimeField(blank=True, null=True)
+
+    order_note = models.TextField(blank=True, null=True)
+
+    payment_status = models.BooleanField(default=False, blank=True, null=True)
+    payment_options = models.CharField(max_length=35, choices=payment_options, blank=True, null=True)
+
+    billing_info = models.ForeignKey(BillingInfo, on_delete=models.CASCADE, blank=True, null=True)
+    shipping_info = models.ForeignKey(ShippingInfo, on_delete=models.CASCADE, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.user.email)
+
+
+
 # sponsored products for game
 class SponsoredProductForPrize(models.Model):
     prodct_id = models.CharField(max_length=255, blank=True, null=True)

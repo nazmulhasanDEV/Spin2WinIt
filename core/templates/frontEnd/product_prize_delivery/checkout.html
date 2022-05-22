@@ -1,0 +1,531 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<!-- Begin Li's Breadcrumb Area -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="breadcrumb-content">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li class="active">Checkout</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Li's Breadcrumb Area End Here -->
+
+<!--   django message         -->
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-12">-->
+<!--            {% if messages %}-->
+<!--            {% for message in messages %}-->
+
+<!--            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"-->
+<!--                 {% endif %}>-->
+<!--                <strong>{{ message }}!</strong>-->
+<!--                <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+
+<!--            {% endfor %}-->
+<!--            {% endif %}-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!-- ends django message -->
+
+<!-- ads -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <!--yllx 468x60 starts &*************************************-->
+            <script type="text/javascript"
+                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+            <!--yllx ends here **********************************-->
+        </div>
+        <div class="col-md-6">
+            <!--yllx 468x60 starts &*************************************-->
+            <script type="text/javascript"
+                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+            <!--yllx ends here **********************************-->
+        </div>
+    </div>
+</div>
+<!-- ads ends here-->
+
+<!--Checkout Area Strat-->
+<div class="checkout-area pt-60 pb-30">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <form action="{% url 'frontConfirmPrizeDeliveryOrder' username=request.user.username %}" method="post"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="checkbox-form">
+                        <h3>Billing Details</h3>
+                        <div class="row">
+                            {% if usr_deflt_billing_address %}
+                            <div class="col-md-12">
+                                <div class="custom-control custom-radio">
+                                    <input type="checkbox" class="custom-control-input checkout_dflt_billing_adrs"
+                                           id="customControlValidation2"
+                                           name="use_defalt_billin__adrs" onclick="default_billingAdrsCheckBox()" required>
+                                    <label class="custom-control-label" for="customControlValidation2"><strong>Use
+                                        primary
+                                        billing address</strong></label>
+                                </div>
+                            </div>
+                            <br><br>
+                            {% endif %}
+
+                            <div class="col-md-12" id="new__billing__address_fields">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="country-select clearfix">
+                                            <label>Country <span class="required">*</span></label>
+                                            <select name="country_b" class="wide" id="billing_country_list">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="checkout-form-list">
+                                            <label>First Name <span class="required">*</span></label>
+                                            <input name="fname_b" placeholder="" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="checkout-form-list">
+                                            <label>Last Name <span class="required">*</span></label>
+                                            <input name="lanme_b" placeholder="" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="checkout-form-list">
+                                            <label>Company(optional) <span class="required">*</span></label>
+                                            <input name="company_b" placeholder="" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="checkout-form-list">
+                                            <label>Address <span class="required">*</span></label>
+                                            <input name="address_b" placeholder="Street address" type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="checkout-form-list">
+                                            <label>Town / City <span class="required">*</span></label>
+                                            <input name="town_city_b" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="checkout-form-list">
+                                            <label>State / County <span class="required">*</span></label>
+                                            <input name="state_b" placeholder="" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="checkout-form-list">
+                                            <label>Postcode / Zip <span class="required">*</span></label>
+                                            <input name="postcode_b" placeholder="" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="checkout-form-list">
+                                            <label>Email Address <span class="required">*</span></label>
+                                            <input name="email_b" placeholder="" type="email">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="checkout-form-list">
+                                            <label>Phone <span class="required">*</span></label>
+                                            <input name="phone_b" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="different-address">
+                            <div class="ship-different-title">
+                                <h3>
+                                    <label>Shipping address?</label>
+                                    <input name="shipping_address" id="ship-box" type="checkbox">
+                                </h3>
+                            </div>
+                            <div id="ship-box-info" class="row">
+                                {% if usr_deflt_shipping_addrss %}
+                                <div class="col-md-12">
+                                    <div class="custom-control custom-radio">
+                                        <input type="checkbox" class="custom-control-input checkout_dflt_shipping_adrs"
+                                               id="shippingAddress2"
+                                               name="use_defalt_shipping_addrss" onclick="default_ShippingAdrsCheckBox()">
+                                        <label class="custom-control-label" for="shippingAddress2"><strong>Use primary
+                                            shipping address</strong></label>
+                                    </div>
+                                </div>
+                                <br><br>
+                                {% endif %}
+                                <div class="col-md-12" id="new__shipping__address_fields">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="country-select clearfix">
+                                                <label>Country <span class="required">*</span></label>
+
+                                                <select name="country_s" class="wide" id="shipping_address_cn_list"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="checkout-form-list">
+                                                        <label>First Name <span class="required">*</span></label>
+                                                        <input name="fname_s" placeholder="" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="checkout-form-list">
+                                                        <label>Last Name <span class="required">*</span></label>
+                                                        <input name="lname_s" placeholder="" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="checkout-form-list checkout-form-list">
+                                                <label>Address <span class="required">*</span></label>
+                                                <textarea name="address_s" id="checkout-mess" cols="30" rows="5"
+                                                          placeholder="Address details"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="checkout-form-list">
+                                                        <label>Company Name</label>
+                                                        <input name="company_s" placeholder="" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="checkout-form-list">
+                                                        <label>Town / City <span class="required">*</span></label>
+                                                        <input name="town_city_s" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="checkout-form-list">
+                                                        <label>State / County <span
+                                                                class="required">*</span></label>
+                                                        <input name="state_s" placeholder="" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="checkout-form-list">
+                                                        <label>Postcode / Zip <span
+                                                                class="required">*</span></label>
+                                                        <input name="postcode_s" placeholder="" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="checkout-form-list">
+                                                        <label>Email Address <span class="required">*</span></label>
+                                                        <input name="email_s" placeholder="" type="email">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="checkout-form-list">
+                                                        <label>Phone <span class="required">*</span></label>
+                                                        <input name="phone_s" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-notes">
+                                <div class="checkout-form-list">
+                                    <label>Order Notes</label>
+                                    <textarea name="order_note" id="checkout-mess" cols="30" rows="10"
+                                              placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" id="review__cart__items">Confirm Delivery</button>
+                </form>
+            </div>
+            <div class="col-lg-6 col-12">
+                <div class="your-order">
+                    <h3>Your order</h3>
+                    <div class="your-order-table table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="cart-product-name">Product</th>
+                                <th class="cart-product-total">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if current_prize_cart_products %}
+
+                            {% for x in current_prize_cart_products %}
+                            <tr class="cart_item">
+                                <td class="cart-product-name"> {{x.product.title|striptags|truncatechars:20}}
+<!--                                    <strong class="product-quantity"> × {{x.quantity}}</strong>-->
+                                </td>
+                                <td class="cart-product-total"><span class="amount">$0</span></td>
+                            </tr>
+                            {% endfor %}
+
+                            {% endif %}
+                            </tbody>
+                            <tfoot>
+                            <tr class="cart-subtotal">
+                                <th>Subtotal</th>
+                                <td><span class="amount">${{total_amount|floatformat:2}}</span></td>
+                            </tr>
+                            <tr class="order-total">
+                                <th>Total</th>
+                                <td><strong><span class="amount">${{total_amount|floatformat:2}}</span></strong></td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="payment-method">
+                        <div class="payment-accordion">
+                            <div class="order-button-payment">
+                                <a href="/fe/prize/cart/items/{{request.user.username}}" id="review__cart__items">
+                                    <button type="button">Review Cart Items</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Checkout Area End-->
+
+
+<!-- Begin Li's Static Banner Area -->
+<div class="li-static-banner pt-20 pt-sm-30">
+    <div class="container">
+        <div class="row">
+            <!-- Begin Single Banner Area -->
+            <div class="col-lg-4 col-md-4 text-center">
+                <div class="single-banner pb-xs-30">
+                    <script async
+                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+                    <!--                                <a href="#">-->
+                    <!--                                    <img src="{% static 'frontEnd/images/banner/1_3.jpg' %}" alt="Li's Static Banner">-->
+                    <!--                                </a>-->
+                </div>
+            </div>
+            <!-- Single Banner Area End Here -->
+            <!-- Begin Single Banner Area -->
+            <div class="col-lg-4 col-md-4 text-center">
+                <div class="single-banner pb-xs-30">
+                    <script async
+                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+                    <!--                                <a href="#">-->
+                    <!--                                    <img src="{% static 'frontEnd/images/banner/1_4.jpg' %}" alt="Li's Static Banner">-->
+                    <!--                                </a>-->
+                </div>
+            </div>
+            <!-- Single Banner Area End Here -->
+            <!-- Begin Single Banner Area -->
+            <div class="col-lg-4 col-md-4 text-center">
+                <div class="single-banner">
+                    <script async
+                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+                    <!--                                <a href="#">-->
+                    <!--                                    <img src="{% static 'frontEnd/images/banner/1_5.jpg' %}" alt="Li's Static Banner">-->
+                    <!--                                </a>-->
+                </div>
+            </div>
+            <!-- Single Banner Area End Here -->
+        </div>
+    </div>
+</div>
+<!-- Li's Static Banner Area End Here -->
+
+
+<br><br>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+            <!--            eva landing slider responsive 01-->
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <!--            eva landing slider responsive 01 ends-->
+        </div>
+
+        <div class="col-md">
+            <div>
+                <h5>Click to this reCaptcha and get 50 points bonus!</h5>
+                <form action="{% url 'frontCheckOutPgCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
+                      id="captcha__form_checkout">
+                    {% csrf_token %}
+                    <div id="html_element_checkout"></div>
+                    <br>
+                    <button type="submit" class="captcha_submit__btn"><img src="{% static 'frontEnd/images/logo/logo.jpeg' %}" alt=""> &nbsp; Click to Collect</button>
+<!--                    <input type="submit" value="Collect">-->
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md">
+            <!--            eva landing slider responsive 01-->
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <!--            eva landing slider responsive 01-->
+        </div>
+        <div class="col-md">
+            <!--            eva landing slider responsive 01-->
+            <script async
+                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <!--            eva landing slider responsive 01-->
+        </div>
+    </div>
+</div>
+
+
+<!-- yllx 120x60 starts here -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/120x600.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div>
+                <div id="container-ec5611cf27ddd923a905f8d14e217991"></div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <!-- ylliex 120x60 -->
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <!-- yllix 120x60 ends here -->
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/120x600.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <!-- ylliex 120x60 -->
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <!-- yllix 120x60 ends here -->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- yllx 120x60 ends here -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <script type="text/javascript">
+                                            atOptions = {
+                                                'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
+                                                'format' : 'iframe',
+                                                'height' : 60,
+                                                'width' : 468,
+                                                'params' : {}
+                                            };
+                                            document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
+                </script>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div>
+                <script type="text/javascript">
+                                            atOptions = {
+                                                'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
+                                                'format' : 'iframe',
+                                                'height' : 60,
+                                                'width' : 468,
+                                                'params' : {}
+                                            };
+                                            document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ads section ends -->
+
+
+<!-- adster 1x1 native ads-->
+<script async="async" data-cfasync="false"
+        src="//pl17231266.safestgatetocontent.com/ec5611cf27ddd923a905f8d14e217991/invoke.js"></script>
+<!-- adster 1x1 native ads ends-->
+
+
+<script type="text/javascript">
+
+// captcha-1
+      var onloadCallback = function() {
+
+
+        grecaptcha.render('html_element_checkout', {
+          'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
+        });
+      };
+
+
+      var captcha__form_checkout = document.getElementById('captcha__form_checkout');
+        captcha__form_checkout.addEventListener("submit", function(event){
+
+            if (grecaptcha.getResponse() === '') {
+              event.preventDefault();
+              alert('Please check the recaptcha');
+            }
+          }
+        , false);
+
+        // ends captcha-1
+</script>
+
+{% endblock %}
+
+{% block fe_prize_checkout_js %}
+<script src="{% static 'frontEnd/js/prize_checkout.js' %}"></script>
+{% endblock %}

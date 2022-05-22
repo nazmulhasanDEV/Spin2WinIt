@@ -3493,6 +3493,314 @@ def front_user_profile(request, username):
     return render(request, 'frontEnd/user_profile.html', context)
 
 
+# user prize cart and delivery section *******************************************************
+@login_required(login_url='/fe/login/register')
+def front_move_prizes_toPrizeCart(request, product_id, username):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    try:
+        current_product = ProductList.objects.filter(product_id=product_id).first()
+
+        # current prize
+        if current_product:
+            current_prize = PrizeList.objects.filter(Q(product_as_prize=current_product) & Q(user=request.user)).first()
+            current_prize.status = True
+            current_prize.save()
+
+            # save the current prize product to prize cart
+            save_to_prize_cart = PrizeCart.objects.create(user=request.user, product=current_product)
+            messages.success(request, "Your prize moved to prize cart successfully! Check the prize cart!")
+            return redirect('frontEndUserProfile', username=username)
+    except:
+        messages.warning(request, "Can't be sent to prize cart! Contact with our customer support!")
+        return redirect('frontEndUserProfile', username=username)
+
+    return redirect('frontEndUserProfile', username=username)
+
+@login_required(login_url='/fe/login/register')
+def front_prize_cart_items(request, username):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    # user prize items
+    current_prize_cart_items = PrizeCart.objects.filter(user=request.user)
+
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+    # user profile pic
+    user_profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+
+    # user points wallet
+    user_point_wallet = PointWallet.objects.filter(user=request.user).first()
+
+    # user credit wallet
+    user_credit_wallet = CreditWallet.objects.filter(user=request.user).first()
+
+    # user winning chances
+    user_winning_chances = WinningChance.objects.filter(user=request.user).first()
+
+    # user orders
+    order_list = OrderList.objects.filter(user=request.user).filter()
+
+    # user default shipping address
+    user_dflt_shipping_address = DefalutShippingInfo.objects.filter(user=request.user).first()
+
+    # usr default billing address
+    usr_default_biling_address = DefaultBillingInfo.objects.filter(user=request.user).first()
+
+    # user prize list
+    usr_won_prize_list = PrizeList.objects.filter(user=request.user)
+
+    # all product category
+    product_cat_list_all = ProductCategory.objects.all()
+
+    # ads list on user profile
+    user_profile_ads_list = UserProfileAds.objects.filter(status=True)
+
+    # user cart status
+    user_cart_status = Cart.objects.filter(user=request.user)
+
+    # user wishlist status
+    user_wishlist_status = WishList.objects.filter(user=request.user)
+
+    total_amount = 0
+    if user_cart_status:
+        for x in user_cart_status:
+            if x.product.product_type == 'wsp':
+                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+            if x.product.product_type == 'mcp':
+                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+
+    context = {
+        'current_prize_cart_items': current_prize_cart_items,
+
+        'user_cart_status': user_cart_status,
+        'user_wishlist_status': user_wishlist_status,
+        'total_amount': total_amount,
+
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+    }
+
+    return render(request, 'frontEnd/product_prize_delivery/prize_cart_items.html', context)
+
+
+@login_required(login_url='/fe/login/register')
+def front_prize_checkout(request, username):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+    # user default shipping address
+    user_dflt_shipping_address = DefalutShippingInfo.objects.filter(user=request.user).first()
+
+    # usr default billing address
+    usr_default_biling_address = DefaultBillingInfo.objects.filter(user=request.user).first()
+
+
+    # user cart status
+    user_cart_status = Cart.objects.filter(user=request.user)
+
+    # user wishlist status
+    user_wishlist_status = WishList.objects.filter(user=request.user)
+
+    total_amount = 0
+    if user_cart_status:
+        for x in user_cart_status:
+            if x.product.product_type == 'wsp':
+                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+            if x.product.product_type == 'mcp':
+                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+
+    # user current product prizes in the prize cart
+    current_prize_cart_products = PrizeCart.objects.filter(user=request.user)
+
+    context = {
+        'current_prize_cart_products': current_prize_cart_products,
+
+        'user_cart_status': user_cart_status,
+        'user_wishlist_status': user_wishlist_status,
+        'total_amount': total_amount,
+        'usr_deflt_shipping_addrss': user_dflt_shipping_address,
+        'usr_deflt_billing_address': usr_default_biling_address,
+
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+    }
+
+    return render(request, 'frontEnd/product_prize_delivery/checkout.html', context)
+
+
+@login_required(login_url='/fe/login/register')
+def front_confirm_prize_delivery_order(request, username):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+
+        # default shipping and billing address
+        use_defalt_billing__adrs = request.POST.get('use_defalt_billin__adrs')
+        use_defalt_shipping_addrss = request.POST.get('use_defalt_shipping_addrss')
+
+        # billing informations
+        country_b = request.POST.get('country_b')
+        fname_b = request.POST.get('fname_b')
+        lanme_b = request.POST.get('lanme_b')
+        company_b = request.POST.get('company_b')
+        address_b = request.POST.get('address_b')
+        town_city_b = request.POST.get('town_city_b')
+        state_b = request.POST.get('state_b')
+        postcode_b = request.POST.get('postcode_b')
+        email_b = request.POST.get('email_b')
+        phone_b = request.POST.get('phone_b')
+
+        # shipping info
+        country_s = request.POST.get('country_s')
+        fname_s = request.POST.get('fname_s')
+        lanme_s = request.POST.get('lname_s')
+        company_s = request.POST.get('company_s')
+        address_s = request.POST.get('address_s')
+        town_city_s = request.POST.get('town_city_s')
+        state_s = request.POST.get('state_s')
+        postcode_s = request.POST.get('postcode_s')
+        email_s = request.POST.get('email_s')
+        phone_s = request.POST.get('phone_s')
+
+        order_note = request.POST.get('order_note')
+
+        # random id generation for billing and shipping info
+        id = uuid.uuid4()
+
+        current_prize_cart_items = PrizeCart.objects.filter(Q(user=request.user) & Q(confirmed_for_delivery=False))
+
+        if current_prize_cart_items:
+
+            # save to "CurrentDelivryRequestPrizeProduct"
+            for product in current_prize_cart_items:
+                currnt_prize_delvery_request_item = CurrentDelivryRequestPrizeProduct.objects.create(
+                    user=request.user,
+                    product=product,
+                    quantity=1,
+                    is_current = True
+                )
+
+            product_prize_delivery_order = ProductPrizeDeliverOrder.objects.create(
+                order_id=id,
+                user=request.user,
+                order_status='p',
+                order_note=order_note,
+            )
+            for item in current_prize_cart_items:
+                product_prize_delivery_order.items.add(item.product)
+                product_prize_delivery_order.save()
+
+            if use_defalt_billing__adrs:
+                curnt_usr_billing_info = DefaultBillingInfo.objects.filter(user=request.user).first()
+
+                if curnt_usr_billing_info:
+                    billing_info_model = BillingInfo.objects.create(
+                        info_id=id,
+                        user=request.user,
+                        use_defalut_address=True,
+                        default_billingAddress=curnt_usr_billing_info,
+                    )
+                    product_prize_delivery_order.billing_info = billing_info_model
+                    product_prize_delivery_order.save()
+                else:
+                    billing_info_model = BillingInfo.objects.create(
+                        info_id=id,
+                        user=request.user,
+                        fname=fname_b,
+                        lname=lanme_b,
+                        country=country_b,
+                        company=company_b,
+                        address=address_b,
+                        town_or_city=town_city_b,
+                        state=state_b,
+                        postcode=postcode_b,
+                        email=email_b,
+                        phone=phone_b
+                    )
+                    product_prize_delivery_order.billing_info = billing_info_model
+                    product_prize_delivery_order.save()
+
+            if use_defalt_shipping_addrss:
+                curnt_usr_shipping_info = DefalutShippingInfo.objects.filter(user=request.user).first()
+                if curnt_usr_shipping_info:
+                    shipping_information_model = ShippingInfo.objects.create(
+                        info_id=id,
+                        user=request.user,
+                        use_deflt_address=True,
+                        default_shipping_address=curnt_usr_shipping_info,
+                    )
+                    product_prize_delivery_order.shipping_info = shipping_information_model
+                    product_prize_delivery_order.save()
+                else:
+                    shipping_information_model = ShippingInfo.objects.create(
+                        info_id=id,
+                        user=request.user,
+                        fname=fname_s,
+                        lname=lanme_s,
+                        country=country_s,
+                        company=company_s,
+                        address=address_s,
+                        town_or_city=town_city_s,
+                        state=state_s,
+                        postcode=postcode_s,
+                        email=email_s,
+                        phone=phone_s,
+                    )
+                    product_prize_delivery_order.shipping_info = shipping_information_model
+                    product_prize_delivery_order.save()
+            messages.success(request, "Confirmed your delivery request!")
+            return redirect('frontPrizeCheckout', username=request.user.username)
+        else:
+            return redirect('frontEndUserProfile', username=request.user.username)
+
+    return redirect('frontPrizeCheckout', username=request.user.username)
+
+# user prize cart and delivery section ends*******************************************************
+
 @login_required(login_url='/fe/login/register')
 def front_ConvertPointInto_credit(request, username):
 

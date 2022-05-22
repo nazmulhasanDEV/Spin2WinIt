@@ -952,6 +952,19 @@
                     <div class="tab-pane fade" id="my_prizes" role="tabpanel" aria-labelledby="my_prizes-tab">
                         <div class="container">
                             <div class="row">
+                                <div class="col-md-12">
+                                    <div style="width: 100%; background: #C22D29; padding-top: 10px; padding-bottom: 3px; margin-bottom: 20px; color: white;">
+                                        <h5 class="text-center">
+                                            <a href="{% url 'frontPrizeCartItems' username=request.user.username %}">
+                                                <i class="fas fa-cart-arrow-down"></i> Go to Prize Cart
+                                                <i class="fas fa-arrow-alt-circle-right"></i>
+                                            </a>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-5">
                                 {% if usr_won_prize_list %}
 
                                 {% for prize in usr_won_prize_list %}
@@ -997,11 +1010,11 @@
                                                         <i class="fas fa-eye"></i> View
                                                     </button>
                                                 </a>
-                                                {% if prize.delivery_status %}
-                                                <button type="button" class="btn_for_priz_delivry_status">Delivered</button>
+                                                {% if prize.status %}
+                                                <button type="button" class="btn_for_priz_delivry_status" disabled>Sent to Cart</button>
                                                 {% else %}
-                                                <a href="#">
-                                                    <button type="button" class="btn_for_priz_delivry_status">Deliver Now</button>
+                                                <a href="{% url 'frontMoveToPrizeCart' product_id=prize.product_as_prize.product_id username=request.user.username %}">
+                                                    <button type="button" class="btn_for_priz_delivry_status" data-toggle="tooltip" data-placement="bottom" title="Move to prize cart"><i class="fas fa-cart-arrow-down"></i></button>
                                                 </a>
                                                 {% endif %}
                                             </td>
@@ -1016,7 +1029,7 @@
                                 {% else %}
                                 <div class="col-md-12">
                                     <div>
-                                        <h4 class="text-center">Don't won any product to show!</h4>
+                                        <h4 class="text-center">Don't won any prize to show!</h4>
                                     </div>
                                 </div>
                                 {% endif %}

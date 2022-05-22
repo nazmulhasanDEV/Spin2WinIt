@@ -68,6 +68,12 @@ urlpatterns = [
     re_path(r'^fe/update/shipping/infor/(?P<pk>\d+)/$', views.front_update_default_shipping_info, name='frontUpdateDefaultShippingInfo'),
     re_path(r'^fe/del/shipping/info/(?P<pk>\d+)/$', views.front_delete_default_shipping_info, name='frontDeleteDefaultShippingInfo'),
 
+    # move prize product to prize cart
+    re_path(r'^fe/add/to/prize/cart/(?P<product_id>[-\w]+)/(?P<username>[-\w]+)/$', views.front_move_prizes_toPrizeCart, name='frontMoveToPrizeCart'),
+    re_path(r'^fe/prize/cart/items/(?P<username>[-\w]+)/$', views.front_prize_cart_items, name='frontPrizeCartItems'),
+    re_path(r'^fe/prize/checkout/(?P<username>[-\w]+)/$', views.front_prize_checkout, name='frontPrizeCheckout'),
+    re_path(r'^fe/confirm/prize/delivery/order/(?P<username>[-\w]+)/$', views.front_confirm_prize_delivery_order, name='frontConfirmPrizeDeliveryOrder'),
+
     # convert point into credit points
     re_path(r'^fe/convert/point/into/wallet/(?P<username>[-\w]+)/$', views.front_ConvertPointInto_credit, name='frontConvertPointIntoCredit'),
 

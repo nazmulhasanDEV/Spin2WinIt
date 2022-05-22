@@ -1,6 +1,12 @@
 from django.contrib import admin
 from .models import *
 
+
+# user prizeCart
+admin.site.register(PrizeCart)
+admin.site.register(CurrentDelivryRequestPrizeProduct)
+admin.site.register(ProductPrizeDeliverOrder)
+
 admin.site.register(SponsoredProductForPrize)
 admin.site.register(GameSetting)
 admin.site.register(PointAs_Prize)

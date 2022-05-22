@@ -1,0 +1,293 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<!-- Begin Li's Breadcrumb Area -->
+            <div class="breadcrumb-area">
+                <div class="container">
+                    <div class="breadcrumb-content">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li class="active">Prize Cart</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Breadcrumb Area End Here -->
+
+        <!-- ads -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <!--yllx 468x60 starts &*************************************-->
+                    <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+                    <!--yllx ends here **********************************-->
+                </div>
+                <div class="col-md-6">
+                    <!--yllx 468x60 starts &*************************************-->
+                    <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+                    <!--yllx ends here **********************************-->
+                </div>
+            </div>
+        </div>
+        <!-- ads ends here-->
+
+            <!--Shopping Cart Area Strat-->
+            <div class="Shopping-cart-area pt-60 pb-60">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div> <!-- that was a form tag before -->
+                                <div class="table-content table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+<!--                                                <th class="li-product-remove">remove</th>-->
+                                                <th class="li-product-thumbnail">images</th>
+                                                <th class="cart-product-name">Product Name</th>
+                                                <th class="li-product-price">Unit Price</th>
+<!--                                                <th class="li-product-quantity">Quantity</th>-->
+<!--                                                <th class="li-product-subtotal">Total</th>-->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if current_prize_cart_items %}
+                                            {% for x in current_prize_cart_items %}
+                                                {% if x.product.product_type == 'wsp' %}
+                                                    <tr>
+<!--                                                        <td class="li-product-remove"><a href="{% url 'frontRemovItemFromMiniCart' pk=x.pk %}"><i class="fas fa-times-circle"></i></a></td>-->
+
+                                                        {% if x.product.product_thumbnail %}
+                                                        <td class="li-product-thumbnail"><a href="#"><img src="{{x.product.product_thumbnail.url}}" style="width: 100px; height: 100px;" alt=""></a></td>
+                                                        {% else %}
+                                                            {% for img in x.product.productImg.all %}
+                                                                {% if forloop.counter == 1 %}
+                                                                    {% if img.img %}
+                                                                        <td class="li-product-thumbnail"><a href="/fe/product/details/{{x.product.product_id}}"><img src="{{img.img.url}}" style="width: 100px; height: 100px;" alt="Li's Product Image"></a></td>
+                                                                    {% else %}
+                                                                        <td class="li-product-thumbnail"><a href="/fe/product/details/{{x.product.product_id}}"><img src="{{img.img_link}}" style="width: 100px; height: 100px;" alt="Li's Product Image"></a></td>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+
+                                                        <td class="li-product-name"><a href="/fe/product/details/{{x.product.product_id}}">{{x.product.title|safe|truncatechars:50}}</a></td>
+                                                        <td class="li-product-price">$<span class="amount">{{x.product.price}}</span></td>
+<!--                                                        <td class="quantity">-->
+<!--                                                            <label>Quantity</label>-->
+<!--                                                            <div class="cart-plus-minus">-->
+<!--                                                                <input class="cart-plus-minus-box cart__items__amount" value="{{x.quantity}}" id="cart__items__amount_{{x.pk}}" type="number" min="0" max="10" step="1" disabled>-->
+<!--                                                                <div class="dec qtybutton quantity__decrease" id="{{x.pk}}" onclick="decreaseProductNo(this)"><i class="fa fa-angle-down" id="{{x.pk}}"></i></div>-->
+<!--                                                                <div class="inc qtybutton quantity__increase" id="{{x.pk}}" onclick="increaseProductNo(this)"><i class="fa fa-angle-up" id="{{x.pk}}"></i></div>-->
+<!--                                                            </div>-->
+<!--                                                        </td>-->
+<!--                                                        <td class="product-subtotal">$<span class="amount total_sub_amount_{{x.pk}}">{{x.total_amount}}</span></td>-->
+                                                    </tr>
+                                                {% else %}
+                                                    <tr>
+                                                        <td class="li-product-remove"><a href="{% url 'frontRemovItemFromMiniCart' pk=x.pk %}"><i class="fas fa-times-circle"></i></a></td>
+                                                        <td class="li-product-thumbnail"><a href="/fe/product/details/{{x.product.product_id}}"><img src="{{x.product.product_thumbnail.url}}" style="width: 100px; height: 100px;" alt="Li's Product Image"></a></td>
+                                                        <td class="li-product-name"><a href="/fe/product/details/{{x.product.product_id}}">{{x.product.title|safe|truncatechars:30}}</a></td>
+                                                        <td class="li-product-price">$<span class="amount">{{x.product.new_price}}</span></td>
+                                                        <td class="quantity">
+                                                            <label>Quantity</label>
+                                                            <div class="cart-plus-minus">
+                                                                <input class="cart-plus-minus-box cart__items__amount" value="{{x.quantity}}" id="cart__items__amount_{{x.pk}}" type="number" min="0" max="10" step="1">
+                                                                <div class="dec qtybutton quantity__decrease" id="{{x.pk}}" onclick="decreaseProductNo(this)"><i class="fa fa-angle-down" id="{{x.pk}}"></i></div>
+                                                                <div class="inc qtybutton quantity__increase" id="{{x.pk}}" onclick="increaseProductNo(this)"><i class="fa fa-angle-up" id="{{x.pk}}"></i></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="product-subtotal">$<span class="amount total_sub_amount_{{x.pk}}">{{x.total_amount}}</span></td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-7 order-sm-12">
+                                        <div>
+                                                        <script type="text/javascript">
+                                                            atOptions = {
+                                                                'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
+                                                                'format' : 'iframe',
+                                                                'height' : 60,
+                                                                'width' : 468,
+                                                                'params' : {}
+                                                            };
+                                                            document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
+                                                        </script>
+                                                    </div>
+                                    </div>
+                                    <div class="col-md-5 ml-auto">
+                                        <div class="cart-page-total">
+<!--                                            <h2>Cart totals</h2>-->
+<!--                                            <ul>-->
+<!--                                                <li>Subtotal <span>$</span><span class="final_sub__total__amount">{{sub_total_amount}}</span></li>-->
+<!--&lt;!&ndash;                                                <li>Discount <span>$</span><span class="final_sub__total__amount">{{sub_total_amount}}</span></li>&ndash;&gt;-->
+<!--                                                <li>Total <span>$</span><span class="final__total_amount">{{total_amount|floatformat:2}}</span></li>-->
+<!--                                            </ul>-->
+                                            <a href="{% url 'frontPrizeCheckout' username=request.user.username %}">Proceed to checkout</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+<!--                                ads section starts -->
+                                <div class="row">
+                                   <div class="col-md-6">
+                                                    <div>
+                                                        <script type="text/javascript">
+                                                            atOptions = {
+                                                                'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
+                                                                'format' : 'iframe',
+                                                                'height' : 60,
+                                                                'width' : 468,
+                                                                'params' : {}
+                                                            };
+                                                            document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
+                                                        </script>
+                                                    </div>
+                                                </div>
+
+                                    <div class="col-md-6">
+                                                    <div>
+                                                        <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/468x60.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                                                    </div>
+                                                </div>
+                                </div>
+<!--                                ads section ends-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Shopping Cart Area End-->
+
+            <!--    ads start        -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md">
+                        <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+                    </div>
+
+                    <div class="col-md">
+                        <div>
+                                <h5>Click to this reCaptcha and get 50 points bonus!</h5>
+                                <form action="{% url 'frontCartPgCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form_cart">
+                                    {% csrf_token %}
+                                    <div id="html_element_cart"></div>
+                                    <br>
+                                    <button type="submit" class="captcha_submit__btn"><img src="{% static 'frontEnd/images/logo/logo.jpeg' %}" alt=""> &nbsp; Click to Collect</button>
+<!--                                    <input type="submit" value="Collect">-->
+                                </form>
+                            </div>
+                    </div>
+
+                    <div class="col-md">
+                        <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+                    </div>
+                    <div class="col-md">
+                        <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+
+<script type="text/javascript">
+
+// captcha-1
+      var onloadCallback = function() {
+
+
+        grecaptcha.render('html_element_cart', {
+          'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
+        });
+      };
+
+
+      var captcha__form_cart = document.getElementById('captcha__form_cart');
+        captcha__form_cart.addEventListener("submit", function(event){
+
+            if (grecaptcha.getResponse() === '') {
+              event.preventDefault();
+              alert('Please check the recaptcha');
+            }
+          }
+        , false);
+
+        // ends captcha-1
+
+</script>
+
+<script>
+
+    const final_sub__total__amount = document.querySelector('.final_sub__total__amount');
+    const final__total_amount = document.querySelector('.final__total_amount');
+
+    function increaseProductNo(increase_btn) {
+        let btn_id = increase_btn.id;
+
+        const total_sub_amount = document.querySelector(`.total_sub_amount_${btn_id}`);
+
+        let current_product_items = document.getElementById(`cart__items__amount_${btn_id}`);
+        let current_no_of_items = parseInt(current_product_items.value) + 1;
+        current_product_items.value = current_no_of_items;
+
+        // ajax starts
+
+            $.ajax({
+                url: '/fe/cart/items/{{current_user_usrname}}/',
+                type: 'get',
+                data: {
+                    item_id: btn_id,
+                    no_items: current_product_items.value,
+                },
+                success: function(response){
+                    let updated_product_info = response.updated_product_info;
+
+                    total_sub_amount.innerHTML = updated_product_info.amount;
+                    final_sub__total__amount.innerHTML = parseFloat(updated_product_info.updated_total_amount).toFixed(2);
+                    final__total_amount.innerHTML = parseFloat(updated_product_info.updated_total_amount).toFixed(2);
+                },
+            });
+        // ajax ends
+
+
+    }
+
+    function decreaseProductNo(decrease_btn) {
+        let btn_id = decrease_btn.id;
+
+        const total_sub_amount = document.querySelector(`.total_sub_amount_${btn_id}`);
+
+        let current_product_items = document.getElementById(`cart__items__amount_${btn_id}`);
+
+        if (parseInt(current_product_items.value) > 0) {
+            let current_no_of_items = parseInt(current_product_items.value) - 1;
+            current_product_items.value = current_no_of_items;
+
+            // ajax starts
+            $.ajax({
+                url: '/fe/cart/items/{{current_user_usrname}}/',
+                type: 'get',
+                data: {
+                    item_id: btn_id,
+                    no_items: current_product_items.value,
+                },
+                success: function(response){
+                    let updated_product_info = response.updated_product_info;
+                    total_sub_amount.innerHTML = updated_product_info.amount;
+
+                    final_sub__total__amount.innerHTML = parseFloat(updated_product_info.updated_total_amount).toFixed(2);
+                    final__total_amount.innerHTML = parseFloat(updated_product_info.updated_total_amount).toFixed(2);
+                },
+            });
+            // ajax ends
+        }
+    }
+
+</script>
+{% endblock %}
