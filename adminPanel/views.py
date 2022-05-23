@@ -56,7 +56,7 @@ def ap_fetch_woocommerce_store_prdct(request):
     page = 1  # The first page number to loop is page 1
     try:
         while True:
-            prods = wcapi.get('products', params={"per_page": 20, "page": page})
+            prods = wcapi.get('products', params={"per_page": 50, "page": page})
             page += 1
             if prods.text:
                 p = json.loads(prods.text)
@@ -146,16 +146,12 @@ def ap_update_wocommerce_store_prdct(request):
     page = 1  # The first page number to loop is page 1
     try:
         while True:
-            prods = wcapi.get('products', params={"per_page": 20, "page": page})
+            prods = wcapi.get('products', params={"per_page": 50, "page": page})
             page += 1
-            print(prods)
             if prods.text:
                 products = json.loads(prods.text)
                 try:
                     for x in products:
-                        if x['id'] == 11865:
-                            print(x)
-                        print('1')
                         # combining multiple categories of one product
                         cats = ''
                         for cat in x['categories']:
