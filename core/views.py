@@ -3677,7 +3677,6 @@ def front_confirm_prize_delivery_order(request, username):
         return redirect('frontEndLoginRegister')
 
     if request.method == 'POST':
-
         # default shipping and billing address
         use_defalt_billing__adrs = request.POST.get('use_defalt_billin__adrs')
         use_defalt_shipping_addrss = request.POST.get('use_defalt_shipping_addrss')
@@ -3717,9 +3716,10 @@ def front_confirm_prize_delivery_order(request, username):
 
             # save to "CurrentDelivryRequestPrizeProduct"
             for product in current_prize_cart_items:
+                current_product = ProductList.objects.filter(pk=product.product.pk).first()
                 currnt_prize_delvery_request_item = CurrentDelivryRequestPrizeProduct.objects.create(
                     user=request.user,
-                    product=product,
+                    product=current_product,
                     quantity=1,
                     is_current = True
                 )
@@ -3730,9 +3730,13 @@ def front_confirm_prize_delivery_order(request, username):
                 order_status='p',
                 order_note=order_note,
             )
-            for item in current_prize_cart_items:
-                product_prize_delivery_order.items.add(item.product)
+            for item in CurrentDelivryRequestPrizeProduct.objects.filter(Q(user=request.user) & Q(is_current=True)):
+                product_prize_delivery_order.items.add(item)
                 product_prize_delivery_order.save()
+
+            # removing items from cart
+            for item in current_prize_cart_items:
+                item.delete()
 
             if use_defalt_billing__adrs:
                 curnt_usr_billing_info = DefaultBillingInfo.objects.filter(user=request.user).first()
