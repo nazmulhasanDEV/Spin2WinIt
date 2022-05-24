@@ -19,3 +19,6 @@ admin.site.register(ApplicableRulesForWinner)
 
 # total number of times played the game/spinned the wheel
 admin.site.register(TotalNumOfTimesPlayed)
+
+# terms and policies for game
+admin.site.register(GameTermsPolicies)

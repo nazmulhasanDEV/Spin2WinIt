@@ -82,6 +82,9 @@ urlpatterns = [
 
     re_path(r'^ap/add/new/segment/$', views.ap_add_new_segment, name='apAddNewSegment'),
     re_path(r'^ap/remove/new/segment/(?P<pk>\d+)/$', views.ap_remove_new_segment, name='apRemoveSegment'),
+    re_path(r'^ap/add/game/terms/policies/$', views.ap_add_terms_policies_forGame, name='apAddTermsPoliciesForGame'),
+    re_path(r'^ap/update/game/terms/policies/(?P<pk>\d+)/$', views.ap_update_terms_policies_forGame, name='apUpdateGameTermsPolicies'),
+    re_path(r'^ap/del/game/terms/policies/(?P<pk>\d+)/$', views.ap_delete_terms_policies_forGame, name='apDeleteGameTermsPoliciesForGame'),
 
     # gaming sponsored product list
     re_path(r'^ap/game/sponsored/products/$',views.ap_sponsored_prdacts_for_game, name='apGameSponsoredProducts'),

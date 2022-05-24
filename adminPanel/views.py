@@ -3697,6 +3697,81 @@ def ap_remove_new_segment(request, pk):
 
     return redirect('apAddNewSegment')
 
+# add game terms and policies
+@login_required(login_url='/ap/register/updated')
+def ap_add_terms_policies_forGame(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        game_terms_policies = request.POST.get('game_terms_policies')
+
+        if game_terms_policies and GameTermsPolicies.objects.filter().count() <= 0:
+            gameTermsPolicies = GameTermsPolicies.objects.create(terms=game_terms_policies)
+            messages.success(request, "Successfully added!")
+            return redirect('apAddTermsPoliciesForGame')
+        else:
+            messages.warning(request, "Can't be added! Terms & policies already exist! Update it or delete it!")
+            return redirect('apAddTermsPoliciesForGame')
+
+    # existing terms and policies
+    existing_terms_policies = GameTermsPolicies.objects.filter().first()
+
+    context = {
+        'existing_terms_policies': existing_terms_policies,
+    }
+
+    return render(request, 'backEnd_superAdmin/game/terms_policies.html', context)
+
+
+# update game terms and policies
+@login_required(login_url='/ap/register/updated')
+def ap_update_terms_policies_forGame(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        game_terms_policies = request.POST.get('game_terms_policies')
+
+        if game_terms_policies:
+            gameTermsPolicies = GameTermsPolicies.objects.get(pk=pk)
+            gameTermsPolicies.terms = game_terms_policies
+            gameTermsPolicies.save()
+            messages.success(request, "Successfully updated!")
+            return redirect('apAddTermsPoliciesForGame')
+        else:
+            messages.warning(request, "Can't be updated!")
+            return redirect('apAddTermsPoliciesForGame')
+
+    # existing terms and policies
+    existing_terms_policies = GameTermsPolicies.objects.filter().first()
+
+    context = {
+        'existing_terms_policies': existing_terms_policies,
+        'current_pk': pk,
+    }
+
+    return render(request, 'backEnd_superAdmin/game/update_game_terms_policies.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_delete_terms_policies_forGame(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        current_obj = GameTermsPolicies.objects.get(pk=pk)
+        current_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apAddTermsPoliciesForGame')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apAddTermsPoliciesForGame')
+
+    return redirect('apAddTermsPoliciesForGame')
 
 # deactivate other sponsored product for winning chance
 # def deactivateOtherProductFor_winning_chance(obj):

@@ -117,6 +117,9 @@ urlpatterns = [
     # payment successfull message purchasing product
     re_path(r'^fe/payment/successfull/msg/(?P<username>[-\w]+)/$', views.front_payment_successfull_msg, name='frontPaymentSuccessfullmsg'),
 
+    # game terms policies
+    re_path(r'^fe/game/terms/policies/$', views.front_game_terms_policies, name='frontGameTermsPolicies'),
+
     # policy section
     re_path(r'^fe/refund/policy/$', views.front_refund_policy, name='frontRefundPolicy'),
     re_path(r'^fe/return/policy/$', views.front_return_policy, name='frontReturnPolicy'),

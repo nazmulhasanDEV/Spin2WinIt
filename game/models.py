@@ -152,3 +152,12 @@ class TotalNumOfTimesPlayed(models.Model):
         return str(self.num_of_times_played)
 
 
+# terms and policies for game
+class GameTermsPolicies(models.Model):
+    terms = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.terms
+
+

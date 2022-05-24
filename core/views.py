@@ -1511,7 +1511,14 @@ def front_shop(request, pk):
     banner_at_shop_page_by_cat = ShopPageBanner.objects.filter(status=True).first()
 
     # django pagination
-    paginator = Paginator(products, 8)
+    paginator = Paginator(products, 9)
+
+    # number of items per page
+    num_of_items_per_page = 0
+    if paginator.count >= 9:
+        num_of_items_per_page = 9
+    else:
+        num_of_items_per_page = paginator.count
 
     page_number = request.GET.get('page', 1)
 
@@ -1542,6 +1549,7 @@ def front_shop(request, pk):
 
     context = {
         'paginator' : paginator,
+        'num_of_items_per_page': num_of_items_per_page,
         'page' : page,
         'current_cat': cat,
         'total_amount': total_amount,
@@ -4669,6 +4677,66 @@ def front_privacy_policy(request):
     }
 
     return render(request, 'frontEnd/company/privacy.html', context)
+
+def front_game_terms_policies(request):
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+    # privacy policy
+    privacy_polilcy = PrivacyPolicy.objects.filter().first()
+
+    user_cart_status = []
+    user_wishlist_status = []
+
+    total_amount = 0
+
+    if request.user.is_authenticated:
+        # user cart status
+        user_cart_status = Cart.objects.filter(user=request.user)
+
+        # user wishlist status
+        user_wishlist_status = WishList.objects.filter(user=request.user)
+
+
+        if user_cart_status:
+            for x in user_cart_status:
+                if x.product.product_type == 'wsp':
+                    total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+                if x.product.product_type == 'mcp':
+                    total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+
+
+    game_terms_policies = GameTermsPolicies.objects.filter().first()
+
+    context = {
+        'game_terms_policies': game_terms_policies,
+
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
+        'user_cart_status': user_cart_status,
+        'user_wishlist_status': user_wishlist_status,
+        'total_amount': total_amount,
+        'privacy_polilcy': privacy_polilcy,
+    }
+
+    return render(request, 'frontEnd/game/game_terms_policies.html', context)
 
 
 # sign up for newletter/subscibe
