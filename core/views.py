@@ -2526,8 +2526,7 @@ def front_game(request):
         game_setting = GameSetting.objects.filter(status=True).first()
 
         number_of_segments = len(SegmentList.objects.filter(status=True))
-        active_segment_list = SegmentList.objects.filter(status=True)
-
+        active_segment_list = SegmentList.objects.filter(status=True).order_by('segment_no')
 
         context = {
             'site_logo': site_logo,

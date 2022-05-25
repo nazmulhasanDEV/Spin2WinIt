@@ -389,18 +389,21 @@
             segments: [
                 {% for x in active_segment_list %}
 
+                 {% if x.segment_prize_type == '1' %}
                 {
-                    {% if x.segment_prize_type == '1' %}
                     fillStyle: "{{x.bg_color}}",
                     text: "PC - {{x.prize_title}}",
                     textFontSize: 16,
                     textFillStyle: "#ffffff",
                     textOrientation: "horizontal",
-                    {% else %}
+                 },
+                {% else %}
+                {
                     fillStyle: "{{x.bg_color}}",
                     text: "{{x.prize_point_amount}}"
-                    {% endif %}
-                 },
+                },
+                {% endif %}
+
                 {% endfor %}
             ],
             // Specify the animation to use.

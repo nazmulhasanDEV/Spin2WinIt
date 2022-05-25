@@ -130,9 +130,9 @@ class SegmentList(models.Model):
     def __str__(self):
         return self.segment.name + " || " + str(self.segment_no)
 
-    def save(self, *args, **kwargs):
-        self.segment_no = self.segment_no + 1
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.segment_no = self.segment_no + 1
+    #     super().save(*args, **kwargs)
 
 # applicable rules/regulations for prize winner
 class ApplicableRulesForWinner(models.Model):

@@ -3469,6 +3469,7 @@ def ap_segment_setting(request):
             point_as_prize = request.POST.get('point_as_prize')
             product_as_prize = request.POST.get('product_as_prize')
             segment_status = request.POST.get('segment_status')
+            segment_order = request.POST.get('segment_order')
 
 
             if segment and bg_color and segment_prize__type and segment_status and len(SegmentList.objects.filter(segment=Segment.objects.get(pk=segment))) <= 0:
@@ -3476,14 +3477,30 @@ def ap_segment_setting(request):
                     current_segment = Segment.objects.get(pk=segment)
                     current_prodct_as_prize = SponsoredProductForPrize.objects.get(pk=product_as_prize)
 
-                    segment_list_model = SegmentList(segment=current_segment, bg_color=bg_color, prize_title=prize_title, segment_prize_type='1', product_as_prize=current_prodct_as_prize, status=segment_status)
+                    segment_list_model = SegmentList(
+                        segment_no=segment_order,
+                        segment=current_segment,
+                        bg_color=bg_color,
+                        prize_title=prize_title,
+                        segment_prize_type='1',
+                        product_as_prize=current_prodct_as_prize,
+                        status=segment_status
+                    )
                     segment_list_model.save()
                     messages.success(request, "Succesfully added!")
                     return redirect('apSegmentSettings')
                 if segment_prize__type == 'point':
                     current_segment = Segment.objects.get(pk=segment)
 
-                    segment_list_model = SegmentList(segment=current_segment, bg_color=bg_color, prize_title=prize_title, segment_prize_type='2', prize_point_amount=point_as_prize, status=segment_status)
+                    segment_list_model = SegmentList(
+                        segment_no=segment_order,
+                        segment=current_segment,
+                        bg_color=bg_color,
+                        prize_title=prize_title,
+                        segment_prize_type='2',
+                        prize_point_amount=point_as_prize,
+                        status=segment_status
+                    )
                     segment_list_model.save()
                     messages.success(request, "Succesfully added!")
                     return redirect('apSegmentSettings')
@@ -3569,6 +3586,7 @@ def ap_update_segment_setting(request, pk):
             point_as_prize = request.POST.get('point_as_prize')
             product_as_prize = request.POST.get('product_as_prize')
             segment_status = request.POST.get('segment_status')
+            segment_order = request.POST.get('segment_order')
 
             if segment and bg_color and segment_prize__type and segment_status:
                 if segment_prize__type == 'product':
@@ -3576,6 +3594,7 @@ def ap_update_segment_setting(request, pk):
                     current_prodct_as_prize = SponsoredProductForPrize.objects.get(pk=product_as_prize)
 
                     segment_list_model = SegmentList.objects.get(pk=pk)
+                    segment_list_model.segment_no=segment_order
                     segment_list_model.segment=current_segment
                     segment_list_model.bg_color=bg_color
                     segment_list_model.segment_prize_type='1'
@@ -3591,6 +3610,7 @@ def ap_update_segment_setting(request, pk):
                     current_segment = Segment.objects.get(pk=segment)
 
                     segment_list_model = SegmentList.objects.get(pk=pk)
+                    segment_list_model.segment_no = segment_order
                     segment_list_model.segment=current_segment
                     segment_list_model.bg_color=bg_color
                     segment_list_model.segment_prize_type='2'

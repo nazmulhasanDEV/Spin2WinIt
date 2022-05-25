@@ -99,6 +99,13 @@
                             </div>
                         </div>
 
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label for="segment_order">Segment Order No.</label>
+                                <input type="number" name="segment_order" id="segment_order" class="form-control" placeholder="Segment Order" />
+                            </div>
+                        </div>
+
                     </div>
                     <!-- /.box-body -->
 
@@ -133,7 +140,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Product list</h3>
+                            <h3 class="box-title">Segment List with Prize</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
@@ -152,11 +159,11 @@
                                 {% if segment_list_with_prizes %}
                                 {% for x in segment_list_with_prizes %}
                                 <tr>
-                                    <td>{{forloop.counter}}</td>
+                                    <td>{{x.segment_no}}</td>
                                     <td>{{x.segment.name}}</td>
                                     <td>{{x.bg_color}}</td>
                                     {% if x.segment_prize_type == '1' %}
-                                    <td>Product</td>
+                                    <td style="background-color: green; color: white">Product</td>
                                     {% else %}
                                     <td>Point</td>
                                     {% endif %}
