@@ -10,9 +10,18 @@ class PointWallet(models.Model):
     purchased = models.CharField(max_length=255, default='0')
     spent     = models.CharField(max_length=255, default='0')
     spent_amount = models.CharField(max_length=255, blank=True, null=True, default='0')
+    got_todays_bonus = models.BooleanField(default=False, blank=True, null=True)
 
     def __str__(self):
         return self.user.email
+
+# dailly sign in bonus model
+class GivenDailySignInBonusUsrList(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.email + "||" + str(50) + " || " + str(self.created)
 
 
 # user credit wallet

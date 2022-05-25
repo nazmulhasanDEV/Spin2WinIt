@@ -22,7 +22,7 @@ from .models import *
 from django.core.paginator import Paginator, EmptyPage
 from datetime import datetime, timedelta
 from django.utils import timezone
-from django.utils.crypto import get_random_string
+from django.utils.crypto import get_random_string # for getting random code...get_random_string(8) will return 8 digit random code
 from adminPanel.views import create_orderToWcmrceStore
 from .get_visitor_info import get_or_countVisitorInfo
 
@@ -92,6 +92,41 @@ def front_index(request):
 
 
 def front_home(request):
+
+    # give user 50 points reward as daily sign in bonus
+    if request.user.is_authenticated:
+
+        if GivenDailySignInBonusUsrList.objects.filter(user=request.user).count() <= 0:
+            # save to daily bonus gotten user list
+            daily_signin_bonusUser_list = GivenDailySignInBonusUsrList.objects.create(user=request.user)
+            current_user_point_wallet = PointWallet.objects.filter(user=request.user).first()
+            if current_user_point_wallet:
+                current_user_point_wallet.available = int(current_user_point_wallet.available) + 50  # daily sign in bonus amount
+                current_user_point_wallet.save()
+                messages.success(request, "Congratulations! You got 50 reward point as daily sign in bonus!")
+            else:
+                crnt_usr_wallet = PointWallet.objects.create(user=request.user, available=50)
+                messages.success(request, "Congratulations! You got 50 reward point as daily sign in bonus!")
+        else:
+            daily_signin_bonusUser_list = GivenDailySignInBonusUsrList.objects.filter(user=request.user).last()
+            print(daily_signin_bonusUser_list)
+            if daily_signin_bonusUser_list:
+                last_gotten_bonus = daily_signin_bonusUser_list.created + timezone.timedelta(hours=24)
+                timezone_now = timezone.now()
+
+                if timezone_now >= last_gotten_bonus:
+                    daily_signin_bonusUser_list = GivenDailySignInBonusUsrList.objects.create(user=request.user)
+
+                    current_user_point_wallet = PointWallet.objects.filter(user=request.user).first()
+                    if current_user_point_wallet:
+                        current_user_point_wallet.available = int(current_user_point_wallet.available) + 50  # daily sign in bonus amount
+                        current_user_point_wallet.save()
+                        messages.success(request,
+                                         "Congratulations! You got 50 reward point as daily sign in bonus!")
+                    else:
+                        crnt_usr_wallet = PointWallet.objects.create(user=request.user, available=50)
+                        messages.success(request,
+                                         "Congratulations! You got 50 reward point as daily sign in bonus!")
 
     # saving/counting visitor informations
     get_or_count_visitor = threading.Thread(target=get_or_countVisitorInfo, args=[request.META.get('HTTP_X_FORWARDED_FOR'), request])
@@ -1275,6 +1310,7 @@ def front_loginUser(request):
                             request.session.set_expiry(3600)
                         if user.is_buyer:
                             login(request, authenticate_user)
+
                             return redirect('frontEndHome')
                         if user.is_seller:
                             login(request, authenticate_user)

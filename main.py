@@ -1,34 +1,33 @@
-import datetime
+# user last login info
+    last_logged_in = None
+    if request.user.is_authenticated:
+        last_logged_in = request.user.last_login + timezone.timedelta(days=1)
+        timezone_now = timezone.now()
 
-print(datetime.datetime.now())
-
-
-
-<!--                                <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
-<!--                                <a href="#">-->
-<!--                                    <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjIsInNyYyI6Mn0=eyJ.js"></script>-->
-<!--                                    <img src="{% static 'frontEnd/images/banner/3_1.jpg' %}" class="swiper__img"-->
-<!--                                         alt=""/>-->
-<!--                                </a>-->
-<!--                                 <h6>Watch & Earn</h6>-->
-
-
-# part 2
-<script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
-
-<!--                                <a href="#">-->
-<!--                                    <img src="{% static 'frontEnd/images/banner/3_1.jpg' %}" alt=""/>-->
-<!--                                </a>-->
-<!--                                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/468x60.png" style="width: 100%; height: 205px;border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>-->
+        if last_logged_in <= timezone_now:
+            current_user_point_wallet = PointWallet.objects.filter(user=request.user).first()
+            if current_user_point_wallet:
+                current_user_point_wallet.available = int(current_user_point_wallet.available) + 50 # daily sign in bonus amount
+                # current_user_point_wallet.save()
+                messages.success(request, "Congratulations! You got 50 reward points as daily sign in bonus!")
+                # return redirect('frontEndHome')
 
 
 
 
-# captcha site key: 6LfA1rEfAAAAAAZPG4Ox-4GOixJt0jwcoCWrZKtv
-# captcha secret key: 6LfA1rEfAAAAAN48KZF86ZooQsLEPW7w1HLOhiIQ
+# give user 50 points reward as daily sign in bonus
+last_logged_in = None
+if request.user.is_authenticated:
+    last_logged_in = request.user.last_login + timezone.timedelta(seconds=15)
+    timezone_now = timezone.now()
 
-sk:6Lew2rEfAAAAAJhklMS8pgwrna7RIR1ckzdsexvT
-scretk: 6Lew2rEfAAAAAMpaPFyJB12B9Pvxm8fRtn6bONpr
-
-# g_l_sk: 6Ld927EfAAAAAAwVNMGnm5qTAAVybM9WcpFvtPxK
-# g_secret_sk: 6Ld927EfAAAAAJgnfzCtU2uOENl2NU79Vv8V6MuF
+    if GivenDailySignInBonusUsrList.objects.filter(user=request.user).count() <= 0:
+        # save to daily bonus gotten user list
+        daily_signin_bonusUser_list = GivenDailySignInBonusUsrList.objects.create(user=request.user)
+        current_user_point_wallet = PointWallet.objects.filter(user=request.user).first()
+        if current_user_point_wallet:
+            current_user_point_wallet.available = int(
+                current_user_point_wallet.available) + 50  # daily sign in bonus amount
+            current_user_point_wallet.save()
+        else:
+            crnt_usr_wallet = PointWallet.objects.create(user=request.user, available=50)
