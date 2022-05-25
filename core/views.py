@@ -94,7 +94,7 @@ def front_index(request):
 def front_home(request):
 
     # give user 50 points reward as daily sign in bonus
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.is_buyer:
 
         if GivenDailySignInBonusUsrList.objects.filter(user=request.user).count() <= 0:
             # save to daily bonus gotten user list
