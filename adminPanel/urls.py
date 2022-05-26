@@ -227,4 +227,8 @@ urlpatterns = [
     re_path(r'^ap/customer/message/list/$', views.ap_customer_msg_list, name='apCustomerMessageList'),
     re_path(r'^ap/del/customer/message/list/(?P<pk>\d+)/$', views.ap_del_customer_msg, name='apDelCustomerMessageList'),
 
+    # analytics part starts******************************************************************************************
+
+    re_path(r'^ap/unique/visitors/list/$', views.ap_unique_visitors_list, name='apUniqueVisitorsList'),
+
 ]

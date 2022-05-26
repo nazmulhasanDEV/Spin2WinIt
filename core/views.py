@@ -3953,6 +3953,9 @@ def front_refer_and_get_bonusPoint(request):
     # user wishlist status
     user_wishlist_status = WishList.objects.filter(user=request.user)
 
+    # all product category
+    product_cat_list_all = ProductCategory.objects.all()
+
     total_amount = 0
     if user_cart_status:
         for x in user_cart_status:
@@ -3971,7 +3974,7 @@ def front_refer_and_get_bonusPoint(request):
         messages.warning(request, "You don't have any referal code!")
         return redirect('frontEndUserProfile', username=request.user.username)
 
-    referal_link = f'https://spinit2win.com/{request.user.username}/{referal_code}/'
+    referal_link = f'https://spinit2win.com/fe/{request.user.username}/{referal_code}/'
 
     # user profile
     user_profile = UserProfilePicture.objects.filter(user=request.user).first()
@@ -4005,12 +4008,12 @@ def front_refer_and_get_bonusPoint(request):
         'safe_payment_content_setting': safe_payment_content_setting,
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
+        'product_cat_list_all': product_cat_list_all,
     }
 
     return render(request, 'frontEnd/refer_and_get_bonus.html', context)
 
 
-@login_required(login_url='/fe/login/register')
 def front_track_and_give_bonus_to_referer(request, username, referal_code):
 
     try:

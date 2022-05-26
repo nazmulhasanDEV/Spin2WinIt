@@ -81,7 +81,7 @@ urlpatterns = [
     re_path(r'^fe/send/mail/invitation/$', views.front_send_email_invitation, name='frontSendEmailInvitation'),
     # referal link
     re_path(r'^fe/refer/get/bonus/$', views.front_refer_and_get_bonusPoint, name='frontReferGet500Bonus'),
-    re_path(r'^(?P<username>[-\w]+)/(?P<referal_code>[-\w]+)/$', views.front_track_and_give_bonus_to_referer, name='frontTrackReferer'),
+    re_path(r'^fe/(?P<username>[-\w]+)/(?P<referal_code>[-\w]+)/$', views.front_track_and_give_bonus_to_referer, name='frontTrackReferer'),
 
     re_path(r'^fe/logout/user/$', views.front_logoutUser, name='frontEndLogoutUser'),
     re_path(r'^fe/update/profile/pircture/$', views.front_updateProfile_picture, name='frontUpdateProfilePic'),

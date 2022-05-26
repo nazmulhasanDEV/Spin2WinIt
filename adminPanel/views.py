@@ -2072,7 +2072,6 @@ def activateUser(request, pk):
 @login_required(login_url='/ap/register/updated')
 def removeUser(request, pk):
 
-
     if request.user.is_admin != True:
         return redirect('frontEndLoginUser')
 
@@ -2089,7 +2088,6 @@ def removeUser(request, pk):
 
 @login_required(login_url='/ap/register/updated')
 def ap_add_product_category(request):
-
 
     if request.user.is_admin != True:
         return redirect('frontEndLoginUser')
@@ -5766,6 +5764,9 @@ def ap_subscriber_list(request):
 @login_required(login_url='/ap/register/updated')
 def ap_remove_subscriber(request, pk):
 
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
     try:
         current_obj = SubscriberList.objects.get(pk=pk)
         current_obj.delete()
@@ -5780,6 +5781,10 @@ def ap_remove_subscriber(request, pk):
 
 @login_required(login_url='/ap/register/updated')
 def ap_customer_msg_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
     # user profile picture
     profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
 
@@ -5795,6 +5800,9 @@ def ap_customer_msg_list(request):
 @login_required(login_url='/ap/register/updated')
 def ap_del_customer_msg(request, pk):
 
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
     try:
         currn_obj = CustomerMessageList.objects.get(pk=pk)
         currn_obj.delete()
@@ -5804,3 +5812,19 @@ def ap_del_customer_msg(request, pk):
         messages.warning(request, "Can't be deleted! Try again!")
         return redirect('apCustomerMessageList')
     return redirect('apCustomerMessageList')
+
+
+# analytics part starts**************************************************************
+@login_required(login_url='/ap/register/updated')
+def ap_unique_visitors_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    visitor_ip_address_list = VisitorInfo.objects.all()
+
+    context = {
+        'visitor_ip_address_list': visitor_ip_address_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/unique_users_info.html', context)

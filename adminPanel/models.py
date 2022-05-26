@@ -156,11 +156,36 @@ class CustomerMessageList(models.Model):
         return self.name + " || " + self.msg
 
 # visitors/shopper list/information
+def get_location(ip):
+    response = requests.get(f'https://ipapi.co/{ip}/json/').json()
+    location_data = {
+        "city": response.get("city"),
+        "region": response.get("region"),
+        "country": response.get("country_name")
+    }
+    return location_data
+
 class VisitorInfo(models.Model):
     visitor_ip = models.CharField(max_length=255, blank=True)
+    visitors_country = models.CharField(max_length=50, blank=True, null=True)
+    country_code = models.CharField(max_length=50, blank=True, null=True)
+    latitude = models.CharField(max_length=50, blank=True, null=True)
+    longitude = models.CharField(max_length=50, blank=True, null=True)
+    timezone = models.CharField(max_length=50, blank=True, null=True)
+    visited = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return self.visitor_ip
+
+    def save(self, *args, **kwargs):
+        details_of_crnt_ip = get_location(self.visitor_ip)
+
+        self.visitors_country = details_of_crnt_ip['country']
+        self.country_code = details_of_crnt_ip['continent_code']
+        self.latitude = details_of_crnt_ip['postal']
+        self.longitude = details_of_crnt_ip['latitude']
+        self.timezone = details_of_crnt_ip['longitude']
+        super(VisitorInfo, self).save(*args, **kwargs)
 
 # total visitors
 class TotalNumVisitor(models.Model):
