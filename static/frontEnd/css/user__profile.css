@@ -9,7 +9,7 @@
     height: 50px;
 }
 
-.invite__friend__section .content button {
+.invite__friend__section .content .invitation {
     width: 120px;
     height: 35px;
     border: none;
@@ -20,11 +20,25 @@
     right: 0;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .invite__friend__section .content button .fas {
     padding-right: 6px;
+}
+
+.refer_and_get_bonus button{
+    width: auto;
+    height: 35px;
+    border: none;
+    outline: none;
+    background: #C22D29;
+    color: white;
+    position: absolute;
+    right: 150px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
 }
 
 #user__profile__section .user__profile__pic .card {
