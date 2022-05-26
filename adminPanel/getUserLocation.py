@@ -1,5 +1,6 @@
 import requests
 
+
 def get_location(ip_adrs):
     response = requests.get(f'https://ipapi.co/{ip_adrs}/json/').json()
     location_data = {

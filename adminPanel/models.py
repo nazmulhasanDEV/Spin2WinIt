@@ -1,4 +1,5 @@
 from django.db import models
+import requests
 
 # product categories model
 class ProductCategory(models.Model):
