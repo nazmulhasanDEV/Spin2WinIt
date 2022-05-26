@@ -162,7 +162,12 @@ def get_location(ip):
     location_data = {
         "city": response.get("city"),
         "region": response.get("region"),
-        "country": response.get("country_name")
+        "country": response.get("country_name"),
+        "country_code": response.get("country_code"),
+        "postal": response.get("postal"),
+        "latitude": response.get("latitude"),
+        "longitude": response.get("longitude"),
+        "timezone": response.get("timezone"),
     }
     return location_data
 
@@ -182,7 +187,7 @@ class VisitorInfo(models.Model):
         details_of_crnt_ip = get_location(self.visitor_ip)
 
         self.visitors_country = details_of_crnt_ip['country']
-        self.country_code = details_of_crnt_ip['continent_code']
+        self.country_code = details_of_crnt_ip['country_code']
         self.latitude = details_of_crnt_ip['postal']
         self.longitude = details_of_crnt_ip['latitude']
         self.timezone = details_of_crnt_ip['longitude']
