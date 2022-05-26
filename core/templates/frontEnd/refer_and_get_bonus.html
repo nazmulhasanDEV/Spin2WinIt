@@ -1,0 +1,261 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+
+{% block refer_nd_getBonus_block %}
+<link rel="stylesheet" href="{% static 'frontEnd/css/refer_and_get_bonus.css' %}">
+{% endblock %}
+
+{% block main_block %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"
+                 {% endif %}>
+                <strong>{{ message }}!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+<!-- ads -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <!--yllx 468x60 starts &*************************************-->
+            <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+            <!--yllx ends here **********************************-->
+        </div>
+        <div class="col-md-6">
+            <!--yllx 468x60 starts &*************************************-->
+            <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+            <!--yllx ends here **********************************-->
+        </div>
+    </div>
+</div>
+<!-- ads ends here-->
+
+<br><br><br>
+<section id="refer_section">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div id="profile_pic">
+                    {% if user_profile %}
+                    <img src="{{user_profile.pic.url}}" alt="">
+                    {% else %}
+                    <img src="{% static 'frontEnd/images/avatar@2x.jpg' %}" alt="">
+                    {% endif %}
+                </div>
+
+                <div id="refer_title_subtitle_section">
+                    <h2 class="text-center">Invite & get 250 bonus points</h2>
+                    <h6 class="text-center">Introduce your friends to the easiest way to get things done</h6>
+                </div>
+
+                <div id="refer_form_section">
+                    <form action="{% url 'frontReferGet500Bonus' %}" method="post" enctype="">
+                        {% csrf_token %}
+                      <div class="form-group" style="position: relative;">
+                        <label for="exampleInputPassword1">Your invite link</label>
+                        <input type="text" name="link" class="form-control referal__link" value="{{referal_link}}" id="exampleInputPassword1" placeholder="Referal Link" readonly>
+<!--                          <input type="button" class="copy__refer_link form-control" value='Copy'>-->
+                          <button type="button" onclick="copyReferLink();" class="btn copy__refer_link form-control" id="exampleInputPassword1"><i class="fas fa-copy"></i> Copy</button>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Add Email</label>
+                        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+<!--                        <small id="emailHelp" class="form-text text-muted">Add multiple email & seperate with comma!</small>-->
+                      </div>
+
+                      <button type="submit" class="btn send__referLinkBtn"><i class="fas fa-paper-plane"></i> Send</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        
+    </div>
+</section>
+
+<br><br><br><br><br><br><br><br>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+            <!--            eva landing slider responsive 01-->
+            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <!--            eva landing slider responsive 01 ends-->
+        </div>
+
+        <div class="col-md">
+            <div>
+                    <h5>Click to this reCaptcha and get 50 reward points as bonus!</h5>
+                    <form action="{% url 'frontPurchaseWinningChncePgCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form_all_cats">
+                        {% csrf_token %}
+                        <div id="html_element_all_cats"></div>
+                        <br>
+<!--                        <input type="submit" value="Collect">-->
+                        <button type="submit" class="captcha_submit__btn"><img src="{% static 'frontEnd/images/logo/logo.jpeg' %}" alt=""> &nbsp; Click to Collect</button>
+                    </form>
+                </div>
+        </div>
+
+        <div class="col-md">
+            <!--            eva landing slider responsive 01-->
+            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <!--            eva landing slider responsive 01-->
+        </div>
+        <div class="col-md">
+            <!--            eva landing slider responsive 01-->
+            <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
+            <!--            eva landing slider responsive 01-->
+        </div>
+    </div>
+</div>
+
+<!-- yllx 120x60 starts here -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/120x600.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div>
+                <div id="container-ec5611cf27ddd923a905f8d14e217991"></div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <!-- ylliex 120x60 -->
+                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <!-- yllix 120x60 ends here -->
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/120x600.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <!-- ylliex 120x60 -->
+                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <!-- yllix 120x60 ends here -->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- yllx 120x60 ends here -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+                                    <div>
+                                        <script type="text/javascript">
+                                            atOptions = {
+                                                'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
+                                                'format' : 'iframe',
+                                                'height' : 60,
+                                                'width' : 468,
+                                                'params' : {}
+                                            };
+                                            document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
+                                        </script>
+                                    </div>
+                                </div>
+
+        <div class="col-md-6">
+                                    <div>
+                                        <script type="text/javascript">
+                                            atOptions = {
+                                                'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
+                                                'format' : 'iframe',
+                                                'height' : 60,
+                                                'width' : 468,
+                                                'params' : {}
+                                            };
+                                            document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
+                                        </script>
+                                    </div>
+                                </div>
+    </div>
+</div>
+
+
+
+<!-- ads section ends -->
+
+
+<!-- adster 1x1 native ads-->
+<script async="async" data-cfasync="false" src="//pl17231266.safestgatetocontent.com/ec5611cf27ddd923a905f8d14e217991/invoke.js"></script>
+<!-- adster 1x1 native ads ends-->
+
+
+<script type="text/javascript">
+
+// captcha-1
+      var onloadCallback = function() {
+
+
+        grecaptcha.render('html_element_all_cats', {
+          'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
+        });
+      };
+
+
+      var captcha__form_all_cats = document.getElementById('captcha__form_all_cats');
+        captcha__form_all_cats.addEventListener("submit", function(event){
+
+            if (grecaptcha.getResponse() === '') {
+              event.preventDefault();
+              alert('Please check the recaptcha');
+            }
+          }
+        , false);
+
+        // ends captcha-1
+
+
+        // for copying refral link
+
+        function copyReferLink() {
+            const referal__link = document.querySelector('.referal__link');
+            const copy__refer_link = document.querySelector('.copy__refer_link');
+                /* Select the text field */
+              referal__link.select();
+              referal__link.setSelectionRange(0, 99999); /* For mobile dHello Worldevices */
+
+              /* Copy the text inside the text field */
+              navigator.clipboard.writeText(referal__link.value);
+
+              copy__refer_link.innerHTML = 'Copied!';
+        }
+
+</script>
+
+
+{% endblock %}
+

@@ -3,6 +3,10 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 from django.utils import timezone
+from django.dispatch import receiver
+from django.db.models.signals import post_save, pre_save
+from django.utils.crypto import get_random_string
+
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, username, phone_no, password=None):
@@ -52,7 +56,7 @@ class Account(AbstractBaseUser):
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_seller = models.BooleanField(default=False)
-    is_buyer = models.BooleanField(default=False)
+    is_buyer = models.BooleanField(default=False) # shopper
     is_a_staff = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=options, blank=True, null=True, default=0)
 
@@ -82,6 +86,22 @@ class Account(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+
+# user unique refer code
+class ReferalCode(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    code = models.CharField(default='', max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.email + " || " + self.code
+
+# generating unique referal code while user creating
+def createUniqueReferalCode(sender, instance, created, **kwargs):
+    if created:
+        if ReferalCode.objects.filter(user=instance).count() <= 0:
+            create_referal_code = ReferalCode.objects.create(user=instance, code=get_random_string(10))
+post_save.connect(createUniqueReferalCode, sender=Account)
 
 
 # model for giving permission/checking permission for reset password or mail

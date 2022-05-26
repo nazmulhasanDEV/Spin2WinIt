@@ -190,7 +190,7 @@
                             <div class="row invite__friend__section">
                                 <div class="col-md-12">
 
-                                    <!--                                    modal starts-->
+                                    <!--                                    modal starts for invitation -->
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -238,10 +238,18 @@
                                     </div>
                                     <!--                                    modal ends-->
                                     <div class="content">
-                                        <button type="button" data-toggle="modal" data-target="#exampleModal"
+                                        <button type="button" class="invitation" data-toggle="modal" data-target="#exampleModal"
                                                 data-whatever="@mdo"><i class="fas fa-envelope-open-text"></i> Invite
                                         </button>
+
+                                        <!--                                    referal link-->
+                                    <a href="{% url 'frontReferGet500Bonus' %}" class="refer_and_get_bonus">
+                                        <button type="button">Refer & Get 500 Bonus Points</button>
+                                    </a>
+<!--                                    referal link ends-->
                                     </div>
+                                    <!--                                    modal ends for invitation -->
+
                                 </div>
                             </div>
                             <div class="row">

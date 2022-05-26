@@ -15,6 +15,15 @@ class PointWallet(models.Model):
     def __str__(self):
         return self.user.email
 
+# bonus for sending referal link
+class ReferalBonusList(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    point_amnt = models.CharField(max_length=255, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.email + '||' + self.point_amnt
+
 # dailly sign in bonus model
 class GivenDailySignInBonusUsrList(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)

@@ -80,7 +80,7 @@
                                 {% if x.product_type == 'wsp' %}
                                 <tr>
                                     <td>{{x.product_id}}</td>
-                                    <td>{{x.title|striptags|truncatechars:25}}</td>
+                                    <td>{{x.title|striptags|truncatechars:65}}</td>
                                     <td>{{x.subcat_name}}, {{x.cat_name}}</td>
                                     <td>{{x.price|floatformat:2}}</td>
                                     <td class="text-center">

@@ -109,7 +109,6 @@ def front_home(request):
                 messages.success(request, "Congratulations! You got 50 reward point as daily sign in bonus!")
         else:
             daily_signin_bonusUser_list = GivenDailySignInBonusUsrList.objects.filter(user=request.user).last()
-            print(daily_signin_bonusUser_list)
             if daily_signin_bonusUser_list:
                 last_gotten_bonus = daily_signin_bonusUser_list.created + timezone.timedelta(hours=24)
                 timezone_now = timezone.now()
@@ -3899,28 +3898,149 @@ def front_send_email_invitation(request):
         msg = request.POST.get('msg')
 
         try:
-            subject = "Invitation!"
-            html_content = msg
-            email = EmailMessage(subject, html_content, to=[mail_to])
-            # email.content_subtype = 'html'
-            email.send(fail_silently=False)
 
-            # update user wallet
-            user_wallet = PointWallet.objects.filter(user=request.user).first()
-            if user_wallet:
-                user_wallet.available = int(user_wallet.available) + 50
+            if UserMailInvitations.objects.filter(Q(user=request.user) & Q(mail_to=mail_to)).count() > 0:
+                messages.warning(request, "You already sent invitation to this mail! Try with different account!")
+                return redirect('frontEndUserProfile', username=request.user.username)
             else:
-                user__wallet = PointWallet.objects.create(user=request.user, available=50)
+                subject = "Invitation to join SpinIt2Win.com!"
+                # html_content = msg
+                email = EmailMessage(subject, msg, to=[mail_to])
+                # email.content_subtype = 'html'
+                email.send(fail_silently=False)
 
-            invitation_model = UserMailInvitations.objects.create(user=request.user, mail_to=mail_to, msg=msg)
-            messages.success(request, "Invitation sent successfully! You got 50 reward points as bonus!")
-            return redirect('frontEndUserProfile', username=request.user.username)
+                # update user wallet
+                user_wallet = PointWallet.objects.filter(user=request.user).first()
+                if user_wallet:
+                    user_wallet.available = int(user_wallet.available) + 50
+                else:
+                    user__wallet = PointWallet.objects.create(user=request.user, available=50)
+
+                invitation_model = UserMailInvitations.objects.create(user=request.user, mail_to=mail_to, msg=msg)
+                messages.success(request, "Invitation sent successfully! You got 50 reward points as bonus!")
+                return redirect('frontEndUserProfile', username=request.user.username)
         except:
             messages.warning(request, "Invitation can't be sent! Try again!")
             return redirect('frontEndUserProfile', username=request.user.username)
 
     return redirect('frontEndUserProfile', username=request.user.username)
 
+@login_required(login_url='/fe/login/register')
+def front_refer_and_get_bonusPoint(request):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+
+    # user cart status
+    user_cart_status = Cart.objects.filter(user=request.user)
+
+    # user wishlist status
+    user_wishlist_status = WishList.objects.filter(user=request.user)
+
+    total_amount = 0
+    if user_cart_status:
+        for x in user_cart_status:
+            if x.product.product_type == 'wsp':
+                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+            if x.product.product_type == 'mcp':
+                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+
+    # referal code
+    current_user = ReferalCode.objects.filter(user=request.user).first()
+
+    referal_code = None
+    if current_user:
+        referal_code = current_user.code
+    else:
+        messages.warning(request, "You don't have any referal code!")
+        return redirect('frontEndUserProfile', username=request.user.username)
+
+    referal_link = f'https://spinit2win.com/{request.user.username}/{referal_code}/'
+
+    # user profile
+    user_profile = UserProfilePicture.objects.filter(user=request.user).first()
+
+    if request.method == 'POST':
+        link = request.POST.get('link')
+        email = request.POST.get('email')
+
+        if link and email:
+            subject = f"Invitation from {request.user.fname} {request.user.lname} to join SpinIt2Win.com"
+            # html_content = render_to_string('backEnd_superAdmin/verification_template.html',context={'verification_url': verification_url})
+            msg = f'Hello, I am {request.user.fname} {request.user.lname}. Inviting to join SpinIt2win.com and get nice experience with game and purchasing product. Click here to join: {link}'
+            email = EmailMessage(subject, msg, to=[email])
+            # email.content_subtype = 'html'
+            # email.send(fail_silently=False)
+            EmailThreading(email).start()
+            messages.success(request, "Mail has been sent successfully!")
+            return redirect('')
+
+    context = {
+        'referal_link' : referal_link,
+        'user_profile': user_profile,
+
+        'user_cart_status': user_cart_status,
+        'user_wishlist_status': user_wishlist_status,
+        'total_amount': total_amount,
+
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+    }
+
+    return render(request, 'frontEnd/refer_and_get_bonus.html', context)
+
+
+@login_required(login_url='/fe/login/register')
+def front_track_and_give_bonus_to_referer(request, username, referal_code):
+
+    try:
+        referer = Account.objects.filter(username=username).first()
+
+        if referer:
+            referal_code_model = ReferalCode.objects.filter(Q(user=referer) & Q(code=referal_code)).first()
+
+            if referal_code:
+                user_point_wallet = PointWallet.objects.filter(user=referer).first()
+                if user_point_wallet:
+                    user_point_wallet.available = int(user_point_wallet.available) + 250
+                    user_point_wallet.save()
+
+                    # re-new the unique referal code
+                    referal_code_model.code = get_random_string(10)
+                    referal_code_model.save()
+
+                    # save to referal bonus history
+                    referal_bonusList_model = ReferalBonusList.objects.create(user=referer, point_amnt=250)
+                else:
+                    user_point_wallet = PointWallet.objects.create(user=referer, available=250)
+
+                    # re-new the unique referal code
+                    referal_code_model.code = get_random_string(10)
+                    referal_code_model.save()
+    except:
+        return redirect('frontEndHome')
+
+    return redirect('frontEndHome')
 
 @login_required(login_url='/fe/login/register')
 def front_logoutUser(request):

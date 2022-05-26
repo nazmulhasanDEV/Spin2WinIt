@@ -74,6 +74,9 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(Account, UserAdmin)
 admin.site.unregister(Group)
 
+# user referal code
+admin.site.register(ReferalCode)
+
 
 admin.site.register(UserProfilePicture)
 admin.site.register(ResetPermissionStatus)
