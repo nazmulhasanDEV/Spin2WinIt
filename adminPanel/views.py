@@ -5919,3 +5919,73 @@ def ap_remove_userFromUserList(request, pk):
         return redirect('apRegisteredUserList')
 
     return redirect('apRegisteredUserList')
+
+@login_required(login_url='/ap/register/updated')
+def ap_add_how_spinit2Win_works(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        content = request.POST.get('how_spinitwin_works')
+
+        if content and HowSpinIt2WinWorks.objects.all().count() <= 0:
+            how_spinwin_works_model = HowSpinIt2WinWorks.objects.create(content=content)
+            messages.success(request, "Successfully added!")
+            return redirect('apAddHowSpin2winWorks')
+        else:
+            messages.warning(request, "Can't be added more than one object! Delete or update it!")
+            return redirect('apAddHowSpin2winWorks')
+
+    # existing data
+    how_spin_win_works = HowSpinIt2WinWorks.objects.filter().first()
+
+    context = {
+        'how_spin_win_works': how_spin_win_works,
+    }
+
+    return render(request, 'backEnd_superAdmin/how_it_works/how_spinit2win_works.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_delete_how_spinit2Win_works(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = HowSpinIt2WinWorks.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apAddHowSpin2winWorks')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apAddHowSpin2winWorks')
+
+    return redirect('apAddHowSpin2winWorks')
+
+@login_required(login_url='/ap/register/updated')
+def ap_update_how_spinit2Win_works(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    current_obj = HowSpinIt2WinWorks.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        content = request.POST.get('how_spinitwin_works')
+
+        if content:
+            current_obj.content = content
+            current_obj.save()
+            messages.success(request, "Successfully updated!")
+            return redirect('apAddHowSpin2winWorks')
+        else:
+            messages.warning(request, "Can't be updated! Try again!")
+            return redirect('apAddHowSpin2winWorks')
+
+    context = {
+        'current_obj': current_obj,
+    }
+
+    return render(request, 'backEnd_superAdmin/how_it_works/update_how_spinit2win_works.html', context)

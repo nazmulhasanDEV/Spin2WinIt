@@ -1934,7 +1934,7 @@ Winwheel.prototype.getRandomForSegment = function(segmentNumber)
             let startAngle = this.segments[segmentNumber].startAngle;
             let endAngle = this.segments[segmentNumber].endAngle;
             let range = (endAngle - startAngle) - 2;
-
+            console.log(range);
             if (range > 0) {
                 stopAngle = (startAngle + 1 + Math.floor((Math.random() * range)));
             } else {

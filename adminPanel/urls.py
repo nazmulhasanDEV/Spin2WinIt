@@ -240,4 +240,9 @@ urlpatterns = [
     re_path(r'^ap/registered/user/list', views.ap_registered_userList, name='apRegisteredUserList'),
     re_path(r'^ap/remove/user/userlist/(?P<pk>\d+)/$', views.ap_remove_userFromUserList, name='apRemmoveUserFromUsrList'),
 
+    # how it works section starts
+    re_path(r'^ap/add/how/spin2win/works/$', views.ap_add_how_spinit2Win_works, name='apAddHowSpin2winWorks'),
+    re_path(r'^ap/remove/how/spin2win/works/(?P<pk>\d+)/$', views.ap_delete_how_spinit2Win_works, name='apDeleteHowSpin2winWorks'),
+    re_path(r'^ap/update/how/spin2win/works/(?P<pk>\d+)/$', views.ap_update_how_spinit2Win_works, name='apUpdateHowSpin2winWorks'),
+
 ]

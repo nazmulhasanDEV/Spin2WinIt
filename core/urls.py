@@ -138,4 +138,7 @@ urlpatterns = [
     # sign up for newletter
     re_path(r'^fe/sign_up/newletter/$', views.front_signup_for_newletter, name='fronSignupForNewletter'),
     re_path(r'^fe/contact/us/$', views.front_contact_us, name='frontContactUs'),
+
+    # how it works***********************************************************************
+    re_path(r'^fe/how/spinwin/works/$', views.front_how_spinWinWorks, name='frontHowSpinWinWorks'),
 ]

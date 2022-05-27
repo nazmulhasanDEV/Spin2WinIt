@@ -35,3 +35,6 @@ admin.site.register(CustomerMessageList)
 
 admin.site.register(VisitorInfo)
 admin.site.register(TotalNumVisitor)
+
+# how it works section
+admin.site.register(HowSpinIt2WinWorks)

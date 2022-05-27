@@ -199,3 +199,14 @@ class TotalNumVisitor(models.Model):
 
     def __str__(self):
         return str(self.num_of_visitor)
+
+
+# how it works section starts here ******************************************
+
+# how "spinit2win" works
+class HowSpinIt2WinWorks(models.Model):
+    content = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content
