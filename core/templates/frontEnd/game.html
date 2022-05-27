@@ -278,8 +278,6 @@
                                             };
                                             document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
 
-
-
                     </script>
                 </div>
             </div>
@@ -306,10 +304,10 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md">
-            <script async
-                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
-        </div>
+<!--        <div class="col-md">-->
+<!--            <script async-->
+<!--                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
+<!--        </div>-->
 
         <div class="col-md">
             <div>
@@ -325,14 +323,14 @@
             </div>
         </div>
 
-        <div class="col-md">
-            <script async
-                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
-        </div>
-        <div class="col-md">
-            <script async
-                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>
-        </div>
+<!--        <div class="col-md">-->
+<!--            <script async-->
+<!--                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
+<!--        </div>-->
+<!--        <div class="col-md">-->
+<!--            <script async-->
+<!--                    src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
+<!--        </div>-->
     </div>
 </div>
 <br>
@@ -392,7 +390,7 @@
                  {% if x.segment_prize_type == '1' %}
                 {
                     fillStyle: "{{x.bg_color}}",
-                    text: "PC - {{x.prize_title}}",
+                    text: "{{x.prize_title}}",
                     textFontSize: 16,
                     textFillStyle: "#ffffff",
                     textOrientation: "horizontal",
@@ -611,7 +609,7 @@
 
                 let total_num_of_times_played = document.querySelector('#total_num_of_times_played');
 
-                if (current_prize_txt.toString().includes('PC - Gold') && parseInt(total_num_of_times_played.innerHTML) % (parseInt('{{gold_prize_necessaary_spins}}')) !== 0 ) {
+                if (current_prize_txt.toString().includes('Gold') && parseInt(total_num_of_times_played.innerHTML) % (parseInt('{{gold_prize_necessaary_spins}}')) !== 0 ) {
                     resetWheel();
                     startSpin();
 
@@ -633,7 +631,7 @@
                 }
 
                 // for pc-silver
-                else if (current_prize_txt.toString().includes('PC - Silver') && parseInt(total_num_of_times_played.innerHTML) % (parseInt('{{silver_prize_necessaary_spins}}')) !== 0 ) {
+                else if (current_prize_txt.toString().includes('Silver') && parseInt(total_num_of_times_played.innerHTML) % (parseInt('{{silver_prize_necessaary_spins}}')) !== 0 ) {
                     resetWheel();
                     startSpin();
 
@@ -656,7 +654,7 @@
                 // ends for pc-silver
 
                 // for pc-bronze
-                else if (current_prize_txt.toString().includes('PC - Bronze') && parseInt(total_num_of_times_played.innerHTML) % (parseInt('{{bronze_prize_necessaary_spins}}')) !== 0 ) {
+                else if (current_prize_txt.toString().includes('Bronze') && parseInt(total_num_of_times_played.innerHTML) % (parseInt('{{bronze_prize_necessaary_spins}}')) !== 0 ) {
                     resetWheel();
                     startSpin();
 
