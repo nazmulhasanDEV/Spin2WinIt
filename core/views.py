@@ -1546,12 +1546,12 @@ def front_shop(request, pk):
     banner_at_shop_page_by_cat = ShopPageBanner.objects.filter(status=True).first()
 
     # django pagination
-    paginator = Paginator(products, 9)
+    paginator = Paginator(products, 15)
 
     # number of items per page
     num_of_items_per_page = 0
-    if paginator.count >= 9:
-        num_of_items_per_page = 9
+    if paginator.count >= 15:
+        num_of_items_per_page = 15
     else:
         num_of_items_per_page = paginator.count
 

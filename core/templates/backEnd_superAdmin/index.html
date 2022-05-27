@@ -177,7 +177,8 @@
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/ap/add/product/category"><i class="fa fa-circle-o"></i> Add Category</a></li>
+                        <li><a href="{% url 'apUniqueVisitorsList' %}"><i class="fa fa-circle-o"></i> Unique Visitors</a></li>
+                        <li><a href="{% url 'apRegisteredUserList' %}"><i class="fa fa-circle-o"></i> Registered Users</a></li>
                     </ul>
                 </li>
 
@@ -326,7 +327,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="/ap/seller/accounts/list"><i class="fa fa-circle-o"></i> Seller accounts</a></li>
-                        <li><a href="/ap/buyer/acccounts/list"><i class="fa fa-circle-o"></i> Buyer accounts</a></li>
+                        <li><a href="/ap/buyer/acccounts/list"><i class="fa fa-circle-o"></i> Buyer/Shopper accounts</a></li>
                         <li><a href="/ap/staff/accounts/list"><i class="fa fa-circle-o"></i> Staff accounts</a></li>
                     </ul>
                 </li>

@@ -22,6 +22,7 @@ import asyncio
 import threading
 from product.models import *
 from advertisement.models import *
+from core.models import *
 
 
 # woocomerce to connect with woocommerce store
@@ -3926,8 +3927,7 @@ def ap_seller_accounts_list(request):
     # user profile picture
     profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
 
-    seller_list = Account.objects.filter(Q(is_seller=True) & Q(status='1'))
-
+    seller_list = Account.objects.filter(Q(is_seller=True) & Q(status='1') & Q(is_active=True))
     context = {
         'profile_pic' : profile_pic,
         'seller_list' : seller_list,
@@ -3945,7 +3945,7 @@ def ap_buyer_accounts_list(request):
     # user profile picture
     profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
 
-    buyer_list = Account.objects.filter(Q(is_buyer=True) & Q(status='1'))
+    buyer_list = Account.objects.filter(Q(is_buyer=True) & Q(status='1') & Q(status='1') & Q(is_active=True))
 
     context = {
         'buyer_list': buyer_list,
@@ -3953,6 +3953,47 @@ def ap_buyer_accounts_list(request):
     }
 
     return render(request, 'backEnd_superAdmin/accounts/buyer_accounts_list.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_single_buyer_details(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_buyer = Account.objects.get(pk=pk)
+        spin_point_wallet_of_crnt_usr = PointWallet.objects.filter(user=crnt_buyer).first()
+        spin_credit_wallet_of_crnt_usr = CreditWallet.objects.filter(user=crnt_buyer).first()
+        spin_token_wallet_of_crnt_usr = CreditWallet.objects.filter(user=crnt_buyer).first()
+    except:
+        messages.warning(request, "Shopper not found with current information!")
+        return redirect('apBuyerAccountsList')
+
+    context = {
+        'crnt_buyer': crnt_buyer,
+        'spin_point_wallet_of_crnt_usr': spin_point_wallet_of_crnt_usr,
+        'spin_credit_wallet_of_crnt_usr': spin_credit_wallet_of_crnt_usr,
+        'spin_token_wallet_of_crnt_usr': spin_token_wallet_of_crnt_usr,
+    }
+
+    return render(request, 'backEnd_superAdmin/accounts/single_buyer_details.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_buyer_account(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_accnt = Account.objects.get(pk=pk)
+        crnt_accnt.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apBuyerAccountsList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apBuyerAccountsList')
+
+    return redirect('apBuyerAccountsList')
 
 
 @login_required(login_url='/ap/register/updated')
@@ -5828,3 +5869,53 @@ def ap_unique_visitors_list(request):
     }
 
     return render(request, 'backEnd_superAdmin/analytics/unique_users_info.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_visitor_from_uniqueVisitorList(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj= VisitorInfo.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apUniqueVisitorsList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apUniqueVisitorsList')
+
+    return redirect('apUniqueVisitorsList')
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_registered_userList(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # registered user list
+    registrd_usr_list = Account.objects.filter(Q(is_seller=True) | Q(is_buyer=True) & Q(status='1') & Q(is_active=True))
+
+    context = {
+        'registrd_usr_list': registrd_usr_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/registered_usr_list.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_userFromUserList(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_user = Account.objects.get(pk=pk)
+        crnt_user.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apRegisteredUserList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apRegisteredUserList')
+
+    return redirect('apRegisteredUserList')

@@ -67,7 +67,7 @@
                                 <thead>
                                 <tr>
                                     <th>IP Address</th>
-                                    <th>Registered User</th>
+<!--                                    <th>Registered User</th>-->
                                     <th>Country</th>
                                     <th>Visited</th>
                                     <th class="text-center">Action</th>
@@ -78,19 +78,14 @@
                                 {% for x in visitor_ip_address_list %}
                                 <tr>
                                     <td>{{x.visitor_ip}}</td>
-                                    <td>{% if request.user.is_authenticated %} Yes {% else %} No {% endif %}</td>
+<!--                                    <td>{% if request.user.is_authenticated %} Yes {% else %} No {% endif %}</td>-->
                                     <td>{% if x.visitors_country %} {{x.visitors_country}} {% endif %}, {% if x.country_code %} {{x.country_code}} {% endif %}</td>
                                     <td>{{x.visited}}</td>
                                     <td class="text-center">
-                                        <a href="">
-                                            <button type="button" style="border:none; background: #222D32;color:white;">
-                                                Check details</button>
-                                        </a>
-
-                                        <a href="">
-                                            <button type="button" style="border:none; background: #00C0EF;color:white;">
-                                                <i class="fas fa-edit"></i> Update</button>
-                                        </a>
+<!--                                        <a href="">-->
+<!--                                            <button type="button" style="border:none; background: #222D32;color:white;">-->
+<!--                                                Check details</button>-->
+<!--                                        </a>-->
 
                                         <!-- modal for deleting object-->
 
@@ -115,7 +110,7 @@
                                                         <button type="button" class="btn btn-secondary"
                                                                 data-dismiss="modal">Close
                                                         </button>
-                                                        <a href="">
+                                                        <a href="{% url 'apUniqueVisitorsInfo' pk=x.pk %}">
                                                             <button type="button" class="btn btn-primary">
                                                                 Confirm
                                                             </button>
@@ -134,7 +129,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>IP Address</th>
-                                    <th>Registered User</th>
+<!--                                    <th>Registered User</th>-->
                                     <th>Country</th>
                                     <th>Visited</th>
                                     <th class="text-center">Action</th>

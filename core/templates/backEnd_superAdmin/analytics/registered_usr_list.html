@@ -10,12 +10,6 @@
 
 
 {% block main_block %}
-
-{% if woocommerce_prodct_list %}
-<li>{{woocommerce_prodct_list.description}}</li>
-{% endif %}
-
-
 <div class="container-fluid" style="padding-top: 55px;">
     <div class="row">
         <div class="col-md-3"></div>
@@ -37,33 +31,34 @@
 </div>
 
 
+
+
 <!--data tables*******************************************-->
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <section class="content-header">
                 <h1>
-                    Product List
+                    Registered Users
                 </h1>
                 <ol class="breadcrumb">
                     <a href="/ap/fetch/woocommerce/product">
                         <button type="button"
                             style="border: none; outline: none; width: 120px; height: 35px; background: #3C8DBC; border-radius: 10px;color: white;">
-                        Fetch Product
+                        Seller List
                         </button>
                     </a>
 
-                    <a href="/ap/update/woocommerce/product">
+                    <a href="/ap/buyer/acccounts/list">
                         <button type="button"
                             style="border: none; outline: none; width: 120px; height: 35px; background: #3C8DEC; border-radius: 10px;color: white;">
-                        Update Products
+                        Shopper/Buyer List
                         </button>
                     </a>
                 </ol>
             </section>
         </div>
     </div>
-
     <br>
 
     <div class="row">
@@ -72,41 +67,35 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Woocommerce store product list</h3>
+                            <h3 class="box-title">User List</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Product ID</th>
-                                    <th>Product Title</th>
-                                    <th>Price</th>
-                                    <th>Regular Price</th>
-                                    <th>Category Name</th>
-                                    <th>Stock Status</th>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>User Type</th>
+                                    <th>Joined</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% if woocomrce_product_list %}
-                                {% for x in woocomrce_product_list %}
+                                {% if registrd_usr_list %}
+                                {% for x in registrd_usr_list %}
                                 <tr>
-                                    <td>{{x.product_id}}</td>
-                                    <td>{{x.name|truncatechars:50}}</td>
-                                    <td>{{x.price|floatformat:2}}</td>
-                                    <td>{{x.regular_price|floatformat:2}}</td>
-                                    <td>{{x.cat_name}}</td>
-                                    <td>{{x.stock_status}}</td>
-                                    <td class="text-center">
-                                        <a href="{% url 'apWoocmrcePrdctDetails' pk=x.pk %}">
-                                            <button type="button" style="border:none; background: #222D32;color:white;">
-                                                Check details</button>
-                                        </a>
+                                    <td>{{x.pk}}</td>
+                                    <td>{{x.fname}} {{x.lname}}</td>
+                                    <td>{{x.email}}</td>
 
+                                    <td class="text-center">{% if x.is_buyer %} <span style="background:#3C8DBC; color: white;padding: 5px;border-radius: 5px;">Shopper</span> {% else %} <span style="background:#008000; color: white;padding: 5px;border-radius: 5px;">Seller</span> {% endif %}</td>
+                                    <td>{{x.joined_at}}</td>
+                                    <td class="text-center">
 <!--                                        <a href="">-->
-<!--                                            <button type="button" style="border:none; background: #00C0EF;color:white;">-->
-<!--                                                <i class="fas fa-edit"></i> Update</button>-->
+<!--                                            <button type="button" style="border:none; background: #222D32;color:white;">-->
+<!--                                                Check details</button>-->
 <!--                                        </a>-->
 
                                         <!-- modal for deleting object-->
@@ -132,7 +121,7 @@
                                                         <button type="button" class="btn btn-secondary"
                                                                 data-dismiss="modal">Close
                                                         </button>
-                                                        <a href="{% url 'apDelWoocmrceProduct' pk=x.pk %}">
+                                                        <a href="{% url 'apRemmoveUserFromUsrList' pk=x.pk %}">
                                                             <button type="button" class="btn btn-primary">
                                                                 Confirm
                                                             </button>
@@ -150,12 +139,11 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Product ID</th>
-                                    <th>Product Title</th>
-                                    <th>Price</th>
-                                    <th>Regular Price</th>
-                                    <th>Category Name</th>
-                                    <th>Stock Status</th>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>User Type</th>
+                                    <th>Joined</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </tfoot>
@@ -190,7 +178,5 @@
       'autoWidth'   : false
     })
   })
-
-
 </script>
 {% endblock %}

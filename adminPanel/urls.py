@@ -103,6 +103,9 @@ urlpatterns = [
     # acccounts list section ***********************************
     re_path(r'^ap/seller/accounts/list/$', views.ap_seller_accounts_list, name='apsellerAccountsList'),
     re_path(r'^ap/buyer/acccounts/list/$', views.ap_buyer_accounts_list, name='apBuyerAccountsList'),
+    re_path(r'^ap/remove/buyer/account/(?P<pk>\d+)/$', views.ap_remove_buyer_account, name='apRemoveBuyerAccount'),
+    re_path(r'^ap/buyer/details/(?P<pk>\d+)/$', views.ap_single_buyer_details, name='apSingleBuyerDetails'),
+
     re_path(r'^ap/staff/accounts/list/$', views.ap_staff_accounts_list, name= 'apStaffAccountsList'),
 
     # site_setting section *******************************************************
@@ -229,6 +232,12 @@ urlpatterns = [
 
     # analytics part starts******************************************************************************************
 
+    # vistiots'info
     re_path(r'^ap/unique/visitors/list/$', views.ap_unique_visitors_list, name='apUniqueVisitorsList'),
+    re_path(r'^ap/remove/unique/visitors/(?P<pk>\d+)/$', views.ap_remove_visitor_from_uniqueVisitorList, name='apUniqueVisitorsInfo'),
+
+    # registered user
+    re_path(r'^ap/registered/user/list', views.ap_registered_userList, name='apRegisteredUserList'),
+    re_path(r'^ap/remove/user/userlist/(?P<pk>\d+)/$', views.ap_remove_userFromUserList, name='apRemmoveUserFromUsrList'),
 
 ]
