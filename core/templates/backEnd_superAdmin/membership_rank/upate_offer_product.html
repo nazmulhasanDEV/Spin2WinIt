@@ -1,0 +1,160 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load tag_library %}
+{% load static %}
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-12">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Offer Products To Different Ranked Members!</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="{% url 'apUpdateOfferProductsToDiffRankedMember' pk=current_obj.pk %}" method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Select Membership Rank</label>
+                                <select name="rank" class="form-control" required>
+                                    <option>Select Membership Rank</option>
+                                    {% if crnt_membership_ranks %}
+                                    {% for x in crnt_membership_ranks %}
+
+                                    {% if x.pk == current_obj.membership_rank.pk %}
+                                    <option value="{{x.pk}}" selected>{{x.title}}</option>
+                                    {% else %}
+                                    <option value="{{x.pk}}">{{x.title}}</option>
+                                    {% endif %}
+
+                                    {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                  <label>Discount Amount(in %)</label>
+                                  <input type="number" name="discount_ammount" value="{{current_obj.discount_amount}}" class="form-control bg_color" placeholder="Discount Amount" required>
+                              </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                              <label>Select Product Category</label>
+                                  <select name="product_category" class="form-control" id="product_category" e required>
+                                      <option selected>Select product category</option>
+                                      {% if product_all_cats %}
+                                      {% for x in product_all_cats %}
+
+                                      {% if x.pk == current_obj.product_cat.pk %}
+                                      <option value="{{x.pk}}" selected>{{x.name}}</option>
+                                      {% endif %}
+
+                                      {% endfor %}
+                                      {% endif %}
+                                  </select>
+                            </div>
+
+                            <div class="col-md-6 point_amnt_as_prize">
+                                <label>Product List</label>
+                                <select name="product_list" class="form-control" id="product_list" size="10" multiple required>
+                                      <option>Select products</option>
+                                    {% if crnt_cat_products %}
+                                    {% for product in crnt_cat_products %}
+
+                                    {% for p in current_obj.product.all %}
+                                    {% if product.pk == p.pk %}
+                                    <option value="{{product.pk}}" selected>{{product.title}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                    <option value="{{product.pk}}">{{product.title}}</option>
+                                    {% endfor %}
+                                    {% endif %}
+                                  </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary add_offered_product_to_ranked_members">Let'S Update</button>
+                        <a href="{% url 'apAddOfferToDiffRankedMembers' %}">
+                            <button type="button" class="btn btn-primary add_offered_product_to_ranked_members" style="background-color: #FF0000;">Cancel</button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block dropzone_block %}
+
+<script>
+    const product_category = document.getElementById('product_category');
+    const product_list = document.getElementById('product_list');
+    const add_offered_product_to_ranked_members = document.querySelector('.add_offered_product_to_ranked_members');
+
+
+product_category.onchange = (e) =>{
+
+product_list.innerHTML = '';
+
+//ajax starts
+
+$.ajax({
+         url:'/ap/add/offer/products/to/different/ranked/members/',
+         type:'get',
+         data: {
+            current_prodct_cat: e.target.value,
+         },
+         success: function(response){
+              let crnt_product_list = response.crnt_product_list;
+               console.log(crnt_product_list);
+              if (crnt_product_list !== 0) {
+                   crnt_product_list.map((el, index)=>{
+                    const option = document.createElement('option');
+                    option.value = el.id;
+                    option.innerHTML = el.title;
+                    product_list.append(option);
+                });
+                add_offered_product_to_ranked_members.disabled= false;
+              } else{
+                    const option = document.createElement('option');
+                    option.value = 0;
+                    option.innerHTML = "No product found!";
+                    product_list.append(option);
+                    add_offered_product_to_ranked_members.disabled= true;
+              }
+         },
+       });
+//ajax ends
+}
+</script>
+
+<script>
+</script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}

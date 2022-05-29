@@ -1,5 +1,9 @@
 from django.db import models
 import requests
+from product.models import *
+from user.models import *
+
+
 
 # product categories model
 class ProductCategory(models.Model):
@@ -25,9 +29,28 @@ class ProductSubCategory(models.Model):
     def __str__(self):
         return self.name + ' || ' + str(self.category.name)
 
+# membership type model**********************
+class MemberShipRank(models.Model):
+    rank_id = models.CharField(default='', max_length=20, blank=True, null=True)
+    title = models.CharField(default='', max_length=20)
+    total_earnings = models.FloatField(default=0.0, blank=True, null=True)
+    number_of_prodct_need_to_sell = models.IntegerField(default=0, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+# membership status
+class SellerMembershipStatus(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    membership_rank = models.ForeignKey(MemberShipRank, on_delete=models.CASCADE, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.email + " || " + self.membership_rank.title
+
 
 class SiteLogo(models.Model):
-
     logo = models.ImageField(upload_to='logo')
     created = models.DateTimeField(auto_now_add=True)
 

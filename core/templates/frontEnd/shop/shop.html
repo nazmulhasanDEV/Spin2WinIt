@@ -83,21 +83,20 @@
                                     {% for p in products %}
                                     <div class="col-lg-4 col-md-4 col-sm-6 mt-40">
                                         <!-- single-product-wrap start -->
-                                        <div class="single-product-wrap"
-                                             style="height: 350px; max-height: 350px!important;">
-                                            <div class="product-image">
-                                                <a href="/fe/product/details/{{p.product_id}}">
+                                        <div class="single-product-wrap" style="height: 370px; max-height: 370px;">
+                                            <div class="product-image" style="height: 220px; max-height: 220px;">
+                                                <a href="/fe/product/details/{{p.product_id}}" style="height: 100%;">
                                                     {% if p.product_thumbnail %}
-                                                    <img src="{{p.product_thumbnail.url}}" alt="Li's Product Image">
+                                                    <img src="{{p.product_thumbnail.url}}" alt="Li's Product Image" style="height: 100%;">
                                                     {% else %}
 
                                                     {% for img in p.productImg.all %}
 
                                                     {% if forloop.counter == 1 %}
                                                     {% if img.img %}
-                                                    <img src="{{img.img.url}}" alt="Li's Product Image">
+                                                    <img src="{{img.img.url}}" alt="Li's Product Image" style="height: 100%;">
                                                     {% else %}
-                                                    <img src="{{img.img_link}}" alt="Li's Product Image">
+                                                    <img src="{{img.img_link}}" alt="Li's Product Image" style="height: 100%;">
                                                     {% endif %}
 
                                                     {% endif %}
@@ -107,8 +106,7 @@
                                                 </a>
                                                 <span class="sticker">New</span>
                                             </div>
-                                            <div class="product_desc"
-                                                 style="padding-left: 10px; padding-bottom: 5px; position: absolute; bottom: 5px;">
+                                            <div class="product_desc">
                                                 <div class="product_desc_info">
 <!--                                                    <div class="product-review">-->
 <!--                                                        <h5 class="manufacturer">-->
@@ -125,7 +123,7 @@
 <!--                                                        </div>-->
 <!--                                                    </div>-->
                                                     <h4><a class="product_name"
-                                                           href="/fe/product/details/{{p.product_id}}">{{p.title|striptags|truncatechars:30}}</a>
+                                                           href="/fe/product/details/{{p.product_id}}">{{p.title|striptags|truncatechars:35}}</a>
                                                     </h4>
                                                     <div class="price-box">
                                                         {% if p.product_type == 'wsp' %}
@@ -162,20 +160,20 @@
                                     {% if products %}
                                     {% for p in products %}
                                     <div class="row product-layout-list last-child">
-                                        <div class="col-lg-3 col-md-5 ">
+                                        <div class="col-lg-3 col-md-5">
                                             <div class="product-image">
                                                 <a href="/fe/product/details/{{p.product_id}}">
                                                     {% if p.product_thumbnail %}
-                                                    <img src="{{p.product_thumbnail.url}}" alt="Li's Product Image">
+                                                    <img src="{{p.product_thumbnail.url}}" alt="Li's Product Image" />
                                                     {% else %}
 
                                                     {% for img in p.productImg.all %}
 
                                                     {% if forloop.counter == 1 %}
                                                     {% if img.img %}
-                                                    <img src="{{img.img.url}}" alt="Li's Product Image">
+                                                    <img src="{{img.img.url}}" alt="Li's Product Image"/>
                                                     {% else %}
-                                                    <img src="{{img.img_link}}" alt="Li's Product Image">
+                                                    <img src="{{img.img_link}}" alt="Li's Product Image" />
                                                     {% endif %}
 
                                                     {% endif %}
@@ -204,7 +202,7 @@
 <!--                                                        </div>-->
 <!--                                                    </div>-->
                                                     <h4><a class="product_name"
-                                                           href="/fe/product/details/{{p.product_id}}">{{p.title|striptags|truncatechars:40}}</a>
+                                                           href="/fe/product/details/{{p.product_id}}">{{p.title|striptags|truncatechars:70}}</a>
                                                     </h4>
                                                     <div class="price-box">
                                                         {% if p.product_type == 'wsp' %}

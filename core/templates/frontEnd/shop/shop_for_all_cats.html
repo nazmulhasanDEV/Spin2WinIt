@@ -110,10 +110,10 @@
                         <div class="col-lg-12">
                             <!-- single-product-wrap start -->
                             <div class="single-product-wrap" style="height: 370px; max-height: 370px; position: relative;">
-                                <div class="product-image">
-                                    <a href="/fe/product/details/{{y.product_id}}">
+                                <div class="product-image" style="height: 220px; max-height: 220px;">
+                                    <a href="/fe/product/details/{{y.product_id}}" style="height: 100%;">
                                         {% if y.product_thumbnail %}
-                                        <img src="{{y.product_thumbnail.url}}" style="width: 100%;" alt="Li's Product Image"
+                                        <img src="{{y.product_thumbnail.url}}" style="width: 100%; height: 100%;" alt="Li's Product Image"
                                         />
                                         {% else %}
                                             {% if y.productImg %}
@@ -121,9 +121,9 @@
 
                                                 {% if forloop.counter == 1 %}
                                                     {% if img.img %}
-                                                    <img src="{{img.img.url}}" style="width: 100%;" alt="Li's Product Image"/>
+                                                    <img src="{{img.img.url}}" style="width: 100%; height: 100%;" alt="Li's Product Image"/>
                                                     {% else %}
-                                                    <img src="{{img.img_link}}" style="width: 100%;" alt="Li's Product Image"/>
+                                                    <img src="{{img.img_link}}" style="width: 100%; height: 100%;" alt="Li's Product Image"/>
                                                     {% endif %}
                                                 {% endif %}
 
@@ -136,7 +136,7 @@
 
 <!--                                    <span class="sticker">New</span>-->
                                 </div>
-                                <div class="product_desc" style="padding-left: 10px; padding-bottom: 5px; position: absolute; bottom: 5px;">
+                                <div class="product_desc">
                                     <div class="product_desc_info">
 <!--                                        <div class="product-review">-->
 <!--                                            <h5 class="manufacturer">-->
@@ -159,7 +159,7 @@
 <!--                                            </div>-->
 <!--                                        </div>-->
                                         <h4>
-                                            <a class="product_name" href="/fe/product/details/{{y.product_id}}">{{y.title|safe|truncatechars:40}}</a
+                                            <a class="product_name" href="/fe/product/details/{{y.product_id}}">{{y.title|safe|truncatechars:48}}</a
                                             >
                                         </h4>
                                         <div class="price-box">
@@ -211,28 +211,28 @@
                                     </a>
                                     <span class="sticker">New</span>
                                 </div>
-                                <div class="product_desc" style="padding-left: 10px; padding-bottom: 5px; position: absolute; bottom: 5px;">
+                                <div class="product_desc">
                                     <div class="product_desc_info">
-                                        <div class="product-review">
+<!--                                        <div class="product-review">-->
 <!--                                            <h5 class="manufacturer">-->
 <!--                                                <a href="shop-left-sidebar.html"-->
 <!--                                                >{{y.brand_name}}</a-->
 <!--                                                >-->
 <!--                                            </h5>-->
-                                            <div class="rating-box">
-                                                <ul class="rating">
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li class="no-star">
-                                                        <i class="fa fa-star-o"></i>
-                                                    </li>
-                                                    <li class="no-star">
-                                                        <i class="fa fa-star-o"></i>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
+<!--                                            <div class="rating-box">-->
+<!--                                                <ul class="rating">-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+<!--                                                    <li class="no-star">-->
+<!--                                                        <i class="fa fa-star-o"></i>-->
+<!--                                                    </li>-->
+<!--                                                    <li class="no-star">-->
+<!--                                                        <i class="fa fa-star-o"></i>-->
+<!--                                                    </li>-->
+<!--                                                </ul>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
                                         <h4>
                                             <a class="product_name" href="/fe/product/details/{{y.product_id}}">{{y.title|safe|truncatechars:40}}</a
                                             >
@@ -259,16 +259,6 @@
                                                         title="Add to wishlist"
                                                 ><i class="fas fa-heart"></i></a>
                                             </li>
-<!--                                            <li>-->
-<!--                                                <a-->
-<!--                                                        class="quick-view"-->
-<!--                                                        data-toggle="modal"-->
-<!--                                                        data-target="#product_toggle_{{y.product_id}}"-->
-<!--                                                        href="#" data-toggle="tooltip" data-placement="bottom"-->
-<!--                                                        title="Quick view"-->
-<!--                                                ><i class="fa fa-eye"></i-->
-<!--                                                ></a>-->
-<!--                                            </li>-->
                                         </ul>
                                     </div>
                                 </div>

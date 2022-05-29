@@ -1,6 +1,6 @@
 from django.db import models
 from user.models import *
-from adminPanel.models import ProductCategory, ProductSubCategory
+from adminPanel.models import ProductCategory, ProductSubCategory, MemberShipRank
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
@@ -119,6 +119,39 @@ class ProductList(models.Model):
         return self.title
 
 
+# offered product items  together according to membership rank
+class OfferedProductItemsByMembershipRank(models.Model):
+    membership_rank = models.ForeignKey(MemberShipRank, on_delete=models.CASCADE)
+    product_cat = models.ForeignKey(ProductCategory, on_delete=models.PROTECT, blank=True, null=True)
+    product = models.ManyToManyField(ProductList, blank=True)
+    discount_amount = models.IntegerField(default=0, blank=True)
+
+    def __str__(self):
+        return self.membership_rank.title + " || " + str(self.discount_amount)
+
+# offered product list based on membeship rank
+class OfferedSingleProductBasedOnMembershipRank(models.Model):
+    membership_rank = models.ForeignKey(MemberShipRank, on_delete=models.CASCADE)
+    product_cat = models.ForeignKey(ProductCategory, on_delete=models.PROTECT, blank=True, null=True)
+    product = models.ForeignKey(ProductList, on_delete=models.CASCADE, blank=True, null=True)
+    discount_amount = models.IntegerField(default=0, blank=True)
+    offered_price = models.FloatField(default=0.0, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.product.product_type == 'wsp' and self.discount_amount > 0:
+            self.offered_price = round((float(self.product.price) * self.discount_amount) / 100, 2)
+            super(OfferedSingleProductBasedOnMembershipRank, self).save(*args, **kwargs)
+        elif self.product.product_type == 'wsp' and self.discount_amount <= 0:
+            self.offered_price = round(float(self.product.price), 2)
+            super(OfferedSingleProductBasedOnMembershipRank, self).save(*args, **kwargs)
+        else:
+            self.offered_price = round((self.product.new_price) / 100, 2)
+            super(OfferedSingleProductBasedOnMembershipRank, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.membership_rank.title + " || " + self.product.title + " || " + str(self.discount_amount)
+
+
 class ProductRating(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True, null=True)
     product = models.ForeignKey(ProductList, on_delete=models.CASCADE)
@@ -138,33 +171,6 @@ class ProductDiscount(models.Model):
         return self.product.title + " || " + self.discount_amount
 
 
-
-# all product model including woocommercce store and custom product
-class AllProductList(models.Model):
-
-    class woocmrcePrdcts(models.Manager):
-        def get_queryset(self):
-            return super().get_queryset().filter(product_type='wsp')
-
-    class customPrducts(models.Manager):
-        def get_queryset(self):
-            return super().get_queryset().filter(product_type='mcp')
-
-    productType = (
-        ('wsp', 'Woocommerce store product'), # wsp refers to "woocomerce store products"
-        ('mcp', 'Custom Product'), # mcp refers to "My custom products"
-    )
-    product_type = models.CharField(max_length=255, choices=productType, blank=True, null=True)
-    woocmrce_product = models.ForeignKey(WoocommerceProductList, on_delete=models.PROTECT, blank=True, null=True)
-    custom_product = models.ForeignKey(ProductList, on_delete=models.PROTECT, blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
-
-    objects = models.Manager()
-    wspObjects = woocmrcePrdcts()
-    mcpObjects = customPrducts()
-
-    def __str__(self):
-        return self.product_type
 
 # cart
 class Cart(models.Model):
@@ -322,3 +328,30 @@ class HomeMiniBottomBanner(models.Model):
 
 
 
+
+# all product model including woocommercce store and custom product
+class AllProductList(models.Model):
+
+    class woocmrcePrdcts(models.Manager):
+        def get_queryset(self):
+            return super().get_queryset().filter(product_type='wsp')
+
+    class customPrducts(models.Manager):
+        def get_queryset(self):
+            return super().get_queryset().filter(product_type='mcp')
+
+    productType = (
+        ('wsp', 'Woocommerce store product'), # wsp refers to "woocomerce store products"
+        ('mcp', 'Custom Product'), # mcp refers to "My custom products"
+    )
+    product_type = models.CharField(max_length=255, choices=productType, blank=True, null=True)
+    woocmrce_product = models.ForeignKey(WoocommerceProductList, on_delete=models.PROTECT, blank=True, null=True)
+    custom_product = models.ForeignKey(ProductList, on_delete=models.PROTECT, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    objects = models.Manager()
+    wspObjects = woocmrcePrdcts()
+    mcpObjects = customPrducts()
+
+    def __str__(self):
+        return self.product_type

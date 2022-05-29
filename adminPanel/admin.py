@@ -16,6 +16,13 @@ class ProductSubCatListAdmin(admin.ModelAdmin):
     list_display = ("category", "name", "created")
 admin.site.register(ProductSubCategory, ProductSubCatListAdmin)
 
+
+# membership rank
+admin.site.register(MemberShipRank)
+
+# membership rank status per user
+admin.site.register(SellerMembershipStatus)
+
 # about us
 admin.site.register(AboutUs)
 

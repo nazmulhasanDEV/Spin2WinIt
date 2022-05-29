@@ -8,6 +8,7 @@ from django.db.models.signals import post_save, pre_save
 from django.utils.crypto import get_random_string
 
 
+
 class MyUserManager(BaseUserManager):
     def create_user(self, email, username, phone_no, password=None):
         if not email:
@@ -88,6 +89,7 @@ class Account(AbstractBaseUser):
         return self.is_admin
 
 
+
 # user unique refer code
 class ReferalCode(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
@@ -131,6 +133,7 @@ class UserMailInvitations(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True)
     mail_to = models.CharField(max_length=255, blank=True)
     msg = models.TextField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return self.user.email + " || " + self.mail_to
@@ -234,6 +237,8 @@ class ShippingInfo(models.Model):
 
     def __str__(self):
         return str(self.user.email)
+
+
 
 
 # disclaimer model
@@ -405,3 +410,5 @@ class InvisibleFeedbackCaptcha(models.Model):
 
     def __str__(self):
         return str(self.user.email)
+
+

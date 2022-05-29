@@ -23,7 +23,7 @@ if settings.DEBUG:
 
 
 admin.site.site_header = "Spin & Win Adminstration"
-admin.site.index_title = 'Site Models'
-admin.site.site_title = 'Database Adminstration'
+admin.site.index_title = "Site Models"
+admin.site.site_title = "Database Adminstration"
 
 

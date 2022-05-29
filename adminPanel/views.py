@@ -1,5 +1,5 @@
 import datetime
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from user.models import Account, VerificationCode, UserProfilePicture
 from django.contrib.auth import logout, login, authenticate
@@ -5854,6 +5854,276 @@ def ap_del_customer_msg(request, pk):
         return redirect('apCustomerMessageList')
     return redirect('apCustomerMessageList')
 
+# membership rank part started ****************************************************
+@login_required(login_url='/ap/register/updated')
+def apAddNewMembershipRank(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        earnings = request.POST.get('earnings')
+        num_of_product = request.POST.get('num_of_product')
+
+        if title and earnings and num_of_product and MemberShipRank.objects.filter(title__icontains=title.capitalize()).count() <= 0:
+            rank_id = get_random_string(15)
+            membership_rank_model = MemberShipRank.objects.create(
+                rank_id= rank_id,
+                title=title.capitalize(),
+                total_earnings=earnings,
+                number_of_prodct_need_to_sell=num_of_product,
+            )
+            messages.success(request, "Successfully added new membership rank!")
+            return redirect('apAddNewMembershipRank')
+        else:
+            messages.warning(request, "Can't be added new membership rank! This rank already exists!")
+            return redirect('apAddNewMembershipRank')
+
+    # existing membership ranks
+    existing_membership_ranks = MemberShipRank.objects.all()
+
+    context = {
+        'existing_membership_ranks': existing_membership_ranks,
+    }
+
+    return render(request, 'backEnd_superAdmin/membership_rank/add_membership_rank.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def apUpdateMembershipRank(request, rank_id):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    crnt_obj = get_object_or_404(MemberShipRank, rank_id=rank_id)
+
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        earnings = request.POST.get('earnings')
+        num_of_product = request.POST.get('num_of_product')
+
+        if title and earnings and num_of_product:
+            crnt_obj.title=title.capitalize()
+            crnt_obj.total_earnings=earnings
+            crnt_obj.number_of_prodct_need_to_sell=num_of_product
+            crnt_obj.save()
+            messages.success(request, "Successfully update membership rank!")
+            return redirect('apAddNewMembershipRank')
+        else:
+            messages.warning(request, "Can't be updated membership rank! Try again!")
+            return redirect('apAddNewMembershipRank')
+
+    context = {
+        'crnt_obj': crnt_obj,
+    }
+
+    return render(request, 'backEnd_superAdmin/membership_rank/update_membership_rank.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def apRemoveMembershipRank(request, rank_id):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = get_object_or_404(MemberShipRank, rank_id=rank_id)
+        if crnt_obj:
+            crnt_obj.delete()
+            messages.success(request, "Successfully deleted!")
+            return redirect('apAddNewMembershipRank')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apAddNewMembershipRank')
+
+    return redirect('apAddNewMembershipRank')
+
+
+@login_required(login_url='/ap/register/updated')
+def apAddOfferProductsToDiffRankedMember(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # current membership ranks
+    crnt_membership_ranks = MemberShipRank.objects.all()
+
+    # product category
+    product_all_cats = ProductCategory.objects.all()
+
+    if request.method == 'GET':
+        crnt_product_cat_id = request.GET.get('current_prodct_cat')
+
+        crnt_product_cat = ProductCategory.objects.filter(pk=crnt_product_cat_id).first()
+
+        if crnt_product_cat:
+            crnt_products = ProductList.objects.filter(Q(category=crnt_product_cat) | Q(cat_name__icontains=crnt_product_cat.name))
+
+            if crnt_products:
+                crnt_product_list = list(crnt_products.values())
+                if request.is_ajax():
+                    return JsonResponse({'crnt_product_list': crnt_product_list})
+            else:
+                crnt_product_list = 0
+                if request.is_ajax():
+                    return JsonResponse({'crnt_product_list': crnt_product_list})
+
+    if request.method == 'POST':
+        rank_id = request.POST.get('rank')
+        discount_ammount = request.POST.get('discount_ammount')
+        product_category_id = request.POST.get('product_category')
+        product_list = request.POST.getlist('product_list')
+
+        if rank_id and discount_ammount and product_category_id and product_list:
+            membership_rank = MemberShipRank.objects.filter(pk=rank_id).first()
+            product_cat = ProductCategory.objects.filter(pk=product_category_id).first()
+
+            if membership_rank and product_cat:
+
+                # save all offered items together
+                offeredItemsTogether = OfferedProductItemsByMembershipRank.objects.create(
+                    membership_rank=membership_rank,
+                    product_cat=product_cat,
+                    discount_amount=int(discount_ammount),
+                )
+
+                for product_id in product_list:
+                    product = ProductList.objects.filter(pk=product_id).first()
+
+                    existing_offer = OfferedProductItemsByMembershipRank.objects.filter(product_cat=product_cat).first()
+                    if existing_offer:
+                        if product in existing_offer.product.all():
+                            pass
+                        else:
+                            # update offered items together model
+                            offeredItemsTogether.product.add(product)
+                            offeredItemsTogether.save()
+
+                            # saving to offered single product list based on membership rank
+                            offeredSingleProductList = OfferedSingleProductBasedOnMembershipRank.objects.create(
+                                membership_rank=membership_rank,
+                                product_cat=product_cat,
+                                product=product,
+                                discount_amount=int(discount_ammount),
+                            )
+
+                messages.success(request, "Successfully added!")
+                return redirect('apAddOfferToDiffRankedMembers')
+            else:
+                messages.warning(request, "Can't be added! Membership rank or product category may not found!")
+                return redirect('apAddOfferToDiffRankedMembers')
+        else:
+            messages.warning(request, "Can't be added! Empty fields not allowed!")
+            return redirect('apAddOfferToDiffRankedMembers')
+
+    # existing offers
+    existing_offers_by_membership = OfferedProductItemsByMembershipRank.objects.all()
+
+    context = {
+        'crnt_membership_ranks': crnt_membership_ranks,
+        'product_all_cats': product_all_cats,
+        'existing_offers_by_membership': existing_offers_by_membership,
+    }
+
+    return render(request, 'backEnd_superAdmin/membership_rank/offer_product.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def apUpdateOfferProductsToDiffRankedMember(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # membership ranks
+    crnt_membership_ranks = MemberShipRank.objects.all()
+
+    # product cat list
+    product_all_cats = ProductCategory.objects.all()
+
+    # current obj
+    current_obj = OfferedProductItemsByMembershipRank.objects.filter(pk=pk).first()
+
+    crnt_cat_products = ProductList.objects.filter(Q(category=current_obj.product_cat) | Q(cat_name__icontains=current_obj.product_cat.name))
+
+    if request.method == 'POST':
+        rank_id = request.POST.get('rank')
+        discount_ammount = request.POST.get('discount_ammount')
+        product_category_id = request.POST.get('product_category')
+        product_list = request.POST.getlist('product_list')
+
+        if rank_id and discount_ammount and product_category_id and product_list:
+            membership_rank = MemberShipRank.objects.filter(pk=rank_id).first()
+            product_cat = ProductCategory.objects.filter(pk=product_category_id).first()
+
+            if membership_rank and product_cat:
+
+                # save all offered items together
+                offeredItemsTogether = OfferedProductItemsByMembershipRank.objects.filter(pk=pk).first()
+                offeredItemsTogether.membership_rank = membership_rank
+                offeredItemsTogether.product_cat = product_cat
+                offeredItemsTogether.discount_amount = int(discount_ammount)
+                offeredItemsTogether.save()
+
+                for product_id in product_list:
+                    product = ProductList.objects.filter(pk=product_id).first()
+
+                    # existing offer model
+                    existing_offer = OfferedProductItemsByMembershipRank.objects.filter(product_cat=product_cat).first()
+                    if existing_offer:
+                        if product in existing_offer.product.all():
+                            pass
+                        else:
+                            # update offered items together model
+                            offeredItemsTogether.product.add(product)
+                            offeredItemsTogether.save()
+
+                            # saving to offered single product list based on membership rank
+                            offeredSingleProductList = OfferedSingleProductBasedOnMembershipRank.objects.create(
+                                membership_rank=membership_rank,
+                                product_cat=product_cat,
+                                product=product,
+                                discount_amount=int(discount_ammount),
+                            )
+
+                messages.success(request, "Successfully added!")
+                return redirect('apAddOfferToDiffRankedMembers')
+            else:
+                messages.warning(request, "Can't be added! Membership rank or product category may not found!")
+                return redirect('apAddOfferToDiffRankedMembers')
+        else:
+            messages.warning(request, "Can't be added! Empty fields not allowed!")
+            return redirect('apAddOfferToDiffRankedMembers')
+
+
+    context = {
+        'product_all_cats': product_all_cats,
+        'current_obj': current_obj,
+        'crnt_cat_products': crnt_cat_products,
+        'crnt_membership_ranks': crnt_membership_ranks,
+    }
+
+    return render(request, 'backEnd_superAdmin/membership_rank/upate_offer_product.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def apRemoveOfferProductToDifferentRankedMember(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # existing offer
+    existing_offer = OfferedProductItemsByMembershipRank.objects.filter(pk=pk).first()
+    if existing_offer:
+        for p in existing_offer.product.all():
+            offerSingleProductModel = OfferedSingleProductBasedOnMembershipRank.objects.filter(product=p).first()
+            offerSingleProductModel.delete()
+        existing_offer.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apAddOfferToDiffRankedMembers')
+    else:
+        messages.warning(request, "Can't be deleted!")
+        return redirect('apAddOfferToDiffRankedMembers')
+
+    return redirect('apAddOfferToDiffRankedMembers')
 
 # analytics part starts**************************************************************
 @login_required(login_url='/ap/register/updated')

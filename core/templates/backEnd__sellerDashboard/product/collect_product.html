@@ -13,6 +13,26 @@
 
 {% block main_block %}
 
+<div class="container-fluid" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -23,467 +43,312 @@
         </div>
     </div>
 
+    {% if cats_with_atLeastOne_product %}
+    {% for cat in cats_with_atLeastOne_product|slice:":4" %}
     <div class="row">
         <div class="col-md-12">
             <div>
-                <h3>Electronics</h3>
+                <h3>{{cat.name}}</h3>
                 <hr style="height: 1px;background-color: #3C8DBC;">
             </div>
         </div>
 
+
         <div class="col-md-12">
             <div class="owl-carousel owl-theme top__brands__slider">
-              <div class="item">
-                <div class="card">
-                  <img
-                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                    <div>
-                        <h4>title</h4>
-                    </div>
-                    <div>
-                        <h5>Sale type: Whole sale</h5>
-                    </div>
-                    <div>
-                        <h5>Price: <span>$40/pc</span></h5>
-                        <h5>Min order: <span>40 pc</span></h5>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <button type="button"><i class="fas fa-heart"></i></button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Add to collection</button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Details</button>
-                        </a>
+                {% if offered_products_for_current_user %}
+                {% for product in offered_products_for_current_user %}
+                {% if product.product_cat.pk == cat.pk %}
+                <div class="item" style="min-height: 380px;">
+                    <div class="card" style="max-height: 220px; height: 220px;">
+                        {% if product.product.product_thumbnail %}
+                        <img
+                                src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
+                                class="card-img-top"
+                                alt="..."
+                                style="height: 100%;"
+                        />
+                        {% else %}
+                        {% if product.product.productImg %}
+                        {% for img in product.product.productImg.all %}
+                        {% if forloop.counter == 1 %}
+                        <img src="{{img.img_link}}" class="card-img-top" style="height: 100%;" alt="..."/>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {% endif %}
+                        <div>
+                            <a href="{% url 'frontEndProductDetails' product_id=product.product.product_id %}">
+                                <h4 style="font-size: 16px;">{{product.product.title|safe|truncatechars:45}}</h4>
+                            </a>
+                        </div>
+                        <div>
+                            <h5><strong>Sale type:</strong> Whole sale</h5>
+                        </div>
+                        <div>
+                            <h5><strong>Price:</strong> <span>${{product.offered_price}}</span></h5>
+<!--                            <h5><strong>Min order:</strong> <span>40 pc</span></h5>-->
+                        </div>
+                        <div>
+<!--                            <a href="#">-->
+<!--                                <button type="button"><i class="fas fa-heart"></i></button>-->
+<!--                            </a>-->
+                            <a href="{% url 'seller_addProductToCollections' product_id=product.product.product_id %}">
+                                <button type="button">Add to collection</button>
+                            </a>
+                            <a href="{% url 'frontEndProductDetails' product_id=product.product.product_id %}">
+                                <button type="button">Details</button>
+                            </a>
 
+                        </div>
                     </div>
                 </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img
-                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                    <div>
-                        <h4>title</h4>
-                    </div>
-                    <div>
-                        <h5>Sale type: Whole sale</h5>
-                    </div>
-                    <div>
-                        <h5>Price: <span>$40/pc</span></h5>
-                        <h5>Min order: <span>40 pc</span></h5>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <button type="button"><i class="fas fa-heart"></i></button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Add to collection</button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Details</button>
-                        </a>
-
-                    </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img
-                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                    <div>
-                        <h4>title</h4>
-                    </div>
-                    <div>
-                        <h5>Sale type: Whole sale</h5>
-                    </div>
-                    <div>
-                        <h5>Price: <span>$40/pc</span></h5>
-                        <h5>Min order: <span>40 pc</span></h5>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <button type="button"><i class="fas fa-heart"></i></button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Add to collection</button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Details</button>
-                        </a>
-
-                    </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img
-                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                    <div>
-                        <h4>title</h4>
-                    </div>
-                    <div>
-                        <h5>Sale type: Whole sale</h5>
-                    </div>
-                    <div>
-                        <h5>Price: <span>$40/pc</span></h5>
-                        <h5>Min order: <span>40 pc</span></h5>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <button type="button"><i class="fas fa-heart"></i></button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Add to collection</button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Details</button>
-                        </a>
-
-                    </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img
-                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                    <div>
-                        <h4>title</h4>
-                    </div>
-                    <div>
-                        <h5>Sale type: Whole sale</h5>
-                    </div>
-                    <div>
-                        <h5>Price: <span>$40/pc</span></h5>
-                        <h5>Min order: <span>40 pc</span></h5>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <button type="button"><i class="fas fa-heart"></i></button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Add to collection</button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Details</button>
-                        </a>
-
-                    </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img
-                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                    <div>
-                        <h4>title</h4>
-                    </div>
-                    <div>
-                        <h5>Sale type: Whole sale</h5>
-                    </div>
-                    <div>
-                        <h5>Price: <span>$40/pc</span></h5>
-                        <h5>Min order: <span>40 pc</span></h5>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <button type="button"><i class="fas fa-heart"></i></button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Add to collection</button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Details</button>
-                        </a>
-
-                    </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img
-                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                    <div>
-                        <h4>title</h4>
-                    </div>
-                    <div>
-                        <h5>Sale type: Whole sale</h5>
-                    </div>
-                    <div>
-                        <h5>Price: <span>$40/pc</span></h5>
-                        <h5>Min order: <span>40 pc</span></h5>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <button type="button"><i class="fas fa-heart"></i></button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Add to collection</button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Details</button>
-                        </a>
-
-                    </div>
-                </div>
-              </div>
-            </div>
-          </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div>
-                <h3>Electronics</h3>
-                <hr style="height: 1px;background-color: #3C8DBC;">
+                {% endif %}
+                {% endfor %}
+                {% endif %}
             </div>
         </div>
 
-        <div class="col-md-12">
-            <div class="owl-carousel owl-theme top__brands__slider">
-              <div class="item">
-                <div class="card">
-                  <img
-                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                    <div>
-                        <h4>title</h4>
-                    </div>
-                    <div>
-                        <h5>Sale type: Whole sale</h5>
-                    </div>
-                    <div>
-                        <h5>Price: <span>$40/pc</span></h5>
-                        <h5>Min order: <span>40 pc</span></h5>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <button type="button"><i class="fas fa-heart"></i></button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Add to collection</button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Details</button>
-                        </a>
-
-                    </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img
-                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                    <div>
-                        <h4>title</h4>
-                    </div>
-                    <div>
-                        <h5>Sale type: Whole sale</h5>
-                    </div>
-                    <div>
-                        <h5>Price: <span>$40/pc</span></h5>
-                        <h5>Min order: <span>40 pc</span></h5>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <button type="button"><i class="fas fa-heart"></i></button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Add to collection</button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Details</button>
-                        </a>
-
-                    </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img
-                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                    <div>
-                        <h4>title</h4>
-                    </div>
-                    <div>
-                        <h5>Sale type: Whole sale</h5>
-                    </div>
-                    <div>
-                        <h5>Price: <span>$40/pc</span></h5>
-                        <h5>Min order: <span>40 pc</span></h5>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <button type="button"><i class="fas fa-heart"></i></button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Add to collection</button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Details</button>
-                        </a>
-
-                    </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img
-                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                    <div>
-                        <h4>title</h4>
-                    </div>
-                    <div>
-                        <h5>Sale type: Whole sale</h5>
-                    </div>
-                    <div>
-                        <h5>Price: <span>$40/pc</span></h5>
-                        <h5>Min order: <span>40 pc</span></h5>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <button type="button"><i class="fas fa-heart"></i></button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Add to collection</button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Details</button>
-                        </a>
-
-                    </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img
-                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                    <div>
-                        <h4>title</h4>
-                    </div>
-                    <div>
-                        <h5>Sale type: Whole sale</h5>
-                    </div>
-                    <div>
-                        <h5>Price: <span>$40/pc</span></h5>
-                        <h5>Min order: <span>40 pc</span></h5>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <button type="button"><i class="fas fa-heart"></i></button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Add to collection</button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Details</button>
-                        </a>
-
-                    </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img
-                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                    <div>
-                        <h4>title</h4>
-                    </div>
-                    <div>
-                        <h5>Sale type: Whole sale</h5>
-                    </div>
-                    <div>
-                        <h5>Price: <span>$40/pc</span></h5>
-                        <h5>Min order: <span>40 pc</span></h5>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <button type="button"><i class="fas fa-heart"></i></button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Add to collection</button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Details</button>
-                        </a>
-
-                    </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img
-                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"
-                    class="card-img-top"
-                    alt="..."
-                  />
-                    <div>
-                        <h4>title</h4>
-                    </div>
-                    <div>
-                        <h5>Sale type: Whole sale</h5>
-                    </div>
-                    <div>
-                        <h5>Price: <span>$40/pc</span></h5>
-                        <h5>Min order: <span>40 pc</span></h5>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <button type="button"><i class="fas fa-heart"></i></button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Add to collection</button>
-                        </a>
-                        <a href="#">
-                            <button type="button">Details</button>
-                        </a>
-
-                    </div>
-                </div>
-              </div>
-            </div>
-          </div>
     </div>
+    {% endfor %}
+    {% else %}
+    <div class="row">
+        <div class="col-md-12">
+            <h4>No product found!</h4>
+        </div>
+    </div>
+    {% endif %}
+
+    <!--    <div class="row">-->
+    <!--        <div class="col-md-12">-->
+    <!--            <div>-->
+    <!--                <h3>Electronics</h3>-->
+    <!--                <hr style="height: 1px;background-color: #3C8DBC;">-->
+    <!--            </div>-->
+    <!--        </div>-->
+
+    <!--        <div class="col-md-12">-->
+    <!--            <div class="owl-carousel owl-theme top__brands__slider">-->
+    <!--              <div class="item">-->
+    <!--                <div class="card">-->
+    <!--                  <img-->
+    <!--                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"-->
+    <!--                    class="card-img-top"-->
+    <!--                    alt="..."-->
+    <!--                  />-->
+    <!--                    <div>-->
+    <!--                        <h4>title</h4>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <h5>Sale type: Whole sale</h5>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <h5>Price: <span>$40/pc</span></h5>-->
+    <!--                        <h5>Min order: <span>40 pc</span></h5>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button"><i class="fas fa-heart"></i></button>-->
+    <!--                        </a>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button">Add to collection</button>-->
+    <!--                        </a>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button">Details</button>-->
+    <!--                        </a>-->
+
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--              <div class="item">-->
+    <!--                <div class="card">-->
+    <!--                  <img-->
+    <!--                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"-->
+    <!--                    class="card-img-top"-->
+    <!--                    alt="..."-->
+    <!--                  />-->
+    <!--                    <div>-->
+    <!--                        <h4>title</h4>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <h5>Sale type: Whole sale</h5>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <h5>Price: <span>$40/pc</span></h5>-->
+    <!--                        <h5>Min order: <span>40 pc</span></h5>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button"><i class="fas fa-heart"></i></button>-->
+    <!--                        </a>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button">Add to collection</button>-->
+    <!--                        </a>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button">Details</button>-->
+    <!--                        </a>-->
+
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--              <div class="item">-->
+    <!--                <div class="card">-->
+    <!--                  <img-->
+    <!--                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"-->
+    <!--                    class="card-img-top"-->
+    <!--                    alt="..."-->
+    <!--                  />-->
+    <!--                    <div>-->
+    <!--                        <h4>title</h4>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <h5>Sale type: Whole sale</h5>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <h5>Price: <span>$40/pc</span></h5>-->
+    <!--                        <h5>Min order: <span>40 pc</span></h5>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button"><i class="fas fa-heart"></i></button>-->
+    <!--                        </a>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button">Add to collection</button>-->
+    <!--                        </a>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button">Details</button>-->
+    <!--                        </a>-->
+
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--              <div class="item">-->
+    <!--                <div class="card">-->
+    <!--                  <img-->
+    <!--                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"-->
+    <!--                    class="card-img-top"-->
+    <!--                    alt="..."-->
+    <!--                  />-->
+    <!--                    <div>-->
+    <!--                        <h4>title</h4>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <h5>Sale type: Whole sale</h5>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <h5>Price: <span>$40/pc</span></h5>-->
+    <!--                        <h5>Min order: <span>40 pc</span></h5>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button"><i class="fas fa-heart"></i></button>-->
+    <!--                        </a>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button">Add to collection</button>-->
+    <!--                        </a>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button">Details</button>-->
+    <!--                        </a>-->
+
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--              <div class="item">-->
+    <!--                <div class="card">-->
+    <!--                  <img-->
+    <!--                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"-->
+    <!--                    class="card-img-top"-->
+    <!--                    alt="..."-->
+    <!--                  />-->
+    <!--                    <div>-->
+    <!--                        <h4>title</h4>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <h5>Sale type: Whole sale</h5>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <h5>Price: <span>$40/pc</span></h5>-->
+    <!--                        <h5>Min order: <span>40 pc</span></h5>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button"><i class="fas fa-heart"></i></button>-->
+    <!--                        </a>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button">Add to collection</button>-->
+    <!--                        </a>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button">Details</button>-->
+    <!--                        </a>-->
+
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--              <div class="item">-->
+    <!--                <div class="card">-->
+    <!--                  <img-->
+    <!--                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"-->
+    <!--                    class="card-img-top"-->
+    <!--                    alt="..."-->
+    <!--                  />-->
+    <!--                    <div>-->
+    <!--                        <h4>title</h4>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <h5>Sale type: Whole sale</h5>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <h5>Price: <span>$40/pc</span></h5>-->
+    <!--                        <h5>Min order: <span>40 pc</span></h5>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button"><i class="fas fa-heart"></i></button>-->
+    <!--                        </a>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button">Add to collection</button>-->
+    <!--                        </a>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button">Details</button>-->
+    <!--                        </a>-->
+
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--              <div class="item">-->
+    <!--                <div class="card">-->
+    <!--                  <img-->
+    <!--                    src="{% static 'frontEnd/images/product/large-size/1.jpg' %}"-->
+    <!--                    class="card-img-top"-->
+    <!--                    alt="..."-->
+    <!--                  />-->
+    <!--                    <div>-->
+    <!--                        <h4>title</h4>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <h5>Sale type: Whole sale</h5>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <h5>Price: <span>$40/pc</span></h5>-->
+    <!--                        <h5>Min order: <span>40 pc</span></h5>-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button"><i class="fas fa-heart"></i></button>-->
+    <!--                        </a>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button">Add to collection</button>-->
+    <!--                        </a>-->
+    <!--                        <a href="#">-->
+    <!--                            <button type="button">Details</button>-->
+    <!--                        </a>-->
+
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--    </div>-->
 
 
 </div>
@@ -526,6 +391,7 @@
     },
   },
 });
+
 
 
 </script>

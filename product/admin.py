@@ -59,4 +59,7 @@ admin.site.register(CouponCode, CouponCodeAdmin)
 
 admin.site.register(AppliedCouponHistory)
 
+# offered single products
+admin.site.register(OfferedProductItemsByMembershipRank)
+admin.site.register(OfferedSingleProductBasedOnMembershipRank)
 

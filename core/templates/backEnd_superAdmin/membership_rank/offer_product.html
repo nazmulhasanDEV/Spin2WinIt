@@ -1,0 +1,267 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load tag_library %}
+{% load static %}
+
+
+{% block dataTable_css %}
+<!-- DataTables -->
+<link rel="stylesheet"
+      href="{% static 'backEnd/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+{% endblock %}
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-12">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Offer Products To Different Ranked Members!</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="{% url 'apAddOfferToDiffRankedMembers' %}" method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Select Membership Rank</label>
+                                <select name="rank" class="form-control" required>
+                                    <option>Select Membership Rank</option>
+                                    {% if crnt_membership_ranks %}
+                                    {% for x in crnt_membership_ranks %}
+                                    <option value="{{x.pk}}">{{x.title}}</option>
+                                    {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                  <label>Discount Amount(in %)</label>
+                                  <input type="number" name="discount_ammount" class="form-control bg_color" placeholder="Discount Amount" required>
+                              </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                              <label>Select Product Category</label>
+                                  <select name="product_category" class="form-control" id="product_category" required>
+                                      <option selected>Select product category</option>
+                                      {% if product_all_cats %}
+                                      {% for x in product_all_cats %}
+                                      <option value="{{x.pk}}">{{x.name}}</option>
+                                      {% endfor %}
+                                      {% endif %}
+                                  </select>
+                            </div>
+
+                            <div class="col-md-6 point_amnt_as_prize">
+                                <label>Product List</label>
+                                <select name="product_list" class="form-control" id="product_list" size="10" multiple required>
+                                      <option selected>Select products</option>
+                                  </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary add_offered_product_to_ranked_members">LET'S ADD</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+
+
+<!--data tables*******************************************-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <section class="content-header">
+                <h1>
+                    Product Offers Based on Different Membership Rank
+                </h1>
+            </section>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Product Offers Based on Different Membership Rank</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Membership Rank</th>
+                                    <th>Discount Amount</th>
+                                    <th>Product Category</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if existing_offers_by_membership %}
+                                {% for x in existing_offers_by_membership %}
+                                <tr>
+                                    <td>{{x.membership_rank.title}}</td>
+                                    <td>{{x.discount_amount}}</td>
+                                    <td>{{x.product_cat.name}}</td>
+
+                                    <td class="text-center">
+
+                                        <a href="{% url 'apUpdateOfferProductsToDiffRankedMember' pk=x.pk %}">
+                                            <button type="button" style="border:none; background: #00C0EF;color:white;">
+                                                <i class="fas fa-edit"></i> Update</button>
+                                        </a>
+
+                                        <!-- modal for deleting object-->
+                                        <button type="button" style="border:none; background: #FF0000;color:white;" data-toggle="modal"
+                                                data-target="#remove{{x.pk}}">
+                                                <i class="fas fa-backspace"></i> Remove
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="remove{{x.pk}}" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-left" id="exampleModalLabel">Are you confirm to delete this?</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close
+                                                        </button>
+                                                        <a href="{% url 'apRemoveOfferProductToDifferentRankedMember' pk=x.pk %}">
+                                                            <button type="button" class="btn btn-primary">
+                                                                Confirm
+                                                            </button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--                                        modal for deleting object ends-->
+
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Membership Rank</th>
+                                    <th>Discount Amount</th>
+                                    <th>Product Category</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block dropzone_block %}
+
+<script>
+    const product_category = document.getElementById('product_category');
+    const product_list = document.getElementById('product_list');
+    const add_offered_product_to_ranked_members = document.querySelector('.add_offered_product_to_ranked_members');
+
+
+product_category.onchange = (e) =>{
+
+product_list.innerHTML = '';
+
+//ajax starts
+
+$.ajax({
+         url:'/ap/add/offer/products/to/different/ranked/members/',
+         type:'get',
+         data: {
+            current_prodct_cat: e.target.value,
+         },
+         success: function(response){
+              let crnt_product_list = response.crnt_product_list;
+               console.log(crnt_product_list);
+              if (crnt_product_list !== 0) {
+                   crnt_product_list.map((el, index)=>{
+                    const option = document.createElement('option');
+                    option.value = el.id;
+                    option.innerHTML = el.title;
+                    product_list.append(option);
+                });
+                add_offered_product_to_ranked_members.disabled= false;
+              } else{
+                    const option = document.createElement('option');
+                    option.value = 0;
+                    option.innerHTML = "No product found!";
+                    product_list.append(option);
+                    add_offered_product_to_ranked_members.disabled= true;
+              }
+         },
+       });
+//ajax ends
+}
+</script>
+
+<script>
+</script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}
+
+{% block datatable_js %}
+<!-- DataTables -->
+<script src="{% static 'backEnd/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'backEnd/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>
+{% endblock %}

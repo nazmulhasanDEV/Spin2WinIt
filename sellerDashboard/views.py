@@ -621,9 +621,75 @@ def seller_collect_product(request):
     if request.user.is_seller != True:
         return redirect('frontEndLoginRegister')
 
+    # member current membership rank
+    current_membership_rank = SellerMembershipStatus.objects.filter(user=request.user).first()
 
-    return render(request, 'backEnd__sellerDashboard/product/collect_product.html')
+    # filter all the products which offered to everyone
+    offered_products_for_current_user = OfferedSingleProductBasedOnMembershipRank.objects.filter(membership_rank=current_membership_rank.membership_rank)
 
+    # collect categories which has at least one product
+    cats_with_atLeastOne_product = []
+    all_product_cats = ProductCategory.objects.all()
+    for cat in all_product_cats:
+        for product in offered_products_for_current_user:
+            if product.product_cat.pk == cat.pk and cat not in cats_with_atLeastOne_product:
+                cats_with_atLeastOne_product.append(cat)
+
+    context = {
+        'offered_products_for_current_user': offered_products_for_current_user,
+        'cats_with_atLeastOne_product': cats_with_atLeastOne_product,
+        'offered_products_for_current_user': offered_products_for_current_user,
+    }
+
+    return render(request, 'backEnd__sellerDashboard/product/collect_product.html', context)
+
+@login_required(login_url='/fe/login/register')
+def seller_addProductToCollections(request, product_id):
+
+    if request.user.is_seller != True:
+        return redirect('frontEndLoginRegister')
+
+    try:
+        product = ProductList.objects.filter(product_id=product_id).first()
+
+        # user current collections
+        seller_current_collections = SellerCollections.objects.filter(seller=request.user).filter(product=product)
+
+        if seller_current_collections:
+            messages.warning(request, "Already exist in your store!")
+            return redirect('sellerCollectProduct')
+        else:
+            if product:
+                seller_collections_model = SellerCollections.objects.create(
+                    seller=request.user,
+                    product=product
+                )
+                messages.success(request, "Successfully added to your store!")
+                return redirect('sellerCollectProduct')
+            else:
+                messages.warning(request, "Can't be added to your store! Try again!")
+                return redirect('sellerCollectProduct')
+    except:
+        messages.warning(request, "Product not found! Try again!")
+        return redirect('sellerCollectProduct')
+
+    return redirect('sellerCollectProduct')
+
+
+@login_required(login_url='/fe/login/register')
+def seller_productCollections(request):
+
+    if request.user.is_seller != True:
+        return redirect('frontEndLoginRegister')
+
+    # current seller collections
+    current_collections = SellerCollections.objects.filter(seller=request.user)
+
+    context = {
+        'current_collections': current_collections,
+    }
+
+    return render(request, 'backEnd__sellerDashboard/product/collections.html', context)
 
 @login_required(login_url='/fe/login/register')
 def seller_profile_setting(request, username):

@@ -519,23 +519,20 @@
                         {% if y.product_type == 'wsp' %}
                         <div class="col-lg-12">
                             <!-- single-product-wrap start -->
-                            <div class="single-product-wrap"
-                                 style="height: 370px; max-height: 370px !important; position: relative;">
-                                <div class="product-image">
-                                    <a href="/fe/product/details/{{y.product_id}}">
+                            <div class="single-product-wrap" style="height: 370px; max-height: 370px;">
+                                <div class="product-image" style="height: 220px; max-height: 220px;">
+                                    <a href="/fe/product/details/{{y.product_id}}" style="height: 100%;">
                                         {% if y.product_thumbnail %}
-                                        <img src="{{y.product_thumbnail.url}}" style="width: 100%;"
-                                             alt="Li's Product Image"
-                                        />
+                                        <img src="{{y.product_thumbnail.url}}" alt="Li's Product Image" style="width: 100%;height: 100%;" />
                                         {% else %}
                                         {% if y.productImg %}
                                         {% for img in y.productImg.all %}
 
                                         {% if forloop.counter == 1 %}
                                         {% if img.img %}
-                                        <img src="{{img.img.url}}" style="width: 100%;" alt="Li's Product Image"/>
+                                        <img src="{{img.img.url}}" alt="Li's Product Image" style="width: 100%;height: 100%;" />
                                         {% else %}
-                                        <img src="{{img.img_link}}" style="width: 100%;" alt="Li's Product Image"/>
+                                        <img src="{{img.img_link}}" alt="Li's Product Image" style="width: 100%;height: 100%;" />
                                         {% endif %}
                                         {% endif %}
 
@@ -547,8 +544,7 @@
                                     </a>
                                     <!--                                    <span class="sticker">New</span>-->
                                 </div>
-                                <div class="product_desc"
-                                     style="padding-left: 10px; padding-bottom: 5px; position: absolute; bottom: 5px;">
+                                <div class="product_desc">
                                     <div class="product_desc_info">
 <!--                                        <div class="product-review">-->
 <!--                                                                                        <h5 class="manufacturer">-->
@@ -570,8 +566,8 @@
 <!--                                                </ul>-->
 <!--                                            </div>-->
 <!--                                        </div>-->
-                                        <h4 style="text-align: justify;">
-                                            <a class="product_name" href="/fe/product/details/{{y.product_id}}">{{y.title|safe|truncatechars:40}}</a
+                                        <h4 style="text-align: justify; margin-top: 10px;">
+                                            <a class="product_name" href="/fe/product/details/{{y.product_id}}">{{y.title|safe|truncatechars:48}}</a
                                             >
                                         </h4>
                                         <div class="price-box">

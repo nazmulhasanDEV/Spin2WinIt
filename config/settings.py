@@ -37,9 +37,9 @@ INSTALLED_APPS = [
 
     'core',
     'adminPanel',
+    'product',
     'user',
     'sellerDashboard',
-    'product',
     'game',
     'verification',
     'advertisement',

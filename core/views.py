@@ -3904,10 +3904,18 @@ def front_send_email_invitation(request):
         msg = request.POST.get('msg')
 
         try:
+            user_last_invitation = UserMailInvitations.objects.filter(user=request.user).last()
 
-            if UserMailInvitations.objects.filter(Q(user=request.user) & Q(mail_to=mail_to)).count() > 0:
-                messages.warning(request, "You already sent invitation to this mail! Try with different account!")
-                return redirect('frontEndUserProfile', username=request.user.username)
+            if user_last_invitation:
+                time_now = timezone.now()
+                last_sent_invitation = user_last_invitation.created + timedelta(hours=24)
+
+                if last_sent_invitation > time_now:
+                    messages.warning(request, "You can only send one invitation mail per day. Thank you!")
+                    return redirect('frontEndUserProfile', username=request.user.username)
+                if UserMailInvitations.objects.filter(Q(user=request.user) & Q(mail_to=mail_to)).count() > 0:
+                    messages.warning(request, "You already sent invitation to this mail! Try with different account!")
+                    return redirect('frontEndUserProfile', username=request.user.username)
             else:
                 subject = "Invitation to join SpinIt2Win.com!"
                 # html_content = msg
@@ -3925,6 +3933,10 @@ def front_send_email_invitation(request):
                 invitation_model = UserMailInvitations.objects.create(user=request.user, mail_to=mail_to, msg=msg)
                 messages.success(request, "Invitation sent successfully! You got 50 reward points as bonus!")
                 return redirect('frontEndUserProfile', username=request.user.username)
+                # print("HELLO2")
+                # if UserMailInvitations.objects.filter(Q(user=request.user) & Q(mail_to=mail_to)).count() > 0:
+                #     messages.warning(request, "You already sent invitation to this mail! Try with different account!")
+                #     return redirect('frontEndUserProfile', username=request.user.username)
         except:
             messages.warning(request, "Invitation can't be sent! Try again!")
             return redirect('frontEndUserProfile', username=request.user.username)

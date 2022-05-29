@@ -136,4 +136,4 @@ class PrizeList(models.Model):
     def __str__(self):
         return self.user.email
 
-
+# user email invitation history

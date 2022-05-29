@@ -16,6 +16,8 @@ urlpatterns = [
 
     # collection
     re_path(r'^seller/collect/product/$', views.seller_collect_product, name='sellerCollectProduct'),
+    re_path(r'^seller/add/product/to/collections/(?P<product_id>[-\w]+)/$', views.seller_addProductToCollections, name='seller_addProductToCollections'),
+    re_path(r'^seller/product/collection/list/$', views.seller_productCollections, name='sellerProductCollectionList'),
 
     # profile
     re_path(r'^seller/profile/setting/(?P<username>[-\w]+)/$', views.seller_profile_setting, name='sellerProfileSetting'),

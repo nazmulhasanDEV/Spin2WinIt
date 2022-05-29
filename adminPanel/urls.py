@@ -240,6 +240,15 @@ urlpatterns = [
     re_path(r'^ap/registered/user/list', views.ap_registered_userList, name='apRegisteredUserList'),
     re_path(r'^ap/remove/user/userlist/(?P<pk>\d+)/$', views.ap_remove_userFromUserList, name='apRemmoveUserFromUsrList'),
 
+    # membership rank started*********************************************************************
+    re_path(r'^ap/add/new/membership/rank/$', views.apAddNewMembershipRank, name='apAddNewMembershipRank'),
+    re_path(r'^ap/update/new/membership/rank/(?P<rank_id>[-\w]+)/$', views.apUpdateMembershipRank, name='apUpdateMembershipRank'),
+    re_path(r'^ap/remove/membership/rank/(?P<rank_id>[-\w]+)/$', views.apRemoveMembershipRank, name='apRemoveMembershipRank'),
+
+    re_path(r'^ap/add/offer/products/to/different/ranked/members/$', views.apAddOfferProductsToDiffRankedMember, name='apAddOfferToDiffRankedMembers'),
+    re_path(r'^ap/update/offer/products/to/different/ranked/members/(?P<pk>\d+)/$', views.apUpdateOfferProductsToDiffRankedMember, name='apUpdateOfferProductsToDiffRankedMember'),
+    re_path(r'^ap/remove/offer/product/to/different/ranked/member/(?P<pk>\d+)/$', views.apRemoveOfferProductToDifferentRankedMember, name='apRemoveOfferProductToDifferentRankedMember'),
+
     # how it works section starts
     re_path(r'^ap/add/how/spin2win/works/$', views.ap_add_how_spinit2Win_works, name='apAddHowSpin2winWorks'),
     re_path(r'^ap/remove/how/spin2win/works/(?P<pk>\d+)/$', views.ap_delete_how_spinit2Win_works, name='apDeleteHowSpin2winWorks'),
