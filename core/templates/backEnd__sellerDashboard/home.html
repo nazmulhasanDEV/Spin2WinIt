@@ -2,9 +2,21 @@
 {% load static %}
 
 
+{% block home_owl_carousel_css %}
+<!-- owl carousel  -->
+<link rel="stylesheet" href="{% static 'seller_dashboard/owl_carousel/owl.carousel.css' %}"/>
+<link rel="stylesheet" href="{% static 'seller_dashboard/owl_carousel/owl.carousel.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'seller_dashboard/owl_carousel/owl.theme.default.css' %}"/>
+<link rel="stylesheet" href="{% static 'seller_dashboard/owl_carousel/custom.css' %}"/>
+
+{% endblock %}
+
 {% block dataTable_css %}
 <!-- DataTables -->
-<link rel="stylesheet" href="{% static 'backEnd/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+<link rel="stylesheet"
+      href="{% static 'backEnd/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+
+<link rel="stylesheet" href="{% static 'seller_dashboard/home.css' %}">
 {% endblock %}
 
 {% block main_block %}
@@ -87,6 +99,131 @@
         <!-- ./col -->
     </div>
     <!-- /.row -->
+
+    <div class="row" id="home_package_section">
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title">
+                        <h2 class="text-center">Our awesome package with at least 10% guaranteed profit! </h2>
+                        <p class="text-center">Let's invest and make money from toady</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 content_box">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="box box-widget widget-user-2">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="title_subtitle">
+                            <!--              <div class="widget-user-image">-->
+                            <!--                <img class="img-circle" src="{% static 'backEnd/dist/img/user7-128x128.jpg' %}" alt="User Avatar">-->
+                            <!--              </div>-->
+                            <!-- /.widget-user-image -->
+                            <h6 class="text-center packageName">Package Name</h6>
+                            <h6 class="text-center prev"><del>$150 CAD</del></h6>
+                            <h6 class="text-center current_price">
+                                <span class="crnt">$100 CAD</span>
+                                <span class="duration">/Month</span>
+                            </h6>
+                        </div>
+                        <div class="box-footer no-padding">
+                            <ul class="nav nav-stacked options">
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                            </ul>
+                        </div>
+
+                        <a href="#" class="package_buy_btn">
+                            <button type="button">invest now</button>
+                        </a>
+                    </div>
+                    <!-- /.widget-user -->
+                </div>
+                <div class="col-md-4 content_box">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="box box-widget widget-user-2">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="title_subtitle">
+                            <!--              <div class="widget-user-image">-->
+                            <!--                <img class="img-circle" src="{% static 'backEnd/dist/img/user7-128x128.jpg' %}" alt="User Avatar">-->
+                            <!--              </div>-->
+                            <!-- /.widget-user-image -->
+                            <h6 class="text-center packageName">Package Name</h6>
+                            <h6 class="text-center prev"><del>$150 CAD</del></h6>
+                            <h6 class="text-center current_price">
+                                <span class="crnt">$100 CAD</span>
+                                <span class="duration">/Month</span>
+                            </h6>
+                        </div>
+                        <div class="box-footer no-padding">
+                            <ul class="nav nav-stacked options">
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                            </ul>
+                        </div>
+
+                        <a href="#" class="package_buy_btn">
+                            <button type="button">invest now</button>
+                        </a>
+                    </div>
+                    <!-- /.widget-user -->
+                </div>
+                <div class="col-md-4 content_box">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="box box-widget widget-user-2">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="title_subtitle">
+                            <!--              <div class="widget-user-image">-->
+                            <!--                <img class="img-circle" src="{% static 'backEnd/dist/img/user7-128x128.jpg' %}" alt="User Avatar">-->
+                            <!--              </div>-->
+                            <!-- /.widget-user-image -->
+                            <h6 class="text-center packageName">Package Name</h6>
+                            <h6 class="text-center prev"><del>$150 CAD</del></h6>
+                            <h6 class="text-center current_price">
+                                <span class="crnt">$100 CAD</span>
+                                <span class="duration">/Month</span>
+                            </h6>
+                        </div>
+                        <div class="box-footer no-padding">
+                            <ul class="nav nav-stacked options">
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                                <li class="text-center"><a href="#">Projects </a></li>
+                            </ul>
+                        </div>
+
+                        <a href="#" class="package_buy_btn">
+                            <button type="button">invest now</button>
+                        </a>
+                    </div>
+                    <!-- /.widget-user -->
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <!-- /.content -->
 
@@ -101,25 +238,25 @@
 <section class="content">
 
     <!--            django message framework-->
-        <div class="row" style="z-index: 100 !important;">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                {% if messages %}
-                {% for message in messages %}
+    <div class="row" style="z-index: 100 !important;">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            {% if messages %}
+            {% for message in messages %}
 
-              <div {% if message.tags %}  class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <h4><i class="icon fa fa-check"></i> Alert!</h4>
                 {{ message }}!
-              </div>
-
-                {% endfor %}
-                {% endif %}
             </div>
-            <div class="col-md-3"></div>
-        </div>
 
-        <!--            django message framework ends-->
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+    <!--            django message framework ends-->
 
     <div class="row">
         <div class="col-xs-12">
@@ -151,15 +288,19 @@
                             <td class="text-center">
                                 {% if x.is_active %}
                                 <a href="{% url 'apDeactivateuser' pk=x.pk %}">
-                                    <button type="button" style="border:none; background: green;color:white;">Deactivate</button>
+                                    <button type="button" style="border:none; background: green;color:white;">
+                                        Deactivate
+                                    </button>
                                 </a>
                                 {% else %}
                                 <a href="{% url 'apActivateUser' pk=x.pk %}">
-                                    <button type="button" style="border:none; background: green;color:white;">Activate</button>
+                                    <button type="button" style="border:none; background: green;color:white;">Activate
+                                    </button>
                                 </a>
                                 {% endif %}
                                 <a href="{% url 'apRemoveUser' pk=x.pk %}">
-                                    <button type="button" style="border:none; background: #FF0000;color:white;">Remove</button>
+                                    <button type="button" style="border:none; background: #FF0000;color:white;">Remove
+                                    </button>
                                 </a>
                             </td>
                         </tr>
@@ -199,5 +340,48 @@
       'autoWidth'   : false
     })
   })
+
+</script>
+{% endblock %}
+
+{% block home_owl_carousel_js %}
+<!-- owl carousel -->
+
+<script src="{% static 'seller_dashboard/owl_carousel/owl.carousel.js' %}"></script>
+<script src="{% static 'seller_dashboard/owl_carousel/owl.carousel.min.js' %}"></script>
+
+<script>
+
+    $(".owl-carousel").owlCarousel({
+  loop: true,
+  margin: 10,
+  nav: true,
+  autoplay: false,
+  smartSpeed: 2000,
+  autoplayTimeout: 4000,
+  dots: false,
+
+  responsive: {
+    0: {
+      items: 2,
+    },
+    500: {
+      items: 3,
+    },
+    600: {
+      items: 5,
+    },
+    1000: {
+      items: 5,
+    },
+    1200: {
+      items: 5,
+    },
+  },
+});
+
+
+
+
 </script>
 {% endblock %}
