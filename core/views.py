@@ -1187,6 +1187,9 @@ def front_loginRegister(request):
 
     site_logo = SiteLogo.objects.filter().first()
 
+    # beta test terms condition
+    betaTestTermscondition = BetaTestTermsConditions.objects.filter().first()
+
     if request.method == 'POST':
         fname = request.POST['fname']
         lname = request.POST['lname']
@@ -1197,8 +1200,11 @@ def front_loginRegister(request):
         user_role = request.POST['user_role']
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
+        agree_toBetaTest = request.POST.get('agree_toBetaTest')
 
-        if fname and lname and email and username and phone and user_role and password and password == confirm_password:
+
+        if fname and lname and email and username and phone and user_role and password and password == confirm_password and agree_toBetaTest == 'on':
+
             try:
                 if len(Account.objects.filter(email=email)) <= 0 or len(Account.objects.filter(username=username)) <= 0 or len(Account.objects.filter(phone_no=phone)) <= 0:
                     # # sending verification email with code*********************************
@@ -1224,6 +1230,7 @@ def front_loginRegister(request):
                         user.save()
                     user.fname = fname
                     user.lname = lname
+                    user.is_agreed_withBetaTestTerms = True
                     # user.nid_no = nid__card_no
                     user.save()
 
@@ -1283,6 +1290,7 @@ def front_loginRegister(request):
 
     context = {
         'site_logo': site_logo,
+        'betaTestTermscondition': betaTestTermscondition,
     }
 
     return render(request, 'frontEnd/login-register.html', context)
@@ -4064,14 +4072,10 @@ def front_track_and_give_bonus_to_referer(request, username, referal_code):
     return redirect('frontEndHome')
 
 @login_required(login_url='/fe/login/register')
-def front_logoutUser(request):
-
-    try:
-        logout(request)
-        return redirect('frontEndHome')
-    except:
-        pass
+def frontLogoutShopper(request):
+    logout(request)
     return redirect('frontEndHome')
+
 
 
 @login_required(login_url='/fe/login/register')
@@ -4322,6 +4326,75 @@ def front_delete_default_shipping_info(request, pk):
 
     return redirect('frontEndUserProfile', username=request.user.username)
 
+# beta test terms and condition
+def front_BetatestTerms_andCondition(request):
+
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+    # current refund policy
+    refund_policy = RefundPolicy.objects.filter().first()
+
+    # beta test terms and condition
+    betaTestTermsCondition = BetaTestTermsConditions.objects.filter().first()
+
+    if request.user.is_authenticated:
+        # user cart status
+        user_cart_status = Cart.objects.filter(user=request.user)
+
+        # user wishlist status
+        user_wishlist_status = WishList.objects.filter(user=request.user)
+
+        total_amount = 0.0
+        if user_cart_status:
+            for x in user_cart_status:
+                if x.product.product_type == 'wsp':
+                    total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+                if x.product.product_type == 'mcp':
+                    total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+        context = {
+            'betaTestTermsCondition': betaTestTermsCondition,
+            'site_logo': site_logo,
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
+
+
+            'user_cart_status': user_cart_status,
+            'user_wishlist_status': user_wishlist_status,
+            'total_amount': total_amount,
+            'refund_policy': refund_policy,
+        }
+        return render(request, 'frontEnd/policy/refund_policy.html', context)
+
+    context = {
+        'betaTestTermsCondition': betaTestTermsCondition,
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+        'refund_policy' : refund_policy,
+    }
+
+
+    return render(request, 'frontEnd/policy/beta_test_termsCondition.html', context)
+
 def front_refund_policy(request):
 
     if request.user.is_authenticated and request.user.is_buyer != True:
@@ -4382,8 +4455,6 @@ def front_refund_policy(request):
         'safe_payment_content_setting': safe_payment_content_setting,
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
-
-
         'refund_policy' : refund_policy,
     }
     return render(request, 'frontEnd/policy/refund_policy.html', context)

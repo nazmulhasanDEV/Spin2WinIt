@@ -80,7 +80,7 @@
                                 {% if x.product_type == 'wsp' %}
                                 <tr>
                                     <td>{{x.product_id}}</td>
-                                    <td>{{x.title|striptags|truncatechars:65}}</td>
+                                    <td>{{x.title|striptags|truncatechars:80}}</td>
                                     <td>{{x.subcat_name}}, {{x.cat_name}}</td>
                                     <td>{{x.price|floatformat:2}}</td>
                                     <td class="text-center">
@@ -133,13 +133,12 @@
                                 {% else %}
                                 <tr>
                                     <td>{{x.product_id}}</td>
-                                    <td>{{x.title|striptags}}</td>
+                                    <td>{{x.title|striptags|truncatechars:70}}</td>
                                     <td>{{x.subcategory.name}}, {{x.category.name}}</td>
                                     <td>{{x.new_price|floatformat:2}}</td>
                                     <td class="text-center">
                                         <a href="{% url 'apAdminCustomProductDetails' pk=x.pk product_id=x.product_id %}">
-                                            <button type="button" style="border:none; background: #222D32;color:white;">
-                                                Check details</button>
+                                            <button type="button" style="border:none; background: #222D32;color:white;">Check details</button>
                                         </a>
 
                                         <a href="{% url 'apUpdateAdminCustomProduct' pk=x.pk product_id=x.product_id %}">

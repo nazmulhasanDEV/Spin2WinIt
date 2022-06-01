@@ -1,7 +1,7 @@
 from django.db import models
-import requests
-from product.models import *
 from user.models import *
+from product.models import *
+import requests
 
 
 
@@ -113,6 +113,15 @@ class ContactUs(models.Model):
     def __str__(self):
         return self.mobile
 
+
+# beta test terms and conditions
+class BetaTestTermsConditions(models.Model):
+    content = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content
+
 # delivery policy
 class DeliveryPolicy(models.Model):
     content = models.TextField()
@@ -201,6 +210,7 @@ class VisitorInfo(models.Model):
     latitude = models.CharField(max_length=50, blank=True, null=True)
     longitude = models.CharField(max_length=50, blank=True, null=True)
     timezone = models.CharField(max_length=50, blank=True, null=True)
+    postal_code = models.CharField(max_length=50, blank=True, null=True)
     visited = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
@@ -213,6 +223,7 @@ class VisitorInfo(models.Model):
         self.country_code = details_of_crnt_ip['country_code']
         self.latitude = details_of_crnt_ip['postal']
         self.longitude = details_of_crnt_ip['latitude']
+        self.postal_code = details_of_crnt_ip['postal']
         self.timezone = details_of_crnt_ip['longitude']
         super(VisitorInfo, self).save(*args, **kwargs)
 
@@ -222,6 +233,22 @@ class TotalNumVisitor(models.Model):
 
     def __str__(self):
         return str(self.num_of_visitor)
+
+# package name section starts
+class PackageNameList(models.Model):
+    name = models.CharField(default='', max_length=20, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+class PackageOptions(models.Model):
+    option = models.CharField(default='', max_length=40)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.option
+
 
 
 # how it works section starts here ******************************************

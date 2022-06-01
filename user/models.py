@@ -61,6 +61,8 @@ class Account(AbstractBaseUser):
     is_a_staff = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=options, blank=True, null=True, default=0)
 
+    is_agreed_withBetaTestTerms = models.BooleanField(default=False, blank=True, null=True) # only for shopper not member
+
     objects = MyUserManager()
 
     USERNAME_FIELD = 'email'

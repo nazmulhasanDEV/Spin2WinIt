@@ -10,6 +10,8 @@ admin.site.register(CreditPurchasingHistory)
 admin.site.register(WinningChance)
 admin.site.register(WinningChancePurchasingHistory)
 admin.site.register(PrizeList)
+admin.site.register(PackageList)
+
 
 
 

@@ -1,6 +1,7 @@
 from django.db import models
 from user.models import Account
 from product.models import *
+from adminPanel.models import *
 
 
 # user wallet
@@ -135,5 +136,19 @@ class PrizeList(models.Model):
 
     def __str__(self):
         return self.user.email
+
+
+# package list
+class PackageList(models.Model):
+    package_id = models.CharField(max_length=20, blank=True, null=True)
+    name = models.ForeignKey(PackageNameList, on_delete=models.CASCADE)
+    price = models.FloatField(default=0.0)
+    options = models.ManyToManyField(PackageOptions)
+    products = models.ManyToManyField(ProductList)
+
+    status = models.BooleanField(default=False, blank=True, null=True)
+
+    def __str__(self):
+        return self.name.name + "||" + str(self.price)
 
 # user email invitation history

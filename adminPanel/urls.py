@@ -20,6 +20,7 @@ urlpatterns = [
     re_path(r'^ap/activate/user/(?P<pk>\d+)/$', views.activateUser, name="apActivateUser"),
     re_path(r'^ap/remove/user/(?P<pk>\d+)/$', views.removeUser, name="apRemoveUser"),
 
+
     # product category
     re_path(r'^ap/add/product/category/$', views.ap_add_product_category, name='apAddProductCategory'),
     re_path(r'^ap/edit/product/category/(?P<pk>\d+)/$', views.ap_edit_product_category, name='apEditProductCategory'),
@@ -35,6 +36,24 @@ urlpatterns = [
     re_path(r'^ap/del/woocmrce/product/(?P<pk>\d+)/$', views.ap_del_woocmmrce_prdct, name='apDelWoocmrceProduct'),
     re_path(r'^ap/woocommerce/store/product/list/$', views.ap_woocommerce_store_list, name='apWoocommerceStoreList'),
     re_path(r'^ap/woocommerce/product/details/(?P<pk>\d+)/$', views.ap_wcmrce_prdct_details, name='apWoocmrcePrdctDetails'),
+
+    # package part starts***********************************************************************************************
+    re_path(r'^ap/add/new/package/name/$', views.ap_add_new_packageName, name='apAddNewPackageName'),
+    re_path(r'^ap/update/package/name/(?P<pk>\d+)/$', views.ap_update_new_packageName, name='apUpdatePackageName'),
+    re_path(r'^ap/remove/package/name/(?P<pk>\d+)/$', views.ap_remove_packageName, name='apRemovePackageName'),
+
+    # package feature options
+    re_path(r'^ap/add/package/feature/options/$', views.ap_add_packageFeatureOptions, name='apAddPackageFeatureOptions'),
+    re_path(r'^ap/update/package/option/(?P<pk>\d+)/$', views.ap_update_packageFeatureOptions, name='apUpdatePackageFeatureOption'),
+    re_path(r'^ap/remove/package/option/(?P<pk>\d+)/$', views.ap_remove_packageFeatureOption, name='apRemovePackageFeatureOption'),
+
+    # packages
+    re_path(r'^ap/add/package/$', views.ap_add_package, name='apAddPackage'),
+    re_path(r'^ap/activate/package/(?P<pk>\d+)/$', views.ap_activate_package, name='apActivatePackage'),
+    re_path(r'^ap/de_activate/package/(?P<pk>\d+)/$', views.ap_de_activate_package, name='apDe_ActivatePackage'),
+    re_path(r'^ap/update/package/(?P<pk>\d+)/$', views.ap_update_package, name='apUpdatePackage'),
+    re_path(r'^ap/delete/package/(?P<pk>\d+)/$', views.ap_remove_package, name='apRemovePackage'),
+
 
     # order section*********************************************
 
@@ -133,6 +152,12 @@ urlpatterns = [
     re_path(r'^ap/del/contact/us/(?P<pk>\d+)/$', views.ap_del_contact_us, name='apDelContactUs'),
 
     # policy setting ***************************************************
+
+    # beta test terms conditions
+    re_path(r'^ap/add/beta/test/terms/condition/$', views.ap_add_betaTest_termsConditions, name='apAddBetaTestTermsConditions'),
+    re_path(r'^ap/update/beta/test/terms/conditions/(?P<pk>\d+)/$', views.ap_update_betaTest_termsConditions, name='apUpdateBetaTestTermsConditions'),
+    re_path(r'^ap/remove/beta/test/terms/conditions/(?P<pk>\d+)/$', views.ap_removeBetaTestTermsCondition, name='apRemoveBetaTestTermsConditions'),
+
     re_path(r'^ap/delivery/policy/$', views.ap_delivery_policy, name='apDeliveryPolicy'),
     re_path(r'^ap/update/delivery/policy/(?P<pk>\d+)/$', views.ap_update_delivery_policy, name='apUpdateDeliveryPolicy'),
     re_path(r'^ap/del/delivery/policy/(?P<pk>\d+)/$', views.ap_del_delivery_policy, name='apDeleteDeliveryPolicy'),

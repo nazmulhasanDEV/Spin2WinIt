@@ -68,11 +68,11 @@
                                 <input class="mb-0" id="phonee" name="phone" type="tel">
                             </div>
 
-<!--                            <div class="col-md-6 mb-20">-->
-<!--                                <label>National ID No.*</label>-->
-<!--                                <input class="mb-0" id="nid__card_no" name="nid__card_no" type="text"-->
-<!--                                       placeholder="NID No.">-->
-<!--                            </div>-->
+                            <!--                            <div class="col-md-6 mb-20">-->
+                            <!--                                <label>National ID No.*</label>-->
+                            <!--                                <input class="mb-0" id="nid__card_no" name="nid__card_no" type="text"-->
+                            <!--                                       placeholder="NID No.">-->
+                            <!--                            </div>-->
 
                             <div class="col-md-12 mb-20">
                                 <label>Select user role</label>
@@ -90,8 +90,31 @@
                                 <input class="mb-0" type="password" name="confirm_password"
                                        placeholder="Confirm Password">
                             </div>
+
                             <div class="col-12">
-                                <button type="submit" class="register-button mt-0" style="cursor: pointer;">Register</button>
+                                <p>
+                                    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample"
+                                       role="button" aria-expanded="false" style="width: 100%; background-color: #293A6C;" aria-controls="collapseExample">
+                                        Check beta test terms & conditions
+                                    </a>
+                                </p>
+                                <div class="collapse" id="collapseExample">
+                                    <div class="card card-body">
+                                        {{betaTestTermscondition.content|safe}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
+                                    <input type="checkbox" name="agree_toBetaTest" id="agree_toBetaTest">
+                                    <label for="agree_toBetaTest">I agree with beta test terms & condition</label>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <button type="submit" class="register-button mt-0" style="cursor: pointer;">Register
+                                </button>
                             </div>
                         </div>
                         <p> Already have account?

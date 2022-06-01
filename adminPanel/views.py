@@ -23,7 +23,8 @@ import threading
 from product.models import *
 from advertisement.models import *
 from core.models import *
-
+from config.activate_deactivate_status import activate_status, deactivate_status
+from config.custom_functions import delete_obj
 
 # woocomerce to connect with woocommerce store
 from woocommerce import API
@@ -2227,6 +2228,312 @@ def ap_all_products(request):
     }
 
     return render(request, 'backEnd_superAdmin/product/all_products.html', context)
+
+
+# package section starts ****************************************************
+@login_required(login_url='/ap/register/updated')
+def ap_add_new_packageName(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        name = request.POST.get('new_package_name')
+
+        if name and PackageNameList.objects.filter(name=name).count() <= 0:
+            package_name_list_model = PackageNameList.objects.create(name=name.capitalize())
+            messages.success(request, "Successfully added new package name!")
+            return redirect('apAddNewPackageName')
+        else:
+            messages.warning(request, "Can't be added new package! Try again!")
+            return redirect('apAddNewPackageName')
+
+    # package name list
+    package_name_list = PackageNameList.objects.all()
+
+    context = {
+        'package_name_list': package_name_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/membership_package/add_package_name.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_update_new_packageName(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    curnt_package_name = get_object_or_404(PackageNameList, pk=pk)
+
+    if request.method == 'POST':
+        name = request.POST.get('new_package_name')
+
+        if name:
+            curnt_package_name.name = name
+            curnt_package_name.save()
+            messages.success(request, "Package name successfully updated!")
+            return redirect('apAddNewPackageName')
+        else:
+            messages.warning(request, "Package name Can't be updated! Try again!")
+            return redirect('apAddNewPackageName')
+
+    context = {
+        'curnt_package_name': curnt_package_name,
+    }
+
+    return render(request, 'backEnd_superAdmin/membership_package/update_package_name.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_packageName(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = get_object_or_404(PackageNameList, pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apAddNewPackageName')
+    except:
+        messages.warning(request, "Can't be deleted!")
+        return redirect('apAddNewPackageName')
+
+    return redirect('apAddNewPackageName')
+
+@login_required(login_url='/ap/register/updated')
+def ap_add_packageFeatureOptions(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        option = request.POST.get('add_packge_options')
+
+        if option and PackageOptions.objects.filter(option=option.capitalize()).count() <= 0:
+            package_option_model = PackageOptions.objects.create(option=option.capitalize())
+            messages.success(request, "Successfully added!")
+            return redirect('apAddPackageFeatureOptions')
+        else:
+            messages.warning(request, "Can't be added! This option already exists!")
+            return redirect('apAddPackageFeatureOptions')
+
+    # existing package feature options
+    existing_package_features = PackageOptions.objects.all()
+
+    context = {
+        'existing_package_features': existing_package_features,
+    }
+
+    return render(request, 'backEnd_superAdmin/membership_package/add_package_options.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_update_packageFeatureOptions(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    package_option_model = get_object_or_404(PackageOptions, pk=pk)
+
+    if request.method == 'POST':
+        option = request.POST.get('package_option')
+
+        if option and PackageOptions.objects.filter(option=option.capitalize()).count() <= 0:
+            package_option_model.option = option.capitalize()
+            package_option_model.save()
+            messages.success(request, "Successfully updated!")
+            return redirect('apAddPackageFeatureOptions')
+        else:
+            messages.warning(request, "Can't be updated! This option already exists!")
+            return redirect('apAddPackageFeatureOptions')
+
+    context = {
+        'package_option_model': package_option_model,
+    }
+
+    return render(request, 'backEnd_superAdmin/membership_package/update_package_options.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_packageFeatureOption(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = get_object_or_404(PackageOptions, pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apAddPackageFeatureOptions')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apAddPackageFeatureOptions')
+
+    return redirect('apAddPackageFeatureOptions')
+
+@login_required(login_url='/ap/register/updated')
+def ap_add_package(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # existing package name list
+    package_names = PackageNameList.objects.all()
+
+    # existing package feature options
+    package_feature_options = PackageOptions.objects.all()
+
+    # existing products
+    products = ProductList.objects.all()
+
+    if request.method == 'POST':
+        name_id = request.POST.get('package_name')
+        package_price = request.POST.get('package_price')
+        package_products = request.POST.getlist('package_products')
+        package_options = request.POST.getlist('package_options')
+
+        if name_id and package_price and package_products and package_options:
+            package_uniqe_id = get_random_string(15)
+
+            package_name = get_object_or_404(PackageNameList, pk=name_id)
+            package_list_model = PackageList.objects.create(
+                package_id=package_uniqe_id,
+                name=package_name,
+                price=package_price,
+            )
+            for id in package_products:
+                product = get_object_or_404(ProductList, pk=id)
+                package_list_model.products.add(product)
+                package_list_model.save()
+            for id in package_options:
+                option = get_object_or_404(PackageOptions, pk=id)
+                package_list_model.options.add(option)
+                package_list_model.save()
+            messages.success(request, "New package has been added successfully!")
+            return redirect('apAddPackage')
+        else:
+            messages.warning(request, "New package can't be added! Try again!")
+            return redirect('apAddPackage')
+
+    # existing package list
+    current_package_list = PackageList.objects.all()
+
+    context = {
+        'package_names': package_names,
+        'package_feature_options': package_feature_options,
+        'products': products,
+        'current_package_list': current_package_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/membership_package/add_package.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_activate_package(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = get_object_or_404(PackageList, pk=pk)
+        activate_status(request, crnt_obj) # from congi.active_deactivate_status.py fiile
+        return redirect('apAddPackage')
+    except:
+        messages.warning(request, "Can't be activated! Try again later!")
+        return redirect('apAddPackage')
+
+    return redirect('apAddPackage')
+
+@login_required(login_url='/ap/register/updated')
+def ap_de_activate_package(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = get_object_or_404(PackageList, pk=pk)
+        deactivate_status(request, crnt_obj)# from congi.active_deactivate_status.py fiile
+        return redirect('apAddPackage')
+    except:
+        messages.warning(request, "Can't be de-activated! Try again later!")
+        return redirect('apAddPackage')
+
+    return redirect('apAddPackage')
+
+@login_required(login_url='/ap/register/updated')
+def ap_update_package(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # existing package name list
+    package_names = PackageNameList.objects.all()
+
+    # existing package feature options
+    package_feature_options = PackageOptions.objects.all()
+
+    # existing products
+    products = ProductList.objects.all()
+
+    # current package
+    current_package = get_object_or_404(PackageList, pk=pk)
+
+    if request.method == 'POST':
+        name_id = request.POST.get('package_name')
+        package_price = request.POST.get('package_price')
+        package_products = request.POST.getlist('package_products')
+        package_options = request.POST.getlist('package_options')
+
+        if name_id and package_price and package_products and package_options:
+
+            current_package.package_name = get_object_or_404(PackageNameList, pk=name_id)
+            current_package.save()
+
+            # clearing previous objects
+            current_package.products.clear()
+            current_package.options.clear()
+
+            for id in package_products:
+                product = get_object_or_404(ProductList, pk=id)
+                current_package.products.add(product)
+                current_package.save()
+            for id in package_options:
+                option = get_object_or_404(PackageOptions, pk=id)
+                current_package.options.add(option)
+                current_package.save()
+            messages.success(request, "Package has been updated successfully!")
+            return redirect('apAddPackage')
+        else:
+            messages.warning(request, "Package can't be updated! Try again!")
+            return redirect('apAddPackage')
+
+
+    context = {
+        'current_package': current_package,
+        'package_names': package_names,
+        'package_feature_options': package_feature_options,
+        'products': products,
+    }
+
+    return render(request, 'backEnd_superAdmin/membership_package/update_package.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_package(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        curnt_obj = get_object_or_404(PackageList, pk=pk)
+        delete_obj(request, curnt_obj)
+        return redirect('apAddPackage')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apAddPackage')
+
+    return redirect('apAddPackage')
+
+# package part ends here ********************************************************************
 
 @login_required(login_url='/ap/register/updated')
 def ap_add_admin_custsom_product(request):
@@ -4445,6 +4752,84 @@ def ap_del_contact_us(request, pk):
 
 # policy setting ***************************************************************
 
+@login_required(login_url='/ap/register/updated')
+def ap_add_betaTest_termsConditions(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # user profile picture
+    profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+
+    if request.method == 'POST':
+        content = request.POST.get('beta_test_termsConditions')
+
+        if content and BetaTestTermsConditions.objects.filter().count() <= 0:
+            betsTestTermsConditionsModel = BetaTestTermsConditions.objects.create(content=content)
+            messages.success(request, "Successfully added!")
+            return redirect('apAddBetaTestTermsConditions')
+        else:
+            messages.warning(request, "Terms & condition already exists! Delete it to add new one or update it!")
+            return redirect('apAddBetaTestTermsConditions')
+
+    # existing data
+    existing_terms_condition = BetaTestTermsConditions.objects.filter().first()
+
+    context = {
+        'existing_terms_condition': existing_terms_condition,
+        'profile_pic': profile_pic,
+    }
+
+    return render(request, 'backEnd_superAdmin/policy_setting/add_betaTest_termsCondition.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_update_betaTest_termsConditions(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # user profile picture
+    profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+
+    # existing data
+    existing_terms_condition = BetaTestTermsConditions.objects.filter(pk=pk).first()
+
+    if request.method == 'POST':
+        content = request.POST.get('beta_test_termsConditions')
+
+        if content:
+            existing_terms_condition.content = content
+            existing_terms_condition.save()
+            messages.success(request, "Successfully updated!")
+            return redirect('apAddBetaTestTermsConditions')
+        else:
+            messages.warning(request, "Terms & condition can not be updated!")
+            return redirect('apAddBetaTestTermsConditions')
+
+    context = {
+        'existing_terms_condition': existing_terms_condition,
+        'profile_pic': profile_pic,
+    }
+
+    return render(request, 'backEnd_superAdmin/policy_setting/update_betaTestTermsCondition.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_removeBetaTestTermsCondition(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        existing_obj = BetaTestTermsConditions.objects.get(pk=pk)
+        existing_obj.delete()
+        messages.success(request, 'Successfully deleted!')
+        return redirect('apAddBetaTestTermsConditions')
+    except:
+        messages.success(request, "Can't be  deleted! Try again!")
+        return redirect('apAddBetaTestTermsConditions')
+
+    return redirect('apAddBetaTestTermsConditions')
 
 @login_required(login_url='/ap/register/updated')
 def ap_delivery_policy(request):
@@ -6259,3 +6644,4 @@ def ap_update_how_spinit2Win_works(request, pk):
     }
 
     return render(request, 'backEnd_superAdmin/how_it_works/update_how_spinit2win_works.html', context)
+

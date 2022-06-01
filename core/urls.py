@@ -83,7 +83,8 @@ urlpatterns = [
     re_path(r'^fe/refer/get/bonus/$', views.front_refer_and_get_bonusPoint, name='frontReferGet500Bonus'),
     re_path(r'^fe/(?P<username>[-\w]+)/(?P<referal_code>[-\w]+)/$', views.front_track_and_give_bonus_to_referer, name='frontTrackReferer'),
 
-    re_path(r'^fe/logout/user/$', views.front_logoutUser, name='frontEndLogoutUser'),
+    # re_path(r'^fe/logout/shopper/$', views.frontLogouShopper, name='frontEndLogoutUser'),
+    re_path(r'^front/logg_out/user/$', views.frontLogoutShopper, name='frontLoggOutShopper'),
     re_path(r'^fe/update/profile/pircture/$', views.front_updateProfile_picture, name='frontUpdateProfilePic'),
     re_path(r'^fe/update/user/username/$', views.front_update_username, name='frontUpdateUserUsername'),
     re_path(r'^fe/update/internal/password/$', views.front_update_internal_password, name='frontUpdateInternalPassword'),
@@ -124,6 +125,7 @@ urlpatterns = [
     re_path(r'^fe/game/terms/policies/$', views.front_game_terms_policies, name='frontGameTermsPolicies'),
 
     # policy section
+    re_path(r'^fe/beta/test/terms/condition/$', views.front_BetatestTerms_andCondition, name='frontBetaTestTermsCondition'),
     re_path(r'^fe/refund/policy/$', views.front_refund_policy, name='frontRefundPolicy'),
     re_path(r'^fe/return/policy/$', views.front_return_policy, name='frontReturnPolicy'),
     re_path(r'^fe/security/policy/$', views.front_security_policy, name='frontSecurityPolicy'),

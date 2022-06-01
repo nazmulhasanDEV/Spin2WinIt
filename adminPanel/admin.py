@@ -43,5 +43,14 @@ admin.site.register(CustomerMessageList)
 admin.site.register(VisitorInfo)
 admin.site.register(TotalNumVisitor)
 
+# policy part
+admin.site.register(BetaTestTermsConditions)
+admin.site.register(DeliveryPolicy)
+
+# package name section starts************************
+admin.site.register(PackageNameList)
+admin.site.register(PackageOptions)
+
+
 # how it works section
 admin.site.register(HowSpinIt2WinWorks)
