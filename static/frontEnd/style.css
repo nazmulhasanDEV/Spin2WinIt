@@ -731,17 +731,20 @@ textarea:focus {
 .slider-active .owl-nav div.owl-next, .product-active .owl-nav div.owl-next {
 	right: 0;
 	left: auto;
+	background: none !important;
 }
 .slider-active .owl-nav > .owl-prev > i,
 .product-active .owl-nav > .owl-prev > i, 
 .slider-active .owl-nav > .owl-next > i,
 .product-active .owl-nav > .owl-next > i {
-	font-size: 55px;
+	font-size: 45px;
 	font-weight: 700;
+	background: none !important;
 }
 /*Product Active Nav Direction*/
 .product-active .owl-nav div.owl-prev {
 	left: -20px;
+	background: none !important;
 }
 .product-active:hover .owl-nav div.owl-prev {
 	top: 55%;
