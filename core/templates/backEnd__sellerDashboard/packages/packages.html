@@ -1,0 +1,99 @@
+{% extends 'backEnd__sellerDashboard/index.html' %}
+{% load static %}
+
+{% block seller_all_packages_css_block %}
+<link rel="stylesheet" href="{% static 'seller_dashboard/home.css' %}">
+{% endblock %}
+
+{% block main_block %}
+
+<!--   django message         -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"
+                 {% endif %}>
+                <strong>{{ message }}!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+<!-- ends django message -->
+
+
+<div class="container-fluid">
+    <div class="row" id="home_package_section">
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title">
+                        <h2 class="text-center">Our Packages! </h2>
+                        <p class="text-center">Let's invest and make money from toady</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                {% if package_list %}
+                {% for package in package_list %}
+                <div class="col-md-3 content_box">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="box box-widget widget-user-2">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="title_subtitle">
+                            <h6 class="text-center packageName">{{package.name.name}}</h6>
+                            <h6 class="text-center prev"><del>${{package.old_price}} CAD</del></h6>
+                            <h6 class="text-center current_price">
+                                <span class="crnt">${{package.price}} CAD</span>
+                                <span class="duration">/Month</span>
+                            </h6>
+                        </div>
+                        <div class="box-footer no-padding">
+                            <ul class="nav nav-stacked options">
+                                {% if package.options %}
+                                {% for x in package.options.all %}
+                                <li class="text-center"><a href="#">{{x.option}} </a></li>
+                                {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+
+                        <div class="invest_and_explore_details">
+                            <a href="{% url 'sellerPayForPackagePurchasing' package_id=package.package_id %}" class="package_buy_btn">
+                                <button type="button">invest now</button>
+                            </a>
+                            <a href="{% url 'sellerPackageDetails' package_id=package.package_id %}" class="explore_details">
+                                <button type="button">Explore Details</button>
+                            </a>
+                        </div>
+
+                    </div>
+                    <!-- /.widget-user -->
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block dropzone_block %}
+
+<script>
+</script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}
+

@@ -1,0 +1,140 @@
+{% extends 'backEnd__sellerDashboard/index.html' %}
+{% load static %}
+
+{% block seller_all_packages_css_block %}
+<link rel="stylesheet" href="{% static 'seller_dashboard/home.css' %}">
+{% endblock %}
+
+{% block main_block %}
+<div class="container-fluid">
+    <div class="row" id="home_package_section">
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title">
+                        <h2 class="text-center">Pay & Start to Get Profit! </h2>
+                        <p class="text-center">Purchase and make money from toady</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-12" style="background: rgba(128,128,128, 0.1);">
+                            <h2>Checkout</h2>
+                        </div>
+                        <div class="col-md-5 content_box">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="box box-widget widget-user-2">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="title_subtitle">
+                            <h6 class="text-center packageName">{{current_package.name.name}}</h6>
+                            <h6 class="text-center prev"><del>${{current_package.old_price}} CAD</del></h6>
+                            <h6 class="text-center current_price">
+                                <span class="crnt">${{current_package.price}} CAD</span>
+                                <span class="duration">/Month</span>
+                            </h6>
+                        </div>
+                        <div class="box-footer no-padding">
+                            <ul class="nav nav-stacked options">
+                                {% if current_package.options %}
+                                {% for option in current_package.options.all %}
+                                <li class="text-center"><a href="#">{{option.option}} </a></li>
+                                {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+
+                        <div class="invest_and_explore_details">
+                            <a href="#" class="explore_details" style="width: 100%;">
+                                <button type="button">Explore Details</button>
+                            </a>
+                        </div>
+
+                    </div>
+                    <!-- /.widget-user -->
+                </div>
+                        <div class="col-md-7 content_box">
+                            <div class="box box-widget widget-user-2" style="margin-top: 8px; padding: 15px;">
+                                <div style="padding-bottom: 15px;">
+                                    <h4><strong>Total payable amount:</strong> ${{current_package.price}}</h4>
+                                </div>
+                                <!-- paypal button -->
+                                <div id="paypal-button-container"></div>
+                                <!-- paypal button ends-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block payment_integration_block_for_packagePurchase %}
+<!--AZCZ-SPWtsvWifDAEVsJwDwndfhyNBvbzaPyRWf9-Uqfp7vN55ZN60D3szeGs32QkClayqGw65DjpFkF-->
+<script src="https://www.paypal.com/sdk/js?client-id=AcAWRV3bad-SO2OtqY-HdU2lO24a23hLfwJygHg5pj0Rpj0VehocsqOF4jtdqvAAZMgK525Pe0dor0lE&currency=USD"></script>
+
+<script>
+      paypal.Buttons({
+        // Sets up the transaction when a payment button is clicked
+        createOrder: (data, actions) => {
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: '{{current_package.price}}' // Can also reference a variable or function
+              }
+            }]
+          });
+        },
+        // Finalize the transaction after payer approval
+        onApprove: (data, actions) => {
+          return actions.order.capture().then(function(orderData) {
+            // Successful capture! For dev/demo purposes:
+            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+            const transaction = orderData.purchase_units[0].payments.captures[0];
+            //alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+            // When ready to go live, remove the alert and show a success message within this page. For example:
+            //const element = document.getElementById('paypal-button-container');
+            //element.innerHTML = '<h3>Thank you for your payment!</h3>';
+            //actions.redirect('');
+
+            // ajax request
+            $.ajax({
+                url: '/seller/pay/for/package/purchase/{{current_package.package_id}}/',
+                type: 'get',
+                data: {
+                    paid_amount: "{{current_package.price}}",
+                    package_id: "{{current_package.package_id}}",
+                    order_data: JSON.stringify(orderData, null, 2),
+                },
+                success: function(response){
+                    console.log("Success");
+                },
+            });
+            // ajax
+
+            // Simulate a mouse click:
+            window.location.href = "/seller/package/payment/success/{{request.user.username}}/";
+
+          });
+        }
+      }).render('#paypal-button-container');
+
+
+
+</script>
+
+{% endblock %}
+
+{% block dropzone_block %}
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}
+

@@ -58,6 +58,11 @@
                                 <input type="number" value="{{current_package.price}}" name="package_price" class="form-control" placeholder="Package price">
                             </div>
 
+                            <div class="col-md-6 point_amnt_as_prize" style="margin-top: 8px;">
+                                <label>Specify Package Old Price</label>
+                                <input type="number" name="package_old_price" value="{{current_package.old_price}}" class="form-control" step="0.001" placeholder="Package old price">
+                            </div>
+
                         </div>
 
                         <div class="row form-group">
@@ -114,164 +119,9 @@
 </div>
 
 
-<!--data tables*******************************************-->
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <section class="content-header">
-                <h1>
-                    Current Package List
-                </h1>
-            </section>
-        </div>
-    </div>
-
-    <br><br>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">Current Package List</h3>
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Package ID</th>
-                                    <th>Package Name</th>
-                                    <th>Package Price</th>
-                                    <th>Package Status</th>
-                                    <th class="text-center">Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% if current_package_list %}
-                                {% for x in current_package_list %}
-                                <tr>
-                                    <td>{{x.package_id}}</td>
-                                    <td>{{x.name.name}}</td>
-                                    <td>{{x.price}}</td>
-
-                                    {% if x.status %}
-                                    <td>Active</td>
-                                    {% else %}
-                                    <td>Not Active</td>
-                                    {% endif %}
-                                    <td class="text-center">
-
-                                        {% if x.status %}
-                                        <a href="{% url 'apDe_ActivatePackage' pk=x.pk %}">
-                                            <button type="button" style="border:none; background: #222D32;color:white;">
-                                                De-Activate</button>
-                                        </a>
-                                        {% else %}
-                                        <a href="{% url 'apActivatePackage' pk=x.pk %}">
-                                            <button type="button" style="border:none; background: #222D32;color:white;">
-                                                Activate</button>
-                                        </a>
-                                        {% endif %}
-
-                                        <a href="{% url 'apUpdateSegmentSetting' pk=x.pk %}">
-                                            <button type="button" style="border:none; background: #00C0EF;color:white;">
-                                                <i class="fas fa-edit"></i> Update</button>
-                                        </a>
-
-                                        <!-- modal for deleting object-->
-
-                                        <button type="button" style="border:none; background: #FF0000;color:white;" data-toggle="modal"
-                                                data-target="#remove{{x.pk}}">
-                                                <i class="fas fa-backspace"></i> Remove
-                                        </button>
-
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="remove{{x.pk}}" tabindex="-1" role="dialog"
-                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title text-left" id="exampleModalLabel">Are you confirm to delete this?</h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Close
-                                                        </button>
-                                                        <a href="{% url 'apDeleteSegmentSetting' pk=x.pk %}">
-                                                            <button type="button" class="btn btn-primary">
-                                                                Confirm
-                                                            </button>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--                                        modal for deleting object ends-->
-
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                                {% endif %}
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>Package ID</th>
-                                    <th>Package Name</th>
-                                    <th>Package Price</th>
-                                    <th>Package Status</th>
-                                    <th class="text-center">Action</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
-                <!-- /.col -->
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}
 
 {% block dropzone_block %}
-
-<script>
-    const segment_prize__type = document.querySelector('#segment_prize__type');
-    const sgmnt_product_as_prize = document.querySelector('.sgmnt_product_as_prize');
-    const point_amnt_as_prize = document.querySelector('.point_amnt_as_prize');
-
-    const sgmnt_stting_sbmit_btn = document.querySelector('.sgmnt_stting_sbmit_btn');
-
-    sgmnt_product_as_prize.style.display = 'none';
-
-    segment_prize__type.onchange = (e)=>{
-        if (e.target.value === 'product'){
-            sgmnt_product_as_prize.style.display = 'inherit';
-            sgmnt_product_as_prize.required = true;
-
-            point_amnt_as_prize.style.display = 'none';
-            point_amnt_as_prize.required = false;
-        }if (e.target.value === 'point') {
-            sgmnt_product_as_prize.style.display = 'none';
-            sgmnt_product_as_prize.required = false;
-
-            point_amnt_as_prize.style.display = 'inherit';
-            point_amnt_as_prize.required = true;
-        }
-
-    }
-</script>
-
-<script>
-</script>
-
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
 {% endblock %}

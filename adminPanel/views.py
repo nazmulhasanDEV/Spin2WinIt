@@ -2390,6 +2390,7 @@ def ap_add_package(request):
     if request.method == 'POST':
         name_id = request.POST.get('package_name')
         package_price = request.POST.get('package_price')
+        package_old_price = request.POST.get('package_old_price')
         package_products = request.POST.getlist('package_products')
         package_options = request.POST.getlist('package_options')
 
@@ -2401,6 +2402,7 @@ def ap_add_package(request):
                 package_id=package_uniqe_id,
                 name=package_name,
                 price=package_price,
+                old_price=package_old_price,
             )
             for id in package_products:
                 product = get_object_or_404(ProductList, pk=id)
@@ -2481,12 +2483,15 @@ def ap_update_package(request, pk):
     if request.method == 'POST':
         name_id = request.POST.get('package_name')
         package_price = request.POST.get('package_price')
+        package_old_price = request.POST.get('package_old_price')
         package_products = request.POST.getlist('package_products')
         package_options = request.POST.getlist('package_options')
 
         if name_id and package_price and package_products and package_options:
 
             current_package.package_name = get_object_or_404(PackageNameList, pk=name_id)
+            current_package.price = package_price
+            current_package.old_price = package_old_price
             current_package.save()
 
             # clearing previous objects

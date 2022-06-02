@@ -1,3 +1,50 @@
+.explore_package .explore_package_content .card .header {
+    /*background-color: #C8892C !important;*/
+    background-color: #8EBD53 !important;
+    /*background-color: black !important;*/
+}
+
+.explore_package .explore_package_content .card .header .packageName {
+    /*color: white;*/
+     color: #293A6C;
+}
+
+.explore_package .explore_package_content .card .card-body a button{
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    text-transform: uppercase;
+}
+
+.explore_package .explore_package_content .card .card-body a .invest__now {
+    background: #293A6C;
+    color: white;
+    height: 35px;
+}
+
+.explore_package .explore_package_content .card .card-body a .explore__details {
+    background: #8EBD53;
+    color: white;
+    height: 35px;
+}
+
+.explore_package .explore_package_content .card .header .prev {
+    font-size: 14px;
+     color: #293A6C;
+}
+
+.explore_package .explore_package_content .card .header .current_price .crnt{
+    font-size: 18px;
+    color: white;
+}
+
+.explore_package .explore_package_content .card .header .current_price .duration{
+    font-size: 12px;
+     color: #293A6C;
+}
+
 /* slider starts**************** */
 
 #top__brands__section {

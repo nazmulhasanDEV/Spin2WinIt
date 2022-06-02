@@ -1,0 +1,105 @@
+{% extends 'backEnd__sellerDashboard/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<div class="container-fluid">
+    <div class="row" id="home_package_section">
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="text-center" style="background: rgba(128,128,128, 0.1); width: 100%; margin-top: 5%; margin-bottom: 20px; padding: 10px;">
+                        <div>
+                            <h3><strong>Package Details</strong></h3>
+                        </div>
+                        <div>
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Package Name</th>
+                                    <th class="text-center">Package Old Price</th>
+                                    <th class="text-center">Package New Price</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if current_package %}
+                                <tr>
+                                    <td>{{current_package.name.name}}</td>
+                                    <td>{{current_package.old_price}}</td>
+                                    <td>{{current_package.price}}</td>
+                                </tr>
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div>
+                            <h4>Package Optoins</h4>
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Package Options</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if current_package %}
+                                {% for option in current_package.options.all %}
+                                <tr>
+                                    <td>{{option.pk}}</td>
+                                    <td>{{option.option}}</td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div>
+                            <h4>Package Products</h4>
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Product Title</th>
+                                    <th>Current price</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if current_package %}
+                                {% for x in current_package.products.all %}
+                                <tr>
+                                    <td>{{x.product_id}}</td>
+                                    <td>{{x.title|striptags|truncatechars:55}}</td>
+                                    <td>{% if x.product_type == 'wsp' %} {{x.price|floatformat:2}} {% else %} {{x.new_price|floatformat:2}} {% endif %}</td>
+                                    <td class="text-center">
+                                        <a href="{% url 'frontEndProductDetails' product_id=x.product_id %}">
+                                            <button type="button" style="border:none; background: #222D32;color:white;">
+                                                Details</button>
+                                        </a>
+
+<!--                                        <a href="">-->
+<!--                                            <button type="button" style="border:none; background: #00C0EF;color:white;">-->
+<!--                                                <i class="fas fa-edit"></i> Update</button>-->
+<!--                                        </a>-->
+
+                                        <!-- modal for deleting object-->
+
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -9,6 +9,7 @@ urlpatterns = [
 
     re_path(r'^fe/index/$', views.front_index, name="frontEndIndex"),
     re_path(r'^$', views.front_home, name='frontEndHome'),
+    re_path(r'^fe/all/available/packges/$', views.front_all_packages, name='frontAllAvailabePackages'),
 
     # checkbox captcha solving and bonus
     re_path(r'^fe/checkbox/captcha/bonus/$', views.front_checkBoxCaptchaBonus, name='frontCheckBoxCaptchaBonus'),

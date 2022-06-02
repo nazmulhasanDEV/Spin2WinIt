@@ -1,0 +1,27 @@
+{% extends 'backEnd__sellerDashboard/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<div class="container-fluid">
+    <div class="row" id="home_package_section">
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="text-center" style="background: rgba(128,128,128, 0.1); width: 100%; margin-top: 15%; padding: 10px;">
+                        <h1 class="text-center" style="color: green;"><i class="fas fa-check-square"></i></h1>
+                        <h1 class="text-center">Congratulations!</h1>
+                        <h3 class="text-center">Your package has been successfully purchased!</h3>
+                        <a href="/seller/dashboard/{{request.user.username}}">
+                            <button type="button">Back to Home</button>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

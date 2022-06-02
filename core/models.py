@@ -143,10 +143,15 @@ class PackageList(models.Model):
     package_id = models.CharField(max_length=20, blank=True, null=True)
     name = models.ForeignKey(PackageNameList, on_delete=models.CASCADE)
     price = models.FloatField(default=0.0)
+    old_price = models.FloatField(default=0.0)
     options = models.ManyToManyField(PackageOptions)
     products = models.ManyToManyField(ProductList)
 
     status = models.BooleanField(default=False, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        self.package_id = self.package_id + str(self.pk)
+        super(PackageList, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name.name + "||" + str(self.price)

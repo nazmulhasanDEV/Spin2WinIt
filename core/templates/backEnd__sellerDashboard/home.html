@@ -106,121 +106,59 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="title">
-                        <h2 class="text-center">Our awesome package with at least 10% guaranteed profit! </h2>
+                        <h2 class="text-center">Our awesome package with minimum 10% guaranteed profit! </h2>
                         <p class="text-center">Let's invest and make money from toady</p>
                     </div>
                 </div>
             </div>
 
+            <div class="row explore_all_packages">
+                <div class="col-md-12">
+                    <a href="{% url 'sellerAllThePackages' %}">
+                        <button type="button">Explore all packages <i class="fas fa-arrow-right"></i></button>
+                    </a>
+                </div>
+            </div>
+
             <div class="row">
-                <div class="col-md-4 content_box">
+                {% if package_list %}
+                {% for package in package_list %}
+                <div class="col-md-3 content_box">
                     <!-- Widget: user widget style 1 -->
                     <div class="box box-widget widget-user-2">
                         <!-- Add the bg color to the header using any of the bg-* classes -->
                         <div class="title_subtitle">
-                            <!--              <div class="widget-user-image">-->
-                            <!--                <img class="img-circle" src="{% static 'backEnd/dist/img/user7-128x128.jpg' %}" alt="User Avatar">-->
-                            <!--              </div>-->
-                            <!-- /.widget-user-image -->
-                            <h6 class="text-center packageName">Package Name</h6>
-                            <h6 class="text-center prev"><del>$150 CAD</del></h6>
+                            <h6 class="text-center packageName">{{package.name.name}}</h6>
+                            <h6 class="text-center prev"><del>${{package.old_price}} CAD</del></h6>
                             <h6 class="text-center current_price">
-                                <span class="crnt">$100 CAD</span>
+                                <span class="crnt">${{package.price}} CAD</span>
                                 <span class="duration">/Month</span>
                             </h6>
                         </div>
                         <div class="box-footer no-padding">
                             <ul class="nav nav-stacked options">
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
+                                {% if package.options %}
+                                {% for x in package.options.all %}
+                                <li class="text-center"><a href="#">{{x.option}} </a></li>
+                                {% endfor %}
+                                {% endif %}
                             </ul>
                         </div>
 
-                        <a href="#" class="package_buy_btn">
-                            <button type="button">invest now</button>
-                        </a>
-                    </div>
-                    <!-- /.widget-user -->
-                </div>
-                <div class="col-md-4 content_box">
-                    <!-- Widget: user widget style 1 -->
-                    <div class="box box-widget widget-user-2">
-                        <!-- Add the bg color to the header using any of the bg-* classes -->
-                        <div class="title_subtitle">
-                            <!--              <div class="widget-user-image">-->
-                            <!--                <img class="img-circle" src="{% static 'backEnd/dist/img/user7-128x128.jpg' %}" alt="User Avatar">-->
-                            <!--              </div>-->
-                            <!-- /.widget-user-image -->
-                            <h6 class="text-center packageName">Package Name</h6>
-                            <h6 class="text-center prev"><del>$150 CAD</del></h6>
-                            <h6 class="text-center current_price">
-                                <span class="crnt">$100 CAD</span>
-                                <span class="duration">/Month</span>
-                            </h6>
-                        </div>
-                        <div class="box-footer no-padding">
-                            <ul class="nav nav-stacked options">
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                            </ul>
+                        <div class="invest_and_explore_details">
+                            <a href="{% url 'sellerPayForPackagePurchasing' package_id=package.package_id %}" class="package_buy_btn">
+                                <button type="button">invest now</button>
+                            </a>
+                            <a href="{% url 'sellerPackageDetails' package_id=package.package_id %}" class="explore_details">
+                                <button type="button">Explore Details</button>
+                            </a>
                         </div>
 
-                        <a href="#" class="package_buy_btn">
-                            <button type="button">invest now</button>
-                        </a>
                     </div>
                     <!-- /.widget-user -->
                 </div>
-                <div class="col-md-4 content_box">
-                    <!-- Widget: user widget style 1 -->
-                    <div class="box box-widget widget-user-2">
-                        <!-- Add the bg color to the header using any of the bg-* classes -->
-                        <div class="title_subtitle">
-                            <!--              <div class="widget-user-image">-->
-                            <!--                <img class="img-circle" src="{% static 'backEnd/dist/img/user7-128x128.jpg' %}" alt="User Avatar">-->
-                            <!--              </div>-->
-                            <!-- /.widget-user-image -->
-                            <h6 class="text-center packageName">Package Name</h6>
-                            <h6 class="text-center prev"><del>$150 CAD</del></h6>
-                            <h6 class="text-center current_price">
-                                <span class="crnt">$100 CAD</span>
-                                <span class="duration">/Month</span>
-                            </h6>
-                        </div>
-                        <div class="box-footer no-padding">
-                            <ul class="nav nav-stacked options">
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                                <li class="text-center"><a href="#">Projects </a></li>
-                            </ul>
-                        </div>
-
-                        <a href="#" class="package_buy_btn">
-                            <button type="button">invest now</button>
-                        </a>
-                    </div>
-                    <!-- /.widget-user -->
-                </div>
+                {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>

@@ -2,6 +2,15 @@
 {% load static %}
 {% load tag_library %}
 
+{% block front_home_owl_carousel_css %}
+<!-- owl carousel  -->
+<link rel="stylesheet" href="{% static 'seller_dashboard/owl_carousel/owl.carousel.css' %}"/>
+<link rel="stylesheet" href="{% static 'seller_dashboard/owl_carousel/owl.carousel.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'seller_dashboard/owl_carousel/owl.theme.default.css' %}"/>
+<link rel="stylesheet" href="{% static 'seller_dashboard/owl_carousel/custom.css' %}"/>
+
+{% endblock %}
+
 {% block main_block %}
 
 <!-- Begin Slider With Category Menu Area -->
@@ -124,10 +133,10 @@
 
                     <div class="swiper mySwiper container">
                         <div class="swiper-wrapper content">
-<!--                            <div class="swiper-slide" id="swiper__slider__content1">-->
-<!--                                <script async-->
-<!--                                        src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
-<!--                            </div>-->
+                            <!--                            <div class="swiper-slide" id="swiper__slider__content1">-->
+                            <!--                                <script async-->
+                            <!--                                        src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
+                            <!--                            </div>-->
 
                             {% if home_pg_mini_top_slidr %}
                             {% for x in home_pg_mini_top_slidr %}
@@ -164,10 +173,10 @@
 
                     <div class="swiper adsVidSwiper2 container">
                         <div class="swiper-wrapper content">
-<!--                            <div class="swiper-slide" id="swiper__slider__content2">-->
-<!--                                <script async-->
-<!--                                        src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
-<!--                            </div>-->
+                            <!--                            <div class="swiper-slide" id="swiper__slider__content2">-->
+                            <!--                                <script async-->
+                            <!--                                        src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
+                            <!--                            </div>-->
                             {% if home_pg_bottom_slidr %}
                             {% for x in home_pg_bottom_slidr %}
                             <div class="swiper-slide">
@@ -247,55 +256,55 @@
 <!-- Begin Li's Static Banner Area -->
 <div class="li-static-banner pt-20 pt-sm-30">
     <div class="container">
-<!--        <div class="row">-->
-<!--            &lt;!&ndash; Begin Single Banner Area &ndash;&gt;-->
-<!--            <div class="col-lg-4 col-md-4 text-center">-->
-<!--                <div class="single-banner pb-xs-30">-->
-<!--                    <script async-->
-<!--                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
-<!--                    &lt;!&ndash;                                <a href="#">&ndash;&gt;-->
-<!--                    &lt;!&ndash;                                    <img src="{% static 'frontEnd/images/banner/1_3.jpg' %}" alt="Li's Static Banner">&ndash;&gt;-->
-<!--                    &lt;!&ndash;                                </a>&ndash;&gt;-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            &lt;!&ndash; Single Banner Area End Here &ndash;&gt;-->
-<!--            &lt;!&ndash; Begin Single Banner Area &ndash;&gt;-->
-<!--            <div class="col-lg-4 col-md-4 text-center">-->
-<!--                <div class="single-banner pb-xs-30">-->
-<!--                    <script async-->
-<!--                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
-<!--                    &lt;!&ndash;                                <a href="#">&ndash;&gt;-->
-<!--                    &lt;!&ndash;                                    <img src="{% static 'frontEnd/images/banner/1_4.jpg' %}" alt="Li's Static Banner">&ndash;&gt;-->
-<!--                    &lt;!&ndash;                                </a>&ndash;&gt;-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            &lt;!&ndash; Single Banner Area End Here &ndash;&gt;-->
-<!--            &lt;!&ndash; Begin Single Banner Area &ndash;&gt;-->
-<!--            <div class="col-lg-4 col-md-4 text-center">-->
-<!--                <div class="single-banner">-->
-<!--                    <script async-->
-<!--                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
-<!--                    &lt;!&ndash;                                <a href="#">&ndash;&gt;-->
-<!--                    &lt;!&ndash;                                    <img src="{% static 'frontEnd/images/banner/1_5.jpg' %}" alt="Li's Static Banner">&ndash;&gt;-->
-<!--                    &lt;!&ndash;                                </a>&ndash;&gt;-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            &lt;!&ndash; Single Banner Area End Here &ndash;&gt;-->
-<!--        </div>-->
-            <div class="row" style="margin-top: 40px;">
-                <div class="col-md-6">
-                            <!--yllx 468x60 starts &*************************************-->
-                            <script type="text/javascript"
-                                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
-                            <!--yllx ends here **********************************-->
-                        </div>
-                <div class="col-md-6">
-                            <!--yllx 468x60 starts &*************************************-->
-                            <script type="text/javascript"
-                                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
-                            <!--yllx ends here **********************************-->
-                        </div>
+        <!--        <div class="row">-->
+        <!--            &lt;!&ndash; Begin Single Banner Area &ndash;&gt;-->
+        <!--            <div class="col-lg-4 col-md-4 text-center">-->
+        <!--                <div class="single-banner pb-xs-30">-->
+        <!--                    <script async-->
+        <!--                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
+        <!--                    &lt;!&ndash;                                <a href="#">&ndash;&gt;-->
+        <!--                    &lt;!&ndash;                                    <img src="{% static 'frontEnd/images/banner/1_3.jpg' %}" alt="Li's Static Banner">&ndash;&gt;-->
+        <!--                    &lt;!&ndash;                                </a>&ndash;&gt;-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            &lt;!&ndash; Single Banner Area End Here &ndash;&gt;-->
+        <!--            &lt;!&ndash; Begin Single Banner Area &ndash;&gt;-->
+        <!--            <div class="col-lg-4 col-md-4 text-center">-->
+        <!--                <div class="single-banner pb-xs-30">-->
+        <!--                    <script async-->
+        <!--                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
+        <!--                    &lt;!&ndash;                                <a href="#">&ndash;&gt;-->
+        <!--                    &lt;!&ndash;                                    <img src="{% static 'frontEnd/images/banner/1_4.jpg' %}" alt="Li's Static Banner">&ndash;&gt;-->
+        <!--                    &lt;!&ndash;                                </a>&ndash;&gt;-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            &lt;!&ndash; Single Banner Area End Here &ndash;&gt;-->
+        <!--            &lt;!&ndash; Begin Single Banner Area &ndash;&gt;-->
+        <!--            <div class="col-lg-4 col-md-4 text-center">-->
+        <!--                <div class="single-banner">-->
+        <!--                    <script async-->
+        <!--                            src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
+        <!--                    &lt;!&ndash;                                <a href="#">&ndash;&gt;-->
+        <!--                    &lt;!&ndash;                                    <img src="{% static 'frontEnd/images/banner/1_5.jpg' %}" alt="Li's Static Banner">&ndash;&gt;-->
+        <!--                    &lt;!&ndash;                                </a>&ndash;&gt;-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            &lt;!&ndash; Single Banner Area End Here &ndash;&gt;-->
+        <!--        </div>-->
+        <div class="row" style="margin-top: 40px;">
+            <div class="col-md-6">
+                <!--yllx 468x60 starts &*************************************-->
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+                <!--yllx ends here **********************************-->
             </div>
+            <div class="col-md-6">
+                <!--yllx 468x60 starts &*************************************-->
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+                <!--yllx ends here **********************************-->
+            </div>
+        </div>
     </div>
 </div>
 <!--static banner section  ends-->
@@ -481,6 +490,281 @@
 <!--</section>-->
 <!-- top  brands section ends -->
 <br><br><br>
+
+<!--prize section-->
+<section class="product-area li-laptop-product pt-60 pb-45">
+    <div class="container">
+        <!--        background: #293A6C; box-shadow: 1px 1px 5px 1px gray; padding-top: 20px;-->
+        <div class="row" style="margin-top: -50px;">
+            <!-- Begin Li's Section Area -->
+            <div class="col-lg-12">
+                <div class="li-section-title product_area_title_section" style="width: 100%;position: relative;">
+                    <h2>
+                        <span>Prizes To Win</span>
+                        <a href="{% url 'frontGame' %}" style="position: absolute;right: 0px;cursor: pointer;">
+                            <button type="button"
+                                    style="border: none;outline: none;background-color: #293A6C;cursor: pointer;font-size: 15px;padding: 10px;color: white;text-transform: uppercase;">
+                                Play Now
+                            </button>
+                        </a>
+                    </h2>
+                    <!-- <ul class="li-sub-category-list">
+                         <li class="active">
+                             <a href="shop-left-sidebar.html">Prime Video</a>
+                         </li>
+                         <li><a href="shop-left-sidebar.html">Computers</a></li>
+                         <li><a href="shop-left-sidebar.html">Electronics</a></li>
+                     </ul>-->
+                </div>
+                <div class="row">
+                    <div class="product-active owl-carousel">
+                        {% if current_sponsoredGamePrizes %}
+                        {% for y in current_sponsoredGamePrizes %}
+
+                        {% if y.product.product_type == 'wsp' %}
+                        <div class="col-lg-12">
+                            <!-- single-product-wrap start -->
+                            <div class="single-product-wrap" style="height: 370px; max-height: 370px;">
+                                <div class="product-image" style="height: 220px; max-height: 220px;">
+                                    <a href="/fe/product/details/{{y.product.product_id}}" style="height: 100%;">
+                                        {% if y.product.product_thumbnail %}
+                                        <img src="{{y.product.product_thumbnail.url}}" alt="Li's Product Image"
+                                             style="width: 100%;height: 100%;"/>
+                                        {% else %}
+                                        {% if y.product.productImg %}
+                                        {% for img in y.product.productImg.all %}
+
+                                        {% if forloop.counter == 1 %}
+                                        {% if img.img %}
+                                        <img src="{{img.img.url}}" alt="Li's Product Image"
+                                             style="width: 100%;height: 100%;"/>
+                                        {% else %}
+                                        <img src="{{img.img_link}}" alt="Li's Product Image"
+                                             style="width: 100%;height: 100%;"/>
+                                        {% endif %}
+                                        {% endif %}
+
+                                        {% endfor %}
+                                        {% else %}
+                                        <img src="" alt="Li's Product Image"/>
+                                        {% endif %}
+                                        {% endif %}
+                                    </a>
+                                    <!--                                    <span class="sticker">New</span>-->
+                                </div>
+                                <div class="product_desc">
+                                    <div class="product_desc_info">
+                                        <!--                                        <div class="product-review">-->
+                                        <!--                                                                                        <h5 class="manufacturer">-->
+                                        <!--                                                                                            <a href="shop-left-sidebar.html"-->
+                                        <!--                                                                                            >{{y.brand_name}}</a-->
+                                        <!--                                                                                            >-->
+                                        <!--                                                                                        </h5>-->
+                                        <!--                                            <div class="rating-box">-->
+                                        <!--                                                <ul class="rating">-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li class="no-star">-->
+                                        <!--                                                        <i class="fa fa-star-o"></i>-->
+                                        <!--                                                    </li>-->
+                                        <!--                                                    <li class="no-star">-->
+                                        <!--                                                        <i class="fa fa-star-o"></i>-->
+                                        <!--                                                    </li>-->
+                                        <!--                                                </ul>-->
+                                        <!--                                            </div>-->
+                                        <!--                                        </div>-->
+                                        <h4 style="text-align: justify; margin-top: 10px;">
+                                            <a class="product_name" href="/fe/product/details/{{y.product.product_id}}">{{y.product.title|safe|truncatechars:48}}</a
+                                            >
+                                        </h4>
+                                        <div class="price-box">
+                                            <span class="new-price">${{y.product.price|floatformat:2}}</span>
+                                            {% if y.regular_price %}
+                                            <span class="old-price">${{y.product.regular_price|floatformat:2}}</span>
+                                            {% endif %}
+                                            <!--                                            <span class="discount-percentage">-7%</span>-->
+                                        </div>
+                                        <a href="/fe/game" style="width: 100%;">
+                                                <button type="button" style="width: 100%; border:none;outline: none; background: #293A6C; cursor: pointer; margin-top: 10px;color: white;">Let's Play</button>
+                                            </a>
+                                    </div>
+                                    <!--                                     cart button section starts**************************-->
+<!--                                    <div class="add-actions">-->
+<!--                                        <ul class="add-actions-link">-->
+<!--                                            <li class="add-cart active">-->
+<!--                                                <a href="{% url 'frontAddToCart' product_id=y.product.product_id %}">Add to-->
+<!--                                                    cart</a>-->
+<!--                                            </li>-->
+<!--                                            <li>-->
+<!--                                                <a-->
+<!--                                                        class="links-details"-->
+<!--                                                        href="{% url 'frontAddToWishlist' product_id=y.product.product_id %}"-->
+<!--                                                        data-toggle="tooltip" data-placement="bottom"-->
+<!--                                                        title="Add to wishlist"><i class="fas fa-heart"></i></a>-->
+<!--                                            </li>-->
+<!--                                            &lt;!&ndash;                                            <li>&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                                <a&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                                        class="quick-view"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                                        data-toggle="modal"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                                        data-target="#product_toggle_{{y.product_id}}"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                                        href="#" data-toggle="tooltip" data-placement="bottom"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                                        title="Add to compare"&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                                ><i class="fas fa-list"></i></a>&ndash;&gt;-->
+<!--                                            &lt;!&ndash;                                            </li>&ndash;&gt;-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+                                    <!--                                     cart button section starts**************************-->
+                                </div>
+                            </div>
+                            <!-- single-product-wrap end -->
+                        </div>
+                        {% else %}
+                        <div class="col-lg-12">
+                            <!-- single-product-wrap start -->
+                            <div class="single-product-wrap"
+                                 style="height: 370px; max-height: 370px; position: relative;">
+                                <div class="product-image">
+                                    <a href="/fe/product/details/{{y.product.product_id}}">
+                                        <img src="{{y.product.product_thumbnail.url}}"
+                                             alt="Li's Product Image" style="width: 100%;"
+                                        />
+                                    </a>
+                                    <span class="sticker">New</span>
+                                </div>
+                                <div class="product_desc"
+                                     style="padding-left: 10px; padding-bottom: 5px; position: absolute; bottom: 5px;">
+                                    <div class="product_desc_info">
+                                        <!--                                        <div class="product-review">-->
+                                        <!--                                            <h5 class="manufacturer">-->
+                                        <!--                                                <a href="shop-left-sidebar.html"-->
+                                        <!--                                                >{{y.brand_name}}</a-->
+                                        <!--                                                >-->
+                                        <!--                                            </h5>-->
+                                        <!--                                            <div class="rating-box">-->
+                                        <!--                                                <ul class="rating">-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li class="no-star">-->
+                                        <!--                                                        <i class="fa fa-star-o"></i>-->
+                                        <!--                                                    </li>-->
+                                        <!--                                                    <li class="no-star">-->
+                                        <!--                                                        <i class="fa fa-star-o"></i>-->
+                                        <!--                                                    </li>-->
+                                        <!--                                                </ul>-->
+                                        <!--                                            </div>-->
+                                        <!--                                        </div>-->
+                                        <h4>
+                                            <a class="product_name" href="/fe/product/details/{{y.product.product_id}}">{{y.product.title|safe|truncatechars:25}}</a
+                                            >
+                                        </h4>
+                                        <div class="price-box">
+                                            <span class="new-price">${{y.product.new_price}}</span>
+                                            {% if y.product.old_price %}
+                                            <span class="old-price">${{y.product.old_price}}</span>
+                                            {% endif %}
+                                            <!--                                            <span class="discount-percentage">-7%</span>-->
+                                        </div>
+                                    </div>
+                                    <div class="add-actions">
+                                        <ul class="add-actions-link">
+                                            <li class="add-cart active">
+                                                <a href="{% url 'frontAddToCart' product_id=y.product.product_id %}">Add to
+                                                    cart</a>
+                                            </li>
+                                            <li>
+                                                <a class="links-details"
+                                                   href="{% url 'frontAddToWishlist' product_id=y.product.product_id %}"
+                                                   data-toggle="tooltip" data-placement="bottom"
+                                                   title="Add to wishlist"><i class="fas fa-heart"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- single-product-wrap end -->
+                        </div>
+                        {% endif %}
+
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Section Area End Here -->
+        </div>
+    </div>
+</section>
+<!--prize section ends-->
+
+{% if current_package_list %}
+<section class="product-area li-laptop-product pt-60 pb-45 explore_package">
+    <div class="container">
+        <!--        background: #293A6C; box-shadow: 1px 1px 5px 1px gray; padding-top: 20px;-->
+        <div class="row" style="margin-top: -50px;">
+            <!-- Begin Li's Section Area -->
+            <div class="col-lg-12">
+                <div class="li-section-title product_area_title_section" style="width: 100%;position: relative;">
+                    <h2>
+                        <span>Explore Packages</span>
+                        <a href="{% url 'frontAllAvailabePackages' %}" style="position: absolute;right: 0px;cursor: pointer;">
+                            <button type="button"
+                                    style="border: none;outline: none;background-color: #293A6C;cursor: pointer;font-size: 15px;padding: 10px;color: white;text-transform: uppercase;">
+                                View All
+                            </button>
+                        </a>
+                    </h2>
+                    <!-- <ul class="li-sub-category-list">
+                         <li class="active">
+                             <a href="shop-left-sidebar.html">Prime Video</a>
+                         </li>
+                         <li><a href="shop-left-sidebar.html">Computers</a></li>
+                         <li><a href="shop-left-sidebar.html">Electronics</a></li>
+                     </ul>-->
+                </div>
+                <div class="row">
+                    <div class="owl-carousel owl-theme explore_package_content">
+                        {% for package in current_package_list %}
+                        <div class="item" style="min-height: 380px;">
+                            <div class="card" style="width: 100%;">
+                                <div class="card-body header">
+                                    <h6 class="text-center packageName">{{package.name.name}}</h6>
+                                    <h6 class="text-center prev">
+                                        <del>${{package.old_price}} CAD</del>
+                                    </h6>
+                                    <h6 class="text-center current_price">
+                                        <span class="crnt">${{package.price}} CAD</span>
+                                        <span class="duration">/Month</span>
+                                    </h6>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    {% if package.options %}
+                                    {% for x in package.options.all %}
+                                    <li class="list-group-item text-center">{{x.option}}</li>
+                                    {% endfor %}
+                                    {% endif %}
+                                </ul>
+                                <div class="card-body">
+                                    <a href="{% url 'sellerPayForPackagePurchasing' package_id=package.package_id %}">
+                                        <button type="button" class="invest__now">invest now</button>
+                                    </a>
+                                    <a href="{% url 'sellerPackageDetails' package_id=package.package_id %}">
+                                        <button type="button" class="explore__details">explore details</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Section Area End Here -->
+        </div>
+    </div>
+</section>
+{% endif %}
+
 <!-- Begin Li's Laptop Product Area -->
 {% if product_cat_list %}
 {% for x in product_cat_list|slice:'3' %}
@@ -523,16 +807,19 @@
                                 <div class="product-image" style="height: 220px; max-height: 220px;">
                                     <a href="/fe/product/details/{{y.product_id}}" style="height: 100%;">
                                         {% if y.product_thumbnail %}
-                                        <img src="{{y.product_thumbnail.url}}" alt="Li's Product Image" style="width: 100%;height: 100%;" />
+                                        <img src="{{y.product_thumbnail.url}}" alt="Li's Product Image"
+                                             style="width: 100%;height: 100%;"/>
                                         {% else %}
                                         {% if y.productImg %}
                                         {% for img in y.productImg.all %}
 
                                         {% if forloop.counter == 1 %}
                                         {% if img.img %}
-                                        <img src="{{img.img.url}}" alt="Li's Product Image" style="width: 100%;height: 100%;" />
+                                        <img src="{{img.img.url}}" alt="Li's Product Image"
+                                             style="width: 100%;height: 100%;"/>
                                         {% else %}
-                                        <img src="{{img.img_link}}" alt="Li's Product Image" style="width: 100%;height: 100%;" />
+                                        <img src="{{img.img_link}}" alt="Li's Product Image"
+                                             style="width: 100%;height: 100%;"/>
                                         {% endif %}
                                         {% endif %}
 
@@ -546,26 +833,26 @@
                                 </div>
                                 <div class="product_desc">
                                     <div class="product_desc_info">
-<!--                                        <div class="product-review">-->
-<!--                                                                                        <h5 class="manufacturer">-->
-<!--                                                                                            <a href="shop-left-sidebar.html"-->
-<!--                                                                                            >{{y.brand_name}}</a-->
-<!--                                                                                            >-->
-<!--                                                                                        </h5>-->
-<!--                                            <div class="rating-box">-->
-<!--                                                <ul class="rating">-->
-<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
-<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
-<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
-<!--                                                    <li class="no-star">-->
-<!--                                                        <i class="fa fa-star-o"></i>-->
-<!--                                                    </li>-->
-<!--                                                    <li class="no-star">-->
-<!--                                                        <i class="fa fa-star-o"></i>-->
-<!--                                                    </li>-->
-<!--                                                </ul>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
+                                        <!--                                        <div class="product-review">-->
+                                        <!--                                                                                        <h5 class="manufacturer">-->
+                                        <!--                                                                                            <a href="shop-left-sidebar.html"-->
+                                        <!--                                                                                            >{{y.brand_name}}</a-->
+                                        <!--                                                                                            >-->
+                                        <!--                                                                                        </h5>-->
+                                        <!--                                            <div class="rating-box">-->
+                                        <!--                                                <ul class="rating">-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li class="no-star">-->
+                                        <!--                                                        <i class="fa fa-star-o"></i>-->
+                                        <!--                                                    </li>-->
+                                        <!--                                                    <li class="no-star">-->
+                                        <!--                                                        <i class="fa fa-star-o"></i>-->
+                                        <!--                                                    </li>-->
+                                        <!--                                                </ul>-->
+                                        <!--                                            </div>-->
+                                        <!--                                        </div>-->
                                         <h4 style="text-align: justify; margin-top: 10px;">
                                             <a class="product_name" href="/fe/product/details/{{y.product_id}}">{{y.title|safe|truncatechars:48}}</a
                                             >
@@ -622,26 +909,26 @@
                                 <div class="product_desc"
                                      style="padding-left: 10px; padding-bottom: 5px; position: absolute; bottom: 5px;">
                                     <div class="product_desc_info">
-<!--                                        <div class="product-review">-->
-<!--                                            <h5 class="manufacturer">-->
-<!--                                                <a href="shop-left-sidebar.html"-->
-<!--                                                >{{y.brand_name}}</a-->
-<!--                                                >-->
-<!--                                            </h5>-->
-<!--                                            <div class="rating-box">-->
-<!--                                                <ul class="rating">-->
-<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
-<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
-<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
-<!--                                                    <li class="no-star">-->
-<!--                                                        <i class="fa fa-star-o"></i>-->
-<!--                                                    </li>-->
-<!--                                                    <li class="no-star">-->
-<!--                                                        <i class="fa fa-star-o"></i>-->
-<!--                                                    </li>-->
-<!--                                                </ul>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
+                                        <!--                                        <div class="product-review">-->
+                                        <!--                                            <h5 class="manufacturer">-->
+                                        <!--                                                <a href="shop-left-sidebar.html"-->
+                                        <!--                                                >{{y.brand_name}}</a-->
+                                        <!--                                                >-->
+                                        <!--                                            </h5>-->
+                                        <!--                                            <div class="rating-box">-->
+                                        <!--                                                <ul class="rating">-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li class="no-star">-->
+                                        <!--                                                        <i class="fa fa-star-o"></i>-->
+                                        <!--                                                    </li>-->
+                                        <!--                                                    <li class="no-star">-->
+                                        <!--                                                        <i class="fa fa-star-o"></i>-->
+                                        <!--                                                    </li>-->
+                                        <!--                                                </ul>-->
+                                        <!--                                            </div>-->
+                                        <!--                                        </div>-->
                                         <h4>
                                             <a class="product_name" href="/fe/product/details/{{y.product_id}}">{{y.title|safe|truncatechars:25}}</a
                                             >
@@ -696,22 +983,27 @@
     <div class="container">
         <div class="row">
             <div class="col-md-5">
-                <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=17'></script>
+                <script data-cfasync='false' type='text/javascript'
+                        src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=17'></script>
             </div>
             <div class="col-md-3">
                 <div>
                     <h5>Click to this reCaptcha and get 50 points bonus!</h5>
-                    <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data" id="captcha__form">
+                    <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
+                          id="captcha__form">
                         {% csrf_token %}
                         <div id="html_element"></div>
                         <br>
-<!--                        <input type="submit" value="Collect">-->
-                        <button type="submit" class="captcha_submit__btn"><img src="{% static 'frontEnd/images/logo/logo.jpeg' %}" alt=""> &nbsp; Click to Collect</button>
+                        <!--                        <input type="submit" value="Collect">-->
+                        <button type="submit" class="captcha_submit__btn"><img
+                                src="{% static 'frontEnd/images/logo/logo.jpeg' %}" alt=""> &nbsp; Click to Collect
+                        </button>
                     </form>
                 </div>
             </div>
             <div class="col-md-4">
-                <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_0'></script>
+                <script data-cfasync='false' type='text/javascript'
+                        src='//p447162.clksite.com/adServe/banners?tid=447162_875550_0'></script>
             </div>
         </div>
     </div>
@@ -725,26 +1017,29 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div>
-<!--                            <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=15'></script>-->
-                           <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                            <!--                            <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=15'></script>-->
+                            <script type="text/javascript"
+                                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
             </div>
 
             <div class="col-md-4">
-                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/300x250.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/300x250.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
             </div>
 
         </div>
     </div>
 </section>
-
-
 
 
 <!-- ads section ends -->
@@ -753,7 +1048,6 @@
 <script async="async" data-cfasync="false"
         src="//pl17231266.safestgatetocontent.com/ec5611cf27ddd923a905f8d14e217991/invoke.js"></script>
 <!-- adster native 1x1 ends-->
-
 
 
 <!-- invisible recaptcha -->
@@ -771,7 +1065,11 @@
             'callback' : onSubmit
           });
         };
-    </script>
+
+
+
+
+</script>
 <!-- ends invisible re-captcha-->
 
 <!-- google adsense ends -->
@@ -828,12 +1126,7 @@
           }
         , false);
 
-
-
         // ends captcha-1
-
-
-
 </script>
 
 <!--<div class="row" style="margin-top: 40px;">-->
@@ -861,6 +1154,49 @@
 <!--     crossorigin="anonymous"></script>-->
 <!-- new Gsense ads script ends-->
 
+{% endblock %}
+
+{% block front_home_owl_carousel_js %}
+<!-- owl carousel -->
+<script src="{% static 'seller_dashboard/owl_carousel/owl.carousel.js' %}"></script>
+<script src="{% static 'seller_dashboard/owl_carousel/owl.carousel.min.js' %}"></script>
+
+<script>
+
+    $(".owl-carousel").owlCarousel({
+  loop: true,
+  margin: 10,
+  nav: true,
+  autoplay: false,
+  smartSpeed: 2000,
+  autoplayTimeout: 4000,
+  dots: false,
+
+  responsive: {
+    0: {
+      items: 2,
+    },
+    500: {
+      items: 3,
+    },
+    600: {
+      items: 3,
+    },
+    1000: {
+      items: 4,
+    },
+    1200: {
+      items: 4,
+    },
+  },
+});
+
+
+
+
+
+
+</script>
 {% endblock %}
 
 

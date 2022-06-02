@@ -1,0 +1,247 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<!-- ads -->
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-6">-->
+<!--            &lt;!&ndash;yllx 468x60 starts &*************************************&ndash;&gt;-->
+<!--            <script type="text/javascript"-->
+<!--                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>-->
+<!--            &lt;!&ndash;yllx ends here **********************************&ndash;&gt;-->
+<!--        </div>-->
+<!--        <div class="col-md-6">-->
+<!--            &lt;!&ndash;yllx 468x60 starts &*************************************&ndash;&gt;-->
+<!--            <script type="text/javascript"-->
+<!--                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>-->
+<!--            &lt;!&ndash;yllx ends here **********************************&ndash;&gt;-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!-- ads ends here-->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div style="margin-top: 30px;">
+                <h2 class="text-center">Explore Our Packages</h2>
+                <h6 class="text-center">Here is our offered packages. Start to invest and make guaranteed profit!</h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="row explore_package" style="margin-top: 15px;">
+        {% for package in current_package_list %}
+        <div class="col-md-3 explore_package_content">
+            <div class="card" style="width: 100%;">
+                <div class="card-body header">
+                    <h6 class="text-center packageName">{{package.name.name}}</h6>
+                    <h6 class="text-center prev">
+                        <del>${{package.old_price}} CAD</del>
+                    </h6>
+                    <h6 class="text-center current_price">
+                        <span class="crnt">${{package.price}} CAD</span>
+                        <span class="duration">/Month</span>
+                    </h6>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% if package.options %}
+                    {% for x in package.options.all %}
+                    <li class="list-group-item text-center">{{x.option}}</li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+                <div class="card-body">
+                    <a href="{% url 'sellerPayForPackagePurchasing' package_id=package.package_id %}">
+                        <button type="button" class="invest__now">invest now</button>
+                    </a>
+                    <a href="{% url 'sellerPackageDetails' package_id=package.package_id %}">
+                        <button type="button" class="explore__details">explore details</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<br><br><br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <script type="text/javascript">
+                                                            atOptions = {
+                                                                'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
+                                                                'format' : 'iframe',
+                                                                'height' : 60,
+                                                                'width' : 468,
+                                                                'params' : {}
+                                                            };
+                                                            document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
+
+                </script>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/468x60.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--    ads start        -->
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-4">
+            <script data-cfasync='false' type='text/javascript'
+                    src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=17'></script>
+        </div>
+
+        <div class="col-md-4">
+            <div>
+                <h5>Click to this reCaptcha and get 50 points bonus!</h5>
+                <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
+                      id="captcha__form_wishlist">
+                    {% csrf_token %}
+                    <div id="html_element_wishlist"></div>
+                    <br>
+                    <button type="submit" class="captcha_submit__btn"><img
+                            src="{% static 'frontEnd/images/logo/logo.jpeg' %}" alt=""> &nbsp; Click to Collect
+                    </button>
+                    <!--                    <input type="submit" value="Collect">-->
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <script data-cfasync='false' type='text/javascript'
+                    src='//p447162.clksite.com/adServe/banners?tid=447162_875550_0'></script>
+        </div>
+    </div>
+</div>
+<br>
+<section id="captcha__section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <!--                            <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=15'></script>-->
+                            <script type="text/javascript"
+                                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+            </div>
+
+            <div class="col-md-4">
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/300x250.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- yllx 120x60 starts here -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/120x600.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div>
+                <div id="container-ec5611cf27ddd923a905f8d14e217991"></div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <!-- ylliex 120x60 -->
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <!-- yllix 120x60 ends here -->
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/120x600.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <!-- ylliex 120x60 -->
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <!-- yllix 120x60 ends here -->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- yllx 120x60 ends here -->
+
+
+<!-- adster 1x1 native ads-->
+<script async="async" data-cfasync="false"
+        src="//pl17231266.safestgatetocontent.com/ec5611cf27ddd923a905f8d14e217991/invoke.js"></script>
+<!-- adster 1x1 native ads ends-->
+
+<script type="text/javascript">
+
+// captcha-1
+      var onloadCallback = function() {
+
+
+        grecaptcha.render('html_element_wishlist', {
+          'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
+        });
+      };
+
+
+      var captcha__form_wishlist = document.getElementById('captcha__form_wishlist');
+        captcha__form_wishlist.addEventListener("submit", function(event){
+
+            if (grecaptcha.getResponse() === '') {
+              event.preventDefault();
+              alert('Please check the recaptcha');
+            }
+          }
+        , false);
+
+        // ends captcha-1
+
+</script>
+
+
+{% endblock %}

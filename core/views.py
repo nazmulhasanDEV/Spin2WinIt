@@ -159,6 +159,9 @@ def front_home(request):
 
     products = ProductList.objects.all()
 
+    # current package list
+    current_package_list = PackageList.objects.all()[:5]
+
     # checking disclaimer agreement of the current user's ip
     ip_exist = None
     if True:
@@ -217,9 +220,13 @@ def front_home(request):
                     total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
                 if x.product.product_type == 'mcp':
                     total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+    # prizes for game
+    current_sponsoredGamePrizes = SponsoredProductForPrize.objects.filter(status=True)
 
     context = {
         'ip_exist': ip_exist,
+        'current_package_list': current_package_list,
+        'current_sponsoredGamePrizes': current_sponsoredGamePrizes,
         'main_banner_or_slider' : main_banner_or_slider,
         'product_cat_list_all': product_cat_list_all,
         'product_cat_list' : product_catList_with_prodct,
@@ -242,6 +249,66 @@ def front_home(request):
     }
 
     return render(request, 'frontEnd/home.html', context)
+
+def front_all_packages(request):
+
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+    product_cat_list_all = ProductCategory.objects.all()
+
+    current_package_list = PackageList.objects.all()
+
+    # user cart status
+    user_cart_status = None
+
+    # user wishlist status
+    user_wishlist_status = None
+
+    total_amount = 0
+
+    if request.user.is_authenticated:
+        # user cart status
+        user_cart_status = Cart.objects.filter(user=request.user)
+
+        # user wishlist status
+        user_wishlist_status = WishList.objects.filter(user=request.user)
+
+        if user_cart_status:
+            for x in user_cart_status:
+                if x.product.product_type == 'wsp':
+                    total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+                if x.product.product_type == 'mcp':
+                    total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+    context = {
+        'current_package_list': current_package_list,
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
+        'user_cart_status': user_cart_status,
+        'user_wishlist_status': user_wishlist_status,
+        'total_amount': total_amount,
+        'product_cat_list_all': product_cat_list_all,
+    }
+
+
+    return render(request, 'frontEnd/package/all_packages.html', context)
 
 # check box captcha solving for home page
 @login_required(login_url='/fe/login/register')

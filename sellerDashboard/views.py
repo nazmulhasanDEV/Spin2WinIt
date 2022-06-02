@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib.auth.decorators import login_required
@@ -31,9 +33,13 @@ def seller_dashboard_home(request, username):
     if request.user.is_seller != True:
         return redirect('frontEndLoginRegister')
 
+    # existing package list
+    package_list = PackageList.objects.all()
+
 
     context = {
         'username': username,
+        'package_list': package_list,
     }
 
     return render(request, 'backEnd__sellerDashboard/home.html', context)
@@ -613,6 +619,95 @@ def seller_del_custom_product(request, pk, product_id):
         return redirect('sellerCustomProductList')
 
     return redirect('sellerCustomProductList')
+
+
+# pacages part starts********************************************
+@login_required(login_url='/fe/login/register')
+def seller_all_packages(request):
+
+    if request.user.is_seller != True:
+        return redirect('frontEndLoginRegister')
+
+    # existing package list
+    package_list = PackageList.objects.all()
+
+    context = {
+        'package_list': package_list,
+    }
+
+    return render(request, 'backEnd__sellerDashboard/packages/packages.html', context)
+
+@login_required(login_url='/fe/login/register')
+def seller_payforPurchasingPackage(request, package_id):
+
+    if request.user.is_seller != True:
+        return redirect('frontEndLoginRegister')
+
+    # current package
+    current_package = get_object_or_404(PackageList, package_id=package_id)
+
+    if request.method == 'GET':
+        paid_amount = request.GET.get('paid_amount')
+        package_id = request.GET.get('package_id')
+        order_data = request.GET.get('order_data')
+
+        if paid_amount and package_id and order_data:
+            payment_information = json.loads(order_data)
+            paymentID = payment_information['id']
+
+            # payee info
+            payee_email = payment_information['purchase_units'][0]['payee']['email_address']
+            payee_marchnt_id = payment_information['purchase_units'][0]['payee']['merchant_id']
+
+            # payer info
+            payer_name = payment_information['payer']['name']['given_name'] + ' ' + payment_information['payer']['name']['surname']
+            payer_email = payment_information['payer']['email_address']
+            payer_id = payment_information['payer']['payer_id']
+            payer_post_code = payment_information['payer']['address']['postal_code']
+            payer_country_code = payment_information['payer']['address']['country_code']
+
+            package_purchased_list_model = SellerPurchasedPackages.objects.create(
+                seller=request.user,
+                package=current_package,
+                paid_amount=paid_amount,
+                payment_id=paymentID,
+                payee_email=payee_email,
+                payee_marchnt_id=payee_marchnt_id,
+                payer_name=payer_name,
+                payer_email=payer_email,
+                payer_id=payer_id,
+                payer_post_code=payer_post_code,
+                payer_country_code=payer_country_code,
+            )
+
+    context = {
+        'current_package': current_package,
+    }
+
+    return render(request, 'backEnd__sellerDashboard/packages/paymentForPackage.html', context)
+
+@login_required(login_url='/fe/login/register')
+def seller_payment_success_msg(request, username):
+
+    if request.user.is_seller != True:
+        return redirect('frontEndLoginRegister')
+
+    return render(request, 'backEnd__sellerDashboard/packages/success_msg.html')
+
+@login_required(login_url='/fe/login/register')
+def seller_package_details(request, package_id):
+
+    if request.user.is_seller != True:
+        return redirect('frontEndLoginRegister')
+
+    current_package = get_object_or_404(PackageList, package_id=package_id)
+
+    context = {
+        'current_package': current_package,
+    }
+
+    return render(request, 'backEnd__sellerDashboard/packages/package_details.html', context)
+
 
 
 @login_required(login_url='/fe/login/register')
