@@ -243,7 +243,7 @@ class PackageNameList(models.Model):
         return self.name
 
 class PackageOptions(models.Model):
-    option = models.CharField(default='', max_length=40)
+    option = models.CharField(default='', max_length=250)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
