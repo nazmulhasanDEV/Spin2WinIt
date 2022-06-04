@@ -3,18 +3,104 @@
 
 {% block main_block %}
 <section id="refund_policy">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="title">
-          <h4 class="mt-md-4">How <strong>"Spinit2Win"</strong> Works?</h4>
-        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div style="position: relative; margin-top: 20px;">
+                    <h1 class="text-center">How SpinWin Works</h1>
+                    <p class="text-center">Here is the details how SpinWin works!</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <!--        nav bar-->
+                <div id="list-example" class="list-group">
+                    <a class="list-group-item list-group-item-action" href="#list-item-1">Account Details</a>
+                    <a class="list-group-item list-group-item-action" href="#list-item-2">How It Works</a>
+                    <a class="list-group-item list-group-item-action" href="#list-item-3">How SpinWin Works</a>
+                    <a class="list-group-item list-group-item-action" href="#list-item-4">Prize Guide</a>
+                    <a class="list-group-item list-group-item-action" href="#list-item-5">Spin Credits</a>
+                    <a class="list-group-item list-group-item-action" href="#list-item-6">Spin Promo</a>
+                    <a class="list-group-item list-group-item-action" href="#list-item-7">Spin Tokens</a>
+                </div>
+                <!--        nav bar ends-->
+            </div>
 
-        <div style="padding-bottom: 20px;">
-          {{how_spin_it_win_works.content|safe}}
+            <div class="col-md-8" style="max-height: 100vh; overflow-y: scroll;">
+                <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example"
+                     tabindex="0">
+                    <div id="list-item-1">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img src="{% static 'frontEnd/policy/accnt_1.png' %}" alt="">
+                            </div>
+                            <div class="col-md-12">
+                                <img src="{% static 'frontEnd/policy/accnt_2.png' %}" alt="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="list-item-2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img src="{% static 'frontEnd/policy/how_it_works.png' %}" alt="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="list-item-3">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img src="{% static 'frontEnd/policy/how_spinwin_works.png' %}" alt="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="list-item-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img src="{% static 'frontEnd/policy/prize_guide.png' %}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="list-item-5">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img src="{% static 'frontEnd/policy/spin_credits.jpg' %}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="list-item-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img src="{% static 'frontEnd/policy/spin_promo.png' %}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="list-item-7">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img src="{% static 'frontEnd/policy/spin_tokens.png' %}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+
+
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-md-12">-->
+<!--                <div class="title">-->
+<!--                    <h4 class="mt-md-4">How <strong>"Spinit2Win"</strong> Works?</h4>-->
+<!--                </div>-->
+
+<!--                <div style="padding-bottom: 20px;">-->
+<!--                    {{how_spin_it_win_works.content|safe}}-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 </section>
 {% endblock %}
