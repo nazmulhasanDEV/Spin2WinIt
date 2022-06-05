@@ -143,5 +143,12 @@ urlpatterns = [
     re_path(r'^fe/contact/us/$', views.front_contact_us, name='frontContactUs'),
 
     # how it works***********************************************************************
-    re_path(r'^fe/how/spinwin/works/$', views.front_how_spinWinWorks, name='frontHowSpinWinWorks'),
+    # re_path(r'^fe/how/spinwin/works/$', views.front_how_spinWinWorks, name='frontHowSpinWinWorks'),
+    re_path(r'^fe/how/it/works/account/details/$', views.front_howIt_account_details, name='frontfront_howIt_account_details'),
+    re_path(r'^fe/how/spinit2win/works/$', views.front_howIt_howSpinit2Win_works, name='front__howSpinit2WinWorks'),
+    re_path(r'^fe/how/works/spin/tokens/$', views.front_howIt__spin_tokens, name='front__howWorks_spintokens'),
+    re_path(r'^fe/how/works/spin/credits/$', views.front_howIt__spinCredit, name='front__howWorks_spinCredits'),
+    re_path(r'^fe/how/works/prize/guide/$', views.front_howIt__prizeGuide, name='front__howWorks_prizeGuide'),
+    re_path(r'^fe/how/works/spin/pilot/promo/$', views.front_howIt__spinPilotPromotion, name='front__howWorks_spinPromotion'),
+    re_path(r'^fe/how/woks/account/details/$', views.front_howIt__accountDetails, name='front__howWorks_AccountDetails'),
 ]

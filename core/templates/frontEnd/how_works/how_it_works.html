@@ -1,0 +1,28 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<section id="refund_policy">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div style="position: relative; margin-top: 20px;">
+                    <h1 class="text-center">How It Works</h1>
+<!--                    <p class="text-center">Here is the details how SpinWin works!</p>-->
+                </div>
+            </div>
+
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div>
+                    <img src="{% static 'frontEnd/policy/spin_tokens.png' %}" style="width: 100%;" alt="">
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+
+    <br><br>
+
+</section>
+{% endblock %}
