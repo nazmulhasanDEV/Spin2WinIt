@@ -6580,6 +6580,735 @@ def ap_remove_userFromUserList(request, pk):
 
     return redirect('apRegisteredUserList')
 
+
+@login_required(login_url='/ap/register/updated')
+def ap_givenPointBonusHistory(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # calculating capthca bonus
+    home_pg_captcha = CheckBoxCaptcha.objects.all()
+    shop_pg_captcha = ShopCheckBoxCaptcha.objects.all()
+    categoryShop_pg_captcha = CategoryShopCheckBoxCaptcha.objects.all()
+    prodct_detals_pg_captcha = ProductDetailsCheckBoxCaptcha.objects.all()
+    gameCheck_pg_captcha = GameCheckBoxCaptcha.objects.all()
+    usrProfile_pg_captcha = UsrProfileCheckBoxCaptcha.objects.all()
+    buyWinningChance_pg_captcha = BuyWinningChanceBoxCaptcha.objects.all()
+    cart_pg_captcha = CartCheckBoxCaptcha.objects.all()
+    contactUs_pg_captcha = ContactUsCheckBoxCaptcha.objects.all()
+    paymentWinning_pg_captcha = PaymentWinningChnceCheckBoxCaptcha.objects.all()
+    prodctPurchase_pg_captcha = ProductPurchaseCheckBoxCaptcha.objects.all()
+    prdct_payment_success_pg_captcha = ProdctPaymntSccssCheckBoxCaptcha.objects.all()
+    wishList_pg_captcha = WishlistCheckBoxCaptcha.objects.all()
+    purchageCredit_pg_captcha = PurchaseCreditCheckBoxCaptcha.objects.all()
+    credt_prchagePayment_pg_captcha = CreditPurchasePaymntCheckBoxCaptcha.objects.all()
+    credt_prchaseSucccess_pg_captcha = CreditPurchaseSuccessCheckBoxCaptcha.objects.all()
+
+    total_captha_bonus_objects = home_pg_captcha.count() + shop_pg_captcha.count() + categoryShop_pg_captcha.count() + prodct_detals_pg_captcha.count() + gameCheck_pg_captcha.count() + usrProfile_pg_captcha.count() + buyWinningChance_pg_captcha.count() + cart_pg_captcha.count() + contactUs_pg_captcha.count() + paymentWinning_pg_captcha.count() + prodctPurchase_pg_captcha.count() + prdct_payment_success_pg_captcha.count() + wishList_pg_captcha.count() + purchageCredit_pg_captcha.count() + credt_prchagePayment_pg_captcha.count() + credt_prchaseSucccess_pg_captcha.count()
+
+    # total given bonus for solving captcha
+    total_given_bonus_for_captcha_solving = total_captha_bonus_objects * 50
+
+    # total daily sign in given bonus
+    total_given_bonus_point_forDailySignIn = GivenDailySignInBonusUsrList.objects.count() * 50
+
+    # total given bonus for registering account
+    total_given_bonus_for_registering_accnt = BonusPoinForRegistration.objects.count() * 1000
+
+    # total given bonus for refering people (per people is 250)
+    total_given_bonus_for_refering_people = ReferalBonusList.objects.count() * 250
+
+    # total given bonus for email invitation people (per people is 50)
+    total_given_bonus_for_emailInvitation = EmailInvitationBonusUserList.objects.count() * 50
+
+    # total given bonus
+    total_given_bonus_point = total_given_bonus_for_captcha_solving + total_given_bonus_point_forDailySignIn + total_given_bonus_for_registering_accnt + total_given_bonus_for_refering_people + total_given_bonus_for_emailInvitation
+
+
+    context = {
+        'total_given_bonus_for_captcha_solving' : total_given_bonus_for_captcha_solving,
+        'total_given_bonus_point_forDailySignIn' : total_given_bonus_point_forDailySignIn,
+        'total_given_bonus_for_registering_accnt': total_given_bonus_for_registering_accnt,
+        'total_given_bonus_for_refering_people': total_given_bonus_for_refering_people,
+        'total_given_bonus_for_emailInvitation': total_given_bonus_for_emailInvitation,
+        'total_given_bonus_point': total_given_bonus_point,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/point_history/point_history_home.html', context)
+
+# captcha part starts******************************************************
+
+@login_required(login_url='/ap/register/updated')
+def ap_all_pg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # calculating capthca bonus
+    home_pg_captcha = CheckBoxCaptcha.objects.all()
+    shop_pg_captcha = ShopCheckBoxCaptcha.objects.all()
+    categoryShop_pg_captcha = CategoryShopCheckBoxCaptcha.objects.all()
+    prodct_detals_pg_captcha = ProductDetailsCheckBoxCaptcha.objects.all()
+    gameCheck_pg_captcha = GameCheckBoxCaptcha.objects.all()
+    usrProfile_pg_captcha = UsrProfileCheckBoxCaptcha.objects.all()
+    buyWinningChance_pg_captcha = BuyWinningChanceBoxCaptcha.objects.all()
+    winChancePurchaseSccMsg_pg_captcha = WnChancePurchaseSccMsgCheckBoxCaptcha.objects.all()
+    cart_pg_captcha = CartCheckBoxCaptcha.objects.all()
+    checkOut_pg_captcha = CheckoutCheckBoxCaptcha.objects.all()
+    contactUs_pg_captcha = ContactUsCheckBoxCaptcha.objects.all()
+    paymentWinning_pg_captcha = PaymentWinningChnceCheckBoxCaptcha.objects.all()
+    prodctPurchase_pg_captcha = ProductPurchaseCheckBoxCaptcha.objects.all()
+    prdct_payment_success_pg_captcha = ProdctPaymntSccssCheckBoxCaptcha.objects.all()
+    wishList_pg_captcha = WishlistCheckBoxCaptcha.objects.all()
+    purchageCredit_pg_captcha = PurchaseCreditCheckBoxCaptcha.objects.all()
+    credt_prchagePayment_pg_captcha = CreditPurchasePaymntCheckBoxCaptcha.objects.all()
+    credt_prchaseSucccess_pg_captcha = CreditPurchaseSuccessCheckBoxCaptcha.objects.all()
+
+    total_captha_bonus_objects = home_pg_captcha.count() + shop_pg_captcha.count() + categoryShop_pg_captcha.count() + prodct_detals_pg_captcha.count() + gameCheck_pg_captcha.count() + usrProfile_pg_captcha.count() + buyWinningChance_pg_captcha.count() + cart_pg_captcha.count() + contactUs_pg_captcha.count() + paymentWinning_pg_captcha.count() + prodctPurchase_pg_captcha.count() + prdct_payment_success_pg_captcha.count() + wishList_pg_captcha.count() + purchageCredit_pg_captcha.count() + credt_prchagePayment_pg_captcha.count() + credt_prchaseSucccess_pg_captcha.count() + checkOut_pg_captcha.count() + winChancePurchaseSccMsg_pg_captcha.count()
+
+    # total given bonus for solving captcha
+    total_given_bonus_for_captcha_solving = total_captha_bonus_objects * 50
+
+    context = {
+        'home_pg_captcha': home_pg_captcha.count(),
+        'shop_pg_captcha': shop_pg_captcha.count(),
+        'categoryShop_pg_captcha': categoryShop_pg_captcha.count(),
+        'prodct_detals_pg_captcha': prodct_detals_pg_captcha.count(),
+        'gameCheck_pg_captcha': gameCheck_pg_captcha.count(),
+        'usrProfile_pg_captcha': usrProfile_pg_captcha.count(),
+        'buyWinningChance_pg_captcha': buyWinningChance_pg_captcha.count(),
+        'cart_pg_captcha': cart_pg_captcha.count(),
+        'contactUs_pg_captcha': contactUs_pg_captcha.count(),
+        'paymentWinning_pg_captcha': paymentWinning_pg_captcha.count(),
+        'prodctPurchase_pg_captcha': prodctPurchase_pg_captcha.count(),
+        'prdct_payment_success_pg_captcha': prdct_payment_success_pg_captcha.count(),
+        'wishList_pg_captcha': wishList_pg_captcha.count(),
+        'purchageCredit_pg_captcha': purchageCredit_pg_captcha.count(),
+        'credt_prchagePayment_pg_captcha': credt_prchagePayment_pg_captcha.count(),
+        'credt_prchaseSucccess_pg_captcha': credt_prchaseSucccess_pg_captcha.count(),
+        'checkout_pg_captcha': checkOut_pg_captcha.count(),
+        'winChancePurchaseSccMsg_pg_captcha': winChancePurchaseSccMsg_pg_captcha.count(),
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/all_pages_with_captcha.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_home_pg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    home_pg_captcha_userList = CheckBoxCaptcha.objects.all()
+
+    context = {
+        'home_pg_captcha_userList': home_pg_captcha_userList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/home_pg.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_homePg_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = CheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apHomePageCaptchaBonusList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apHomePageCaptchaBonusList')
+
+    return redirect('apHomePageCaptchaBonusList')
+
+# shop page by category
+@login_required(login_url='/ap/register/updated')
+def ap_shop_pgByCat_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    shopByCat_pg_captcha_userList = CategoryShopCheckBoxCaptcha.objects.all()
+
+    context = {
+        'shopByCat_pg_captcha_userList': shopByCat_pg_captcha_userList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/shopPgByCat.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_shopPgByCat_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = CategoryShopCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apShopPageByCatCaptchaBonusList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apShopPageByCatCaptchaBonusList')
+
+    return redirect('apShopPageByCatCaptchaBonusList')
+
+# shop page
+@login_required(login_url='/ap/register/updated')
+def ap_shop_pg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    shop_pg_captcha_userList = ShopCheckBoxCaptcha.objects.all()
+
+    context = {
+        'shop_pg_captcha_userList': shop_pg_captcha_userList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/shop_page.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_shopPg_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = ShopCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apShopPageCaptchaBonusList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apShopPageCaptchaBonusList')
+
+    return redirect('apShopPageCaptchaBonusList')
+
+
+# product details page
+@login_required(login_url='/ap/register/updated')
+def ap_productDetails_pg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    prodct_details_pg_captcha_userList = ProductDetailsCheckBoxCaptcha.objects.all()
+
+    context = {
+        'prodct_details_pg_captcha_userList': prodct_details_pg_captcha_userList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/product_details_pg.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_productDetails_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = ProductDetailsCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apProductDetailsPageByCatCaptchaBonusList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apProductDetailsPageByCatCaptchaBonusList')
+
+    return redirect('apProductDetailsPageByCatCaptchaBonusList')
+
+# game details page
+@login_required(login_url='/ap/register/updated')
+def ap_game_pg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    game_pg_captcha_userList = GameCheckBoxCaptcha.objects.all()
+
+    context = {
+        'game_pg_captcha_userList': game_pg_captcha_userList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/game_pg.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_gamePg_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = GameCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apGamePageByCatCaptchaBonusList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apGamePageByCatCaptchaBonusList')
+
+    return redirect('apGamePageByCatCaptchaBonusList')
+
+
+# user profile page
+@login_required(login_url='/ap/register/updated')
+def ap_userProfile_pg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    usrProfile_pg_captcha_userList = UsrProfileCheckBoxCaptcha.objects.all()
+
+    context = {
+        'usrProfile_pg_captcha_userList': usrProfile_pg_captcha_userList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/usr_profile_pg.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_userProfilePg_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = UsrProfileCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apUserProfilePageCaptchaBonusList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apUserProfilePageCaptchaBonusList')
+
+    return redirect('apUserProfilePageCaptchaBonusList')
+
+# buy winning chance page
+@login_required(login_url='/ap/register/updated')
+def ap_buyWinningChance_pg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    buyWinningChance_pg_captcha_userList = BuyWinningChanceBoxCaptcha.objects.all()
+
+    context = {
+        'buyWinningChance_pg_captcha_userList': buyWinningChance_pg_captcha_userList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/buy_winning_chance.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_buyWinningChance_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = BuyWinningChanceBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apBuyWinningChancePageCaptchaBonusList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apBuyWinningChancePageCaptchaBonusList')
+
+    return redirect('apBuyWinningChancePageCaptchaBonusList')
+
+# cart  page
+@login_required(login_url='/ap/register/updated')
+def ap_cart_pg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    cart_pg_captcha_userList = CartCheckBoxCaptcha.objects.all()
+
+    context = {
+        'cart_pg_captcha_userList': cart_pg_captcha_userList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/cart_pg.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_cartPg_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = CartCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apCartPgCaptchaBonusList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apCartPgCaptchaBonusList')
+
+    return redirect('apCartPgCaptchaBonusList')
+
+# contact us  page
+@login_required(login_url='/ap/register/updated')
+def ap_contactUs_pg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    contactUs_pg_captcha_userList = ContactUsCheckBoxCaptcha.objects.all()
+
+    context = {
+        'contactUs_pg_captcha_userList': contactUs_pg_captcha_userList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/contact_us.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_contactUsPg_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = ContactUsCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apContactUsPgCaptchaBonusList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apContactUsPgCaptchaBonusList')
+
+    return redirect('apContactUsPgCaptchaBonusList')
+
+
+# winning chance payment  page
+@login_required(login_url='/ap/register/updated')
+def ap_winning_chancePaymentPage_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    winningChancePayment_pg_captcha_userList = PaymentWinningChnceCheckBoxCaptcha.objects.all()
+
+    context = {
+        'winningChancePayment_pg_captcha_userList': winningChancePayment_pg_captcha_userList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/winning_chance_payment_pg.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_winning_chancePaymentPage_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = PaymentWinningChnceCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apWinningChancePaymentPgCaptchaBonusList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apWinningChancePaymentPgCaptchaBonusList')
+
+    return redirect('apWinningChancePaymentPgCaptchaBonusList')
+
+# product purchase  page
+@login_required(login_url='/ap/register/updated')
+def ap_productPurchasePage_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    productPurchase_pg_captcha_userList = ProductPurchaseCheckBoxCaptcha.objects.all()
+
+    context = {
+        'productPurchase_pg_captcha_userList': productPurchase_pg_captcha_userList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/product_purchase_pg.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_productPurchasePage_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = ProductPurchaseCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apProductPurchasePgCaptchaBonusList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apProductPurchasePgCaptchaBonusList')
+
+    return redirect('apProductPurchasePgCaptchaBonusList')
+
+# product payment success  page
+@login_required(login_url='/ap/register/updated')
+def ap_productPaymentSuccessPage_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    productPaymentSuccessPage = ProdctPaymntSccssCheckBoxCaptcha.objects.all()
+
+    context = {
+        'productPaymentSuccessPage': productPaymentSuccessPage,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/product_paymnt_succss_pg.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_productPaymentSuccessPage_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = ProdctPaymntSccssCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apProductPaymentSuccessPgCaptchaBonusList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apProductPaymentSuccessPgCaptchaBonusList')
+
+    return redirect('apProductPaymentSuccessPgCaptchaBonusList')
+
+# wishilist  page
+@login_required(login_url='/ap/register/updated')
+def ap_wishListPg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    wishListPageCaptcha_list = WishlistCheckBoxCaptcha.objects.all()
+
+    context = {
+        'wishListPageCaptcha_list': wishListPageCaptcha_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/wishList.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_wishListPage_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = WishlistCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apWishListPgCaptchaBonusList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apWishListPgCaptchaBonusList')
+
+    return redirect('apWishListPgCaptchaBonusList')
+
+# wishilist  page
+@login_required(login_url='/ap/register/updated')
+def ap_wishListPg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    wishListPageCaptcha_list = WishlistCheckBoxCaptcha.objects.all()
+
+    context = {
+        'wishListPageCaptcha_list': wishListPageCaptcha_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/wishList.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_wishListPage_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = WishlistCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apWishListPgCaptchaBonusList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apWishListPgCaptchaBonusList')
+
+    return redirect('apWishListPgCaptchaBonusList')
+
+# credit purchase  page
+@login_required(login_url='/ap/register/updated')
+def ap_creditPurchasePg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    creditPurchasePageCaptcha_list = PurchaseCreditCheckBoxCaptcha.objects.all()
+
+    context = {
+        'creditPurchasePageCaptcha_list': creditPurchasePageCaptcha_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/credit_prchase_pg.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_creditPurchasePg_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = PurchaseCreditCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('ap_creditPurchasePg_captcha_bonus_list')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('ap_creditPurchasePg_captcha_bonus_list')
+
+    return redirect('ap_creditPurchasePg_captcha_bonus_list')
+
+# credit purchase payment  page
+@login_required(login_url='/ap/register/updated')
+def ap_creditPurchasePaymntPg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    creditPurchasePaymntPgCaptcha_list = CreditPurchasePaymntCheckBoxCaptcha.objects.all()
+
+    context = {
+        'creditPurchasePaymntPgCaptcha_list': creditPurchasePaymntPgCaptcha_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/creditPrchasePaymntPg.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_creditPurchasePaymntPg_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = CreditPurchasePaymntCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('ap_creditPurchasePaymntPg_captcha_bonus_list')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('ap_creditPurchasePaymntPg_captcha_bonus_list')
+
+    return redirect('ap_creditPurchasePaymntPg_captcha_bonus_list')
+
+# credit purchase payment success  page
+@login_required(login_url='/ap/register/updated')
+def ap_creditPurchasePaymntSccssPg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    credit_prchasePaymntSuccess = CreditPurchaseSuccessCheckBoxCaptcha.objects.all()
+
+    context = {
+        'credit_prchasePaymntSuccess': credit_prchasePaymntSuccess,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/credit_prchasePaymntSuccess.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_creditPurchasePaymntSccssPg_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = CreditPurchaseSuccessCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('ap_creditPurchasePaymntSccssPg_captcha_bonus_list')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('ap_creditPurchasePaymntSccssPg_captcha_bonus_list')
+
+    return redirect('ap_creditPurchasePaymntSccssPg_captcha_bonus_list')
+
+
+# check out  page
+@login_required(login_url='/ap/register/updated')
+def ap_checkOutPg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    checkout_pg_captcha_list = CheckoutCheckBoxCaptcha.objects.all()
+
+    context = {
+        'checkout_pg_captcha_list': checkout_pg_captcha_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/checkOut.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_checkOutPg_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = CheckoutCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('ap_checkOutPg_captcha_bonus_list')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('ap_checkOutPg_captcha_bonus_list')
+
+    return redirect('ap_checkOutPg_captcha_bonus_list')
+
+
+# winning chance purchase success out  page
+@login_required(login_url='/ap/register/updated')
+def ap_WinningChncePrchaseSuccessPg_captcha_bonus_list(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    winningChabcePrchaseSuccss_pg_captcha_list = WnChancePurchaseSccMsgCheckBoxCaptcha.objects.all()
+
+    context = {
+        'winningChabcePrchaseSuccss_pg_captcha_list': winningChabcePrchaseSuccss_pg_captcha_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/captcha/wnningChancePrchaseSuccess.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_WinningChncePrchaseSuccessPg_captcha_bonus(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = WnChancePurchaseSccMsgCheckBoxCaptcha.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('ap_WinningChncePrchaseSuccessPg_captcha_bonus_list')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('ap_WinningChncePrchaseSuccessPg_captcha_bonus_list')
+
+    return redirect('ap_WinningChncePrchaseSuccessPg_captcha_bonus_list')
+
+
+
+# analytics part ends**************************************************************
+
 @login_required(login_url='/ap/register/updated')
 def ap_add_how_spinit2Win_works(request):
 

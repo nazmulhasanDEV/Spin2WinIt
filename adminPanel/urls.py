@@ -265,6 +265,79 @@ urlpatterns = [
     re_path(r'^ap/registered/user/list', views.ap_registered_userList, name='apRegisteredUserList'),
     re_path(r'^ap/remove/user/userlist/(?P<pk>\d+)/$', views.ap_remove_userFromUserList, name='apRemmoveUserFromUsrList'),
 
+    # point history
+    re_path(r'^ap/user/given/bonus/point/history/$', views.ap_givenPointBonusHistory, name='apGivenPoinBonusHistory'),
+
+    # captcha history
+    re_path(r'^ap/all/page/captcha/bonus/list/$', views.ap_all_pg_captcha_bonus_list, name='apAllPageCaptchaBonusList'),
+
+    re_path(r'^ap/home/page/captcha/bonus/list/$', views.ap_home_pg_captcha_bonus_list, name='apHomePageCaptchaBonusList'),
+    re_path(r'^ap/remove/home/page/captcha/(?P<pk>\d+)/bonus/$', views.ap_remove_homePg_captcha_bonus, name='apRemoveHomePageCaptchaBonusList'),
+
+    # shop page
+    re_path(r'^ap/shop/page/captcha/bonus/list/$', views.ap_shop_pg_captcha_bonus_list, name='apShopPageCaptchaBonusList'),
+    re_path(r'^ap/remove/shop/page/captcha/(?P<pk>\d+)/bonus/$', views.ap_remove_shopPg_captcha_bonus, name='apRemoveShopPageCaptchaBonusList'),
+
+    # shop page by category
+    re_path(r'^ap/shop/page/by/category/captcha/bonus/list/$', views.ap_shop_pgByCat_captcha_bonus_list, name='apShopPageByCatCaptchaBonusList'),
+    re_path(r'^ap/remove/shop/page/by/category/captcha/(?P<pk>\d+)/bonus/$', views.ap_remove_shopPgByCat_captcha_bonus, name='apRemoveShopPageByCatCaptchaBonusList'),
+
+    # product details page by category
+    re_path(r'^ap/product/details/page/captcha/bonus/list/$', views.ap_productDetails_pg_captcha_bonus_list, name='apProductDetailsPageByCatCaptchaBonusList'),
+    re_path(r'^ap/remove/product/details/page/captcha/(?P<pk>\d+)/bonus/$', views.ap_remove_productDetails_captcha_bonus, name='apRemovePrdctDetailsPgCaptchaBonusList'),
+
+    # game page
+    re_path(r'^ap/game/page/captcha/bonus/list/$', views.ap_game_pg_captcha_bonus_list, name='apGamePageByCatCaptchaBonusList'),
+    re_path(r'^ap/remove/game/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_gamePg_captcha_bonus, name='apRemoveGamePgCaptchaBonusList'),
+
+    # user profile page
+    re_path(r'^ap/user/profile/page/captcha/bonus/list/$', views.ap_userProfile_pg_captcha_bonus_list, name='apUserProfilePageCaptchaBonusList'),
+    re_path(r'^ap/remove/user/profile/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_userProfilePg_captcha_bonus, name='apRemoveUsrProfilePgCaptchaBonusList'),
+
+    # buy winning chance page
+    re_path(r'^ap/buy/winning/chance/page/captcha/bonus/list/$', views.ap_buyWinningChance_pg_captcha_bonus_list, name='apBuyWinningChancePageCaptchaBonusList'),
+    re_path(r'^ap/remove/buy/winning/chance/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_buyWinningChance_captcha_bonus, name='apRemoveBuyWinningChanceCaptchaBonusList'),
+
+    # cart page
+    re_path(r'^ap/cart/page/captcha/bonus/list/$', views.ap_cart_pg_captcha_bonus_list, name='apCartPgCaptchaBonusList'),
+    re_path(r'^ap/remove/cart/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_cartPg_captcha_bonus, name='apRemoveCartCaptchaBonusList'),
+
+    # contact us page
+    re_path(r'^ap/contact/us/page/captcha/bonus/list/$', views.ap_contactUs_pg_captcha_bonus_list, name='apContactUsPgCaptchaBonusList'),
+    re_path(r'^ap/remove/contact/us/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_contactUsPg_captcha_bonus, name='apRemoveContactUsCaptchaBonusList'),
+
+    # winning chance payment page
+    re_path(r'^ap/winning/chance/payment/page/captcha/bonus/list/$', views.ap_winning_chancePaymentPage_captcha_bonus_list, name='apWinningChancePaymentPgCaptchaBonusList'),
+    re_path(r'^ap/remove/winning/chance/payment/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_winning_chancePaymentPage_captcha_bonus, name='apRemoveWinningChancePaymntPgCaptchaBonusList'),
+
+    # product purchase payment page
+    re_path(r'^ap/product/purchase/page/captcha/bonus/list/$', views.ap_productPurchasePage_captcha_bonus_list, name='apProductPurchasePgCaptchaBonusList'),
+    re_path(r'^ap/remove/product/purchase/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_productPurchasePage_captcha_bonus, name='apRemoveProductPurchasePgCaptchaBonusList'),
+
+    # product payment success page
+    re_path(r'^ap/product/payment/success/page/captcha/bonus/list/$', views.ap_productPaymentSuccessPage_captcha_bonus_list, name='apProductPaymentSuccessPgCaptchaBonusList'),
+    re_path(r'^ap/remove/product/payment/success/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_productPaymentSuccessPage_captcha_bonus, name='apRemoveProductPaymentSuccessPgCaptchaBonusList'),
+
+    # wishlist page
+    re_path(r'^ap/wish/list/page/captcha/bonus/list/$', views.ap_wishListPg_captcha_bonus_list, name='apWishListPgCaptchaBonusList'),
+    re_path(r'^ap/remove/wish/list/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_wishListPage_captcha_bonus, name='ap_remove_wishListPage_captcha_bonus'),
+
+    # credit purchase page
+    re_path(r'^ap/credit/purchase/page/captcha/bonus/list/$', views.ap_creditPurchasePg_captcha_bonus_list, name='ap_creditPurchasePg_captcha_bonus_list'),
+    re_path(r'^ap/remove/credit/purchase/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_creditPurchasePg_captcha_bonus, name='ap_remove_creditPurchasePg_captcha_bonus'),
+
+    # credit purchase payment page
+    re_path(r'^ap/credit/purchase/payment/page/captcha/bonus/list/$', views.ap_creditPurchasePaymntPg_captcha_bonus_list, name='ap_creditPurchasePaymntPg_captcha_bonus_list'),
+    re_path(r'^ap/remove/credit/purchase/payment/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_creditPurchasePaymntPg_captcha_bonus, name='ap_remove_creditPurchasePaymntPg_captcha_bonus'),
+
+    # check out page
+    re_path(r'^ap/check/out/page/captcha/bonus/list/$', views.ap_checkOutPg_captcha_bonus_list, name='ap_checkOutPg_captcha_bonus_list'),
+    re_path(r'^ap/remove/checkout/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_checkOutPg_captcha_bonus, name='ap_remove_checkOutPg_captcha_bonus'),
+
+    # winning chance prchase success page
+    re_path(r'^ap/winning/chance/purchase/success/page/captcha/bonus/list/$', views.ap_WinningChncePrchaseSuccessPg_captcha_bonus_list, name='ap_WinningChncePrchaseSuccessPg_captcha_bonus_list'),
+    re_path(r'^ap/remove/checkout/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_WinningChncePrchaseSuccessPg_captcha_bonus, name='ap_remove_WinningChncePrchaseSuccessPg_captcha_bonus'),
+
     # membership rank started*********************************************************************
     re_path(r'^ap/add/new/membership/rank/$', views.apAddNewMembershipRank, name='apAddNewMembershipRank'),
     re_path(r'^ap/update/new/membership/rank/(?P<rank_id>[-\w]+)/$', views.apUpdateMembershipRank, name='apUpdateMembershipRank'),

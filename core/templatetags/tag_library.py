@@ -10,3 +10,8 @@ def to_float(value):
 def count_obj(value):
 
     return len(value)
+
+@register.filter()
+def multiply(value):
+
+    return value * 50

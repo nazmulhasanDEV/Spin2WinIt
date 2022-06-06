@@ -130,7 +130,7 @@ class UserProfilePicture(models.Model):
         return self.user.email
 
 
-# user mail invitations
+# user mail invitations and invitation list
 class UserMailInvitations(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True)
     mail_to = models.CharField(max_length=255, blank=True)
@@ -251,6 +251,9 @@ class DisclaimerAgreeDisagreeIPList(models.Model):
 
     def __str__(self):
         return self.ip
+
+
+# captcha part started *******************************************
 
 # checkbox captcha for home page
 class CheckBoxCaptcha(models.Model):

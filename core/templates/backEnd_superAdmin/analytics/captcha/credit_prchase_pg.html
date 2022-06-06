@@ -1,0 +1,168 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+{% load tag_library %}
+
+
+{% block dataTable_css %}
+<!-- DataTables -->
+<link rel="stylesheet"
+      href="{% static 'backEnd/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+{% endblock %}
+
+
+{% block main_block %}
+<div class="container-fluid" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+
+<!--data tables*******************************************-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <section class="content-header">
+                <h1>
+                    Credit purchase page captcha history
+                </h1>
+<!--                <ol class="breadcrumb">-->
+
+<!--                    <div style="position: relative;padding-top: 15px; padding-bottom: 15px;">-->
+<!--                        <a href="/ap/add/admin/custom/product" style="position: absolute; right: 0; bottom: 15px;">-->
+<!--                            <button type="button" style="width: 130px;border: none; outline: none;color: white; border-radius: 5px; padding: 5px; background:#222D32;"><i class="fas fa-plus"></i>&nbsp; Add New Product</button>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </ol>-->
+            </section>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">User list</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>User Email</th>
+                                    <th>Bonus</th>
+                                    <th>Created</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% if creditPurchasePageCaptcha_list %}
+                                {% for x in creditPurchasePageCaptcha_list %}
+                                <tr>
+                                    <td>{{x.user.email}}</td>
+                                    <td>50</td>
+                                    <td>{{x.created}}</td>
+
+                                    <td class="text-center">
+
+                                        <!-- modal for deleting object-->
+
+                                        <button type="button" style="border:none; background: #FF0000;color:white;" data-toggle="modal"
+                                                data-target="#remove{{x.pk}}">
+                                                <i class="fas fa-backspace"></i> Remove
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="remove{{x.pk}}" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-left" id="exampleModalLabel">Are you confirm to delete this?</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close
+                                                        </button>
+                                                        <a href="{% url 'ap_remove_creditPurchasePg_captcha_bonus' pk=x.pk %}">
+                                                            <button type="button" class="btn btn-primary">
+                                                                Confirm
+                                                            </button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--                                        modal for deleting object ends-->
+
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+
+                                </tbody>
+
+                                <tfoot>
+                                <tr>
+                                    <th>User Email</th>
+                                    <th>Bonus</th>
+                                    <th>Created</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block datatable_js %}
+<!-- DataTables -->
+<script src="{% static 'backEnd/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'backEnd/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>
+{% endblock %}

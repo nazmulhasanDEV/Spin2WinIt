@@ -4002,8 +4002,10 @@ def front_send_email_invitation(request):
                 user_wallet = PointWallet.objects.filter(user=request.user).first()
                 if user_wallet:
                     user_wallet.available = int(user_wallet.available) + 50
+                    email_invitaion_bonusList = EmailInvitationBonusUserList.objects.create(user=request.user, mail_to=mail_to, amount='50')
                 else:
                     user__wallet = PointWallet.objects.create(user=request.user, available=50)
+                    email_invitaion_bonusList = EmailInvitationBonusUserList.objects.create(user=request.user, mail_to=mail_to, amount='50')
 
                 invitation_model = UserMailInvitations.objects.create(user=request.user, mail_to=mail_to, msg=msg)
                 messages.success(request, "Invitation sent successfully! You got 50 reward points as bonus!")
@@ -4085,7 +4087,7 @@ def front_refer_and_get_bonusPoint(request):
             # email.send(fail_silently=False)
             EmailThreading(email).start()
             messages.success(request, "Mail has been sent successfully!")
-            return redirect('')
+            return redirect(request.META.get('HTTP_REFERER'))
 
     context = {
         'referal_link' : referal_link,

@@ -90,6 +90,8 @@ def verifyUserAccnt(request, username, phone_no):
         point_wallet = PointWallet.objects.create(user=user)
         point_wallet.available = int(point_wallet.available) + 1000
         point_wallet.save()
+
+        bonus_for_registering_accnt = BonusPoinForRegistration.objects.create(user=user, point_amnt=1000)
     except:
         pass
 

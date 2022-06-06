@@ -25,13 +25,32 @@ class ReferalBonusList(models.Model):
     def __str__(self):
         return self.user.email + '||' + self.point_amnt
 
-# dailly sign in bonus model
+# dailly sign in bonus model # daily sign in bonus is fifty(50)
 class GivenDailySignInBonusUsrList(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user.email + "||" + str(50) + " || " + str(self.created)
+
+# 1000 bonus point for registering on platform
+class BonusPoinForRegistration(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    point_amnt = models.IntegerField(default=0)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.email + '||' + str(self.point_amnt)
+
+# bonus point model for daily email invitation
+class EmailInvitationBonusUserList(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    amount = models.CharField(default='', max_length=255, blank=True)
+    mail_to = models.CharField(default='', max_length=255, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.email + "||" + self.amount
 
 
 # user credit wallet
