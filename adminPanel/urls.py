@@ -267,6 +267,8 @@ urlpatterns = [
 
     # point history
     re_path(r'^ap/user/given/bonus/point/history/$', views.ap_givenPointBonusHistory, name='apGivenPoinBonusHistory'),
+    re_path(r'^ap/daily/signIn/bonus/user/list/$', views.ap_dailySignInBonusUserList, name='apDailySignInBonusUserList'),
+    re_path(r'^ap/remove/daily/signIn/bonus/user/list/(?P<pk>\d+)/$', views.ap_removeDailySignInBonusUserList, name='apRemoveDailySignInBonusUserList'),
 
     # captcha history
     re_path(r'^ap/all/page/captcha/bonus/list/$', views.ap_all_pg_captcha_bonus_list, name='apAllPageCaptchaBonusList'),
@@ -337,6 +339,8 @@ urlpatterns = [
     # winning chance prchase success page
     re_path(r'^ap/winning/chance/purchase/success/page/captcha/bonus/list/$', views.ap_WinningChncePrchaseSuccessPg_captcha_bonus_list, name='ap_WinningChncePrchaseSuccessPg_captcha_bonus_list'),
     re_path(r'^ap/remove/checkout/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_WinningChncePrchaseSuccessPg_captcha_bonus, name='ap_remove_WinningChncePrchaseSuccessPg_captcha_bonus'),
+
+
 
     # membership rank started*********************************************************************
     re_path(r'^ap/add/new/membership/rank/$', views.apAddNewMembershipRank, name='apAddNewMembershipRank'),

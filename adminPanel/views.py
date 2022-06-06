@@ -6637,6 +6637,39 @@ def ap_givenPointBonusHistory(request):
 
     return render(request, 'backEnd_superAdmin/analytics/point_history/point_history_home.html', context)
 
+# daily sign in bonus list
+@login_required(login_url='/ap/register/updated')
+def ap_dailySignInBonusUserList(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # daily sign in bonus user list
+    dailySignInBonusUserList = GivenDailySignInBonusUsrList.objects.all()
+
+    context = {
+        'dailySignInBonusUserList': dailySignInBonusUserList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/point_history/daily_signIn_bonus_list.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_removeDailySignInBonusUserList(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = GivenDailySignInBonusUsrList.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apDailySignInBonusUserList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apDailySignInBonusUserList')
+
+    return redirect('apDailySignInBonusUserList')
+
 # captcha part starts******************************************************
 
 @login_required(login_url='/ap/register/updated')
