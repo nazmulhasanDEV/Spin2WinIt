@@ -270,6 +270,20 @@ urlpatterns = [
     re_path(r'^ap/daily/signIn/bonus/user/list/$', views.ap_dailySignInBonusUserList, name='apDailySignInBonusUserList'),
     re_path(r'^ap/remove/daily/signIn/bonus/user/list/(?P<pk>\d+)/$', views.ap_removeDailySignInBonusUserList, name='apRemoveDailySignInBonusUserList'),
 
+    # registered user bonus point list
+    re_path(r'^ap/bonus/user/list/for/registering/$', views.ap_registrationBonusUserList, name='ap_registrationBonusUserList'),
+    re_path(r'^ap/remove/bonus/user/list/for/registering/(?P<pk>\d+)/$', views.ap_remove_registrationBonusUserList, name='ap_remove_registrationBonusUserList'),
+
+    # referal user bonus point list
+    re_path(r'^ap/bonus/user/for/refering/$', views.ap_referalBonusUserList, name='ap_referalBonusUserList'),
+    re_path(r'^ap/remove/bonus/user/for/refering/(?P<pk>\d+)/$', views.ap_remove_referalBonusUserList, name='ap_remove_referalBonusUserList'),
+
+    # referal user bonus point list
+    re_path(r'^ap/email/invitation/bonus/user/list/$', views.ap_emailInvitationBonusUserList, name='ap_emailInvitationBonusUserList'),
+    re_path(r'^ap/remove/email/invitation/bonus/user/list/(?P<pk>\d+)/$', views.ap_remove_emailInvitationBonusUserList, name='ap_remove_emailInvitationBonusUserList'),
+
+
+
     # captcha history
     re_path(r'^ap/all/page/captcha/bonus/list/$', views.ap_all_pg_captcha_bonus_list, name='apAllPageCaptchaBonusList'),
 

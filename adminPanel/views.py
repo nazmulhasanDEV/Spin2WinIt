@@ -6670,6 +6670,107 @@ def ap_removeDailySignInBonusUserList(request, pk):
 
     return redirect('apDailySignInBonusUserList')
 
+# registration bonus list
+@login_required(login_url='/ap/register/updated')
+def ap_registrationBonusUserList(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # daily sign in bonus user list
+    registrationBonusUserList = BonusPoinForRegistration.objects.all()
+
+    context = {
+        'registrationBonusUserList': registrationBonusUserList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/point_history/registration_bonus_list.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_registrationBonusUserList(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = BonusPoinForRegistration.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('ap_registrationBonusUserList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('ap_registrationBonusUserList')
+
+    return redirect('ap_registrationBonusUserList')
+
+# referal bonus list
+@login_required(login_url='/ap/register/updated')
+def ap_referalBonusUserList(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # daily sign in bonus user list
+    referalBonusUserList = ReferalBonusList.objects.all()
+
+    context = {
+        'referalBonusUserList': referalBonusUserList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/point_history/referal_bonus_usr_list.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_referalBonusUserList(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = ReferalBonusList.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('ap_referalBonusUserList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('ap_referalBonusUserList')
+
+    return redirect('ap_referalBonusUserList')
+
+
+# email bonus list
+@login_required(login_url='/ap/register/updated')
+def ap_emailInvitationBonusUserList(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # daily sign in bonus user list
+    emailInvitationBonusUserList = EmailInvitationBonusUserList.objects.all()
+
+    context = {
+        'emailInvitationBonusUserList': emailInvitationBonusUserList,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/point_history/email_invitation_list.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_emailInvitationBonusUserList(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = EmailInvitationBonusUserList.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('ap_emailInvitationBonusUserList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('ap_emailInvitationBonusUserList')
+
+    return redirect('ap_emailInvitationBonusUserList')
+
+
 # captcha part starts******************************************************
 
 @login_required(login_url='/ap/register/updated')
