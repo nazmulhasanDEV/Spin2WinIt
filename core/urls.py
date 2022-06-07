@@ -150,6 +150,8 @@ urlpatterns = [
     re_path(r'^fe/how/it/works/$', views.front_howIt_works, name='front_HowItWorks'),
     re_path(r'^fe/how/it/works/account/details/$', views.front_howIt_account_details, name='frontfront_howIt_account_details'),
     re_path(r'^fe/how/spinit2win/works/$', views.front_howIt_howSpinit2Win_works, name='front__howSpinit2WinWorks'),
+
+    re_path(r'^fe/how/it/works/spin/points/$', views.front_howIt_SpinPoints, name='front__howItWork_spinPoint'),
     re_path(r'^fe/how/works/spin/tokens/$', views.front_howIt__spin_tokens, name='front__howWorks_spintokens'),
     re_path(r'^fe/how/works/spin/credits/$', views.front_howIt__spinCredit, name='front__howWorks_spinCredits'),
     re_path(r'^fe/how/works/prize/guide/$', views.front_howIt__prizeGuide, name='front__howWorks_prizeGuide'),

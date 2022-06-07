@@ -4416,6 +4416,9 @@ def front_BetatestTerms_andCondition(request):
     # current refund policy
     refund_policy = RefundPolicy.objects.filter().first()
 
+    # all product category
+    product_cat_list_all = ProductCategory.objects.all()
+
     # beta test terms and condition
     betaTestTermsCondition = BetaTestTermsConditions.objects.filter().first()
 
@@ -4447,8 +4450,9 @@ def front_BetatestTerms_andCondition(request):
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
             'refund_policy': refund_policy,
+            'product_cat_list_all': product_cat_list_all,
         }
-        return render(request, 'frontEnd/policy/refund_policy.html', context)
+        return render(request, 'frontEnd/policy/beta_test_termsCondition.html', context)
 
     context = {
         'betaTestTermsCondition': betaTestTermsCondition,
@@ -4459,8 +4463,8 @@ def front_BetatestTerms_andCondition(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'refund_policy' : refund_policy,
+        'product_cat_list_all': product_cat_list_all,
     }
-
 
     return render(request, 'frontEnd/policy/beta_test_termsCondition.html', context)
 
@@ -4482,11 +4486,15 @@ def front_MembershipPolicy(request):
     # help center setting
     help_center_content_setting = HelpCenter.objects.filter().first()
 
+
     # current refund policy
     refund_policy = RefundPolicy.objects.filter().first()
 
     # beta test terms and condition
     membershipPolicy = MembersPolicy.objects.filter().first()
+
+    # all product category
+    product_cat_list_all = ProductCategory.objects.all()
 
     if request.user.is_authenticated:
         # user cart status
@@ -4516,6 +4524,7 @@ def front_MembershipPolicy(request):
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
             'refund_policy': refund_policy,
+            'product_cat_list_all': product_cat_list_all,
         }
         return render(request, 'frontEnd/policy/members.html', context)
 
@@ -4528,6 +4537,7 @@ def front_MembershipPolicy(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'refund_policy' : refund_policy,
+        'product_cat_list_all': product_cat_list_all,
     }
 
 
@@ -4555,6 +4565,9 @@ def front_ShopperPolicy(request):
 
     # beta test terms and condition
     shoppershipPolicy = ShopperPolicy.objects.filter().first()
+
+    # all product category
+    product_cat_list_all = ProductCategory.objects.all()
 
     if request.user.is_authenticated:
         # user cart status
@@ -4584,6 +4597,7 @@ def front_ShopperPolicy(request):
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
             'refund_policy': refund_policy,
+            'product_cat_list_all': product_cat_list_all,
         }
         return render(request, 'frontEnd/policy/shoppers.html', context)
 
@@ -4596,9 +4610,8 @@ def front_ShopperPolicy(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'refund_policy' : refund_policy,
+        'product_cat_list_all': product_cat_list_all,
     }
-
-
     return render(request, 'frontEnd/policy/shoppers.html', context)
 
 def front_refund_policy(request):
@@ -4620,6 +4633,9 @@ def front_refund_policy(request):
 
     # help center setting
     help_center_content_setting = HelpCenter.objects.filter().first()
+
+    # all product category
+    product_cat_list_all = ProductCategory.objects.all()
 
     # current refund policy
     refund_policy = RefundPolicy.objects.filter().first()
@@ -4651,6 +4667,7 @@ def front_refund_policy(request):
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
             'refund_policy': refund_policy,
+            'product_cat_list_all': product_cat_list_all,
         }
         return render(request, 'frontEnd/policy/refund_policy.html', context)
 
@@ -4662,6 +4679,7 @@ def front_refund_policy(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'refund_policy' : refund_policy,
+        'product_cat_list_all': product_cat_list_all,
     }
     return render(request, 'frontEnd/policy/refund_policy.html', context)
 
@@ -4688,6 +4706,9 @@ def front_return_policy(request):
 
     # return policy
     return_policy = ReturnPolicy.objects.filter().first()
+
+    # all product category
+    product_cat_list_all = ProductCategory.objects.all()
 
     if request.user.is_authenticated:
         # user cart status
@@ -4716,6 +4737,7 @@ def front_return_policy(request):
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
             'return_policy': return_policy,
+            'product_cat_list_all': product_cat_list_all,
         }
         return render(request, 'frontEnd/policy/return_policy.html', context)
 
@@ -4728,7 +4750,7 @@ def front_return_policy(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
 
-
+        'product_cat_list_all': product_cat_list_all,
         'return_policy': return_policy,
     }
     return render(request, 'frontEnd/policy/return_policy.html', context)
@@ -5382,6 +5404,38 @@ def front_howIt_howSpinit2Win_works(request):
     }
 
     return render(request, 'frontEnd/how_works/how_spinit2win_works.html', context)
+
+# spin points
+def front_howIt_SpinPoints(request):
+
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+    # how it works
+    # how_spin_it_win_works = HowSpinIt2WinWorks.objects.filter().first()
+
+    context = {
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+    }
+
+    return render(request, 'frontEnd/how_works/spinPoints.html', context)
 
 def front_howIt__spin_tokens(request):
     site_logo = SiteLogo.objects.filter().first()
