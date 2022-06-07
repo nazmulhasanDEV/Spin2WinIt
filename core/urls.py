@@ -147,6 +147,7 @@ urlpatterns = [
 
     # how it works***********************************************************************
     # re_path(r'^fe/how/spinwin/works/$', views.front_how_spinWinWorks, name='frontHowSpinWinWorks'),
+    re_path(r'^fe/how/it/works/$', views.front_howIt_works, name='front_HowItWorks'),
     re_path(r'^fe/how/it/works/account/details/$', views.front_howIt_account_details, name='frontfront_howIt_account_details'),
     re_path(r'^fe/how/spinit2win/works/$', views.front_howIt_howSpinit2Win_works, name='front__howSpinit2WinWorks'),
     re_path(r'^fe/how/works/spin/tokens/$', views.front_howIt__spin_tokens, name='front__howWorks_spintokens'),

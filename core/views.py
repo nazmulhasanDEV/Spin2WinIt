@@ -5258,6 +5258,37 @@ def front_contact_us(request):
 # process user product prizes ends***************************************************************
 
 #how works************************************************************************************
+def front_howIt_works(request):
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+    # how it works
+    how_spin_it_win_works = HowSpinIt2WinWorks.objects.filter().first()
+
+    context = {
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+        'how_spin_it_win_works': how_spin_it_win_works,
+    }
+
+    return render(request, 'frontEnd/how_works/how_it_works.html', context)
+
 def front_how_spinWinWorks(request):
     site_logo = SiteLogo.objects.filter().first()
 

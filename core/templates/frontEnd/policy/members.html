@@ -3,18 +3,54 @@
 
 {% block main_block %}
 <section id="refund_policy">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="title">
-          <h4 class="mt-md-4">Beta Test Terms & Conditions</h4>
-        </div>
+    <div class="container">
+        <div class="row">
+<!--            <div class="col-md-12">-->
+<!--                <div style="position: relative; margin-top: 20px;">-->
+<!--                    <h1 class="text-center">How It Works</h1>-->
+<!--&lt;!&ndash;                    <p class="text-center">Here is the details how SpinWin works!</p>&ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
 
-        <div style="padding-bottom: 20px;">
-          {{membershipPolicy.content|safe}}
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div>
+                    <img src="{% static 'frontEnd/policy/accnt_2.png' %}" style="width: 100%;" alt="">
+                    <img src="{% static 'frontEnd/policy/accnt_1.png' %}" style="width: 100%;" alt="">
+                </div>
+            </div>
+            <div class="col-md-1"></div>
         </div>
-      </div>
     </div>
-  </div>
+
+
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-md-12">-->
+<!--                <div class="title">-->
+<!--                    <h4 class="mt-md-4">How <strong>"Spinit2Win"</strong> Works?</h4>-->
+<!--                </div>-->
+
+<!--                <div style="padding-bottom: 20px;">-->
+<!--                    {{how_spin_it_win_works.content|safe}}-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 </section>
+<!--<section id="refund_policy">-->
+<!--  <div class="container">-->
+<!--    <div class="row">-->
+<!--      <div class="col-md-12">-->
+<!--        <div class="title">-->
+<!--          <h4 class="mt-md-4">Members Policy</h4>-->
+<!--        </div>-->
+
+<!--        <div style="padding-bottom: 20px;">-->
+<!--          {{membershipPolicy.content|safe}}-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->
 {% endblock %}
