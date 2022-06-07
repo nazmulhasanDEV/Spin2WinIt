@@ -1,0 +1,20 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<section id="refund_policy">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="title">
+          <h4 class="mt-md-4">Beta Test Terms & Conditions</h4>
+        </div>
+
+        <div style="padding-bottom: 20px;">
+          {{shoppershipPolicy.content|safe}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

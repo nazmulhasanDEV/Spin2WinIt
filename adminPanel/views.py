@@ -4757,6 +4757,7 @@ def ap_del_contact_us(request, pk):
 
 # policy setting ***************************************************************
 
+# beta test
 @login_required(login_url='/ap/register/updated')
 def ap_add_betaTest_termsConditions(request):
 
@@ -4835,6 +4836,166 @@ def ap_removeBetaTestTermsCondition(request, pk):
         return redirect('apAddBetaTestTermsConditions')
 
     return redirect('apAddBetaTestTermsConditions')
+
+# members policy
+@login_required(login_url='/ap/register/updated')
+def ap_add_MembersPolicy(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # user profile picture
+    profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+
+    if request.method == 'POST':
+        content = request.POST.get('members_policy')
+
+        if content and MembersPolicy.objects.filter().count() <= 0:
+            membersPolicyModel = MembersPolicy.objects.create(content=content)
+            messages.success(request, "Successfully added!")
+            return redirect('apAddMembersPolicy')
+        else:
+            messages.warning(request, "Members already exists! Delete it to add new one or update it!")
+            return redirect('apAddMembersPolicy')
+
+    # existing data
+    existing_membersPolicy = MembersPolicy.objects.filter().first()
+
+    context = {
+        'existing_membersPolicy': existing_membersPolicy,
+        'profile_pic': profile_pic,
+    }
+
+    return render(request, 'backEnd_superAdmin/policy_setting/members/add_members.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_update_MembersPolicy(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # user profile picture
+    profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+
+    # existing data
+    existing_member_policy = MembersPolicy.objects.filter(pk=pk).first()
+
+    if request.method == 'POST':
+        content = request.POST.get('members_policy')
+
+        if content:
+            existing_member_policy.content = content
+            existing_member_policy.save()
+            messages.success(request, "Successfully updated!")
+            return redirect('apAddMembersPolicy')
+        else:
+            messages.warning(request, "Terms & condition can not be updated!")
+            return redirect('apAddMembersPolicy')
+
+    context = {
+        'existing_member_policy': existing_member_policy,
+        'profile_pic': profile_pic,
+    }
+
+    return render(request, 'backEnd_superAdmin/policy_setting/members/update_membersPolicy.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_removeMembersPolicy(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        existing_obj = MembersPolicy.objects.get(pk=pk)
+        existing_obj.delete()
+        messages.success(request, 'Successfully deleted!')
+        return redirect('apAddMembersPolicy')
+    except:
+        messages.success(request, "Can't be  deleted! Try again!")
+        return redirect('apAddMembersPolicy')
+
+    return redirect('apAddMembersPolicy')
+
+# shopper policy
+@login_required(login_url='/ap/register/updated')
+def ap_add_ShopperPolicy(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # user profile picture
+    profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+
+    if request.method == 'POST':
+        content = request.POST.get('shopper_policy')
+
+        if content and ShopperPolicy.objects.filter().count() <= 0:
+            shopperPolicyModel = ShopperPolicy.objects.create(content=content)
+            messages.success(request, "Successfully added!")
+            return redirect('apAddShopperPolicy')
+        else:
+            messages.warning(request, "Shopper policy already exists! Delete it to add new one or update it!")
+            return redirect('apAddShopperPolicy')
+
+    # existing data
+    existing_shopperPolicy = ShopperPolicy.objects.filter().first()
+
+    context = {
+        'existing_shopperPolicy': existing_shopperPolicy,
+        'profile_pic': profile_pic,
+    }
+
+    return render(request, 'backEnd_superAdmin/policy_setting/shoppers/add_shopper_policy.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_update_ShopperPolicy(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # user profile picture
+    profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+
+    # existing data
+    existing_shopper_policy = ShopperPolicy.objects.filter(pk=pk).first()
+
+    if request.method == 'POST':
+        content = request.POST.get('shopper_policy')
+
+        if content:
+            existing_shopper_policy.content = content
+            existing_shopper_policy.save()
+            messages.success(request, "Successfully updated!")
+            return redirect('apAddShopperPolicy')
+        else:
+            messages.warning(request, "Shopper policy can not be updated!")
+            return redirect('apAddShopperPolicy')
+
+    context = {
+        'existing_shopper_policy': existing_shopper_policy,
+        'profile_pic': profile_pic,
+    }
+
+    return render(request, 'backEnd_superAdmin/policy_setting/shoppers/update_shopper_policy.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_removeShopperPolicy(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        existing_obj = ShopperPolicy.objects.get(pk=pk)
+        existing_obj.delete()
+        messages.success(request, 'Successfully deleted!')
+        return redirect('apAddMembersPolicy')
+    except:
+        messages.success(request, "Can't be  deleted! Try again!")
+        return redirect('apAddMembersPolicy')
+
+    return redirect('apAddMembersPolicy')
+
+
 
 @login_required(login_url='/ap/register/updated')
 def ap_delivery_policy(request):

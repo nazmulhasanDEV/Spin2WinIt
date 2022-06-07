@@ -122,6 +122,21 @@ class BetaTestTermsConditions(models.Model):
     def __str__(self):
         return self.content
 
+# members policy
+class MembersPolicy(models.Model):
+    content = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content
+class ShopperPolicy(models.Model):
+    content = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content
+
+
 # delivery policy
 class DeliveryPolicy(models.Model):
     content = models.TextField()

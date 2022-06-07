@@ -40,6 +40,10 @@ admin.site.register(ShopWithConfidence)
 admin.site.register(HelpCenter)
 admin.site.register(CustomerMessageList)
 
+# members and shoppers policy
+admin.site.register(MembersPolicy)
+admin.site.register(ShopperPolicy)
+
 admin.site.register(VisitorInfo)
 admin.site.register(TotalNumVisitor)
 

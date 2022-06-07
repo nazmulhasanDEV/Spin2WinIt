@@ -158,6 +158,16 @@ urlpatterns = [
     re_path(r'^ap/update/beta/test/terms/conditions/(?P<pk>\d+)/$', views.ap_update_betaTest_termsConditions, name='apUpdateBetaTestTermsConditions'),
     re_path(r'^ap/remove/beta/test/terms/conditions/(?P<pk>\d+)/$', views.ap_removeBetaTestTermsCondition, name='apRemoveBetaTestTermsConditions'),
 
+    # members policy
+    re_path(r'^ap/add/members/policy/$', views.ap_add_MembersPolicy, name='apAddMembersPolicy'),
+    re_path(r'^ap/update/members/policy/(?P<pk>\d+)/$', views.ap_update_MembersPolicy, name='apUpdateMembersPolicy'),
+    re_path(r'^ap/remove/members/policy/(?P<pk>\d+)/$', views.ap_removeMembersPolicy, name='apRemoveMembersPolicy'),
+
+    # shopper policy
+    re_path(r'^ap/add/shopper/policy/$', views.ap_add_ShopperPolicy, name='apAddShopperPolicy'),
+    re_path(r'^ap/update/shopper/policy/(?P<pk>\d+)/$', views.ap_update_ShopperPolicy, name='apUpdateShopperPolicy'),
+    re_path(r'^ap/remove/shopper/policy/(?P<pk>\d+)/$', views.ap_removeShopperPolicy, name='apRemoveShopperPolicy'),
+
     re_path(r'^ap/delivery/policy/$', views.ap_delivery_policy, name='apDeliveryPolicy'),
     re_path(r'^ap/update/delivery/policy/(?P<pk>\d+)/$', views.ap_update_delivery_policy, name='apUpdateDeliveryPolicy'),
     re_path(r'^ap/del/delivery/policy/(?P<pk>\d+)/$', views.ap_del_delivery_policy, name='apDeleteDeliveryPolicy'),

@@ -132,6 +132,9 @@ urlpatterns = [
     re_path(r'^fe/security/policy/$', views.front_security_policy, name='frontSecurityPolicy'),
     re_path(r'^fe/delivery/policy/$', views.front_delivery_policy, name='frontDeliveryPolicy'),
 
+    re_path(r'^fe/members/policy/details/$', views.front_MembershipPolicy, name='frontMembersPolicy'),
+    re_path(r'^fe/shopper/policy/details/$', views.front_ShopperPolicy, name='frontShopperPolicy'),
+
     # company
     re_path(r'^fe/about/us/$', views.front_about_us, name='frontAboutUs'),
     re_path(r'^fe/cookie/policy/$', views.front_cookie_policy, name='frontCookiePolicy'),
