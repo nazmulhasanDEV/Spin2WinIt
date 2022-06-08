@@ -54,8 +54,6 @@ def authorizationAPI(request):
 
     response = requests.request("POST", url, data=payload, headers=headers)
 
-    print(response.text)
-
     return render(request, 'test.html')
 
 
@@ -1280,7 +1278,7 @@ def ap_fetch_woocommerce_store_prdct(request):
 
                 try:
                     for x in p:
-
+                        print(x)
                         # combining multiple categories of one product
                         cats = ''
                         for cat in x['categories']:
