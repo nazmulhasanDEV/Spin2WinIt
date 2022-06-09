@@ -1300,6 +1300,10 @@ def ap_fetch_woocommerce_store_prdct(request):
                                 rating_count=x['rating_count'],
                                 cat_id=x['categories'][0]['id'],
                                 cat_name=cats,
+                                product_weight=x['weight'],
+                                product_length=x['dimensions']['length'],
+                                product_width=x['dimensions']['width'],
+                                product_height=x['dimensions']['height'],
                                 subcat_id='1',
                                 subcat_name='subcat_name',
                                 security_policy='apcp',
@@ -1329,7 +1333,11 @@ def ap_fetch_woocommerce_store_prdct(request):
                                 subcat_name='subcat',
                                 stock_status=x['stock_status'],
                                 avrg_rating=x['average_rating'],
-                                rating_count=x['rating_count']
+                                rating_count=x['rating_count'],
+                                product_weight=x['weight'],
+                                product_length=x['dimensions']['length'],
+                                product_width=x['dimensions']['width'],
+                                product_height=x['dimensions']['height'],
                             )
 
                             for img in x['images']:
@@ -1394,6 +1402,11 @@ def ap_update_wocommerce_store_prdct(request):
                             product_list_model.security_policy = 'apcp'
                             product_list_model.return_policy = 'apcp'
                             product_list_model.delivery_policy = 'apcp'
+
+                            product_list_model.product_weight = x['weight']
+                            product_list_model.product_length = x['dimensions']['length']
+                            product_list_model.product_width = x['dimensions']['width']
+                            product_list_model.product_height = x['dimensions']['height']
                             product_list_model.save()
 
                             for img in x['images']:
@@ -1426,6 +1439,11 @@ def ap_update_wocommerce_store_prdct(request):
                             woocomrc_prdct_list_model.stock_status = x['stock_status']
                             woocomrc_prdct_list_model.avrg_rating = x['average_rating']
                             woocomrc_prdct_list_model.rating_count = x['rating_count']
+
+                            woocomrc_prdct_list_model.product_weight = x['weight']
+                            woocomrc_prdct_list_model.product_length = x['dimensions']['length']
+                            woocomrc_prdct_list_model.product_width = x['dimensions']['width']
+                            woocomrc_prdct_list_model.product_height = x['dimensions']['height']
                             woocomrc_prdct_list_model.save()
 
                             # for img in x['images']:

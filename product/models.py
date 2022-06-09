@@ -38,6 +38,11 @@ class WoocommerceProductList(models.Model):
     rating_count = models.CharField(max_length=255, blank=True, null=True)
     sponsr_as_prize = models.BooleanField(default=False, blank=True, null=True)
 
+    product_weight = models.CharField(default='', max_length=50, blank=True, null=True)
+    product_length = models.CharField(default='', max_length=50, blank=True, null=True)
+    product_width = models.CharField(default='', max_length=50, blank=True, null=True)
+    product_height = models.CharField(default='', max_length=50, blank=True, null=True)
+
     class Meta:
         ordering = ['pk']
 
@@ -104,6 +109,11 @@ class ProductList(models.Model):
     regular_price = models.CharField(max_length=255, blank=True, null=True)
 
     sponsr_as_prize = models.BooleanField(default=False, blank=True, null=True) # not used/not needed
+
+    product_weight = models.CharField(default='', max_length=50, blank=True, null=True)
+    product_length = models.CharField(default='', max_length=50, blank=True, null=True)
+    product_width = models.CharField(default='', max_length=50, blank=True, null=True)
+    product_height = models.CharField(default='', max_length=50, blank=True, null=True)
 
     sponsor_status = models.CharField(default='No', max_length=255, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)

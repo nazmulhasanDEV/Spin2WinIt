@@ -70,6 +70,8 @@
                                     <th>Product Title</th>
                                     <th>Category & sub-category</th>
                                     <th>Current price</th>
+                                    <th>Weight</th>
+                                    <th>Length/Width/Heigh</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
@@ -83,6 +85,10 @@
                                     <td>{{x.title|striptags|truncatechars:80}}</td>
                                     <td>{{x.subcat_name}}, {{x.cat_name}}</td>
                                     <td>{{x.price|floatformat:2}}</td>
+
+                                    <td>{{x.product_weight}}</td>
+                                    <td>{{x.product_length}}/{{x.product_width}}/{{x.product_height}}</td>
+
                                     <td class="text-center">
                                         <a href="{% url 'apAdminCustomProductDetails' pk=x.pk product_id=x.product_id %}">
                                             <button type="button" style="border:none; background: #222D32;color:white;">
@@ -193,6 +199,8 @@
                                     <th>Product title</th>
                                     <th>Product category</th>
                                     <th>Current price</th>
+                                    <th>Weight</th>
+                                    <th>Length/Width/Heigh</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </tfoot>
