@@ -38,7 +38,7 @@ wcapi = API(
     consumer_key="ck_d7b8e625408c67fc0351b88ea84e04b6f2657ce1",
     consumer_secret="cs_ba22b43fc833f3dc319f5385c027e6d79b73aaab",
     version="wc/v3",
-    # timeout=100,
+    timeout=100,
 )
 
 def authorizationAPI(request):
@@ -1283,12 +1283,11 @@ def ap_fetch_woocommerce_store_prdct(request):
                         cats = ''
                         for cat in x['categories']:
                             cats = cats + cat['name'] + ' ,'
-                        # print(float(x['weight']))
-                        # print(float(x['dimensions']['length']))
-                        # print(float(x['dimensions']['width']))
-                        # print(float(x['dimensions']['height']))
-                        # print(cats)
+
                         if len(ProductList.objects.filter(product_id=x['id'])) <= 0:
+                            weight = 0
+                            if x['weight'] != '':
+                                weight = float(x['weight'])
                             product_list_model = ProductList.objects.create(
                                 user=request.user,
                                 product_id=x['id'],
@@ -1304,7 +1303,7 @@ def ap_fetch_woocommerce_store_prdct(request):
                                 rating_count=x['rating_count'],
                                 cat_id=x['categories'][0]['id'],
                                 cat_name=cats,
-                                product_weight=float(x['weight']),
+                                product_weight=weight,
                                 product_length=x['dimensions']['length'],
                                 product_width=x['dimensions']['width'],
                                 product_height=x['dimensions']['height'],
@@ -1322,6 +1321,10 @@ def ap_fetch_woocommerce_store_prdct(request):
                                 product_list_model.save()
 
                         if len(WoocommerceProductList.objects.filter(product_id=x['id'])) <= 0:
+
+                            # weight = 0
+                            # if x['weight'] != '':
+                            #     weight = float(x['weight'])
 
                             woocomrc_prdct_list_model = WoocommerceProductList.objects.create(
                                 product_id=x['id'],
@@ -1387,6 +1390,9 @@ def ap_update_wocommerce_store_prdct(request):
 
                     if len(ProductList.objects.filter(product_id=x['id'])) > 0:
                         product_list_model = ProductList.objects.filter(product_id=x['id']).first()
+                        weight = 0
+                        if x['weight'] != '':
+                            weight = float(x['weight'])
                         if product_list_model.product_weight == '':
                             product_list_model.user = request.user
                             product_list_model.product_id = x['id']
@@ -1408,7 +1414,7 @@ def ap_update_wocommerce_store_prdct(request):
                             product_list_model.return_policy = 'apcp'
                             product_list_model.delivery_policy = 'apcp'
 
-                            product_list_model.product_weight = float(x['weight'])
+                            product_list_model.product_weight = weight
                             product_list_model.product_length = float(x['dimensions']['length'])
                             product_list_model.product_width = float(x['dimensions']['width'])
                             product_list_model.product_height = float(x['dimensions']['height'])
