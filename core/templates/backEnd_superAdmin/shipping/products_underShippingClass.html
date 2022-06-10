@@ -37,13 +37,13 @@
         <div class="col-md-12">
             <section class="content-header">
                 <h1>
-                    Product List
+                    Product list under <strong>{{crnt_shippingClass.name}}</strong> shipping
                 </h1>
                 <ol class="breadcrumb">
 
                     <div style="position: relative;padding-top: 15px; padding-bottom: 15px;">
-                        <a href="/ap/add/admin/custom/product" style="position: absolute; right: 0; bottom: 15px;">
-                            <button type="button" style="width: 130px;border: none; outline: none;color: white; border-radius: 5px; padding: 5px; background:#222D32;"><i class="fas fa-plus"></i>&nbsp; Add New Product</button>
+                        <a href="/ap/add/shipping/class" style="position: absolute; right: 0; bottom: 15px;">
+                            <button type="button" style="width: 150px;border: none; outline: none;color: white; border-radius: 5px; padding: 5px; background:#222D32;"><i class="fas fa-plus"></i>&nbsp; Add Shipping Class </button>
                         </a>
                     </div>
                 </ol>
@@ -76,8 +76,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% if product_list %}
-                                {% for x in product_list %}
+                                {% if productsByShippingClass %}
+                                {% for x in productsByShippingClass %}
 
                                 {% if x.product_type == 'wsp' %}
                                 <tr>

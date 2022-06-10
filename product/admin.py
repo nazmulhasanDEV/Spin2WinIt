@@ -63,3 +63,6 @@ admin.site.register(AppliedCouponHistory)
 admin.site.register(OfferedProductItemsByMembershipRank)
 admin.site.register(OfferedSingleProductBasedOnMembershipRank)
 
+admin.site.register(ShippingClass)
+admin.site.register(ProductWeightCriteria)
+

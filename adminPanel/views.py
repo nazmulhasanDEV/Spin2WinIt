@@ -38,7 +38,7 @@ wcapi = API(
     consumer_key="ck_d7b8e625408c67fc0351b88ea84e04b6f2657ce1",
     consumer_secret="cs_ba22b43fc833f3dc319f5385c027e6d79b73aaab",
     version="wc/v3",
-    timeout=100,
+    # timeout=100,
 )
 
 def authorizationAPI(request):
@@ -1278,12 +1278,16 @@ def ap_fetch_woocommerce_store_prdct(request):
 
                 try:
                     for x in p:
-                        print(x)
+
                         # combining multiple categories of one product
                         cats = ''
                         for cat in x['categories']:
                             cats = cats + cat['name'] + ' ,'
-
+                        # print(float(x['weight']))
+                        # print(float(x['dimensions']['length']))
+                        # print(float(x['dimensions']['width']))
+                        # print(float(x['dimensions']['height']))
+                        # print(cats)
                         if len(ProductList.objects.filter(product_id=x['id'])) <= 0:
                             product_list_model = ProductList.objects.create(
                                 user=request.user,
@@ -1300,7 +1304,7 @@ def ap_fetch_woocommerce_store_prdct(request):
                                 rating_count=x['rating_count'],
                                 cat_id=x['categories'][0]['id'],
                                 cat_name=cats,
-                                product_weight=x['weight'],
+                                product_weight=float(x['weight']),
                                 product_length=x['dimensions']['length'],
                                 product_width=x['dimensions']['width'],
                                 product_height=x['dimensions']['height'],
@@ -1337,7 +1341,7 @@ def ap_fetch_woocommerce_store_prdct(request):
                                 product_weight=x['weight'],
                                 product_length=x['dimensions']['length'],
                                 product_width=x['dimensions']['width'],
-                                product_height=x['dimensions']['height'],
+                                product_height=x['dimensions']['height']
                             )
 
                             for img in x['images']:
@@ -1346,9 +1350,10 @@ def ap_fetch_woocommerce_store_prdct(request):
 
                                 woocomrc_prdct_list_model.product_img.add(product_img_model)
                                 woocomrc_prdct_list_model.save()
+
                 except:
 
-                    messages.warning(request, "Can't import products or server error! Try again!a")
+                    messages.warning(request, "Can't import products or server error! Try again!")
                     return redirect('apWoocommerceStoreList')
             if len(json.loads(prods.text)) <= 0:
                 break
@@ -1359,7 +1364,6 @@ def ap_fetch_woocommerce_store_prdct(request):
 
     return redirect('apWoocommerceStoreList')
 
-
 @login_required(login_url='/ap/register/updated')
 def ap_update_wocommerce_store_prdct(request):
 
@@ -1367,22 +1371,23 @@ def ap_update_wocommerce_store_prdct(request):
         return redirect('frontEndLoginUser')
 
     page = 1  # The first page number to loop is page 1
-    try:
-        while True:
-            prods = wcapi.get('products', params={"per_page": 50, "page": page})
-            page += 1
-            if prods.text:
-                products = json.loads(prods.text)
-                try:
-                    for x in products:
-                        # combining multiple categories of one product
-                        cats = ''
-                        for cat in x['categories']:
-                            cats = cats + cat['name'] + ' ,'
+    while True:
 
-                        if len(ProductList.objects.filter(product_id=x['id'])) > 0:
-                            product_list_model = ProductList.objects.filter(product_id=x['id']).first()
+        prods = wcapi.get('products', params={"per_page": 20, "page": page})
+        page += 1
+        if prods.text:
+            products = json.loads(prods.text)
+            try:
+                for x in products:
 
+                    # combining multiple categories of one product
+                    cats = ''
+                    for cat in x['categories']:
+                        cats = cats + cat['name'] + ' ,'
+
+                    if len(ProductList.objects.filter(product_id=x['id'])) > 0:
+                        product_list_model = ProductList.objects.filter(product_id=x['id']).first()
+                        if product_list_model.product_weight == '':
                             product_list_model.user = request.user
                             product_list_model.product_id = x['id']
                             product_list_model.product_type = 'wsp'
@@ -1403,62 +1408,53 @@ def ap_update_wocommerce_store_prdct(request):
                             product_list_model.return_policy = 'apcp'
                             product_list_model.delivery_policy = 'apcp'
 
-                            product_list_model.product_weight = x['weight']
-                            product_list_model.product_length = x['dimensions']['length']
-                            product_list_model.product_width = x['dimensions']['width']
-                            product_list_model.product_height = x['dimensions']['height']
+                            product_list_model.product_weight = float(x['weight'])
+                            product_list_model.product_length = float(x['dimensions']['length'])
+                            product_list_model.product_width = float(x['dimensions']['width'])
+                            product_list_model.product_height = float(x['dimensions']['height'])
                             product_list_model.save()
 
-                            for img in x['images']:
-                                old_product_imgs = ProductImg.objects.filter(product_id=x['id'])
-                                for img in old_product_imgs:
-                                    if img.img:
-                                        fs = FileSystemStorage()
-                                        fs.delete(img.img.name)
-                                    img.delete()
-                                product_img_model = ProductImg.objects.create(product_id=x['id'], product_type='wsp',
-                                                                              img_link=img['src'])
-                                product_list_model.productImg.add(product_img_model)
-                                product_list_model.save()
+                        # for img in x['images']:
+                        #     old_product_imgs = ProductImg.objects.filter(product_id=x['id'])
+                        #     if old_product_imgs:
+                        #         for img in old_product_imgs:
+                        #             if img.img:
+                        #                 fs = FileSystemStorage()
+                        #                 fs.delete(img.img.name)
+                        #             img.delete()
+                        #     product_img_model = ProductImg.objects.create(product_id=x['id'], product_type='wsp', img_link=img['src'])
+                        #     product_list_model.productImg.add(product_img_model)
+                        #     product_list_model.save()
 
-                        if len(WoocommerceProductList.objects.filter(product_id=x['id'])) > 0:
+                    if len(WoocommerceProductList.objects.filter(product_id=x['id'])) > 0:
+                        woocomrc_prdct_list_model = WoocommerceProductList.objects.filter(
+                            product_id=x['id']).first()
 
-                            woocomrc_prdct_list_model = WoocommerceProductList.objects.filter(product_id=x['id']).first()
+                        woocomrc_prdct_list_model.product_id = x['id']
+                        woocomrc_prdct_list_model.name = x['name']
+                        woocomrc_prdct_list_model.slug = x['slug']
+                        woocomrc_prdct_list_model.description = x['description']
+                        woocomrc_prdct_list_model.price = x['price']
+                        woocomrc_prdct_list_model.regular_price = x['regular_price']
+                        woocomrc_prdct_list_model.total_sales = x['total_sales']
+                        woocomrc_prdct_list_model.cat_id = x['categories'][0]['id']
+                        woocomrc_prdct_list_model.cat_name = x['categories'][0]['name']
+                        woocomrc_prdct_list_model.subcat_id = '1'
+                        woocomrc_prdct_list_model.subcat_name = 'subcat'
+                        woocomrc_prdct_list_model.stock_status = x['stock_status']
+                        woocomrc_prdct_list_model.avrg_rating = x['average_rating']
+                        woocomrc_prdct_list_model.rating_count = x['rating_count']
 
-                            woocomrc_prdct_list_model.product_id = x['id']
-                            woocomrc_prdct_list_model.name = x['name']
-                            woocomrc_prdct_list_model.slug = x['slug']
-                            woocomrc_prdct_list_model.description = x['description']
-                            woocomrc_prdct_list_model.price = x['price']
-                            woocomrc_prdct_list_model.regular_price = x['regular_price']
-                            woocomrc_prdct_list_model.total_sales = x['total_sales']
-                            woocomrc_prdct_list_model.cat_id = x['categories'][0]['id']
-                            woocomrc_prdct_list_model.cat_name = x['categories'][0]['name']
-                            woocomrc_prdct_list_model.subcat_id = '1'
-                            woocomrc_prdct_list_model.subcat_name = 'subcat'
-                            woocomrc_prdct_list_model.stock_status = x['stock_status']
-                            woocomrc_prdct_list_model.avrg_rating = x['average_rating']
-                            woocomrc_prdct_list_model.rating_count = x['rating_count']
-
-                            woocomrc_prdct_list_model.product_weight = x['weight']
-                            woocomrc_prdct_list_model.product_length = x['dimensions']['length']
-                            woocomrc_prdct_list_model.product_width = x['dimensions']['width']
-                            woocomrc_prdct_list_model.product_height = x['dimensions']['height']
-                            woocomrc_prdct_list_model.save()
-
-                            # for img in x['images']:
-                            #     product_img_model = ProductImg.objects.create(product_id=x['id'], product_type='wsp',
-                            #                                                   img_link=img['src'])
-                            #
-                            #     woocomrc_prdct_list_model.product_img.add(product_img_model)
-                            #     woocomrc_prdct_list_model.save()
-                except:
-                    messages.success(request, "Product has been updated!")
-                    return redirect('apWoocommerceStoreList')
-            if len(json.loads(prods.text)) <= 0:
-                break
-    except:
-        return redirect('apWoocommerceStoreList')
+                        woocomrc_prdct_list_model.product_weight = float(x['weight'])
+                        woocomrc_prdct_list_model.product_length = float(x['dimensions']['length'])
+                        woocomrc_prdct_list_model.product_width = float(x['dimensions']['width'])
+                        woocomrc_prdct_list_model.product_height = float(x['dimensions']['height'])
+                        woocomrc_prdct_list_model.save()
+            except:
+                messages.success(request, "Product has been updated!")
+                return redirect('apWoocommerceStoreList')
+        if len(json.loads(prods.text)) <= 0:
+            break
 
     return redirect('apWoocommerceStoreList')
 
@@ -7689,4 +7685,283 @@ def ap_update_how_spinit2Win_works(request, pk):
     }
 
     return render(request, 'backEnd_superAdmin/how_it_works/update_how_spinit2win_works.html', context)
+
+
+# shipping section starts*******************************************************
+@login_required(login_url='/ap/register/updated')
+def ap_add_shippingClass(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        name = request.POST.get('className')
+        cost = request.POST.get('cost')
+
+        if name and cost and ShippingClass.objects.filter(name=name.capitalize()).count() <= 0:
+            shippingClassId = get_random_string(12)
+            shippingClassList = ShippingClass.objects.create(classID=shippingClassId, name=name.capitalize(), cost_rate=cost)
+            messages.success(request, "Successfully added!")
+            return redirect('apAddShippingClass')
+        else:
+            messages.warning(request, "Already exists! Try with new one!")
+            return redirect('apAddShippingClass')
+
+    # existing classes
+    existing_shippingClassList = ShippingClass.objects.all()
+
+    context = {
+        'existing_shippingClassList': existing_shippingClassList,
+    }
+
+    return render(request, 'backEnd_superAdmin/shipping/add_shipping_class.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_update_shippingClass(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # current object
+    shippingClassList = ShippingClass.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        name = request.POST.get('className')
+        cost = request.POST.get('cost')
+
+        if name and cost and ShippingClass.objects.filter(name=name.capitalize()).count() <= 0:
+            shippingClassList.name = name.capitalize()
+            shippingClassList.cost_rate = cost
+            shippingClassList.save()
+
+            messages.success(request, "Successfully updated!")
+            return redirect('apAddShippingClass')
+        else:
+            messages.warning(request, "Already exists! Try with new one!")
+            return redirect('apAddShippingClass')
+
+    context = {
+        'shippingClassList': shippingClassList,
+    }
+
+    return render(request, 'backEnd_superAdmin/shipping/update_shipping_class.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_shippingClass(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = ShippingClass.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apAddShippingClass')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apAddShippingClass')
+
+    return redirect('apAddShippingClass')
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_productListByShippingClass(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_shippingClass = ShippingClass.objects.get(pk=pk)
+        productsByShippingClass = ProductList.objects.filter(shipping_class=crnt_shippingClass)
+    except:
+        messages.warning(request, "No products found!")
+        return redirect('apAddShippingClass')
+
+    context = {
+        'crnt_shippingClass': crnt_shippingClass,
+        'productsByShippingClass': productsByShippingClass,
+    }
+
+    return render(request, 'backEnd_superAdmin/shipping/products_underShippingClass.html', context)
+
+# product weight criteria
+@login_required(login_url='/ap/register/updated')
+def ap_add_productWeightCriteria(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        min_weight = request.POST.get('min_weight')
+        max_weight = request.POST.get('max_weight')
+
+        if min_weight and max_weight:
+            id = get_random_string(15)
+            productWeightCriteria = ProductWeightCriteria.objects.create(criteria_id=id, min_weight=min_weight, max_weight=max_weight)
+            messages.success(request, "Successfully added!")
+            return redirect('apAddProductWeightCriteria')
+        else:
+            messages.warning(request, "Can't be added!")
+            return redirect('apAddProductWeightCriteria')
+
+    # existing weight criteria
+    existingProductWeightCriteria = ProductWeightCriteria.objects.all()
+
+    context = {
+        'existingProductWeightCriteria': existingProductWeightCriteria,
+    }
+
+    return render(request, 'backEnd_superAdmin/shipping/criteria/add_criteria.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_update_productWeightCriteria(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    crnt_productWeightCriteria = ProductWeightCriteria.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        min_weight = request.POST.get('min_weight')
+        max_weight = request.POST.get('max_weight')
+
+        if min_weight and max_weight:
+            crnt_productWeightCriteria.min_weight=min_weight
+            crnt_productWeightCriteria.max_weight=max_weight
+            crnt_productWeightCriteria.save()
+            messages.success(request, "Successfully updated!")
+            return redirect('apAddProductWeightCriteria')
+
+        else:
+            messages.warning(request, "Can't be updated!")
+            return redirect('apAddProductWeightCriteria')
+
+    context = {
+        'crnt_productWeightCriteria': crnt_productWeightCriteria,
+    }
+
+    return render(request, 'backEnd_superAdmin/shipping/criteria/update_criteria.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_productWeightCriteria(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = ProductWeightCriteria.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apAddProductWeightCriteria')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apAddProductWeightCriteria')
+
+    return redirect('apAddProductWeightCriteria')
+
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_group_up_productsByShippingClass(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # all weight criteria
+    all_weight_criteria = ProductWeightCriteria.objects.all()
+
+    # all shipping class
+    all_shipping_class = ShippingClass.objects.all()
+
+    if request.method == 'GET':
+        # selected criteria
+        weight_criteria_id = request.GET.get('weight_criteria_id')
+
+        # products id by selected criteria
+        selectedProductsIDsByCriteria = request.GET.get('selectedProductsByCriteria')
+
+        if weight_criteria_id and ProductWeightCriteria.objects.filter(pk=weight_criteria_id).first():
+            crnt_product_criteria_obj = ProductWeightCriteria.objects.filter(pk=weight_criteria_id).first()
+            min_weight_of_crnt_criteria = crnt_product_criteria_obj.min_weight
+            max_weight_of_crnt_criteria = crnt_product_criteria_obj.max_weight
+
+            # products with current min and max weight
+            products = list(ProductList.objects.filter(Q(product_weight__gte=min_weight_of_crnt_criteria) & Q(product_weight__lt=max_weight_of_crnt_criteria) & Q(shipping_class__isnull=True)).values())
+
+            if request.is_ajax():
+                return JsonResponse({'products': products})
+
+        if selectedProductsIDsByCriteria:
+            crnt_selected_all_products_by_criteria = []
+            selectedProductIDs_by_crnt_criteria = json.loads(selectedProductsIDsByCriteria)
+
+            if selectedProductIDs_by_crnt_criteria:
+                # converting current ids into int
+                crnt_products_ids = [int(i) for i in selectedProductIDs_by_crnt_criteria]
+                selected_products_by_crnt_criterias = list(ProductList.objects.filter(pk__in=crnt_products_ids).values())
+
+                if request.is_ajax():
+                    return JsonResponse({'crnt_selected_all_products_by_criteria': selected_products_by_crnt_criterias})
+
+
+    context = {
+        'all_shipping_class': all_shipping_class,
+        'all_weight_criteria': all_weight_criteria,
+    }
+
+    return render(request, 'backEnd_superAdmin/shipping/group_up_products.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_updateGroupedProductsShippingClass(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        shippingClassId = request.POST.get('shippingClass')
+        selected_productsIds_byCriteria = request.POST.getlist('selected_products_byCriteria')
+
+        if shippingClassId and selected_productsIds_byCriteria:
+            shipping__Class = ShippingClass.objects.filter(pk=shippingClassId).first()
+            if selected_productsIds_byCriteria:
+                for id in selected_productsIds_byCriteria:
+                    crnt__product = ProductList.objects.filter(pk=id).first()
+                    crnt__product.shipping_class = shipping__Class
+                    crnt__product.save()
+                messages.success(request, "Successfully added!")
+                return redirect('apGroupUpProductsByShippinigClass')
+            else:
+                messages.warning(request, "No products found!")
+                return redirect('apGroupUpProductsByShippinigClass')
+        else:
+            messages.warning(request, "No products found!")
+            return redirect('apGroupUpProductsByShippinigClass')
+
+    return redirect('apGroupUpProductsByShippinigClass')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

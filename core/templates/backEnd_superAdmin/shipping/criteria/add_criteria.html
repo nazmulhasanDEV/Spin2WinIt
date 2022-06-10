@@ -28,82 +28,26 @@
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Add New Shipping Class</h3>
+                    <h3 class="box-title">Add New Weight Criteria</h3>
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form action="{% url 'apSegmentSettings' %}" method="post" enctype="multipart/form-data" role="form">
+                <form action="{% url 'apAddProductWeightCriteria' %}" method="post" enctype="multipart/form-data" role="form">
                     {% csrf_token %}
                     <div class="box-body">
 
                         <div class="row form-group">
-                            <div class="col-md-6">
-                                <label>Select Segment</label>
-                                <select name="segment_name" class="form-control segment_name" required>
-                                    <option>Select segment</option>
-                                    {% if segments %}
-                                    {% for x in segments %}
-                                    <option value="{{x.pk}}">{{x.name}}</option>
-                                    {% endfor %}
-                                    {% endif %}
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label>Segment background color</label>
-                                <input type="color" name="bg_color" class="form-control bg_color" placeholder="Background Color" required>
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
-                            <div class="col-md-6">
-                                <label>Segment prize type</label>
-                                <select name="segment_prize__type" class="form-control" id="segment_prize__type" required>
-                                    <option selected>Select prize type</option>
-                                    <option value="product">Product as prize</option>
-                                    <option value="point">Point as prize</option>
-                                </select>
-                            </div>
 
                             <div class="col-md-6 point_amnt_as_prize">
-                                <label>Point amount as prize(for current segment)</label>
-                                <input type="text" name="point_as_prize" class="form-control" placeholder="Point amount(ex: 20 points)">
-                            </div>
-
-                            <div class="col-md-6 sgmnt_product_as_prize">
-                                <label>Select product as prize</label>
-                                <select name="product_as_prize" class="form-control" id="">
-                                    {% if sponsored_products %}
-                                    {% for x in sponsored_products %}
-                                    <option value="{{x.pk}}">{{x.product.title|safe|truncatechars:50}}</option>
-                                    {% endfor %}
-                                    {% else %}
-                                    <option>No product sponsored yet!</option>
-                                    {% endif %}
-                                </select>
-                            </div>
-
-                        </div>
-
-                        <div class="row form-group">
-                            <div class="col-md-6">
-                                <label>Prize Title</label>
-                                <input type="text" name="prize_title" class="form-control" placeholder="Prize Title">
+                                <label>Min Weight</label>
+                                <input type="number" name="min_weight" class="form-control" step="0.01" placeholder="Minimum Weight">
                             </div>
 
                             <div class="col-md-6">
-                                <label>Select segment status</label>
-                                <select name="segment_status" class="form-control" id="segment_prize__type" required>
-                                    <option value="True" selected>Activate now</option>
-                                    <option value="False">Will activate later</option>
-                                </select>
+                                <label>Max Weight</label>
+                                <input type="number" name="max_weight" class="form-control" step="0.01" placeholder="Max Weight">
                             </div>
-                        </div>
 
-                        <div class="row form-group">
-                            <div class="col-md-6">
-                                <label for="segment_order">Segment Order No.</label>
-                                <input type="number" name="segment_order" id="segment_order" class="form-control" placeholder="Segment Order" />
-                            </div>
                         </div>
 
                     </div>
@@ -126,7 +70,7 @@
         <div class="col-md-12">
             <section class="content-header">
                 <h1>
-                    Segment list with prize
+                    Product Weight Criteria
                 </h1>
             </section>
         </div>
@@ -140,54 +84,29 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Segment List with Prize</h3>
+                            <h3 class="box-title">Product Weight Criteria List</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Segment ID</th>
-                                    <th>Segment Name</th>
-                                    <th>Background Color</th>
-                                    <th>Prize Type</th>
-                                    <th>Status</th>
+                                    <th>ID</th>
+                                    <th>Min Weight - Max Weight(kg)</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% if segment_list_with_prizes %}
-                                {% for x in segment_list_with_prizes %}
+                                {% if existingProductWeightCriteria %}
+                                {% for x in existingProductWeightCriteria %}
                                 <tr>
-                                    <td>{{x.segment_no}}</td>
-                                    <td>{{x.segment.name}}</td>
-                                    <td>{{x.bg_color}}</td>
-                                    {% if x.segment_prize_type == '1' %}
-                                    <td style="background-color: green; color: white">Product</td>
-                                    {% else %}
-                                    <td>Point</td>
-                                    {% endif %}
+                                    <td>{{x.criteria_id}}</td>
+                                    <td>{{x.min_weight}} - {{x.max_weight}}</td>
+                                    <td>{{x.created}}</td>
 
-                                    {% if x.status %}
-                                    <td>Active</td>
-                                    {% else %}
-                                    <td>Not Active</td>
-                                    {% endif %}
                                     <td class="text-center">
-
-                                        {% if x.status %}
-                                        <a href="{% url 'apDe_ActivateSegment' pk=x.pk %}">
-                                            <button type="button" style="border:none; background: #222D32;color:white;">
-                                                De-Activate</button>
-                                        </a>
-                                        {% else %}
-                                        <a href="{% url 'apActivateSegment' pk=x.pk %}">
-                                            <button type="button" style="border:none; background: #222D32;color:white;">
-                                                Activate</button>
-                                        </a>
-                                        {% endif %}
-
-                                        <a href="{% url 'apUpdateSegmentSetting' pk=x.pk %}">
+<!--                                                {% url 'apUpdateSegmentSetting' pk=x.pk %}-->
+                                        <a href="{% url 'apUpdateProductWeightCriteria' pk=x.pk %}">
                                             <button type="button" style="border:none; background: #00C0EF;color:white;">
                                                 <i class="fas fa-edit"></i> Update</button>
                                         </a>
@@ -215,7 +134,8 @@
                                                         <button type="button" class="btn btn-secondary"
                                                                 data-dismiss="modal">Close
                                                         </button>
-                                                        <a href="{% url 'apDeleteSegmentSetting' pk=x.pk %}">
+<!--                                                        -->
+                                                        <a href="{% url 'apRemoveProductWeightCriteria' pk=x.pk %}">
                                                             <button type="button" class="btn btn-primary">
                                                                 Confirm
                                                             </button>
@@ -233,11 +153,8 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Segment ID</th>
-                                    <th>Segment Name</th>
-                                    <th>Background Color</th>
-                                    <th>Prize Type</th>
-                                    <th>Status</th>
+                                    <th>ID</th>
+                                    <th>Min Weight - Max Weight</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </tfoot>

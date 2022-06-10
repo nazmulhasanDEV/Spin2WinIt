@@ -4,6 +4,24 @@ from adminPanel.models import ProductCategory, ProductSubCategory, MemberShipRan
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
+class ShippingClass(models.Model):
+    classID = models.CharField(default='', max_length=255, blank=True, null=True)
+    name = models.CharField(default='', max_length=255)
+    cost_rate = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.name + " Cost: " + str(self.cost_rate)
+
+class ProductWeightCriteria(models.Model):
+    criteria_id = models.CharField(max_length=255, blank=True, null=True)
+    min_weight = models.FloatField(default=0)
+    max_weight = models.FloatField(default=0)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.min_weight) + "-" + str(self.max_weight)
+
+
 class ProductImg(models.Model):
     product_id = models.CharField(max_length=255, blank=True, null=True)
     product_type = models.CharField(max_length=5, blank=True, null=True)
@@ -48,7 +66,6 @@ class WoocommerceProductList(models.Model):
 
     def __str__(self):
         return self.name[0:10] + " || " + str(self.id)
-
 
 
 class ProductList(models.Model):
@@ -110,10 +127,12 @@ class ProductList(models.Model):
 
     sponsr_as_prize = models.BooleanField(default=False, blank=True, null=True) # not used/not needed
 
-    product_weight = models.CharField(default='', max_length=50, blank=True, null=True)
-    product_length = models.CharField(default='', max_length=50, blank=True, null=True)
-    product_width = models.CharField(default='', max_length=50, blank=True, null=True)
-    product_height = models.CharField(default='', max_length=50, blank=True, null=True)
+    product_weight = models.FloatField(default=0, blank=True, null=True)
+    product_length = models.CharField(max_length=50, blank=True, null=True)
+    product_width = models.CharField(max_length=50, blank=True, null=True)
+    product_height = models.CharField(max_length=50, blank=True, null=True)
+
+    shipping_class = models.ForeignKey(ShippingClass, on_delete=models.PROTECT, blank=True, null=True)
 
     sponsor_status = models.CharField(default='No', max_length=255, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
@@ -127,6 +146,7 @@ class ProductList(models.Model):
 
     def __str__(self):
         return self.title
+
 
 
 # offered product items  together according to membership rank

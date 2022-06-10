@@ -380,4 +380,18 @@ urlpatterns = [
     re_path(r'^ap/remove/how/spin2win/works/(?P<pk>\d+)/$', views.ap_delete_how_spinit2Win_works, name='apDeleteHowSpin2winWorks'),
     re_path(r'^ap/update/how/spin2win/works/(?P<pk>\d+)/$', views.ap_update_how_spinit2Win_works, name='apUpdateHowSpin2winWorks'),
 
+    # shipping class starts **********************************************************
+    re_path(r'^ap/add/shipping/class/$', views.ap_add_shippingClass, name='apAddShippingClass'),
+    re_path(r'^ap/update/shipping/class/(?P<pk>\d+)/$', views.ap_update_shippingClass, name='apUpdateShippingClass'),
+    re_path(r'^ap/remove/shipping/class/(?P<pk>\d+)/$', views.ap_remove_shippingClass, name='apRemoveShippingClass'),
+    re_path(r'^ap/products/under/shipping/class/(?P<pk>\d+)/$', views.ap_productListByShippingClass, name='apProudctsUnderShippingClass'),
+
+    # criteria
+    re_path(r'^ap/add/product/weight/criteria/$', views.ap_add_productWeightCriteria, name='apAddProductWeightCriteria'),
+    re_path(r'^ap/update/product/weight/criteria/(?P<pk>\d+)/$', views.ap_update_productWeightCriteria, name='apUpdateProductWeightCriteria'),
+    re_path(r'^ap/remove/product/weight/criteria/(?P<pk>\d+)/$', views.ap_remove_productWeightCriteria, name='apRemoveProductWeightCriteria'),
+
+    re_path(r'^ap/group/up/products/by/shipping/class/$', views.ap_group_up_productsByShippingClass, name='apGroupUpProductsByShippinigClass'),
+    re_path(r'^ap/update/grouped/products/shipping/class/$', views.ap_updateGroupedProductsShippingClass, name='apupdateGroupedProductsShippingClass'),
+
 ]

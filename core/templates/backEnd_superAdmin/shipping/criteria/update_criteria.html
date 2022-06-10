@@ -1,0 +1,73 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load tag_library %}
+{% load static %}
+
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-12">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Update New Weight Criteria</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="{% url 'apUpdateProductWeightCriteria' pk=crnt_productWeightCriteria.pk %}" method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+
+                        <div class="row form-group">
+
+                            <div class="col-md-6 point_amnt_as_prize">
+                                <label>Min Weight</label>
+                                <input type="number" name="min_weight" value="{{crnt_productWeightCriteria.min_weight}}" class="form-control" step="0.01" placeholder="Minimum Weight">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Max Weight</label>
+                                <input type="number" name="max_weight" value="{{crnt_productWeightCriteria.max_weight}}" class="form-control" step="0.01" placeholder="Max Weight">
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary sgmnt_stting_sbmit_btn">LET'S ADD</button>
+
+                        <a href="{% url 'apAddProductWeightCriteria' %}">
+                            <button type="button" class="btn btn-primary" style="border:none; background: #FF0000;color:white;">Cancel</button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block dropzone_block %}
+<script>
+</script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}
+
