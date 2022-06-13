@@ -2826,7 +2826,10 @@ def front_buy_winning_chance(request):
                     if len(WinningChance.objects.filter(user=request.user)) > 0:
                         user_winning_chance_model = WinningChance.objects.get(user=request.user)
                         user_winning_chance_model.remaining_chances = int(user_winning_chance_model.remaining_chances) + int(number_of_winning_chance)
-                        user_winning_chance_model.purchased = int(user_winning_chance_model.purchased) + int(number_of_winning_chance)
+                        if user_winning_chance_model.purchased:
+                            user_winning_chance_model.purchased = int(user_winning_chance_model.purchased) + int(number_of_winning_chance)
+                        else:
+                            user_winning_chance_model.purchased = number_of_winning_chance
                         user_winning_chance_model.save()
 
                         # updating credit point wallet after buying
