@@ -492,6 +492,7 @@
 <br><br><br>
 
 <!--prize section-->
+{% if current_sponsoredGamePrizes %}
 <section class="product-area li-laptop-product pt-60 pb-45">
     <div class="container">
         <!--        background: #293A6C; box-shadow: 1px 1px 5px 1px gray; padding-top: 20px;-->
@@ -518,7 +519,7 @@
                 </div>
                 <div class="row">
                     <div class="product-active owl-carousel">
-                        {% if current_sponsoredGamePrizes %}
+
                         {% for y in current_sponsoredGamePrizes %}
 
                         {% if y.product.product_type == 'wsp' %}
@@ -688,7 +689,7 @@
                         {% endif %}
 
                         {% endfor %}
-                        {% endif %}
+
                     </div>
                 </div>
             </div>
@@ -696,6 +697,7 @@
         </div>
     </div>
 </section>
+{% endif %}
 <!--prize section ends-->
 
 
