@@ -2358,6 +2358,7 @@ def front_complete_payment(request, username, order_id):
             subject = f"Produt purchase details:"
 
             context_info = {
+                'orderID': order_id,
                 'paymentID': paymentID,
                 'paid_amount': paid_amount,
                 'payer_name': payer_name,

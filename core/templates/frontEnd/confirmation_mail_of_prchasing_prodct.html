@@ -58,19 +58,19 @@
 
                 <div class="content">
                     <h4>
-                        Your <strong>Winning Chance</strong> purchase details
+                        Your <strong>Order Details</strong>
                     </h4>
                     <table>
 
                         <tr>
-                            <th scope="row"><strong>Number of Winning Chance Purchased :</strong></th>
-                            <td>{{number_of_winning_chance}}</td>
+                            <th scope="row"><strong>Order ID :</strong></th>
+                            <td>{{orderID}}</td>
                         </tr>
 
-                        <tr>
-                            <th scope="row"><strong>Credit Charged :</strong></th>
-                            <td>{{credit_point_to_be_charged}}</td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <th scope="row"><strong>Credit Charged :</strong></th>-->
+<!--                            <td>{{credit_point_to_be_charged}}</td>-->
+<!--                        </tr>-->
 
                         {% if paymentID %}
                         <tr>
@@ -82,7 +82,7 @@
                         {% if paid_amount %}
                         <tr>
                             <th scope="row"><strong>Amount Paid:</strong></th>
-                            <td>{{paid_amount}}</td>
+                            <td>{{paid_amount}} CAD</td>
                         </tr>
                         {% endif %}
 
@@ -107,12 +107,12 @@
                         </tr>
                         {% endif %}
 
-                        {% if payer_post_code %}
-                        <tr>
-                            <th scope="row"><strong>Payer Post Code:</strong></th>
-                            <td>{{payer_post_code}}</td>
-                        </tr>
-                        {% endif %}
+<!--                        {% if payer_post_code %}-->
+<!--                        <tr>-->
+<!--                            <th scope="row"><strong>Payer Post Code:</strong></th>-->
+<!--                            <td>{{payer_post_code}}</td>-->
+<!--                        </tr>-->
+<!--                        {% endif %}-->
                     </table>
                 </div>
 
