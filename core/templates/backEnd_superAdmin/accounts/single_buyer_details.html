@@ -281,7 +281,8 @@
                                                 <!-- /.widget-user-image -->
                                                 <h3 class="widget-user-username">Total Points Earned</h3>
                                                 <h3 class="widget-user-desc">
-                                                    {{spin_point_wallet_of_crnt_usr.available|to_float|add:spin_point_wallet_of_crnt_usr.total_converted|to_float}}</h3>
+                                                    {{total_points_earned}}
+                                                </h3>
                                             </div>
                                         </div>
                                     </div>
@@ -408,7 +409,8 @@
                                                 <!-- /.widget-user-image -->
                                                 <h3 class="widget-user-username">Total Credit</h3>
                                                 <h3 class="widget-user-desc">
-                                                    {{spin_credit_wallet_of_crnt_usr.available|to_int|add:spin_credit_wallet_of_crnt_usr.spent|to_int}}</h3>
+                                                    {{total_credit_earned}}
+
                                             </div>
                                         </div>
                                     </div>
@@ -500,7 +502,7 @@
                                                 <!-- /.widget-user-image -->
                                                 <h3 class="widget-user-username">Total Spin Tokens</h3>
                                                 <h3 class="widget-user-desc">
-                                                    {{spin_token_wallet_of_crnt_usr.remaining_chances|to_int|add:spin_token_wallet_of_crnt_usr.spent|to_int}}</h3>
+                                                    {{total_winning_chance}}
                                             </div>
                                         </div>
                                     </div>

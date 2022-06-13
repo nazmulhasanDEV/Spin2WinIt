@@ -4295,14 +4295,57 @@ def ap_buyer_accounts_list(request):
 @login_required(login_url='/ap/register/updated')
 def ap_single_buyer_details(request, pk):
 
+
     if request.user.is_admin != True:
         return redirect('frontEndLoginUser')
 
     try:
+
+        total_points_earned = 0
+        total_credit_earned = 0
+        total_winning_chance = 0
+
         crnt_buyer = Account.objects.get(pk=pk)
         spin_point_wallet_of_crnt_usr = PointWallet.objects.filter(user=crnt_buyer).first()
         spin_credit_wallet_of_crnt_usr = CreditWallet.objects.filter(user=crnt_buyer).first()
         spin_token_wallet_of_crnt_usr = WinningChance.objects.filter(user=crnt_buyer).first()
+
+        if spin_point_wallet_of_crnt_usr:
+            if spin_point_wallet_of_crnt_usr.available and spin_point_wallet_of_crnt_usr.total_converted:
+                total_points_earned = total_points_earned + int(spin_point_wallet_of_crnt_usr.available) + int(
+                    spin_point_wallet_of_crnt_usr.total_converted)
+            elif spin_point_wallet_of_crnt_usr.available and spin_point_wallet_of_crnt_usr.total_converted <= 0:
+                total_points_earned = total_points_earned + int(spin_point_wallet_of_crnt_usr.available)
+            elif spin_point_wallet_of_crnt_usr.available == '' or spin_point_wallet_of_crnt_usr.available == '0' and spin_point_wallet_of_crnt_usr.total_converted > 0:
+                total_points_earned = total_points_earned + int(spin_point_wallet_of_crnt_usr.total_converted)
+            else:
+                total_points_earned = 0
+
+        if spin_credit_wallet_of_crnt_usr:
+            if spin_credit_wallet_of_crnt_usr.available and spin_credit_wallet_of_crnt_usr.spent:
+                total_credit_earned = total_credit_earned + int(spin_credit_wallet_of_crnt_usr.available) + int(
+                    spin_credit_wallet_of_crnt_usr.spent)
+            elif spin_credit_wallet_of_crnt_usr.available and int(spin_credit_wallet_of_crnt_usr.spent) <= 0:
+                total_credit_earned = total_credit_earned + int(spin_point_wallet_of_crnt_usr.available)
+            elif spin_credit_wallet_of_crnt_usr.available == '' or spin_credit_wallet_of_crnt_usr.available == '0' and int(
+                    spin_credit_wallet_of_crnt_usr.spent) > 0:
+                total_credit_earned = total_credit_earned + int(spin_credit_wallet_of_crnt_usr.spent)
+            else:
+                total_credit_earned = 0
+
+        if spin_token_wallet_of_crnt_usr:
+            if spin_token_wallet_of_crnt_usr.remaining_chances and spin_token_wallet_of_crnt_usr.spent:
+                print(spin_token_wallet_of_crnt_usr.remaining_chances)
+                total_winning_chance = total_winning_chance + int(spin_token_wallet_of_crnt_usr.remaining_chances) + int(spin_token_wallet_of_crnt_usr.spent)
+                print(total_winning_chance)
+            elif spin_token_wallet_of_crnt_usr.remaining_chances and int(spin_token_wallet_of_crnt_usr.spent) <= 0:
+                total_winning_chance = total_winning_chance + int(spin_token_wallet_of_crnt_usr.remaining_chances)
+            elif spin_token_wallet_of_crnt_usr.remaining_chances == '' or spin_token_wallet_of_crnt_usr.remaining_chances == '0' and int(
+                    spin_token_wallet_of_crnt_usr.spent) > 0:
+                total_winning_chance = total_winning_chance + int(spin_token_wallet_of_crnt_usr.spent)
+            else:
+                total_winning_chance = 0
+        print(total_winning_chance)
 
         # dailly sign in bonus
         got_daily_signInBonus = GivenDailySignInBonusUsrList.objects.filter(user=crnt_buyer).count()
@@ -4316,6 +4359,7 @@ def ap_single_buyer_details(request, pk):
         # bonus for registering
         got_bonus_for_registering = BonusPoinForRegistration.objects.filter(user=crnt_buyer).first()
 
+
     except:
         messages.warning(request, "Shopper not found with current information!")
         return redirect('apBuyerAccountsList')
@@ -4323,8 +4367,13 @@ def ap_single_buyer_details(request, pk):
     context = {
         'crnt_buyer': crnt_buyer,
         'spin_point_wallet_of_crnt_usr': spin_point_wallet_of_crnt_usr,
+        'total_points_earned': total_points_earned,
+
         'spin_credit_wallet_of_crnt_usr': spin_credit_wallet_of_crnt_usr,
+        'total_credit_earned': total_credit_earned,
+
         'spin_token_wallet_of_crnt_usr': spin_token_wallet_of_crnt_usr,
+        'total_winning_chance': total_winning_chance,
 
         'got_bonus_for_registering': got_bonus_for_registering,
         'got_daily_signInBonus': got_daily_signInBonus,

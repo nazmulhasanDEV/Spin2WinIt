@@ -102,8 +102,8 @@ class CreditPurchasingHistory(models.Model):
 # number of chance/spin tokens to play/spin the game
 class WinningChance(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE)
-    remaining_chances = models.CharField(max_length=255)
-    purchased = models.CharField(blank=True, null=True, max_length=255)
+    remaining_chances = models.CharField(max_length=255, default='0')
+    purchased = models.CharField(blank=True, null=True, max_length=255, default='0')
     spent = models.CharField(default='0', blank=True, null=True, max_length=255)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
