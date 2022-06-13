@@ -4,6 +4,9 @@ const add_group_up_products_btn = document.querySelector('.add_group_up_products
 const selected_products_byCriteria = document.querySelector('#selected_products_byCriteria');
 
 weight_criteria.onchange = (e) =>{
+
+select_product.innerHTML = '';
+
 //ajax starts
 $.ajax({
          url:'/ap/group/up/products/by/shipping/class/',
@@ -26,6 +29,7 @@ $.ajax({
 
 
 add_group_up_products_btn.onclick = (e) =>{
+
 
 var selectedOptions = [...select_product.options].filter(option=>option.selected).map(option=>option.value);
 

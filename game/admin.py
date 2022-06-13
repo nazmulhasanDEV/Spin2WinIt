@@ -6,6 +6,7 @@ from .models import *
 admin.site.register(PrizeCart)
 admin.site.register(CurrentDelivryRequestPrizeProduct)
 admin.site.register(ProductPrizeDeliverOrder)
+admin.site.register(ProductPrizeDeliverOrderPaymntHistory)
 
 admin.site.register(SponsoredProductForPrize)
 admin.site.register(GameSetting)

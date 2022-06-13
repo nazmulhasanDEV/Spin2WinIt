@@ -297,9 +297,15 @@
                                 <th>Cart Subtotal</th>
                                 <td><span class="amount">${{total_amount|floatformat:2}}</span></td>
                             </tr>
+
+                            <tr class="cart-subtotal">
+                                <th>Shipping Cost</th>
+                                <td><span class="amount">${{shipping_cost|floatformat:2}}</span></td>
+                            </tr>
+
                             <tr class="order-total">
                                 <th>Order Total</th>
-                                <td><strong><span class="amount">${{total_amount|floatformat:2}}</span></strong></td>
+                                <td><strong><span class="amount">${{total_amount|add:shipping_cost|floatformat:2}}</span></strong></td>
                             </tr>
                             </tfoot>
                         </table>
@@ -438,11 +444,6 @@
                                                 'params' : {}
                                             };
                                             document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
-
-
-
-
-
                 </script>
             </div>
         </div>
@@ -458,10 +459,6 @@
                                                 'params' : {}
                                             };
                                             document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
-
-
-
-
 
                 </script>
             </div>
@@ -502,12 +499,6 @@
         , false);
 
         // ends captcha-1
-
-
-
-
-
-
 </script>
 
 {% endblock %}

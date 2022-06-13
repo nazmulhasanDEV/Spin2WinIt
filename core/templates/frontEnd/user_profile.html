@@ -244,7 +244,7 @@
 
                                         <!--                                    referal link-->
                                     <a href="{% url 'frontReferGet500Bonus' %}" class="refer_and_get_bonus">
-                                        <button type="button">Refer & Get 500 Bonus Points</button>
+                                        <button type="button">Refer & Get 250 Bonus Points</button>
                                     </a>
 <!--                                    referal link ends-->
                                     </div>
@@ -772,8 +772,9 @@
                                             <strong>0</strong>
                                             {% endif %}
                                             </td>
-                                            <td>{{user_point_wallet.purchased|floatformat:2}}</td>
-                                            <td>{{user_point_wallet.spent|floatformat:2}}</td>
+
+                                            <td>{{user_winning_chances.purchased}}</td>
+                                            <td>{{user_winning_chances.spent}}</td>
                                             <td>
                                                 <a href="/fe/game" class="convert_to_credit_btn">
                                                             <button type="button">Let's Play</button>
@@ -839,17 +840,17 @@
                                         <thead>
                                         <tr>
                                             <th scope="col">Available Points</th>
-                                            <th scope="col">Purchased</th>
-                                            <th scope="col">Spent</th>
+<!--                                            <th scope="col">Purchased</th>-->
+                                            <th scope="col">Total Converted</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         {% if user_point_wallet %}
                                         <tr>
-                                            <td>{{user_point_wallet.available|floatformat:2}}</td>
-                                            <td>{{user_point_wallet.purchased|floatformat:2}}</td>
-                                            <td>{{user_point_wallet.spent|floatformat:2}}</td>
+                                            <td>{{user_point_wallet.available}}</td>
+                                            <td>{{user_point_wallet.total_converted}}</td>
+<!--                                            <td>{{user_point_wallet.spent|floatformat:2}}</td>-->
                                             <td>
                                                 <a href="#"
                                                    class="convert_to_credit_btn" data-toggle="modal"

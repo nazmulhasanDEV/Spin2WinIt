@@ -1384,14 +1384,13 @@ def front_loginUser(request):
                             request.session.set_expiry(3600)
                         if user.is_buyer:
                             login(request, authenticate_user)
-
                             return redirect('frontEndHome')
                         if user.is_seller:
                             login(request, authenticate_user)
                             return redirect('sellerDashboardHome', username=user.username)
                 else:
                     messages.success(request, "User not found! Try again!")
-                    return redirect('frontEndLoginRegister')
+                    return redirect('frontEndLoginUser')
             except:
                 user = get_object_or_404(Account, email=email)
                 if user and user.status == '1' and user.is_active == True:
@@ -1970,13 +1969,27 @@ def front_checkout(request, username):
     usr_deflt_billing_address = DefaultBillingInfo.objects.filter(user=request.user).first()
 
     total_amount = 0
+    shipping_cost = 0
 
     if user_cart_status:
         for x in user_cart_status:
             if x.product.product_type == 'wsp':
                 total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+                # shipping cost calculations
+                try:
+                    if x.product.shipping_class.cost_rate:
+                        shipping_cost = shipping_cost + x.product.shipping_class.cost_rate
+                except:
+                    shipping_cost = 0
             if x.product.product_type == 'mcp':
                 total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+                # shipping cost calculations
+                try:
+                    if x.product.shipping_class.cost_rate:
+                        shipping_cost = shipping_cost + x.product.shipping_class.cost_rate
+                except:
+                    shipping_cost = 0
+
 
     context = {
         'site_logo': site_logo,
@@ -1989,6 +2002,7 @@ def front_checkout(request, username):
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
+        'shipping_cost': shipping_cost,
         'usr_deflt_shipping_addrss': usr_deflt_shipping_addrss,
         'usr_deflt_billing_address': usr_deflt_billing_address,
     }
@@ -2050,7 +2064,6 @@ def front_confirm_order(request, username):
                 return redirect('frontCompletePayment', username=request.user.username, order_id=current_order.order_id)
             else:
                 return redirect('frontEndHome')
-
         else:
             try:
                 # checking previous order items of the current user
@@ -2130,10 +2143,11 @@ def front_confirm_order(request, username):
                     shipping_info=ShippingInfo.objects.get(info_id=id),
                     order_note=order_note,
                     sub_total_amount=total_amount,
-                    total_amount=total_amount,
                 )
                 for x in OrderedItem.objects.filter(Q(user=request.user) & Q(order_status='curnt')):
                     order_list_model.items.add(x)
+                    order_list_model.total_shipping_cost= order_list_model.total_shipping_cost + x.shipping_cost
+                    order_list_model.save()
                     x.order_status = 'curnt'
                     x.save()
 
@@ -2303,8 +2317,63 @@ def front_complete_payment(request, username, order_id):
         # confirm payment
         paid_amount = request.GET.get('paid_amount')
         order_id = request.GET.get('order_id')
+        order_data = request.GET.get('order_data')
 
         if paid_amount and order_id:
+
+            # save to payment history
+            # order_data
+            orderData = json.loads(order_data)
+            paymentID = orderData['id']
+
+            # payee info
+            payee_email = orderData['purchase_units'][0]['payee']['email_address']
+            payee_marchnt_id = orderData['purchase_units'][0]['payee']['merchant_id']
+
+            # payer info
+            payer_name = orderData['payer']['name']['given_name'] + ' ' + orderData['payer']['name']['surname']
+            payer_email = orderData['payer']['email_address']
+            payer_id = orderData['payer']['payer_id']
+            # payer_post_code = orderData['payer']['address']['postal_code']
+            # print(payer_post_code)
+            payer_country_code = orderData['payer']['address']['country_code']
+
+            # usr winning chance buying history
+            productPrizeDeliverOrderPaymntHistory_model = ProductPurchasePaymntHistory.objects.create(
+                user=request.user,
+                order=current_order,
+
+                paid_amount=paid_amount,
+                payment_id=paymentID,
+                payee_email=payee_email,
+                payee_marchnt_id=payee_marchnt_id,
+                payer_name=payer_name,
+                payer_email=payer_email,
+                payer_id=payer_id,
+                payer_post_code='payer_post_code',
+                payer_country_code=payer_country_code,
+            )
+
+            # sending details to buyer/payer email
+            subject = f"Produt purchase details:"
+
+            context_info = {
+                'paymentID': paymentID,
+                'paid_amount': paid_amount,
+                'payer_name': payer_name,
+                'payer_email': payer_email,
+                'payer_id': payer_id,
+                'payer_country_code': payer_country_code,
+            }
+            html_content = render_to_string('frontEnd/confirmation_mail_of_prchasing_prodct.html',
+                                            context_info)
+            email = EmailMessage(subject, html_content, to=[request.user.email])
+            email.content_subtype = 'html'
+            email.send(fail_silently=False)
+            # EmailThreading(email).start()
+            # save to payment history
+
+
             current_order.payment_status = True
             current_order.save()
 
@@ -2559,7 +2628,7 @@ def front_game(request):
                 bronze_prize_necessaary_spins = math.ceil(float(bronze_prize_cost) / (.10))  # here .10 cent == 1 spin
                 bronze_prize_necessaary_spins = 1  # here .10 cent == 1 spin
 
-        # getting current spinning chances
+        # getting current winning chance/spin tokens chances
         current_chances = request.GET.get('current_chances')
 
         # getting request from restart spin
@@ -2574,24 +2643,31 @@ def front_game(request):
                 current_total_num_of_played = TotalNumOfTimesPlayed.objects.filter().first()
                 return JsonResponse({'current_total_num_of_played': current_total_num_of_played.num_of_times_played})
 
-        # getting user
+        # getting user to update with current number of remaining spin tokens/winning chances
         user_winning_chances = WinningChance.objects.filter(user=request.user)
 
-        user_total_remaining_chances = 0
+        user_total_remaining_chances = 0 # spin tokens
         if user_winning_chances:
             if current_chances:
                 # saving updated chances
                 user_winning_chance_model = WinningChance.objects.get(user=request.user)
                 user_winning_chance_model.remaining_chances = current_chances
+
+                if user_winning_chance_model.spent:
+                    user_winning_chance_model.spent = int(user_winning_chance_model.spent) + 1
+                else:
+                    user_winning_chance_model.spent = 1
                 user_winning_chance_model.save()
 
             user_total_remaining_chances = user_total_remaining_chances + int(user_winning_chances.first().remaining_chances)
+        # ends getting user to update with current number of remaining spin tokens/winning chances
 
-        # current chances sections
+        # updating total number of times play/spinned till now
         if current_chances:
             total_number_of_times_played = TotalNumOfTimesPlayed.objects.filter().count()
             if total_number_of_times_played <= 0:
                 total_num_of_times_played_model = TotalNumOfTimesPlayed.objects.create(num_of_times_played=1)
+
             else:
                 total_num_of_times_played_model = TotalNumOfTimesPlayed.objects.filter().first()
                 total_num_of_times_played_model.num_of_times_played = total_num_of_times_played_model.num_of_times_played + 1
@@ -2600,6 +2676,7 @@ def front_game(request):
                 if request.is_ajax():
                     current_total_num_of_played = TotalNumOfTimesPlayed.objects.filter().first()
                     return JsonResponse({'current_total_num_of_played': current_total_num_of_played.num_of_times_played})
+        # updating total number of times play/spinned till now
 
 
 
@@ -2734,23 +2811,29 @@ def front_buy_winning_chance(request):
 
 
     if request.method == 'POST':
+
         number_of_winning_chance = request.POST.get('number_of_winning_chance')
         credit_point_to_be_charged = request.POST.get('point_to_be_charged')
 
         if number_of_winning_chance and credit_point_to_be_charged:
             user_credit_point_wallet = CreditWallet.objects.filter(user=request.user).first()
 
-            # asumptions: $1 = 2 credits, 100 points = 1 credit
+            # asumptions: $1 = 2 credits, 1000 points = 1 credit
 
             if user_credit_point_wallet and user_credit_point_wallet.available:
                 if int(user_credit_point_wallet.available) >= int(credit_point_to_be_charged):
                     if len(WinningChance.objects.filter(user=request.user)) > 0:
                         user_winning_chance_model = WinningChance.objects.get(user=request.user)
                         user_winning_chance_model.remaining_chances = int(user_winning_chance_model.remaining_chances) + int(number_of_winning_chance)
+                        user_winning_chance_model.purchased = int(user_winning_chance_model.purchased) + int(number_of_winning_chance)
                         user_winning_chance_model.save()
 
-                        # updating point wallet after buying
+                        # updating credit point wallet after buying
                         user_credit_point_wallet.available = int(user_credit_point_wallet.available) - int(credit_point_to_be_charged)
+                        if user_credit_point_wallet.spent:
+                            user_credit_point_wallet.spent = int(user_credit_point_wallet.spent) + int(credit_point_to_be_charged)
+                        else:
+                            user_credit_point_wallet.spent = credit_point_to_be_charged
                         user_credit_point_wallet.save()
 
                         # save to user purchase history
@@ -2792,12 +2875,15 @@ def front_buy_winning_chance(request):
                         messages.success(request, "Successfully bought new chances!")
                         return redirect('frontEndUserProfile', username=request.user.username)
                     else:
-                        user_winning_chance_model = WinningChance(user=request.user,
-                                                                  remaining_chances=number_of_winning_chance)
+                        user_winning_chance_model = WinningChance(user=request.user, remaining_chances=number_of_winning_chance, purchased=number_of_winning_chance)
                         user_winning_chance_model.save()
 
                         # updating point wallet after buying
                         user_credit_point_wallet.available = int(user_credit_point_wallet.available) - int(credit_point_to_be_charged)
+                        if user_credit_point_wallet.spent:
+                            user_credit_point_wallet.spent = int(user_credit_point_wallet.spent) + int(credit_point_to_be_charged)
+                        else:
+                            user_credit_point_wallet.spent = credit_point_to_be_charged
                         user_credit_point_wallet.save()
 
                         # save to user purchase history
@@ -2841,12 +2927,19 @@ def front_buy_winning_chance(request):
                     # current available credits
                     available__credit_points = int(user_credit_point_wallet.available)
 
+                    # updating credit point wallet after buying
+                    # user_credit_point_wallet.available = 0
+                    # if user_credit_point_wallet.spent:
+                    #     user_credit_point_wallet.spent = int(user_credit_point_wallet.spent) + int(available__credit_points)
+                    # else:
+                    #     user_credit_point_wallet.spent = available__credit_points
+                    # user_credit_point_wallet.save()
+
                     # finding lack of points to buy chance
                     lack_of_credit_points = int(credit_point_to_be_charged) - available__credit_points
 
                     # payable amount for buying chance for lack of points
                     payable_amount = (lack_of_credit_points) * (0.5)
-
 
                     context = {
                         'payable_amount' : payable_amount,
@@ -2962,7 +3055,7 @@ def front_pay_for_purchasing_wnning_chance(request):
             payer_name = orderData['payer']['name']['given_name'] + ' ' + orderData['payer']['name']['surname']
             payer_email = orderData['payer']['email_address']
             payer_id = orderData['payer']['payer_id']
-            payer_post_code = orderData['payer']['address']['postal_code']
+            # payer_post_code = orderData['payer']['address']['postal_code']
             payer_country_code = orderData['payer']['address']['country_code']
 
             usr_credit_wallet = CreditWallet.objects.filter(user=request.user).first()
@@ -2980,9 +3073,13 @@ def front_pay_for_purchasing_wnning_chance(request):
 
             if winning_chance_model:
                 winning_chance_model.remaining_chances = int(winning_chance_model.remaining_chances) + int(purchased_chances)
+                if winning_chance_model.purchased:
+                    winning_chance_model.purchased = int(winning_chance_model.purchased) + int(purchased_chances)
+                else:
+                    winning_chance_model.purchased = purchased_chances
                 winning_chance_model.save()
             if winning_chance_model is None:
-                winning_chance_model = WinningChance.objects.create(user=request.user, remaining_chances=purchased_chances)
+                winning_chance_model = WinningChance.objects.create(user=request.user, remaining_chances=purchased_chances, purchased=purchased_chances)
 
 
             # usr winning chance buying history
@@ -2997,7 +3094,7 @@ def front_pay_for_purchasing_wnning_chance(request):
                 payer_name=payer_name,
                 payer_email=payer_email,
                 payer_id=payer_id,
-                payer_post_code=payer_post_code,
+                payer_post_code="payer_post_code",
                 payer_country_code=payer_country_code,
             )
 
@@ -3013,7 +3110,7 @@ def front_pay_for_purchasing_wnning_chance(request):
                 'payer_name': payer_name,
                 'payer_email': payer_email,
                 'payer_id': payer_id,
-                'payer_post_code': payer_post_code,
+                'payer_post_code': "payer_post_code",
                 'payer_country_code': payer_country_code,
             }
             html_content = render_to_string('frontEnd/buy_winning_chance/winning_chnce_purchase_cnfrm_mail.html',context_info)
@@ -3175,7 +3272,7 @@ def front_buy_credit_point(request, username):
     usr_available_points = PointWallet.objects.filter(user=request.user).first()
 
     # ajax part starts for buying credit points ***********************************************
-    # assuming 1 credit point = $0.10
+    # assuming 1 credit point = $0.5
     credit_amount = request.GET.get('credit_amount')
     if request.is_ajax():
         return JsonResponse({'credit_amount': credit_amount})
@@ -3222,7 +3319,7 @@ def front_buy_credit_point(request, username):
 
 
 @login_required(login_url='/fe/login/register')
-def front_pay_for_purchasing_point(request):
+def front_pay_for_purchasing_Creditpoint(request):
 
     if request.user.is_authenticated and request.user.is_buyer != True:
         return redirect('frontEndLoginRegister')
@@ -3230,6 +3327,7 @@ def front_pay_for_purchasing_point(request):
 
     # site logo
     site_logo = SiteLogo.objects.filter().first()
+    print(site_logo)
 
     contact_info = ContactUs.objects.first()
     # free delivery setting
@@ -3276,7 +3374,7 @@ def front_pay_for_purchasing_point(request):
             payer_name = orderData['payer']['name']['given_name'] + ' ' + orderData['payer']['name']['surname']
             payer_email = orderData['payer']['email_address']
             payer_id = orderData['payer']['payer_id']
-            payer_post_code = orderData['payer']['address']['postal_code']
+            payer_post_code = "Postal code"
             payer_country_code = orderData['payer']['address']['country_code']
 
             # user credit wallet
@@ -3284,6 +3382,10 @@ def front_pay_for_purchasing_point(request):
 
             if user_credit_wallet:
                 user_credit_wallet.available = int(user_credit_wallet.available) + int(credit__amount)
+                if user_credit_wallet.purchased:
+                    user_credit_wallet.purchased = int(user_credit_wallet.purchased) + int(credit__amount)
+                else:
+                    user_credit_wallet.purchased = credit__amount
                 user_credit_wallet.save()
 
                 # save payment details to credit purchase history
@@ -3330,7 +3432,7 @@ def front_pay_for_purchasing_point(request):
                 EmailThreading(email).start()
 
             else:
-                usr_credit_wallet = CreditWallet.objects.create(user=request.user, available=credit__amount)
+                usr_credit_wallet = CreditWallet.objects.create(user=request.user, available=credit__amount, purchased=credit__amount)
 
                 # save payment details to credit purchase history
                 usr_credit_purchase_history = CreditPurchasingHistory.objects.create(
@@ -3771,10 +3873,16 @@ def front_prize_checkout(request, username):
                 total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
 
     # user current product prizes in the prize cart
+    prize_cart_shipping_cost = 0
     current_prize_cart_products = PrizeCart.objects.filter(user=request.user)
+    if current_prize_cart_products:
+        for product in current_prize_cart_products:
+            if product.product.shipping_class:
+                prize_cart_shipping_cost = prize_cart_shipping_cost + product.product.shipping_class.cost_rate
 
     context = {
         'current_prize_cart_products': current_prize_cart_products,
+        'prize_cart_shipping_cost': prize_cart_shipping_cost,
 
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
@@ -3846,6 +3954,8 @@ def front_confirm_prize_delivery_order(request, username):
                     quantity=1,
                     is_current = True
                 )
+                # delete from cart
+                product.delete()
 
             product_prize_delivery_order = ProductPrizeDeliverOrder.objects.create(
                 order_id=id,
@@ -3855,11 +3965,17 @@ def front_confirm_prize_delivery_order(request, username):
             )
             for item in CurrentDelivryRequestPrizeProduct.objects.filter(Q(user=request.user) & Q(is_current=True)):
                 product_prize_delivery_order.items.add(item)
+                if item.product.shipping_class:
+                    product_prize_delivery_order.total_shipping_cost = product_prize_delivery_order.total_shipping_cost + item.product.shipping_class.cost_rate
                 product_prize_delivery_order.save()
 
+                # changing current items status
+                item.is_current = False
+                item.save()
+
             # removing items from cart
-            for item in current_prize_cart_items:
-                item.delete()
+            # for item in current_prize_cart_items:
+            #     item.delete()
 
             if use_defalt_billing__adrs:
                 curnt_usr_billing_info = DefaultBillingInfo.objects.filter(user=request.user).first()
@@ -3920,11 +4036,137 @@ def front_confirm_prize_delivery_order(request, username):
                     product_prize_delivery_order.shipping_info = shipping_information_model
                     product_prize_delivery_order.save()
             messages.success(request, "Confirmed your delivery request!")
-            return redirect('frontPrizeCheckout', username=request.user.username)
+            return redirect('frontPayShippingCostForDeliverOrder', username=request.user.username, order_id=id)
         else:
             return redirect('frontEndUserProfile', username=request.user.username)
 
-    return redirect('frontPrizeCheckout', username=request.user.username)
+    return redirect('frontPayShippingCostForDeliverOrder', username=request.user.username, order_id=id)
+
+@login_required(login_url='/fe/login/register')
+def front_pay_shippingCost_for_prizeDeliveryOrder(request, username, order_id):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    # site logo
+    site_logo = SiteLogo.objects.filter().first()
+
+    contact_info = ContactUs.objects.first()
+    # free delivery setting
+    free_delivery_content_setting = FreeDelivery.objects.filter().first()
+
+    # safe payment setting
+    safe_payment_content_setting = SafePayment.objects.filter().first()
+
+    # shopwith confidence setting
+    shop_with_confidencce_content_setting = ShopWithConfidence.objects.filter().first()
+
+    # help center setting
+    help_center_content_setting = HelpCenter.objects.filter().first()
+
+    # user cart status
+    user_cart_status = Cart.objects.filter(user=request.user)
+
+    # user wishlist status
+    user_wishlist_status = WishList.objects.filter(user=request.user)
+
+    # grabing current requested order for delivery
+    current_order = ProductPrizeDeliverOrder.objects.filter(order_id=order_id).first()
+
+    total_amount = 0
+    if user_cart_status:
+        for x in user_cart_status:
+            if x.product.product_type == 'wsp':
+                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+            if x.product.product_type == 'mcp':
+                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+
+    # user payment status
+    if request.method == 'GET':
+
+        paid_amount = request.GET.get('paid_amount')
+        order_id = request.GET.get('order_id')
+        order_data = request.GET.get('order_data')
+
+
+        if paid_amount and order_id and order_data:
+
+            # order_data
+            orderData = json.loads(order_data)
+            paymentID = orderData['id']
+
+            # payee info
+            payee_email = orderData['purchase_units'][0]['payee']['email_address']
+            payee_marchnt_id = orderData['purchase_units'][0]['payee']['merchant_id']
+
+            # payer info
+            payer_name = orderData['payer']['name']['given_name'] + ' ' + orderData['payer']['name']['surname']
+            payer_email = orderData['payer']['email_address']
+            payer_id = orderData['payer']['payer_id']
+            # payer_post_code = orderData['payer']['address']['postal_code']
+            # print(payer_post_code)
+            payer_country_code = orderData['payer']['address']['country_code']
+
+
+            # usr winning chance buying history
+            productPrizeDeliverOrderPaymntHistory_model = ProductPrizeDeliverOrderPaymntHistory.objects.create(
+                user=request.user,
+                order_ID=current_order,
+
+                paid_amount=paid_amount,
+                payment_id=paymentID,
+                payee_email=payee_email,
+                payee_marchnt_id=payee_marchnt_id,
+                payer_name=payer_name,
+                payer_email=payer_email,
+                payer_id=payer_id,
+                payer_post_code='payer_post_code',
+                payer_country_code=payer_country_code,
+            )
+
+            # sending details to buyer/payer email
+            subject = f"Shipping cost payment details for prize deliver"
+
+            context_info = {
+                'paymentID': paymentID,
+                'paid_amount': paid_amount,
+                'payer_name': payer_name,
+                'payer_email': payer_email,
+                'payer_id': payer_id,
+                'payer_post_code': payer_post_code,
+                'payer_country_code': payer_country_code,
+            }
+            html_content = render_to_string('frontEnd/product_prize_delivery/shipping_cost_payment_confirm_mail.html', context_info)
+            email = EmailMessage(subject, html_content, to=[request.user.email])
+            email.content_subtype = 'html'
+            EmailThreading(email).start()
+
+    context = {
+        'current_order': current_order,
+
+        'site_logo': site_logo,
+        'contact_info': contact_info,
+        'free_delivery_content_setting': free_delivery_content_setting,
+        'safe_payment_content_setting': safe_payment_content_setting,
+        'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+        'help_center_content_setting': help_center_content_setting,
+
+        'user_cart_status': user_cart_status,
+        'user_wishlist_status': user_wishlist_status,
+        'total_amount': total_amount,
+    }
+
+    return render(request, 'frontEnd/product_prize_delivery/payment.html', context)
+
+
+@login_required(login_url='/fe/login/register')
+def front_successMsgFor_payingShippingCostForPrizeDelivery(request, username):
+
+    if request.user.is_authenticated and request.user.is_buyer != True:
+        return redirect('frontEndLoginRegister')
+
+    return render(request, 'frontEnd/product_prize_delivery/success_msg.html')
+
 
 # user prize cart and delivery section ends*******************************************************
 
@@ -3941,29 +4183,56 @@ def front_ConvertPointInto_credit(request, username):
         user_currnt_available_pnt = int(pnt_wallet_model.available)
 
         # assuming 100 pnts = 1 credit
-        credit_amount = math.ceil((user_currnt_available_pnt) / 1000)
+        # credit_amount = math.ceil((user_currnt_available_pnt) / 1000)
+        remainder_point_amount = user_currnt_available_pnt % 1000
 
-        # update user credit wallet
-        user_credit_wallet = CreditWallet.objects.filter(user=request.user).first()
+        if user_currnt_available_pnt - remainder_point_amount >= 1000:
 
-        if user_credit_wallet:
-            user_credit_wallet.available = int(user_credit_wallet.available) + credit_amount
-            user_credit_wallet.save()
+            convetable_point_amount = user_currnt_available_pnt - remainder_point_amount
+            credit_amount = convetable_point_amount / 1000
 
-            # updating point wallet after conversion
-            pnt_wallet_model.available = 0
-            pnt_wallet_model.save()
+            # update user credit wallet
+            user_credit_wallet = CreditWallet.objects.filter(user=request.user).first()
 
-            messages.success(request, "Successfully converted!")
-            return redirect('frontEndUserProfile', username=request.user.username)
+            if user_credit_wallet:
+                user_credit_wallet.available = int(float(user_credit_wallet.available)) + int(credit_amount)
+                user_credit_wallet.save()
+
+                # updating point wallet after conversion
+                pnt_wallet_model.available = remainder_point_amount
+                if pnt_wallet_model.total_converted:
+                    pnt_wallet_model.total_converted = pnt_wallet_model.total_converted + int(convetable_point_amount)
+                else:
+                    pnt_wallet_model.total_converted = int(convetable_point_amount)
+                pnt_wallet_model.save()
+
+                # saving to pointToCreditConvertionHistory
+                pointToCreditConvertionHistory = PointToCreditConversionHistory.objects.create(
+                    user=request.user,
+                    converted_point_amount= convetable_point_amount,
+                    got_credit_amount=credit_amount
+                )
+
+                messages.success(request, "Successfully converted!")
+                return redirect('frontEndUserProfile', username=request.user.username)
+            else:
+                user_credit_wallet_model = CreditWallet.objects.create(user=request.user, available=credit_amount)
+
+                # updating point wallet after conversion
+                pnt_wallet_model.available = remainder_point_amount
+                pnt_wallet_model.save()
+
+                # saving to pointToCreditConvertionHistory
+                pointToCreditConvertionHistory = PointToCreditConversionHistory.objects.create(
+                    user=request.user,
+                    converted_point_amount=convetable_point_amount,
+                    got_credit_amount=credit_amount
+                )
+
+                messages.success(request, "Successfully converted!")
+                return redirect('frontEndUserProfile', username=request.user.username)
         else:
-            user_credit_wallet_model = CreditWallet.objects.create(user=request.user, available=credit_amount)
-
-            # updating point wallet after conversion
-            pnt_wallet_model.available = 0
-            pnt_wallet_model.save()
-
-            messages.success(request, "Successfully converted!")
+            messages.warning(request, "You don't have sufficient point to convert. Need at least 1000 points to convert!")
             return redirect('frontEndUserProfile', username=request.user.username)
 
     return redirect('frontEndUserProfile', username=request.user.username)

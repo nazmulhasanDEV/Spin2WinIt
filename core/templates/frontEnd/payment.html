@@ -274,6 +274,10 @@
                                                 <th>Order Subtotal</th>
                                                 <td><span class="amount">${{current_order.sub_total_amount|floatformat:2}}</span></td>
                                             </tr>
+                                            <tr class="cart-subtotal">
+                                                <th>Shipping Cost</th>
+                                                <td><span class="amount">${{current_order.total_shipping_cost|floatformat:2}}</span></td>
+                                            </tr>
                                             <tr class="order-total">
                                                 <th>Order Total</th>
                                                 <td><strong><span class="amount">${{current_order.total_amount|floatformat:2}}</span></strong></td>
@@ -556,10 +560,11 @@
                 type: 'get',
                 data: {
                     paid_amount: "{{current_order.total_amount}}",
-                    order_id: "{{current_order.order_id}}"
+                    order_id: "{{current_order.order_id}}",
+                    order_data: JSON.stringify(orderData, null, 2)
                 },
                 success: function(response){
-                    console.log('success');
+                    //console.log('success');
                 },
             });
             // ajax

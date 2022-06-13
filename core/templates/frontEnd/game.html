@@ -199,13 +199,13 @@
                                 {% for product in active_segment_list %}
                                     {% if product.segment_prize_type == '1' %}
                             <div class="col-md-3">
-                                <div class="card game_prize_card" style="width: 100%;">
-                                    <div style="width: 100%; max-height: 300px;">
+                                <div class="card game_prize_card" style="width: 100%; height: 370px">
+                                    <div style="width: 100%; height: 180px">
                                         {% if product.product_as_prize.product.product_type == 'wsp' %}
                                             {% if product.product_as_prize.product.product_thumbnail %}
                                         <img class="card-img-top"
                                              src="{{product.product_as_prize.product.product_thumbnail.url}}"
-                                             style="width: 100%;" alt="Card image cap">
+                                             style="width: 100%; height: 100%" alt="Card image cap">
                                         {% else %}
                                             {% if product.product_as_prize.product.productImg %}
                                             {% for p in product.product_as_prize.product.productImg.all %}
@@ -224,7 +224,7 @@
                                              style="width: 100%;" alt="Card image cap">
                                         {% endif %}
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body" style="position: absolute; bottom: 0px">
                                         <h5 class="card-title product___prize__title">{{product.prize_title}}</h5>
 <!--                                        <p class="card-text">Some quick example text to build on the card title and make-->
 <!--                                            up the-->

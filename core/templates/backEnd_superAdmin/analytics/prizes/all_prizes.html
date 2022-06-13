@@ -1,0 +1,197 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+
+
+{% block dataTable_css %}
+<!-- DataTables -->
+<link rel="stylesheet"
+      href="{% static 'backEnd/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+{% endblock %}
+
+
+{% block main_block %}
+<div class="container-fluid" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+
+<!--data tables*******************************************-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <section class="content-header">
+                <h1>
+                    All prizes won by <strong>Shoppers</strong>
+                </h1>
+<!--                <ol class="breadcrumb">-->
+<!--                    <a href="/ap/fetch/woocommerce/product">-->
+<!--                        <button type="button"-->
+<!--                            style="border: none; outline: none; width: 120px; height: 35px; background: #3C8DBC; border-radius: 10px;color: white;">-->
+<!--                        Seller List-->
+<!--                        </button>-->
+<!--                    </a>-->
+
+<!--                    <a href="/ap/buyer/acccounts/list">-->
+<!--                        <button type="button"-->
+<!--                            style="border: none; outline: none; width: 120px; height: 35px; background: #3C8DEC; border-radius: 10px;color: white;">-->
+<!--                        Product Prizes-->
+<!--                        </button>-->
+<!--                    </a>-->
+<!--                </ol>-->
+            </section>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Prize List</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Winner Email</th>
+                                    <th>Prize Type</th>
+                                    <th>Prize</th>
+                                    <th>Delivery Status</th>
+                                    <th>Created</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if all_prize_list %}
+                                {% for x in all_prize_list %}
+
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{x.user.email}}</td>
+                                    {% if x.prize_type == 'point' %}
+                                    <td> Point </td>
+                                    {% else %}
+                                    <td style="background: #3C8DBC; color: white;"> Product </td>
+                                    {% endif %}
+
+                                    {% if x.prize_type == 'point' %}
+                                    <td>{{x.pirze}}</td>
+                                    {% else %}
+                                    <td>{{x.product_as_prize.title|safe|truncatechars:25}}</td>
+                                    {% endif %}
+
+                                    <td>{% if x.status %} Delivered {% else %} Not Delivered {% endif %}</td>
+                                    <td>{{x.created}}</td>
+
+                                    <td class="text-center">
+<!--                                        <a href="">-->
+<!--                                            <button type="button" style="border:none; background: #222D32;color:white;">-->
+<!--                                                Details</button>-->
+<!--                                        </a>-->
+
+
+<!--                                         modal for deleting object-->
+
+                                        <button type="button" style="border:none; background: #FF0000;color:white;" data-toggle="modal"
+                                                data-target="#remove{{x.pk}}">
+                                                <i class="fas fa-backspace"></i> Remove
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="remove{{x.pk}}" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-left" id="exampleModalLabel">Are you confirm to delete this?</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close
+                                                        </button>
+                                                        <a href="{% url 'apRemovePrizeFromAllPrizesForAnalytics' pk=x.pk %}">
+                                                            <button type="button" class="btn btn-primary">
+                                                                Confirm
+                                                            </button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--                                        modal for deleting object ends-->
+
+                                    </td>
+                                </tr>
+
+                                {% endfor %}
+                                {% endif %}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Winner Email</th>
+                                    <th>Prize Type</th>
+                                    <th>Prize</th>
+                                    <th>Delivery Status</th>
+                                    <th>Created</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block datatable_js %}
+<!-- DataTables -->
+<script src="{% static 'backEnd/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'backEnd/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>
+{% endblock %}

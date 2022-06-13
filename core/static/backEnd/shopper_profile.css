@@ -1,0 +1,47 @@
+.earning__source__table .earning_badge {
+    position: absolute;
+    left: 50%;
+}
+
+
+.earning__source__table .check_history_btn {
+    border: none;
+    outline: none;
+    background: #222D32;
+    color: white;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.history_btn_groups {
+    position: relative;
+    padding: 20px;
+}
+
+.history_btn_groups a {
+    width: 100%;
+}
+
+.history_btn_groups a button {
+    width: 100%;
+    background-color: #ECF0F5;
+    outline: none;
+    border: none;
+}
+
+.history_btn_groups a .spin__credit_history_btn1 {
+    background-color: #367FA9;
+    color: white;
+    height: 35px;
+    font-size: 17px;
+    border-radius: 5px;
+}
+
+.history_btn_groups a .spin__credit_history_btn2 {
+    background-color: #1E282C;
+    color: white;
+    height: 35px;
+    font-size: 17px;
+    border-radius: 5px;
+}
+

@@ -1,0 +1,210 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="payment_successfull_msg">
+                <h1 class="text-center" style="color: #4F8A10;">
+                    <i class="fas fa-check-circle"></i>
+                </h1>
+                <h3 class="text-center">Thank You!</h3>
+                <h5 class="text-center">Your payment has been done successfully! We sent you mail with details!</h5>
+                <br>
+                <center>
+                    <a href="/fe/buyer/user/profile/{{request.user.username}}">
+                    <button>Back to profile</button>
+                </a>
+                </center>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+
+
+<br><br>
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-4">
+                <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=17'></script>
+            </div>
+
+        <div class="col-md-4">
+            <div>
+                <h5>Click to this reCaptcha and get 50 points bonus!</h5>
+                <form action="{% url 'frontPymntPgProdctPurchaseSuccessCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
+                      id="captcha__form_sccess">
+                    {% csrf_token %}
+                    <div id="html_element_success"></div>
+                    <br>
+                    <button type="submit" class="captcha_submit__btn"><img src="{% static 'frontEnd/images/logo/logo.jpeg' %}" alt=""> &nbsp; Click to Collect</button>
+<!--                    <input type="submit" value="Collect">-->
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+                <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_0'></script>
+            </div>
+    </div>
+</div>
+
+<br>
+<section id="captcha__section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+<!--                            <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=15'></script>-->
+                           <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+            </div>
+
+            <div class="col-md-4">
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/300x250.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- yllx 120x60 starts here -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/120x600.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div>
+                <div id="container-ec5611cf27ddd923a905f8d14e217991"></div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <!-- ylliex 120x60 -->
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <!-- yllix 120x60 ends here -->
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/120x600.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <!-- ylliex 120x60 -->
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <!-- yllix 120x60 ends here -->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- yllx 120x60 ends here -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <script type="text/javascript">
+                                            atOptions = {
+                                                'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
+                                                'format' : 'iframe',
+                                                'height' : 60,
+                                                'width' : 468,
+                                                'params' : {}
+                                            };
+                                            document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
+
+                </script>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div>
+                <script type="text/javascript">
+                                            atOptions = {
+                                                'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
+                                                'format' : 'iframe',
+                                                'height' : 60,
+                                                'width' : 468,
+                                                'params' : {}
+                                            };
+                                            document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
+
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ads section ends -->
+
+
+<!-- adster 1x1 native ads-->
+<script async="async" data-cfasync="false"
+        src="//pl17231266.safestgatetocontent.com/ec5611cf27ddd923a905f8d14e217991/invoke.js"></script>
+<!-- adster 1x1 native ads ends-->
+
+
+<script type="text/javascript">
+
+// captcha-1
+      var onloadCallback = function() {
+
+
+        grecaptcha.render('html_element_success', {
+          'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
+        });
+      };
+
+
+      var captcha__form_sccess = document.getElementById('captcha__form_sccess');
+        captcha__form_sccess.addEventListener("submit", function(event){
+
+            if (grecaptcha.getResponse() === '') {
+              event.preventDefault();
+              alert('Please check the recaptcha');
+            }
+          }
+        , false);
+
+        // ends captcha-1
+
+
+</script>
+
+{% endblock %}

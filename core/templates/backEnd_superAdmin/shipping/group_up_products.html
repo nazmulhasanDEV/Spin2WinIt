@@ -47,6 +47,7 @@
                                 <label>Select Weight Criteria</label>
                                 <select name="weight_criteria" id="weight_criteria" class="form-control segment_name" required>
                                     <option>Select Weight criteria</option>
+                                    <option value="0">Products without Weight</option>
                                     {% if all_weight_criteria %}
                                     {% for x in all_weight_criteria %}
                                     <option value="{{x.pk}}">{{x.min_weight}} - {{x.max_weight}}kg</option>

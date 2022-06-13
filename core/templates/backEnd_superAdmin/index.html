@@ -56,6 +56,7 @@
     <!-- ends ckeditor file section************************************************-->
 
     {% block dataTable_css %}{% endblock %}
+    {% block shopper_profile_css %}{% endblock %}
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -180,6 +181,8 @@
                         <li><a href="{% url 'apUniqueVisitorsList' %}"><i class="fa fa-circle-o"></i> Unique Visitors</a></li>
                         <li><a href="{% url 'apRegisteredUserList' %}"><i class="fa fa-circle-o"></i> Registered Users</a></li>
                         <li><a href="{% url 'apGivenPoinBonusHistory' %}"><i class="fa fa-circle-o"></i> Point Bonus History</a></li>
+                        <li><a href="{% url 'apGivenPoinBonusHistory' %}"><i class="fa fa-circle-o"></i> Spin Tokens History</a></li>
+                        <li><a href="{% url 'apGivenPoinBonusHistory' %}"><i class="fa fa-circle-o"></i> Spin Credit History</a></li>
                     </ul>
                 </li>
 

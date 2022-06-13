@@ -56,7 +56,7 @@
 
                             <div class="col-md-6 point_amnt_as_prize" style="margin-top: 8px;">
                                 <label>Specify Package Old Price</label>
-                                <input type="number" name="package_old_price" class="form-control" step="0.001" placeholder="Package old price">
+                                <input type="number" name="package_old_price" class="form-control" step="0.001" placeholder="Package old price" required>
                             </div>
 
                         </div>
@@ -64,7 +64,7 @@
                         <div class="row form-group">
                             <div class="col-md-6">
                                 <label>Select Package Options</label>
-                                <select name="package_options" class="form-control segment_name" size="5" multiple required>
+                                <select name="package_options" class="form-control segment_name" size="15" multiple required>
                                     <option>Select Package Feature Option</option>
                                     {% if package_feature_options %}
                                     {% for x in package_feature_options %}

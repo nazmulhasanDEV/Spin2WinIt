@@ -10,11 +10,21 @@ class PointWallet(models.Model):
     available = models.CharField(max_length=255, default='0')
     purchased = models.CharField(max_length=255, default='0')
     spent     = models.CharField(max_length=255, default='0')
-    spent_amount = models.CharField(max_length=255, blank=True, null=True, default='0')
+    spent_amount = models.CharField(max_length=255, blank=True, null=True, default='0') # unnecessay
+    total_converted = models.IntegerField(default=0, blank=True, null=True)
     got_todays_bonus = models.BooleanField(default=False, blank=True, null=True)
 
     def __str__(self):
         return self.user.email
+
+class PointToCreditConversionHistory(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    converted_point_amount = models.IntegerField(default=0)
+    got_credit_amount = models.IntegerField(default=0)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.email + "||" + str(self.converted_point_amount) + "||" + str(self.got_credit_amount)
 
 # bonus for sending referal link
 class ReferalBonusList(models.Model):
@@ -93,8 +103,8 @@ class CreditPurchasingHistory(models.Model):
 class WinningChance(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE)
     remaining_chances = models.CharField(max_length=255)
-    purchased = models.CharField(default='', blank=True, null=True, max_length=255)
-    spent = models.CharField(default='', blank=True, null=True, max_length=255)
+    purchased = models.CharField(blank=True, null=True, max_length=255)
+    spent = models.CharField(default='0', blank=True, null=True, max_length=255)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
@@ -139,7 +149,7 @@ class PrizeList(models.Model):
     pirze = models.CharField(max_length=255, default='') # prize as ponts
     product_as_prize = models.ForeignKey(ProductList, on_delete=models.PROTECT, blank=True, null=True)
     delivery_status = models.BooleanField(default=False, blank=True, null=True)# not necessary
-    status = models.BooleanField(default=False, blank=True, null=True)
+    status = models.BooleanField(default=False, blank=True, null=True) # this is used for delivery status
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     class Meta:

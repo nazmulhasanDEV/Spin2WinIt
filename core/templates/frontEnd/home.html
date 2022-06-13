@@ -226,17 +226,17 @@
             </div>
             <div class="content">
                 <p>
-                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
-                    classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin
-                    professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,
-                    consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical
-                    literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33
-                    of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This
-                    book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of
-                    Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-                    The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.
-                    Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in
-                    their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+<!--                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of-->
+<!--                    classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin-->
+<!--                    professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,-->
+<!--                    consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical-->
+<!--                    literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33-->
+<!--                    of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This-->
+<!--                    book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of-->
+<!--                    Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.-->
+<!--                    The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.-->
+<!--                    Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in-->
+<!--                    their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.-->
                 </p>
             </div>
             <div class="disclaimer__footer">
@@ -698,72 +698,6 @@
 </section>
 <!--prize section ends-->
 
-{% if current_package_list %}
-<section class="product-area li-laptop-product pt-60 pb-45 explore_package">
-    <div class="container">
-        <!--        background: #293A6C; box-shadow: 1px 1px 5px 1px gray; padding-top: 20px;-->
-        <div class="row" style="margin-top: -50px;">
-            <!-- Begin Li's Section Area -->
-            <div class="col-lg-12">
-                <div class="li-section-title product_area_title_section" style="width: 100%;position: relative;">
-                    <h2>
-                        <span>Explore Packages</span>
-                        <a href="{% url 'frontAllAvailabePackages' %}" style="position: absolute;right: 0px;cursor: pointer;">
-                            <button type="button"
-                                    style="border: none;outline: none;background-color: #293A6C;cursor: pointer;font-size: 15px;padding: 10px;color: white;text-transform: uppercase;">
-                                View All
-                            </button>
-                        </a>
-                    </h2>
-                    <!-- <ul class="li-sub-category-list">
-                         <li class="active">
-                             <a href="shop-left-sidebar.html">Prime Video</a>
-                         </li>
-                         <li><a href="shop-left-sidebar.html">Computers</a></li>
-                         <li><a href="shop-left-sidebar.html">Electronics</a></li>
-                     </ul>-->
-                </div>
-                <div class="row">
-                    <div class="owl-carousel owl-theme explore_package_content">
-                        {% for package in current_package_list %}
-                        <div class="item" style="min-height: 380px;">
-                            <div class="card" style="width: 100%;">
-                                <div class="card-body header">
-                                    <h6 class="text-center packageName">{{package.name.name}}</h6>
-                                    <h6 class="text-center prev">
-                                        <del>${{package.old_price}} CAD</del>
-                                    </h6>
-                                    <h6 class="text-center current_price">
-                                        <span class="crnt">${{package.price}} CAD</span>
-                                        <span class="duration">/Month</span>
-                                    </h6>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    {% if package.options %}
-                                    {% for x in package.options.all %}
-                                    <li class="list-group-item text-center">{{x.option}}</li>
-                                    {% endfor %}
-                                    {% endif %}
-                                </ul>
-                                <div class="card-body">
-                                    <a href="{% url 'sellerPayForPackagePurchasing' package_id=package.package_id %}">
-                                        <button type="button" class="invest__now">invest now</button>
-                                    </a>
-                                    <a href="{% url 'sellerPackageDetails' package_id=package.package_id %}">
-                                        <button type="button" class="explore__details">explore details</button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            <!-- Li's Section Area End Here -->
-        </div>
-    </div>
-</section>
-{% endif %}
 
 <!-- Begin Li's Laptop Product Area -->
 {% if product_cat_list %}
@@ -976,6 +910,73 @@
 {% endif %}
 <!-- Li's Laptop Product Area End Here -->
 
+
+{% if current_package_list %}
+<section class="product-area li-laptop-product pt-60 pb-45 explore_package">
+    <div class="container">
+        <!--        background: #293A6C; box-shadow: 1px 1px 5px 1px gray; padding-top: 20px;-->
+        <div class="row" style="margin-top: -50px;">
+            <!-- Begin Li's Section Area -->
+            <div class="col-lg-12">
+                <div class="li-section-title product_area_title_section" style="width: 100%;position: relative;">
+                    <h2>
+                        <span>Explore Packages</span>
+                        <a href="{% url 'frontAllAvailabePackages' %}" style="position: absolute;right: 0px;cursor: pointer;">
+                            <button type="button"
+                                    style="border: none;outline: none;background-color: #293A6C;cursor: pointer;font-size: 15px;padding: 10px;color: white;text-transform: uppercase;">
+                                View All
+                            </button>
+                        </a>
+                    </h2>
+                    <!-- <ul class="li-sub-category-list">
+                         <li class="active">
+                             <a href="shop-left-sidebar.html">Prime Video</a>
+                         </li>
+                         <li><a href="shop-left-sidebar.html">Computers</a></li>
+                         <li><a href="shop-left-sidebar.html">Electronics</a></li>
+                     </ul>-->
+                </div>
+                <div class="row">
+                    <div class="owl-carousel owl-theme explore_package_content">
+                        {% for package in current_package_list %}
+                        <div class="item" style="min-height: 380px;">
+                            <div class="card" style="width: 100%;">
+                                <div class="card-body header">
+                                    <h6 class="text-center packageName">{{package.name.name}}</h6>
+                                    <h6 class="text-center prev">
+                                        <del>${{package.old_price}} CAD</del>
+                                    </h6>
+                                    <h6 class="text-center current_price">
+                                        <span class="crnt">${{package.price}} CAD</span>
+                                        <span class="duration">/Month</span>
+                                    </h6>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    {% if package.options %}
+                                    {% for x in package.options.all %}
+                                    <li class="list-group-item text-center">{{x.option}}</li>
+                                    {% endfor %}
+                                    {% endif %}
+                                </ul>
+                                <div class="card-body">
+                                    <a href="{% url 'sellerPayForPackagePurchasing' package_id=package.package_id %}">
+                                        <button type="button" class="invest__now">invest now</button>
+                                    </a>
+                                    <a href="{% url 'sellerPackageDetails' package_id=package.package_id %}">
+                                        <button type="button" class="explore__details">explore details</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Section Area End Here -->
+        </div>
+    </div>
+</section>
+{% endif %}
 
 <br>
 <!-- section for captcha -->

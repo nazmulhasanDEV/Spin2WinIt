@@ -23,6 +23,8 @@ class CurrentDelivryRequestPrizeProduct(models.Model):
     product = models.ForeignKey(ProductList, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0, blank=True, null=True)
     is_current = models.BooleanField(default=False, blank=True, null=True)
+    shipping_cost = models.FloatField(default=0, blank=True, null=True)
+
 
     def __str__(self):
         return "Title: " + self.product.title + " || " + str(self.user.email)
@@ -55,6 +57,7 @@ class ProductPrizeDeliverOrder(models.Model):
 
     shipping_status = models.BooleanField(default=False, blank=True, null=True) # wheather product left from warehouse to deliver to customer
     shipping_date = models.DateTimeField(blank=True, null=True)
+    total_shipping_cost = models.FloatField(default=0, blank=True, null=True)
 
     order_note = models.TextField(blank=True, null=True)
 
@@ -67,6 +70,29 @@ class ProductPrizeDeliverOrder(models.Model):
 
     def __str__(self):
         return str(self.user.email)
+
+class ProductPrizeDeliverOrderPaymntHistory(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True, null=True)
+    order_ID = models.ForeignKey(ProductPrizeDeliverOrder, on_delete=models.CASCADE)
+    paid_amount = models.CharField(max_length=255, blank=True, null=True) # in usd
+
+    # payment details
+    # payee infomations
+    payment_id = models.CharField(max_length=255, blank=True, null=True)
+    payee_email = models.CharField(max_length=255, blank=True, null=True)
+    payee_marchnt_id = models.CharField(max_length=255, blank=True, null=True)
+    payee_address = models.CharField(max_length=255, blank=True, null=True)
+
+    # payeer infor
+    payer_name = models.CharField(max_length=255, blank=True, null=True)
+    payer_email = models.CharField(max_length=255, blank=True, null=True)
+    payer_id = models.CharField(max_length=255, blank=True, null=True)
+    payer_post_code = models.CharField(max_length=255, blank=True, null=True)
+    payer_country_code = models.CharField(max_length=255, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.email + "||" + self.paid_amount
 
 
 

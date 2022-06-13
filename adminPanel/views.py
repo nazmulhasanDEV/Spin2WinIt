@@ -2043,6 +2043,12 @@ def home(request):
     # unique visitors
     unique_visitors = VisitorInfo.objects.count()
 
+    # total no of times played the game
+    total_no_times_played_game = TotalNumOfTimesPlayed.objects.filter().first()
+
+    # total no of prizes give
+    total_no_of_times_prizes_won = PrizeList.objects.filter().count()
+
 
     context = {
         'user_list' : user_list,
@@ -2051,6 +2057,8 @@ def home(request):
         'total_registered_usr': total_registered_usr,
         'total_number_of_products': total_number_of_products,
         'unique_visitors': unique_visitors,
+        'total_no_times_played_game': total_no_times_played_game,
+        'total_no_of_times_prizes_won': total_no_of_times_prizes_won,
     }
 
     return render(request, 'backEnd_superAdmin/home.html', context)
@@ -4294,7 +4302,20 @@ def ap_single_buyer_details(request, pk):
         crnt_buyer = Account.objects.get(pk=pk)
         spin_point_wallet_of_crnt_usr = PointWallet.objects.filter(user=crnt_buyer).first()
         spin_credit_wallet_of_crnt_usr = CreditWallet.objects.filter(user=crnt_buyer).first()
-        spin_token_wallet_of_crnt_usr = CreditWallet.objects.filter(user=crnt_buyer).first()
+        spin_token_wallet_of_crnt_usr = WinningChance.objects.filter(user=crnt_buyer).first()
+
+        # dailly sign in bonus
+        got_daily_signInBonus = GivenDailySignInBonusUsrList.objects.filter(user=crnt_buyer).count()
+
+        # email invitation bonus
+        got_bonus_for_email_invitatioin = EmailInvitationBonusUserList.objects.filter(user=crnt_buyer).count()
+
+        # referal bonus
+        got_bonus_for_refering_people = ReferalBonusList.objects.filter(user=crnt_buyer).count()
+
+        # bonus for registering
+        got_bonus_for_registering = BonusPoinForRegistration.objects.filter(user=crnt_buyer).first()
+
     except:
         messages.warning(request, "Shopper not found with current information!")
         return redirect('apBuyerAccountsList')
@@ -4304,6 +4325,11 @@ def ap_single_buyer_details(request, pk):
         'spin_point_wallet_of_crnt_usr': spin_point_wallet_of_crnt_usr,
         'spin_credit_wallet_of_crnt_usr': spin_credit_wallet_of_crnt_usr,
         'spin_token_wallet_of_crnt_usr': spin_token_wallet_of_crnt_usr,
+
+        'got_bonus_for_registering': got_bonus_for_registering,
+        'got_daily_signInBonus': got_daily_signInBonus,
+        'got_bonus_for_email_invitatioin': got_bonus_for_email_invitatioin,
+        'got_bonus_for_refering_people': got_bonus_for_refering_people,
     }
 
     return render(request, 'backEnd_superAdmin/accounts/single_buyer_details.html', context)
@@ -7618,7 +7644,38 @@ def ap_remove_WinningChncePrchaseSuccessPg_captcha_bonus(request, pk):
 
     return redirect('ap_WinningChncePrchaseSuccessPg_captcha_bonus_list')
 
+# analytics for prizes #################################################
+@login_required(login_url='/ap/register/updated')
+def ap_all_prizesForAnalytics(request):
 
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # all prize list won by user/shoppers/buyers
+    all_prize_list = PrizeList.objects.all()
+
+    context = {
+        'all_prize_list': all_prize_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/prizes/all_prizes.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_remove_prizeFromAllPrizeAnalytics(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = PrizeList.objects.get(pk=pk)
+        crnt_obj.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apAllPrizesForAnalytics')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apAllPrizesForAnalytics')
+
+    return redirect('apAllPrizesForAnalytics')
 
 # analytics part ends**************************************************************
 
@@ -7888,16 +7945,25 @@ def ap_group_up_productsByShippingClass(request):
         # products id by selected criteria
         selectedProductsIDsByCriteria = request.GET.get('selectedProductsByCriteria')
 
-        if weight_criteria_id and ProductWeightCriteria.objects.filter(pk=weight_criteria_id).first():
-            crnt_product_criteria_obj = ProductWeightCriteria.objects.filter(pk=weight_criteria_id).first()
-            min_weight_of_crnt_criteria = crnt_product_criteria_obj.min_weight
-            max_weight_of_crnt_criteria = crnt_product_criteria_obj.max_weight
+        if weight_criteria_id:
+            # for products which has no weight
+            if weight_criteria_id == '0':
+                # products with current min and max weight
+                products = list(ProductList.objects.filter(Q(product_weight=0) & Q(shipping_class__isnull=True)).values())
 
-            # products with current min and max weight
-            products = list(ProductList.objects.filter(Q(product_weight__gte=min_weight_of_crnt_criteria) & Q(product_weight__lt=max_weight_of_crnt_criteria) & Q(shipping_class__isnull=True)).values())
+                if request.is_ajax():
+                    return JsonResponse({'products': products})
 
-            if request.is_ajax():
-                return JsonResponse({'products': products})
+            if ProductWeightCriteria.objects.filter(pk=weight_criteria_id).first():
+                crnt_product_criteria_obj = ProductWeightCriteria.objects.filter(pk=weight_criteria_id).first()
+                min_weight_of_crnt_criteria = crnt_product_criteria_obj.min_weight
+                max_weight_of_crnt_criteria = crnt_product_criteria_obj.max_weight
+
+                # products with current min and max weight
+                products = list(ProductList.objects.filter(Q(product_weight__gte=min_weight_of_crnt_criteria) & Q(product_weight__lt=max_weight_of_crnt_criteria) & Q(shipping_class__isnull=True)).values())
+
+                if request.is_ajax():
+                    return JsonResponse({'products': products})
 
         if selectedProductsIDsByCriteria:
             crnt_selected_all_products_by_criteria = []

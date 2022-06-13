@@ -59,7 +59,7 @@ urlpatterns = [
     re_path(r'^fe/product/details/(?P<product_id>[-\w]+)/$', views.front_productDetails, name='frontEndProductDetails'),
 
     # user profile section **************************
-    re_path(r'^fe/buyer/user/profile/(?P<username>\w+)/$', views.front_user_profile, name='frontEndUserProfile'),
+    re_path(r'^fe/buyer/user/profile/(?P<username>[-\w]+)/$', views.front_user_profile, name='frontEndUserProfile'),
 
     re_path(r'^fe/add/default/billing/infor/$', views.front_add_default_billing_info, name='frontAddDefaultBillingInfo'),
     re_path(r'^fe/update/billing/infor/(?P<pk>\d+)/$', views.front_update_default_billing_info, name='frontUpdateDefaultBillingInfo'),
@@ -74,6 +74,8 @@ urlpatterns = [
     re_path(r'^fe/prize/cart/items/(?P<username>[-\w]+)/$', views.front_prize_cart_items, name='frontPrizeCartItems'),
     re_path(r'^fe/prize/checkout/(?P<username>[-\w]+)/$', views.front_prize_checkout, name='frontPrizeCheckout'),
     re_path(r'^fe/confirm/prize/delivery/order/(?P<username>[-\w]+)/$', views.front_confirm_prize_delivery_order, name='frontConfirmPrizeDeliveryOrder'),
+    re_path(r'^fe/pay/shipping/cost/for/delivery/order/(?P<username>[-\w]+)/(?P<order_id>[-\w]+)/$', views.front_pay_shippingCost_for_prizeDeliveryOrder, name='frontPayShippingCostForDeliverOrder'),
+    re_path(r'^fe/success/message/for/paying/shipping/pirze/deliver/(?P<username>[-\w]+)/$', views.front_successMsgFor_payingShippingCostForPrizeDelivery, name='front_successMsgFor_payingShippingCostForPrizeDelivery'),
 
     # convert point into credit points
     re_path(r'^fe/convert/point/into/wallet/(?P<username>[-\w]+)/$', views.front_ConvertPointInto_credit, name='frontConvertPointIntoCredit'),
@@ -103,7 +105,7 @@ urlpatterns = [
 
     # buy credit
     re_path(r'^fe/buy/credit/points/(?P<username>[-\w]+)/$', views.front_buy_credit_point, name='frontBuyCreditPoint'),
-    re_path(r'^fe/pay/for/purchasing/credit/point/$', views.front_pay_for_purchasing_point, name='frontPayForPurchasingPoint'),
+    re_path(r'^fe/pay/for/purchasing/credit/point/$', views.front_pay_for_purchasing_Creditpoint, name='frontPayForPurchasingPoint'), # for purchasing credit point
     re_path(r'^fe/purchase/credit/success/msg/(?P<username>[-\w]+)/$', views.fron_credit_purchase_success_msg, name='frontCreditPurchaseSuccessMsg'),
 
     # leave review

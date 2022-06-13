@@ -364,7 +364,9 @@ urlpatterns = [
     re_path(r'^ap/winning/chance/purchase/success/page/captcha/bonus/list/$', views.ap_WinningChncePrchaseSuccessPg_captcha_bonus_list, name='ap_WinningChncePrchaseSuccessPg_captcha_bonus_list'),
     re_path(r'^ap/remove/checkout/page/captcha/bonus/(?P<pk>\d+)/$', views.ap_remove_WinningChncePrchaseSuccessPg_captcha_bonus, name='ap_remove_WinningChncePrchaseSuccessPg_captcha_bonus'),
 
-
+    # prize section for analytics
+    re_path(r'^ap/all/prizes/for/analytics/$', views.ap_all_prizesForAnalytics, name='apAllPrizesForAnalytics'),
+    re_path(r'^ap/remove/prize/from/all/prizes/for/analytics/(?P<pk>\d+)/$', views.ap_remove_prizeFromAllPrizeAnalytics, name='apRemovePrizeFromAllPrizesForAnalytics'),
 
     # membership rank started*********************************************************************
     re_path(r'^ap/add/new/membership/rank/$', views.apAddNewMembershipRank, name='apAddNewMembershipRank'),

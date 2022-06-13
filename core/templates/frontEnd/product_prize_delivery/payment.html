@@ -1,0 +1,581 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+<!-- Begin Li's Breadcrumb Area -->
+            <div class="breadcrumb-area">
+                <div class="container">
+                    <div class="breadcrumb-content">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li class="active">Checkout</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Breadcrumb Area End Here -->
+
+<!-- ads -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <!--yllx 468x60 starts &*************************************-->
+            <script type="text/javascript"
+                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+            <!--yllx ends here **********************************-->
+        </div>
+        <div class="col-md-6">
+            <!--yllx 468x60 starts &*************************************-->
+            <script type="text/javascript"
+                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+            <!--yllx ends here **********************************-->
+        </div>
+    </div>
+</div>
+<!-- ads ends here-->
+
+<!--            &lt;!&ndash;   django message         &ndash;&gt;-->
+<!--            <div class="container">-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-12">-->
+<!--            {% if messages %}-->
+<!--            {% for message in messages %}-->
+
+<!--            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"  {% endif %}>-->
+<!--                <strong>{{ message }}!</strong>-->
+<!--                <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+
+<!--            {% endfor %}-->
+<!--            {% endif %}-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--            &lt;!&ndash; ends django message &ndash;&gt;-->
+
+            <!--Checkout Area Strat-->
+            <div class="checkout-area pt-60 pb-30">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <div>
+                                <div class="checkbox-form">
+                                    <h3>Billing Details</h3>
+                                    {% if current_order %}
+
+                                        {% if current_order.billing_info.use_defalut_address %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Country: </strong>{{current_order.billing_info.default_billingAddress.country}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Name: </strong>{{current_order.billing_info.default_billingAddress.fname}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Town: </strong>{{current_order.billing_info.default_billingAddress.town_or_city}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Address: </strong>{{current_order.billing_info.default_billingAddress.address}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Post code: </strong>{{current_order.billing_info.default_billingAddress.postcode}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>E-mail: </strong>{{current_order.billing_info.default_billingAddress.email}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Phone: </strong>{{current_order.billing_info.default_billingAddress.phone}}</p>
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Country: </strong>{{current_order.billing_info.country}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Name: </strong>{{current_order.billing_info.fname}} {{current_order.billing_info.lname}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Company: </strong>{{current_order.billing_info.company}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Address: </strong>{{current_order.billing_info.address}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Town: </strong>{{current_order.billing_info.town_or_city}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>State: </strong>{{current_order.billing_info.state}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Post code: </strong>{{current_order.billing_info.postcode}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>E-mail: </strong>{{current_order.billing_info.email}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Phone: </strong>{{current_order.billing_info.phone}}</p>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+
+                                <div class="checkbox-form">
+                                    <h3>Shipping Details</h3>
+                                    {% if current_order %}
+                                        {% if current_order.shipping_info.use_deflt_address %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Country: </strong>{{current_order.shipping_info.default_shipping_address.country}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Name: </strong>{{current_order.shipping_info.default_shipping_address.fname}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Town: </strong>{{current_order.shipping_info.default_shipping_address.town_or_city}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Address: </strong>{{current_order.shipping_info.default_shipping_address.address}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Post code: </strong>{{current_order.shipping_info.default_shipping_address.postcode}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>E-mail: </strong>{{current_order.shipping_info.default_shipping_address.email}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Phone: </strong>{{current_order.shipping_info.default_shipping_address.phone}}</p>
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Country: </strong>{{current_order.shipping_info.country}}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Name: </strong>{{current_order.shipping_info.fname}} {{current_order.shipping_info.lname}}</p>
+                                        </div>
+                                    </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Company: </strong>{{current_order.shipping_info.company}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Address: </strong>{{current_order.shipping_info.address}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Town: </strong>{{current_order.shipping_info.town_or_city}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>State: </strong>{{current_order.shipping_info.state}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Post code: </strong>{{current_order.shipping_info.postcode}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>E-mail: </strong>{{current_order.shipping_info.email}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Phone: </strong>{{current_order.shipping_info.phone}}</p>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+
+<!--                                <div class="checkbox-form">-->
+<!--                                    <h3>Have coupon?</h3>-->
+<!--                                    <div class="row">-->
+<!--                                        <div class="col-12">-->
+<!--                                        <div class="coupon-all">-->
+<!--                                            <div class="coupon">-->
+<!--                                                <form action="" method="post" enctype="multipart/form-data">-->
+<!--                                                    {% csrf_token %}-->
+<!--                                                    <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">-->
+<!--                                                    <input class="button" name="apply_coupon" value="Apply coupon" type="submit">-->
+<!--                                                </form>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="your-order">
+                                <h3>Your order</h3>
+                                <div class="your-order-table table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="cart-product-name">Product</th>
+                                                <th class="cart-product-total">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if current_order %}
+
+                                            {% for x in current_order.items.all %}
+                                            <tr class="cart_item">
+                                              <td class="cart-product-name"> {{x.product.title|striptags|truncatechars:20}}
+<!--                                                  <strong class="product-quantity"> × {{x.quantity}}</strong>-->
+                                              </td>
+                                              <td class="cart-product-total"><span class="amount">$0</span></td>
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% endif %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="cart-subtotal">
+                                                <th>Order Subtotal</th>
+                                                <td><span class="amount">$0</span></td>
+                                            </tr>
+                                            <tr class="cart-subtotal">
+                                                <th>Shipping Cost</th>
+                                                <td><span class="amount">${{current_order.total_shipping_cost|floatformat:2}}</span></td>
+                                            </tr>
+                                            <tr class="order-total">
+                                                <th>Order Total</th>
+                                                <td><strong><span class="amount">${{current_order.total_shipping_cost|floatformat:2}}</span></strong></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="payment-method">
+                                    <div class="payment-accordion">
+                                        <div id="accordion">
+                                          <div class="card">
+                                            <div class="card-header" id="#payment-1">
+                                              <h5 class="panel-title">
+                                                <a class="" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                  Pay Direct Bank Transfer.
+                                                </a>
+                                              </h5>
+                                            </div>
+                                            <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                                              <div class="card-body">
+                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="card">
+                                            <div class="card-header" id="#payment-2">
+                                              <h5 class="panel-title">
+                                                <a class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                  Pay Cheque Payment
+                                                </a>
+                                              </h5>
+                                            </div>
+                                            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                              <div class="card-body">
+                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="card">
+                                            <div class="card-header" id="#payment-3">
+                                              <h5 class="panel-title">
+                                                <a class="collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                  Pay With PayPal
+                                                </a>
+                                              </h5>
+                                            </div>
+                                            <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                              <div class="card-body">
+                                                  <div id="paypal-button-container"></div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="order-button-payment">
+                                            <a href="/" id="review__cart__items">
+                                                <button type="button">I'll Pay Later</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Checkout Area End-->
+
+
+<br><br>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+                <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=17'></script>
+            </div>
+
+        <div class="col-md-4">
+            <div>
+                <h5>Click to this reCaptcha and get 50 points bonus!</h5>
+                <form action="{% url 'frontPymntPgProdctPurchaseCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
+                      id="captcha__form_payment">
+                    {% csrf_token %}
+                    <div id="html_element_payment"></div>
+                    <br>
+                    <button type="submit" class="captcha_submit__btn"><img src="{% static 'frontEnd/images/logo/logo.jpeg' %}" alt=""> &nbsp; Click to Collect</button>
+<!--                    <input type="submit" value="Collect">-->
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+                <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_0'></script>
+            </div>
+    </div>
+</div>
+
+<br>
+<section id="captcha__section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+<!--                            <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=15'></script>-->
+                           <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+            </div>
+
+            <div class="col-md-4">
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/300x250.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- yllx 120x60 starts here -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/120x600.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div>
+                <div id="container-ec5611cf27ddd923a905f8d14e217991"></div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <!-- ylliex 120x60 -->
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <!-- yllix 120x60 ends here -->
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/120x600.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                <!-- ylliex 120x60 -->
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <!-- yllix 120x60 ends here -->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- yllx 120x60 ends here -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <script type="text/javascript">
+                                            atOptions = {
+                                                'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
+                                                'format' : 'iframe',
+                                                'height' : 60,
+                                                'width' : 468,
+                                                'params' : {}
+                                            };
+                                            document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
+
+                </script>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div>
+                <script type="text/javascript">
+                                            atOptions = {
+                                                'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
+                                                'format' : 'iframe',
+                                                'height' : 60,
+                                                'width' : 468,
+                                                'params' : {}
+                                            };
+                                            document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
+
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ads section ends -->
+
+
+<!-- adster 1x1 native ads-->
+<script async="async" data-cfasync="false"
+        src="//pl17231266.safestgatetocontent.com/ec5611cf27ddd923a905f8d14e217991/invoke.js"></script>
+<!-- adster 1x1 native ads ends-->
+
+
+<script type="text/javascript">
+
+// captcha-1
+      var onloadCallback = function() {
+
+
+        grecaptcha.render('html_element_payment', {
+          'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
+        });
+      };
+
+
+      var captcha__form_payment = document.getElementById('captcha__form_payment');
+        captcha__form_payment.addEventListener("submit", function(event){
+
+            if (grecaptcha.getResponse() === '') {
+              event.preventDefault();
+              alert('Please check the recaptcha');
+            }
+          }
+        , false);
+
+        // ends captcha-1
+
+
+</script>
+
+{% endblock %}
+
+{% block payment_integration_block %}
+<!--AZCZ-SPWtsvWifDAEVsJwDwndfhyNBvbzaPyRWf9-Uqfp7vN55ZN60D3szeGs32QkClayqGw65DjpFkF-->
+<script src="https://www.paypal.com/sdk/js?client-id=AcAWRV3bad-SO2OtqY-HdU2lO24a23hLfwJygHg5pj0Rpj0VehocsqOF4jtdqvAAZMgK525Pe0dor0lE&currency=USD"></script>
+
+<script>
+      paypal.Buttons({
+        // Sets up the transaction when a payment button is clicked
+        createOrder: (data, actions) => {
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: '{{current_order.total_shipping_cost}}' // Can also reference a variable or function
+              }
+            }]
+          });
+        },
+        // Finalize the transaction after payer approval
+        onApprove: (data, actions) => {
+          return actions.order.capture().then(function(orderData) {
+            // Successful capture! For dev/demo purposes:
+            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+            const transaction = orderData.purchase_units[0].payments.captures[0];
+            //alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+            // When ready to go live, remove the alert and show a success message within this page. For example:
+            //const element = document.getElementById('paypal-button-container');
+            //element.innerHTML = '<h3>Thank you for your payment!</h3>';
+            //actions.redirect('');
+
+           // ajax request
+            $.ajax({
+                url: '/fe/pay/shipping/cost/for/delivery/order/{{request.user.username}}/{{current_order.order_id}}',
+                type: 'get',
+                data: {
+                    paid_amount: "{{current_order.total_shipping_cost}}",
+                    order_id: "{{current_order.order_id}}",
+                    order_data: JSON.stringify(orderData, null, 2)
+                },
+                success: function(response){
+
+                },
+            });
+            // ajax
+
+            window.location.href = "/fe/success/message/for/paying/shipping/pirze/deliver/{{request.user.username}}";
+
+          });
+        }
+      }).render('#paypal-button-container');
+
+</script>
+
+{% endblock %}

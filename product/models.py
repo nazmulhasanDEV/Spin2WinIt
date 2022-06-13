@@ -230,7 +230,17 @@ class OrderedItem(models.Model):
     product = models.ForeignKey(ProductList, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0, blank=True, null=True)
     total_amount = models.FloatField(blank=True, null=True)
+    shipping_cost = models.FloatField(blank=True, null=True)
     order_status = models.CharField(max_length=255, choices=option, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        try:
+            if self.product.shipping_class.cost_rate:
+                self.shipping_cost = self.quantity * (self.product.shipping_class.cost_rate)
+                super(OrderedItem, self).save(*args, **kwargs)
+        except:
+            self.shipping_cost = 0
+            super(OrderedItem, self).save(*args, **kwargs)
 
     def __str__(self):
         return "Title: " + self.product.title + " || " + str(self.user.email)
@@ -252,7 +262,8 @@ class OrderList(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderedItem, blank=True)
     sub_total_amount = models.FloatField(blank=True, null=True)
-    total_amount = models.FloatField(blank=True, null=True)
+    total_shipping_cost = models.FloatField(default=0, blank=True, null=True)
+    total_amount = models.FloatField(default=0, blank=True, null=True) # shipping cost + sub_total
 
     start_date = models.DateTimeField(auto_now_add=True)
 
@@ -272,8 +283,35 @@ class OrderList(models.Model):
     shipping_info = models.ForeignKey(ShippingInfo, on_delete=models.CASCADE, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
+    def save(self, *args, **kwargs):
+        self.total_amount = self.sub_total_amount + self.total_shipping_cost
+        super(OrderList, self).save(*args, **kwargs)
+
     def __str__(self):
         return str(self.user.email)
+
+class ProductPurchasePaymntHistory(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True, null=True)
+    order = models.ForeignKey(OrderList, on_delete=models.CASCADE)
+    paid_amount = models.CharField(max_length=255, blank=True, null=True) # in usd
+
+    # payment details
+    # payee infomations
+    payment_id = models.CharField(max_length=255, blank=True, null=True)
+    payee_email = models.CharField(max_length=255, blank=True, null=True)
+    payee_marchnt_id = models.CharField(max_length=255, blank=True, null=True)
+    payee_address = models.CharField(max_length=255, blank=True, null=True)
+
+    # payeer infor
+    payer_name = models.CharField(max_length=255, blank=True, null=True)
+    payer_email = models.CharField(max_length=255, blank=True, null=True)
+    payer_id = models.CharField(max_length=255, blank=True, null=True)
+    payer_post_code = models.CharField(max_length=255, blank=True, null=True)
+    payer_country_code = models.CharField(max_length=255, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.email + "||" + self.paid_amount
 
 
 # Coupon
