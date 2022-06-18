@@ -2,6 +2,7 @@ from django.db import models
 from user.models import *
 from adminPanel.models import ProductCategory, ProductSubCategory, MemberShipRank
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils import timezone
 
 
 class ShippingClass(models.Model):
@@ -251,7 +252,7 @@ class OrderList(models.Model):
     option = (
         ('a', 'Approved'),
         ('p', 'Pending'),
-        ('c', 'Cancel'),
+        ('c', 'Cancelled'),
     )
 
     payment_options = (
@@ -292,8 +293,8 @@ class OrderList(models.Model):
 
 class ProductPurchasePaymntHistory(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True, null=True)
-    order = models.ForeignKey(OrderList, on_delete=models.CASCADE)
-    paid_amount = models.CharField(max_length=255, blank=True, null=True) # in usd
+    order = models.ForeignKey(OrderList, on_delete=models.CASCADE, blank=True, null=True)
+    paid_amount = models.FloatField(default=0, blank=True, null=True) # in usd
 
     # payment details
     # payee infomations
@@ -308,10 +309,11 @@ class ProductPurchasePaymntHistory(models.Model):
     payer_id = models.CharField(max_length=255, blank=True, null=True)
     payer_post_code = models.CharField(max_length=255, blank=True, null=True)
     payer_country_code = models.CharField(max_length=255, blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, editable=True, blank=True, null=True)
+
 
     def __str__(self):
-        return self.user.email + "||" + self.paid_amount
+        return self.user.email + "||" + str(self.paid_amount) + '||' + str(self.created)
 
 
 # Coupon

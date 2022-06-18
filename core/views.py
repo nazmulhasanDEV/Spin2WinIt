@@ -2320,7 +2320,10 @@ def front_complete_payment(request, username, order_id):
         order_data = request.GET.get('order_data')
 
         if paid_amount and order_id:
-
+            if paid_amount:
+                paid_amount = float(paid_amount)
+            else:
+                paid_amount = 0
             # save to payment history
             # order_data
             orderData = json.loads(order_data)
@@ -2652,7 +2655,7 @@ def front_game(request):
             if current_chances:
                 # saving updated chances
                 user_winning_chance_model = WinningChance.objects.get(user=request.user)
-                user_winning_chance_model.remaining_chances = current_chances
+                user_winning_chance_model.remaining_chances = int(current_chances)
 
                 if user_winning_chance_model.spent:
                     user_winning_chance_model.spent = int(user_winning_chance_model.spent) + 1
@@ -3047,6 +3050,11 @@ def front_pay_for_purchasing_wnning_chance(request):
 
         if paid_amount and purchased_chances and necessary_points:
 
+            if paid_amount:
+                paid_amount = float(paid_amount)
+            else:
+                paid_amount = 0.0
+
             # order_data
             orderData = json.loads(order_data)
             paymentID = orderData['id']
@@ -3065,7 +3073,7 @@ def front_pay_for_purchasing_wnning_chance(request):
             usr_credit_wallet = CreditWallet.objects.filter(user=request.user).first()
 
             if usr_credit_wallet:
-                usr_credit_wallet.available = '0'
+                usr_credit_wallet.available = 0
                 usr_credit_wallet.spent = int(usr_credit_wallet.spent) + int(available_credit_points)
                 usr_credit_wallet.save()
 
@@ -3365,7 +3373,14 @@ def front_pay_for_purchasing_Creditpoint(request):
         credit__amount = request.GET.get('credit__amount')
         order_data = request.GET.get('order_data')
 
+
         if paid_amount and credit__amount and order_data:
+
+            if paid_amount:
+                paid_amount = float(paid_amount)
+            else:
+                paid_amount = 0
+
             orderData = json.loads(order_data)
 
             paymentID = orderData['id']

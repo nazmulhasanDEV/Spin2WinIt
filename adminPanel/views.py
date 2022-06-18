@@ -25,6 +25,7 @@ from advertisement.models import *
 from core.models import *
 from config.activate_deactivate_status import activate_status, deactivate_status
 from config.custom_functions import delete_obj
+from django.db.models import Avg, Sum
 
 # woocomerce to connect with woocommerce store
 from woocommerce import API
@@ -2043,25 +2044,214 @@ def home(request):
     # unique visitors
     unique_visitors = VisitorInfo.objects.count()
 
+    # total no of visitors
+    total_no_of_visitors = TotalNumVisitor.objects.first()
+
     # total no of times played the game
     total_no_times_played_game = TotalNumOfTimesPlayed.objects.filter().first()
 
     # total no of prizes give
     total_no_of_times_prizes_won = PrizeList.objects.filter().count()
 
+    # total spin points given
+    total_spin_pointsGiven = PointWallet.objects.all().aggregate(Sum('total_pointsOf_crnt_user'))
+
+    # total spin credit given
+    total_spin_credit_given = CreditWallet.objects.all().aggregate(Sum('total_credts_ofCurrentUser'))
+
+    # total spin tokens given
+    total_spin_tokens_given = WinningChance.objects.all().aggregate(Sum('total_spin_tokens_of_crnt_usr'))
+
+    # total messages
+    total_messages = CustomerMessageList.objects.count()
+
+    # revenue from credit purchase
+    revenue_from_credit_purchase = CreditPurchasingHistory.objects.all().aggregate(Sum('paid_amount'))
+
+    # revenue from spin token/winning chance purchase
+    revenue_from_spin_token_purchase = WinningChancePurchasingHistory.objects.all().aggregate(Sum('amount_paid'))
+
+    # orders section
+    total_orders = OrderList.objects.all().count()
+
+    # order cancellation status
+    cancelled_orders = OrderList.objects.filter(Q(order_status='c')).count()
+
+    # order cancellation status
+    delivered_orders = OrderList.objects.filter(Q(order_status='a') & Q(delivery_status=True)).count()
+
+    # current orders
+    current_orders = OrderList.objects.filter(Q(delivery_status=False) & Q(order_status='a') & Q(shipping_status=False)).count()
+
+    # on the way order list
+    on_the_way_order_list = OrderList.objects.filter(Q(order_status='a') & Q(delivery_status=False) & Q(shipping_status=True)).count()
+
+    # product purchase history
+    product_purchase_history = ProductPurchasePaymntHistory.objects.first()
+
+    # getting sales by current month from product purchase history
+    crnt_year = timezone.now().year
+    # crnt_month = timezone.now().month
+
+    crnt_january_sales = ProductPurchasePaymntHistory.objects.filter(Q(created__year=crnt_year) & Q(created__month=1)).aggregate(Sum('paid_amount'))['paid_amount__sum']
+    crnt_feb_sales = ProductPurchasePaymntHistory.objects.filter(Q(created__year=crnt_year) & Q(created__month=2)).aggregate(Sum('paid_amount'))['paid_amount__sum']
+    crnt_march_sales = ProductPurchasePaymntHistory.objects.filter(Q(created__year=crnt_year) & Q(created__month=3)).aggregate(Sum('paid_amount'))['paid_amount__sum']
+    crnt_april_sales = ProductPurchasePaymntHistory.objects.filter(Q(created__year=crnt_year) & Q(created__month=4)).aggregate(Sum('paid_amount'))['paid_amount__sum']
+    crnt_may_sales = ProductPurchasePaymntHistory.objects.filter(Q(created__year=crnt_year) & Q(created__month=5)).aggregate(Sum('paid_amount'))['paid_amount__sum']
+    crnt_jun_sales = ProductPurchasePaymntHistory.objects.filter(Q(created__year=crnt_year) & Q(created__month=6)).aggregate(Sum('paid_amount'))['paid_amount__sum']
+    crnt_july_sales = ProductPurchasePaymntHistory.objects.filter(Q(created__year=crnt_year) & Q(created__month=7)).aggregate(Sum('paid_amount'))['paid_amount__sum']
+    crnt_august_sales = ProductPurchasePaymntHistory.objects.filter(Q(created__year=crnt_year) & Q(created__month=8)).aggregate(Sum('paid_amount'))['paid_amount__sum']
+    crnt_septem_sales = ProductPurchasePaymntHistory.objects.filter(Q(created__year=crnt_year) & Q(created__month=9)).aggregate(Sum('paid_amount'))['paid_amount__sum']
+    crnt_october_sales = ProductPurchasePaymntHistory.objects.filter(Q(created__year=crnt_year) & Q(created__month=10)).aggregate(Sum('paid_amount'))['paid_amount__sum']
+    crnt_novembr_sales = ProductPurchasePaymntHistory.objects.filter(Q(created__year=crnt_year) & Q(created__month=11)).aggregate(Sum('paid_amount'))['paid_amount__sum']
+    crnt_decmbr_sales = ProductPurchasePaymntHistory.objects.filter(Q(created__year=crnt_year) & Q(created__month=12)).aggregate(Sum('paid_amount'))['paid_amount__sum']
+
+    total_sales = ProductPurchasePaymntHistory.objects.all().aggregate(Sum('paid_amount'))['paid_amount__sum']
+
+    # total no of shoppers account
+    total_no_of_shoppers_account = Account.objects.filter(Q(is_buyer=True) & Q(is_active=True)).count()
 
     context = {
+        'total_spin_pointsGiven': total_spin_pointsGiven,
+        'total_spin_credit_given': total_spin_credit_given,
+        'total_spin_tokens_given': total_spin_tokens_given,
+        'total_messages': total_messages,
+
+        'revenue_from_credit_purchase': revenue_from_credit_purchase,
+        'revenue_from_spin_token_purchase': revenue_from_spin_token_purchase,
+        'total_orders': total_orders,
+        'cancelled_orders': cancelled_orders,
+        'delivered_orders': delivered_orders,
+        'current_orders': current_orders,
+        'on_the_way_order_list': on_the_way_order_list,
+
         'user_list' : user_list,
         'profile_pic' : profile_pic,
         'total_number_of_orders': total_number_of_orders,
         'total_registered_usr': total_registered_usr,
         'total_number_of_products': total_number_of_products,
         'unique_visitors': unique_visitors,
+        'total_no_of_visitors': total_no_of_visitors,
+        'total_no_of_shoppers_account': total_no_of_shoppers_account,
+
         'total_no_times_played_game': total_no_times_played_game,
         'total_no_of_times_prizes_won': total_no_of_times_prizes_won,
+
+        # sales list by month
+        'total_sales': total_sales,
+        'crnt_january_sales': crnt_january_sales,
+        'crnt_feb_sales': crnt_feb_sales,
+        'crnt_march_sales': crnt_march_sales,
+        'crnt_april_sales': crnt_april_sales,
+        'crnt_may_sales': crnt_may_sales,
+        'crnt_jun_sales': crnt_jun_sales,
+        'crnt_july_sales': crnt_july_sales,
+        'crnt_august_sales': crnt_august_sales,
+        'crnt_septem_sales': crnt_septem_sales,
+        'crnt_october_sales': crnt_october_sales,
+        'crnt_novembr_sales': crnt_novembr_sales,
+        'crnt_decmbr_sales': crnt_decmbr_sales,
     }
 
     return render(request, 'backEnd_superAdmin/home.html', context)
+
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_sping_credit_givenUserList(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # users with point wallet
+    user_list_of_credit_wallet = CreditWallet.objects.all()
+
+    context = {
+        'user_list_of_credit_wallet': user_list_of_credit_wallet,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/spin_credit_given/user_list.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_sping_tokens_givenUserList(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # users with point wallet
+    user_list_of_winningChance_wallet = WinningChance.objects.all()
+
+    context = {
+        'user_list_of_winningChance_wallet': user_list_of_winningChance_wallet,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/spint_tokens_given/user_list.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_sping_point_givenUserList(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # users with point wallet
+    user_list_of_point_wallet = PointWallet.objects.all()
+
+    context = {
+        'user_list_of_point_wallet': user_list_of_point_wallet,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/spin_points_given/user_list.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_product_purchaseHistory(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # product purchase history
+    product_purchase_history = ProductPurchasePaymntHistory.objects.all()
+
+    context = {
+        'product_purchase_history' : product_purchase_history,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/purchase_history/product_purchase_history.html', context)
+
+
+# spin credit purchase history
+@login_required(login_url='/ap/register/updated')
+def ap_spin_credit_purchase_history(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # spin credit purchase history
+    spin_credit_purchase_history = CreditPurchasingHistory.objects.all()
+
+    context = {
+        'spin_credit_purchase_history': spin_credit_purchase_history,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/purchase_history/spin_credit_purchase_history.html', context)
+
+
+# spin tokens purchase history
+@login_required(login_url='/ap/register/updated')
+def ap_spin_token_purchase_history(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # spin credit purchase history
+    spin_tokens_purchase_history = WinningChancePurchasingHistory.objects.all()
+
+    context = {
+        'spin_tokens_purchase_history': spin_tokens_purchase_history,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/purchase_history/spin_token_purchase_history.html', context)
 
 @login_required(login_url='/ap/register/updated')
 def deactivateUser(request, pk):
@@ -4018,8 +4208,6 @@ def ap_add_new_segment(request):
     if request.method == 'POST':
         name = request.POST.get('segment_name')
 
-        print(name)
-
         if name and len(Segment.objects.filter(name=name)) <= 0:
             segment_model = Segment.objects.create(name=name)
             messages.success(request, "Successfully added!")
@@ -4295,7 +4483,6 @@ def ap_buyer_accounts_list(request):
 @login_required(login_url='/ap/register/updated')
 def ap_single_buyer_details(request, pk):
 
-
     if request.user.is_admin != True:
         return redirect('frontEndLoginUser')
 
@@ -4335,9 +4522,7 @@ def ap_single_buyer_details(request, pk):
 
         if spin_token_wallet_of_crnt_usr:
             if spin_token_wallet_of_crnt_usr.remaining_chances and spin_token_wallet_of_crnt_usr.spent:
-                print(spin_token_wallet_of_crnt_usr.remaining_chances)
                 total_winning_chance = total_winning_chance + int(spin_token_wallet_of_crnt_usr.remaining_chances) + int(spin_token_wallet_of_crnt_usr.spent)
-                print(total_winning_chance)
             elif spin_token_wallet_of_crnt_usr.remaining_chances and int(spin_token_wallet_of_crnt_usr.spent) <= 0:
                 total_winning_chance = total_winning_chance + int(spin_token_wallet_of_crnt_usr.remaining_chances)
             elif spin_token_wallet_of_crnt_usr.remaining_chances == '' or spin_token_wallet_of_crnt_usr.remaining_chances == '0' and int(
@@ -4345,7 +4530,6 @@ def ap_single_buyer_details(request, pk):
                 total_winning_chance = total_winning_chance + int(spin_token_wallet_of_crnt_usr.spent)
             else:
                 total_winning_chance = 0
-        print(total_winning_chance)
 
         # dailly sign in bonus
         got_daily_signInBonus = GivenDailySignInBonusUsrList.objects.filter(user=crnt_buyer).count()
@@ -4359,12 +4543,37 @@ def ap_single_buyer_details(request, pk):
         # bonus for registering
         got_bonus_for_registering = BonusPoinForRegistration.objects.filter(user=crnt_buyer).first()
 
+        # total bonus earned from captcha
+        home_pg_captcha = CheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        shop_pg_captcha = ShopCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        categoryShop_pg_captcha = CategoryShopCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        prodct_detals_pg_captcha = ProductDetailsCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        gameCheck_pg_captcha = GameCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        usrProfile_pg_captcha = UsrProfileCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        buyWinningChance_pg_captcha = BuyWinningChanceBoxCaptcha.objects.filter(user=crnt_buyer)
+        cart_pg_captcha = CartCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        contactUs_pg_captcha = ContactUsCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        paymentWinning_pg_captcha = PaymentWinningChnceCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        prodctPurchase_pg_captcha = ProductPurchaseCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        prdct_payment_success_pg_captcha = ProdctPaymntSccssCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        wishList_pg_captcha = WishlistCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        purchageCredit_pg_captcha = PurchaseCreditCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        credt_prchagePayment_pg_captcha = CreditPurchasePaymntCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        credt_prchaseSucccess_pg_captcha = CreditPurchaseSuccessCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        checkout_pg_captcha = CheckoutCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+        winningChancePrchse_sccss_pg_captcha = WnChancePurchaseSccMsgCheckBoxCaptcha.objects.filter(user=crnt_buyer)
+
+        total_captha_bonus_objects = home_pg_captcha.count() + shop_pg_captcha.count() + categoryShop_pg_captcha.count() + prodct_detals_pg_captcha.count() + gameCheck_pg_captcha.count() + usrProfile_pg_captcha.count() + buyWinningChance_pg_captcha.count() + cart_pg_captcha.count() + contactUs_pg_captcha.count() + paymentWinning_pg_captcha.count() + prodctPurchase_pg_captcha.count() + prdct_payment_success_pg_captcha.count() + wishList_pg_captcha.count() + purchageCredit_pg_captcha.count() + credt_prchagePayment_pg_captcha.count() + credt_prchaseSucccess_pg_captcha.count() + checkout_pg_captcha.count() + winningChancePrchse_sccss_pg_captcha.count()
+
+        # total given bonus for solving captcha
+        total_given_bonus_for_captcha_solving = total_captha_bonus_objects * 50
 
     except:
         messages.warning(request, "Shopper not found with current information!")
         return redirect('apBuyerAccountsList')
 
     context = {
+        'crnt_pk': pk,
         'crnt_buyer': crnt_buyer,
         'spin_point_wallet_of_crnt_usr': spin_point_wallet_of_crnt_usr,
         'total_points_earned': total_points_earned,
@@ -4379,9 +4588,331 @@ def ap_single_buyer_details(request, pk):
         'got_daily_signInBonus': got_daily_signInBonus,
         'got_bonus_for_email_invitatioin': got_bonus_for_email_invitatioin,
         'got_bonus_for_refering_people': got_bonus_for_refering_people,
+        'total_given_bonus_for_captcha_solving': total_given_bonus_for_captcha_solving,
     }
 
     return render(request, 'backEnd_superAdmin/accounts/single_buyer_details.html', context)
+
+# add point from admin panel
+@login_required(login_url='/ap/register/updated')
+def ap_add_spinPointToShopperAccntFromAP(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        point_amnt = request.POST.get('spin_point')
+
+        if point_amnt:
+
+            usr_accnt = get_object_or_404(Account, pk=pk)
+            usr_point_wallet = PointWallet.objects.filter(user=usr_accnt).first()
+            if usr_point_wallet:
+                usr_point_wallet.available = usr_point_wallet.available + int(point_amnt)
+                usr_point_wallet.save()
+                messages.success(request, f"{point_amnt} points has been added to {usr_accnt.email}'s account!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+            else:
+                usr_point_wallet = PointWallet.objects.create(user=usr_accnt, available=int(point_amnt))
+                messages.success(request, f"{point_amnt} points has been added to {usr_accnt.email}'s account!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+        else:
+            messages.success(request, "Can't be added! Try again please!")
+            return redirect('apSingleBuyerDetails', pk=pk)
+
+
+    return redirect('apSingleBuyerDetails', pk=pk)
+
+
+# add credits from admin panel
+@login_required(login_url='/ap/register/updated')
+def ap_add_spinCreditToShopperAccntFromAP(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        spin_credit = request.POST.get('spin_credit')
+
+        if spin_credit:
+
+            usr_accnt = get_object_or_404(Account, pk=pk)
+            usr_credit_wallet = CreditWallet.objects.filter(user=usr_accnt).first()
+            if usr_credit_wallet:
+                usr_credit_wallet.available = usr_credit_wallet.available + int(spin_credit)
+                usr_credit_wallet.save()
+                messages.success(request, f"{spin_credit} points has been added to {usr_accnt.email}'s account!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+            else:
+                usr_credit_wallet = CreditWallet.objects.create(user=usr_accnt, available=int(spin_credit))
+                messages.success(request, f"{spin_credit} credits has been added to {usr_accnt.email}'s account!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+        else:
+            messages.success(request, "Can't be added! Try again please!")
+            return redirect('apSingleBuyerDetails', pk=pk)
+
+
+    return redirect('apSingleBuyerDetails', pk=pk)
+
+
+# add credits from admin panel
+@login_required(login_url='/ap/register/updated')
+def ap_add_spinTokensToShopperAccntFromAP(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    if request.method == 'POST':
+        spin_tokens = request.POST.get('spin_tokens')
+
+        if spin_tokens:
+
+            usr_accnt = get_object_or_404(Account, pk=pk)
+            usr_tokens_wallet = WinningChance.objects.filter(user=usr_accnt).first()
+
+            if usr_tokens_wallet:
+                usr_tokens_wallet.remaining_chances = usr_tokens_wallet.remaining_chances + int(spin_tokens)
+                usr_tokens_wallet.save()
+                messages.success(request, f"{spin_tokens} points has been added to {usr_accnt.email}'s account!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+            else:
+                usr_spin_token_wallet = WinningChance.objects.create(user=usr_accnt)
+                usr_spin_token_wallet.remaining_chances = int(spin_tokens)
+                usr_spin_token_wallet.save()
+                messages.success(request, f"{spin_tokens} tokens has been added to {usr_accnt.email}'s account!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+        else:
+            messages.success(request, "Can't be added! Try again please!")
+            return redirect('apSingleBuyerDetails', pk=pk)
+
+
+    return redirect('apSingleBuyerDetails', pk=pk)
+
+# captcha history
+@login_required(login_url='/ap/register/updated')
+def ap_singleShopperCaptcha_history(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    crnt_buyer = get_object_or_404(Account, pk=pk)
+
+    # total bonus earned from captcha
+    home_pg_captcha = CheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    shop_pg_captcha = ShopCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    categoryShop_pg_captcha = CategoryShopCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    prodct_detals_pg_captcha = ProductDetailsCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    gameCheck_pg_captcha = GameCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    usrProfile_pg_captcha = UsrProfileCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    buyWinningChance_pg_captcha = BuyWinningChanceBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    cart_pg_captcha = CartCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    contactUs_pg_captcha = ContactUsCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    paymentWinning_pg_captcha = PaymentWinningChnceCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    prodctPurchase_pg_captcha = ProductPurchaseCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    prdct_payment_success_pg_captcha = ProdctPaymntSccssCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    wishList_pg_captcha = WishlistCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    purchageCredit_pg_captcha = PurchaseCreditCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    credt_prchagePayment_pg_captcha = CreditPurchasePaymntCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    credt_prchaseSucccess_pg_captcha = CreditPurchaseSuccessCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    checkout_pg_captcha = CheckoutCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+    winningChancePrchse_sccss_pg_captcha = WnChancePurchaseSccMsgCheckBoxCaptcha.objects.filter(user=crnt_buyer).count()
+
+    context = {
+        'crnt_buyer': crnt_buyer,
+        'home_pg_captcha': home_pg_captcha,
+        'shop_pg_captcha': shop_pg_captcha,
+        'categoryShop_pg_captcha': categoryShop_pg_captcha,
+        'prodct_detals_pg_captcha': prodct_detals_pg_captcha,
+        'gameCheck_pg_captcha': gameCheck_pg_captcha,
+        'usrProfile_pg_captcha': usrProfile_pg_captcha,
+        'buyWinningChance_pg_captcha': buyWinningChance_pg_captcha,
+        'cart_pg_captcha': cart_pg_captcha,
+        'contactUs_pg_captcha': contactUs_pg_captcha,
+        'paymentWinning_pg_captcha': paymentWinning_pg_captcha,
+        'prodctPurchase_pg_captcha': prodctPurchase_pg_captcha,
+        'prdct_payment_success_pg_captcha': prdct_payment_success_pg_captcha,
+        'wishList_pg_captcha': wishList_pg_captcha,
+        'purchageCredit_pg_captcha': purchageCredit_pg_captcha,
+        'credt_prchagePayment_pg_captcha': credt_prchagePayment_pg_captcha,
+        'credt_prchaseSucccess_pg_captcha': credt_prchaseSucccess_pg_captcha,
+        'checkout_pg_captcha': checkout_pg_captcha,
+        'winningChancePrchse_sccss_pg_captcha': winningChancePrchse_sccss_pg_captcha,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/single_user_point_history/captcha_history.html', context)
+
+
+# daily sign in bonus  history
+@login_required(login_url='/ap/register/updated')
+def ap_singleShopperDailySignInBonusPoint_history(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    crnt_buyer = get_object_or_404(Account, pk=pk)
+
+    daily_sign_inBonus_list = GivenDailySignInBonusUsrList.objects.filter(user=crnt_buyer)
+
+    context = {
+        'user_pk': pk,
+        'crnt_buyer': crnt_buyer,
+        'daily_sign_inBonus_list': daily_sign_inBonus_list,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/single_user_point_history/daily_sign_in_bonus.html', context)
+
+
+
+# daily sign in bonus  history
+@login_required(login_url='/ap/register/updated')
+def ap_singleRemoveShopperDailySignInBonusPoint_history(request, user_pk, obj_pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        obj = GivenDailySignInBonusUsrList.objects.get(pk=obj_pk)
+        obj.delete()
+        messages.success(request, "Successfully deleted!")
+
+        return redirect('ap_singleShopperDailySignInBonusPoint_history', pk=user_pk)
+    except:
+        pass
+
+    return redirect('ap_singleShopperDailySignInBonusPoint_history', pk=user_pk)
+
+
+# email invitation bonus history of a single user
+@login_required(login_url='/ap/register/updated')
+def ap_singleShopperEmailInvitationBonsHistory(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    crnt_buyer = get_object_or_404(Account, pk=pk)
+
+    # shopper email invitation history
+    email_invitation_history = EmailInvitationBonusUserList.objects.filter(user=crnt_buyer)
+
+    context = {
+        'user_pk': pk,
+        'crnt_buyer': crnt_buyer,
+        'email_invitation_history': email_invitation_history,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/single_user_point_history/email_invitation_history.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_RemoveSingleShopperEmailInvitationBonsHistory(request, user_pk, obj_pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        obj = EmailInvitationBonusUserList.objects.get(pk=obj_pk)
+        obj.delete()
+        messages.success(request, 'Successfully deleted!')
+        return redirect('ap_singleShopperEmailInvitationBonsHistory', pk=user_pk)
+    except:
+        pass
+
+    return redirect('ap_singleShopperEmailInvitationBonsHistory', pk=user_pk)
+
+
+# referal bonus history of a single user
+@login_required(login_url='/ap/register/updated')
+def ap_singleShopperReferalBonsHistory(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    crnt_buyer = get_object_or_404(Account, pk=pk)
+
+    # shopper email invitation history
+    referal_history = ReferalBonusList.objects.filter(user=crnt_buyer)
+
+    context = {
+        'user_pk': pk,
+        'crnt_buyer': crnt_buyer,
+        'referal_bonus_history': referal_history,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/single_user_point_history/referal_bonus.html', context)
+
+@login_required(login_url='/ap/register/updated')
+def ap_RemoveSingleShopperReferalBonsHistory(request, user_pk, obj_pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        obj = ReferalBonusList.objects.get(pk=obj_pk)
+        obj.delete()
+        messages.success(request, 'Successfully deleted!')
+        return redirect('ap_singleShopperReferalBonsHistory', pk=user_pk)
+    except:
+        pass
+
+    return redirect('ap_singleShopperReferalBonsHistory', pk=user_pk)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_single_shopper_credit_point_purchaseHistory(request, user_pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    crnt_user = get_object_or_404(Account, pk=user_pk)
+
+    credit_purchase_history = CreditPurchasingHistory.objects.filter(user=crnt_user)
+
+
+    context = {
+        'credit_purchase_history': credit_purchase_history,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/single_user_purchase_history/spin_prchase_history.html', context)
+
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_singleShopper_spinTokenPrchaseHistory(request, user_pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    crnt_user = get_object_or_404(Account, pk=user_pk)
+
+    spin_token_prchaseHistory = WinningChancePurchasingHistory.objects.filter()
+
+    context = {
+        'crnt_user': crnt_user,
+        'spin_token_prchaseHistory': spin_token_prchaseHistory,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/single_user_purchase_history/spin_token_prchase_history.html', context)
+
+
+@login_required(login_url='/ap/register/updated')
+def ap_singleShopper_spinTokenSpendingHistory(request, user_pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    user_accnt = get_object_or_404(Account, pk=user_pk)
+
+    print(user_accnt)
+
+    all_prizes_by_crnt_user = PrizeList.objects.filter(user=user_accnt)
+
+    print(all_prizes_by_crnt_user)
+
+    context = {
+        'user_accnt': user_accnt,
+        'all_prizes_by_crnt_user': all_prizes_by_crnt_user,
+    }
+
+    return render(request, 'backEnd_superAdmin/analytics/single_user_purchase_history/spin_token_spending_history.html', context)
 
 @login_required(login_url='/ap/register/updated')
 def ap_remove_buyer_account(request, pk):
@@ -6770,6 +7301,15 @@ def apRemoveOfferProductToDifferentRankedMember(request, pk):
     return redirect('apAddOfferToDiffRankedMembers')
 
 # analytics part starts**************************************************************
+
+@login_required(login_url='/ap/register/updated')
+def ap_analytics_home(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    return render(request, 'backEnd_superAdmin/analytics/analytics_home.html')
+
 @login_required(login_url='/ap/register/updated')
 def ap_unique_visitors_list(request):
 
@@ -6858,8 +7398,10 @@ def ap_givenPointBonusHistory(request):
     purchageCredit_pg_captcha = PurchaseCreditCheckBoxCaptcha.objects.all()
     credt_prchagePayment_pg_captcha = CreditPurchasePaymntCheckBoxCaptcha.objects.all()
     credt_prchaseSucccess_pg_captcha = CreditPurchaseSuccessCheckBoxCaptcha.objects.all()
+    checkout_pg_captcha = CheckoutCheckBoxCaptcha.objects.all()
+    winningChancePrchse_sccss_pg_captcha = WnChancePurchaseSccMsgCheckBoxCaptcha.objects.all()
 
-    total_captha_bonus_objects = home_pg_captcha.count() + shop_pg_captcha.count() + categoryShop_pg_captcha.count() + prodct_detals_pg_captcha.count() + gameCheck_pg_captcha.count() + usrProfile_pg_captcha.count() + buyWinningChance_pg_captcha.count() + cart_pg_captcha.count() + contactUs_pg_captcha.count() + paymentWinning_pg_captcha.count() + prodctPurchase_pg_captcha.count() + prdct_payment_success_pg_captcha.count() + wishList_pg_captcha.count() + purchageCredit_pg_captcha.count() + credt_prchagePayment_pg_captcha.count() + credt_prchaseSucccess_pg_captcha.count()
+    total_captha_bonus_objects =checkout_pg_captcha.count() + winningChancePrchse_sccss_pg_captcha.count() + home_pg_captcha.count() + shop_pg_captcha.count() + categoryShop_pg_captcha.count() + prodct_detals_pg_captcha.count() + gameCheck_pg_captcha.count() + usrProfile_pg_captcha.count() + buyWinningChance_pg_captcha.count() + cart_pg_captcha.count() + contactUs_pg_captcha.count() + paymentWinning_pg_captcha.count() + prodctPurchase_pg_captcha.count() + prdct_payment_success_pg_captcha.count() + wishList_pg_captcha.count() + purchageCredit_pg_captcha.count() + credt_prchagePayment_pg_captcha.count() + credt_prchaseSucccess_pg_captcha.count()
 
     # total given bonus for solving captcha
     total_given_bonus_for_captcha_solving = total_captha_bonus_objects * 50

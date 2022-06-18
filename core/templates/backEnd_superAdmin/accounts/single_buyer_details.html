@@ -20,6 +20,26 @@
     </ol>
 </section>
 
+<div class="container-fluid" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
 <!-- Main content -->
 <section class="content">
 
@@ -113,126 +133,12 @@
         <div class="col-md-9">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <!--              <li class="active"><a href="#settings" data-toggle="tab">Settings</a></li>-->
                     <li class="active"><a href="#spin_point" data-toggle="tab">Spin Points</a></li>
                     <li class=""><a href="#spin_credit" data-toggle="tab">Spin Credits</a></li>
                     <li class=""><a href="#spin_token" data-toggle="tab">Spin Tokens</a></li>
+                    <li class=""><a href="#settings" data-toggle="tab">Settings</a></li>
                 </ul>
                 <div class="tab-content">
-
-                    <div class="tab-pane" id="settings">
-
-                        <form action="{% url 'apUpdateUserProfilePicture' %}" method="post"
-                              enctype="multipart/form-data" class="form-horizontal">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="inputEmail" class="col-sm-6 control-label">Update Profile Picture</label>
-                                <div class="col-sm-6">
-
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail" class="col-sm-2 control-label">Profile Pic</label>
-                                <div class="col-sm-10">
-                                    <input type="file" name="profile_pic" class="form-control" id="inputEmail"
-                                           placeholder="Email" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-danger">Submit</button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <form action="{% url 'apUpdateUserProfileFullname' %}" method="post"
-                              enctype="multipart/form-data" class="form-horizontal">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="inputEmail" class="col-sm-6 control-label">Update Your Name</label>
-                                <div class="col-sm-6">
-
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="inputName" class="col-sm-2 control-label">First Name</label>
-
-                                <div class="col-sm-10">
-                                    <input type="text" name="fname" class="form-control" id="inputName"
-                                           placeholder="First Name" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail" class="col-sm-2 control-label">Last Name</label>
-
-                                <div class="col-sm-10">
-                                    <input type="text" name="lname" class="form-control" id="inputEmail"
-                                           placeholder="Last Name" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-danger">Submit</button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <form action="{% url 'apUpdateUserPassword' %}" method="post" enctype="multipart/form-data"
-                              class="form-horizontal">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="inputEmail" class="col-sm-6 control-label">Update Your Password</label>
-                                <div class="col-sm-6">
-
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-
-                                <div class="col-sm-10">
-                                    <input type="email" name="email" class="form-control" id="inputEmail"
-                                           placeholder="Email" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputName" class="col-sm-2 control-label">Userame</label>
-
-                                <div class="col-sm-10">
-                                    <input type="text" name="username" class="form-control" id="inputName"
-                                           placeholder="Username" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="inputSkills" class="col-sm-2 control-label">Old Password</label>
-
-                                <div class="col-sm-10">
-                                    <input type="text" name="old_pass" class="form-control" id="inputSkills"
-                                           placeholder="Old Password" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="inputSkills" class="col-sm-2 control-label">New Password</label>
-
-                                <div class="col-sm-10">
-                                    <input type="text" name="new_pass" class="form-control" id="inputSkills"
-                                           placeholder="New Password" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-danger">Submit</button>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
-                    <!-- /.tab-pane -->
                     <div class="active tab-pane" id="spin_point">
                         <!--                header starts ***************************************-->
                         <div class="row">
@@ -293,8 +199,8 @@
                                             <div class="box-footer no-padding">
                                                 <ul class="nav nav-stacked earning__source__table">
                                                     <li>
-                                                        <a href="#">Earned from <strong>Captcha</strong>
-                                                            <span class=" badge bg-blue earning_badge">31</span>
+                                                        <a href="{% url 'apSingleShopperCaptchaHistory' pk=crnt_pk %}"> Earned from <strong>Captcha</strong>
+                                                            <span class=" badge bg-blue earning_badge">{{total_given_bonus_for_captcha_solving}}</span>
                                                             <button type="button" class="pull-right check_history_btn">
                                                                 Check History
                                                             </button>
@@ -304,13 +210,13 @@
                                                     <li>
                                                         <a href="#">Earned from <strong>Registration</strong> <span
                                                                 class="pull-right badge earning_badge">{% if got_bonus_for_registering.point_amnt %} {{got_bonus_for_registering.point_amnt}} {% else %} 0 {% endif %}</span>
-                                                            <button type="button" class="pull-right check_history_btn">
-                                                                Check History
-                                                            </button>
+<!--                                                            <button type="button" class="pull-right check_history_btn">-->
+<!--                                                                Check History-->
+<!--                                                            </button>-->
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="#">Earned from <strong>Daily Sign In Bonus</strong>
+                                                        <a href="{% url 'ap_singleShopperDailySignInBonusPoint_history' pk=crnt_pk %}">Earned from <strong>Daily Sign In Bonus</strong>
                                                             <span
                                                                     class="pull-right badge bg-aqua earning_badge">{% if got_daily_signInBonus %} {{got_daily_signInBonus|multiply}} {% else %} 0 {% endif %}</span>
                                                             <button type="button" class="pull-right check_history_btn">
@@ -319,7 +225,7 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="#">Earned from <strong>Email Invitation</strong> <span
+                                                        <a href="{% url 'ap_singleShopperEmailInvitationBonsHistory' pk=crnt_pk %}">Earned from <strong>Email Invitation</strong> <span
                                                                 class="pull-right badge bg-aqua earning_badge">{% if got_bonus_for_email_invitatioin %} {% widthratio got_bonus_for_email_invitatioin 1 50 %} {% else %} 0 {% endif %}</span>
                                                             <button type="button" class="pull-right check_history_btn">
                                                                 Check History
@@ -327,7 +233,7 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="#">Earned from <strong>Refering People</strong> <span
+                                                        <a href="{% url 'ap_singleShopperReferalBonsHistory' pk=crnt_pk %}">Earned from <strong>Refering People</strong> <span
                                                                 class="pull-right badge bg-aqua earning_badge">{% if got_bonus_for_refering_people %} {% widthratio got_bonus_for_email_invitatioin 1 250 %} {% else %} 0 {% endif %}</span>
                                                             <button type="button" class="pull-right check_history_btn">
                                                                 Check History
@@ -346,7 +252,6 @@
                         </div>
                         <!--                        main content with all statistics-->
                     </div>
-
 
                     <div class="tab-pane" id="spin_credit">
 
@@ -420,16 +325,20 @@
                                         <div class="col-md-10">
                                             <div class="row history_btn_groups">
                                                 <div class="col-md-6">
-                                                    <a href="">
-                                                        <button type="button" class="spin__credit_history_btn1">Purchased History</button>
+                                                    <a href="{% url 'ap_single_shopper_credit_point_purchaseHistory' user_pk=crnt_pk %}">
+                                                        <button type="button" class="spin__credit_history_btn1">
+                                                            Purchased History
+                                                        </button>
                                                     </a>
                                                 </div>
 
-                                                <div class="col-md-6 spin__credit_history_btn2">
-                                                    <a href="">
-                                                        <button type="button" class="spin__credit_history_btn2">Spending History</button>
-                                                    </a>
-                                                </div>
+<!--                                                <div class="col-md-6 spin__credit_history_btn2">-->
+<!--                                                    <a href="">-->
+<!--                                                        <button type="button" class="spin__credit_history_btn2">Spending-->
+<!--                                                            History-->
+<!--                                                        </button>-->
+<!--                                                    </a>-->
+<!--                                                </div>-->
                                             </div>
                                         </div>
                                         <div class="col-md-1"></div>
@@ -442,6 +351,7 @@
                         <!--                        main content with all statistics-->
 
                     </div>
+
                     <div class="tab-pane" id="spin_token">
                         <!--                header starts ***************************************-->
                         <div class="row">
@@ -512,13 +422,15 @@
                                         <div class="col-md-10">
                                             <div class="row history_btn_groups">
                                                 <div class="col-md-6">
-                                                    <a href="">
-                                                        <button type="button" class="spin__credit_history_btn1">Purchased History</button>
+                                                    <a href="{% url 'ap_singleShopper_spinTokenPrchaseHistory' user_pk=crnt_pk %}">
+                                                        <button type="button" class="spin__credit_history_btn1">
+                                                            Purchased History
+                                                        </button>
                                                     </a>
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    <a href="">
+                                                    <a href="{% url 'ap_singleShopper_spinTokenSpendingHistory' user_pk=crnt_pk %}">
                                                         <button type="button" class="spin__credit_history_btn2">Spending History</button>
                                                     </a>
                                                 </div>
@@ -532,6 +444,96 @@
                             <!-- /.col -->
                         </div>
                         <!--                        main content with all statistics-->
+                    </div>
+                    <div class="tab-pane" id="settings">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form action="{% url 'apAddSpinPointToShopperAccntFromAP' pk=crnt_pk %}" method="post"
+                                      enctype="multipart/form-data" class="form-horizontal">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-6 control-label">Give Spin Point</label>
+                                        <div class="col-sm-6">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">Spin point</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="number" name="spin_point" class="form-control" id="inputName"
+                                                   placeholder="Spin Point Amnt." required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-danger">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="col-md-6">
+                                <form action="{% url 'apAddSpinCreditToShopperAccntFromAP' pk=crnt_pk %}" method="post"
+                                      enctype="multipart/form-data"
+                                      class="form-horizontal">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-6 control-label">Give Spin Credit</label>
+                                        <div class="col-sm-6">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">Spin credit</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="number" name="spin_credit" class="form-control" id="inputName"
+                                                   placeholder="Spin Credit Amnt." required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-danger">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="col-md-6">
+                                <form action="{% url 'apAddSpinTokensToShopperAccntFromAP' pk=crnt_pk %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-6 control-label">Give Spin Tokens</label>
+                                        <div class="col-sm-6">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">Spin token</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="number" name="spin_tokens" class="form-control" id="inputName"
+                                                   placeholder="Spin Tokens" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-danger">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
                 <!-- /.tab-content -->

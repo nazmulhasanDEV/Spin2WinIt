@@ -16,6 +16,25 @@ urlpatterns = [
 
     re_path(r'^index/$', views.index, name="apIndex"),
     re_path(r'^ap/home/$', views.home, name="apHome"),
+
+    # spin point given user list
+    re_path(r'^ap/total/spin/point/given/user/list/$', views.ap_sping_point_givenUserList, name='ap_sping_point_givenUserList'),
+
+    # spin point given user list
+    re_path(r'^ap/total/spin/credit/given/user/list/$', views.ap_sping_credit_givenUserList, name='ap_sping_credit_givenUserList'),
+
+    # spin tokens given user list
+    re_path(r'^ap/total/spin/tokens/given/user/lists/$', views.ap_sping_tokens_givenUserList, name='ap_sping_tokens_givenUserList'),
+
+    # spin credit purhase history
+    re_path(r'^ap/spin/credit/purchase/history/$', views.ap_spin_credit_purchase_history, name='apSpinCreditPurchaseHistory'),
+
+    # spin token purhase history
+    re_path(r'^ap/spin/token/purchase/history/$', views.ap_spin_token_purchase_history, name='apSpinTokenPurchaseHistory'),
+
+    # product purchase history
+    re_path(r'^ap/product/purchase/history/$', views.ap_product_purchaseHistory, name='apProductPurchaseHistory'),
+
     re_path(r'^ap/deactivate/user/(?P<pk>\d+)/$', views.deactivateUser, name="apDeactivateuser"),
     re_path(r'^ap/activate/user/(?P<pk>\d+)/$', views.activateUser, name="apActivateUser"),
     re_path(r'^ap/remove/user/(?P<pk>\d+)/$', views.removeUser, name="apRemoveUser"),
@@ -124,6 +143,36 @@ urlpatterns = [
     re_path(r'^ap/buyer/acccounts/list/$', views.ap_buyer_accounts_list, name='apBuyerAccountsList'),
     re_path(r'^ap/remove/buyer/account/(?P<pk>\d+)/$', views.ap_remove_buyer_account, name='apRemoveBuyerAccount'),
     re_path(r'^ap/buyer/details/(?P<pk>\d+)/$', views.ap_single_buyer_details, name='apSingleBuyerDetails'),
+    # add spin point to shopper account from admin panel
+    re_path(r'^ap/add/spin/point/to/shopper/account/(?P<pk>\d+)/$', views.ap_add_spinPointToShopperAccntFromAP, name='apAddSpinPointToShopperAccntFromAP'),
+    re_path(r'^ap/add/spin/credit/to/shopper/account/(?P<pk>\d+)/$', views.ap_add_spinCreditToShopperAccntFromAP, name='apAddSpinCreditToShopperAccntFromAP'),
+    re_path(r'^ap/add/spin/tokens/to/shopper/account/(?P<pk>\d+)/$', views.ap_add_spinTokensToShopperAccntFromAP, name='apAddSpinTokensToShopperAccntFromAP'),
+
+    # single user captcha history
+    re_path(r'^ap/shopper/captcha/history/(?P<pk>\d+)/$', views.ap_singleShopperCaptcha_history, name='apSingleShopperCaptchaHistory'),
+
+    # daily sign in bonus history
+    re_path(r'^ap/shopper/daily/sign/in/bonus/history/(?P<pk>\d+)/$', views.ap_singleShopperDailySignInBonusPoint_history, name='ap_singleShopperDailySignInBonusPoint_history'),
+    re_path(r'^ap/remove/shopper/daily/sign/in/bonus/history/(?P<user_pk>\d+)/(?P<obj_pk>\d+)/$', views.ap_singleRemoveShopperDailySignInBonusPoint_history, name='ap_singleRemoveShopperDailySignInBonusPoint_history'),
+
+    # email invitation bonus history
+    re_path(r'^ap/shopper/email/invitation/bonus/history/(?P<pk>\d+)/$', views.ap_singleShopperEmailInvitationBonsHistory, name='ap_singleShopperEmailInvitationBonsHistory'),
+    re_path(r'^ap/remove/shopper/email/invitation/bonus/history/(?P<user_pk>\d+)/(?P<obj_pk>\d+)/$', views.ap_RemoveSingleShopperEmailInvitationBonsHistory, name='ap_RemoveSingleShopperEmailInvitationBonsHistory'),
+
+    # referal bonus history
+    re_path(r'^ap/shopper/referla/bonus/history/(?P<pk>\d+)/$', views.ap_singleShopperReferalBonsHistory, name='ap_singleShopperReferalBonsHistory'),
+    re_path(r'^ap/remove/shopper/referal/bonus/history/(?P<user_pk>\d+)/(?P<obj_pk>\d+)/$', views.ap_RemoveSingleShopperReferalBonsHistory, name='ap_RemoveSingleShopperReferalBonsHistory'),
+
+    # single user spin credit purchase history
+    re_path(r'^ap/single/shopper/spin/credit/purchase/history/(?P<user_pk>\d+)/$', views.ap_single_shopper_credit_point_purchaseHistory, name='ap_single_shopper_credit_point_purchaseHistory'),
+
+    # single user spin token purchase history
+    re_path(r'^ap/single/shopper/spin/token/purchase/history/(?P<user_pk>\d+)/$', views.ap_singleShopper_spinTokenPrchaseHistory, name='ap_singleShopper_spinTokenPrchaseHistory'),
+
+    # single user spin token spending history history
+    re_path(r'^ap/single/shopper/spin/token/spending/history/(?P<user_pk>\d+)/$', views.ap_singleShopper_spinTokenSpendingHistory, name='ap_singleShopper_spinTokenSpendingHistory'),
+
+
 
     re_path(r'^ap/staff/accounts/list/$', views.ap_staff_accounts_list, name= 'apStaffAccountsList'),
 
@@ -266,6 +315,8 @@ urlpatterns = [
     re_path(r'^ap/del/customer/message/list/(?P<pk>\d+)/$', views.ap_del_customer_msg, name='apDelCustomerMessageList'),
 
     # analytics part starts******************************************************************************************
+
+    re_path(r'^ap/analytics/home/$', views.ap_analytics_home, name='apAnalyticsHome'),
 
     # vistiots'info
     re_path(r'^ap/unique/visitors/list/$', views.ap_unique_visitors_list, name='apUniqueVisitorsList'),

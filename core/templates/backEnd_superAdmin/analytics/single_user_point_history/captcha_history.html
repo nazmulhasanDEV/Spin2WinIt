@@ -1,0 +1,269 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+{% load tag_library %}
+
+
+{% block dataTable_css %}
+<!-- DataTables -->
+<link rel="stylesheet"
+      href="{% static 'backEnd/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+{% endblock %}
+
+
+{% block main_block %}
+<div class="container-fluid" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+
+<!--data tables*******************************************-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <section class="content-header">
+                <h1>
+                    All pages captcha history <strong>By {{crnt_buyer.fname}} {{crnt_buyer.lname}}</strong>
+                </h1>
+<!--                <ol class="breadcrumb">-->
+
+<!--                    <div style="position: relative;padding-top: 15px; padding-bottom: 15px;">-->
+<!--                        <a href="/ap/add/admin/custom/product" style="position: absolute; right: 0; bottom: 15px;">-->
+<!--                            <button type="button" style="width: 130px;border: none; outline: none;color: white; border-radius: 5px; padding: 5px; background:#222D32;"><i class="fas fa-plus"></i>&nbsp; Add New Product</button>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </ol>-->
+            </section>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Captcha page list</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Page Name</th>
+                                    <th>Total No. times Solved</th>
+                                    <th>Total Bonus Points Given</th>
+<!--                                    <th class="text-center">Action</th>-->
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr>
+                                    <td>Home Page</td>
+                                    <td>{{home_pg_captcha}}</td>
+                                    <td>{{home_pg_captcha|multiply}}</td>
+
+<!--                                    <td class="text-center">-->
+<!--                                        <a href="{% url 'apHomePageCaptchaBonusList' %}">-->
+<!--                                            <button type="button" style="border:none; background: #222D32;color:white;">-->
+<!--                                                Details</button>-->
+<!--                                        </a>-->
+
+<!--                                        &lt;!&ndash; modal for deleting object&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                        <button type="button" style="border:none; background: #FF0000;color:white;" data-toggle="modal"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                data-target="#remove{{x.pk}}">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <i class="fas fa-backspace"></i> Remove&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </button>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                        &lt;!&ndash; Modal &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <div class="modal fade" id="remove{{x.pk}}" tabindex="-1" role="dialog"&ndash;&gt;-->
+<!--&lt;!&ndash;                                             aria-labelledby="exampleModalLabel" aria-hidden="true">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <div class="modal-dialog" role="document">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <div class="modal-content">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <div class="modal-header">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <h5 class="modal-title text-left" id="exampleModalLabel">Are you confirm to delete this?</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <button type="button" class="close" data-dismiss="modal"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                aria-label="Close">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                            <span aria-hidden="true">&times;</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        </button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <div class="modal-footer">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <button type="button" class="btn btn-secondary"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                data-dismiss="modal">Close&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        </button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <a href="">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                            <button type="button" class="btn btn-primary">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                Confirm&ndash;&gt;-->
+<!--&lt;!&ndash;                                                            </button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        </a>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        &lt;!&ndash;                                        modal for deleting object ends&ndash;&gt;&ndash;&gt;-->
+
+<!--                                    </td>-->
+                                </tr>
+
+                                <tr>
+                                    <td>Shop Page</td>
+                                    <td>{{shop_pg_captcha}}</td>
+                                    <td>{{shop_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Shop Page By Category</td>
+                                    <td>{{categoryShop_pg_captcha}}</td>
+                                    <td>{{categoryShop_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Product Details Page</td>
+                                    <td>{{prodct_detals_pg_captcha}}</td>
+                                    <td>{{prodct_detals_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Game Page</td>
+                                    <td>{{gameCheck_pg_captcha}}</td>
+                                    <td>{{gameCheck_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>User Profile Page</td>
+                                    <td>{{usrProfile_pg_captcha}}</td>
+                                    <td>{{usrProfile_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Buy Winning Chance Page</td>
+                                    <td>{{buyWinningChance_pg_captcha}}</td>
+                                    <td>{{buyWinningChance_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Cart Page</td>
+                                    <td>{{cart_pg_captcha}}</td>
+                                    <td>{{cart_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Contact Us Page</td>
+                                    <td>{{contactUs_pg_captcha}}</td>
+                                    <td>{{contactUs_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Payment Page Of Purchasing Winning Chance</td>
+                                    <td>{{paymentWinning_pg_captcha}}</td>
+                                    <td>{{paymentWinning_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Product Purchase Page</td>
+                                    <td>{{prodctPurchase_pg_captcha}}</td>
+                                    <td>{{prodctPurchase_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Product Payment Success Page</td>
+                                    <td>{{prdct_payment_success_pg_captcha}}</td>
+                                    <td>{{prdct_payment_success_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>WishList Page</td>
+                                    <td>{{wishList_pg_captcha}}</td>
+                                    <td>{{wishList_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Credit Purchase Page</td>
+                                    <td>{{purchageCredit_pg_captcha}}</td>
+                                    <td>{{purchageCredit_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Credit Purchase Payment Page</td>
+                                    <td>{{credt_prchagePayment_pg_captcha}}</td>
+                                    <td>{{credt_prchagePayment_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Credit Purchase Payment Success Page</td>
+                                    <td>{{credt_prchaseSucccess_pg_captcha}}</td>
+                                    <td>{{credt_prchaseSucccess_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Checkout Page</td>
+                                    <td>{{checkout_pg_captcha}}</td>
+                                    <td>{{checkout_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Winning Chance Purchase Success Page</td>
+                                    <td>{{winningChancePrchse_sccss_pg_captcha}}</td>
+                                    <td>{{winningChancePrchse_sccss_pg_captcha|multiply}}</td>
+                                </tr>
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Page Name</th>
+                                    <th>Total No. times Solved</th>
+                                    <th>Total Bonus Points Given</th>
+<!--                                    <th class="text-center">Action</th>-->
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block datatable_js %}
+<!-- DataTables -->
+<script src="{% static 'backEnd/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'backEnd/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>
+{% endblock %}

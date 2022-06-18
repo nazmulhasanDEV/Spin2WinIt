@@ -7,12 +7,18 @@ from adminPanel.models import *
 # user wallet
 class PointWallet(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE)
-    available = models.CharField(max_length=255, default='0')
-    purchased = models.CharField(max_length=255, default='0')
-    spent     = models.CharField(max_length=255, default='0')
+    available = models.IntegerField(default=0, blank=True, null=True)
+    purchased = models.IntegerField(default=0, blank=True, null=True)
+    spent     = models.CharField(max_length=255, default='0') # unnecessary
     spent_amount = models.CharField(max_length=255, blank=True, null=True, default='0') # unnecessay
     total_converted = models.IntegerField(default=0, blank=True, null=True)
     got_todays_bonus = models.BooleanField(default=False, blank=True, null=True)
+
+    total_pointsOf_crnt_user = models.IntegerField(default=0, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        self.total_pointsOf_crnt_user = self.available + self.total_converted
+        super(PointWallet, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.user.email
@@ -66,19 +72,24 @@ class EmailInvitationBonusUserList(models.Model):
 # user credit wallet
 class CreditWallet(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE, blank=True)
-    available = models.CharField(max_length=255, default='0')
-    purchased = models.CharField(max_length=255, default='0')#unnecessary
-    spent = models.CharField(max_length=255, default='0')
-    spent_amount = models.CharField(max_length=255, blank=True, null=True, default='0') # unnecessary
+    available = models.IntegerField(default=0, blank=True, null=True)
+    purchased = models.IntegerField(default=0, blank=True, null=True)#unnecessary
+    spent = models.IntegerField(default=0, blank=True, null=True)
+    total_credts_ofCurrentUser = models.IntegerField(default=0, blank=True, null=True)
+
+
+    def save(self, *args, **kwargs):
+        self.total_credts_ofCurrentUser = self.available + self.spent
+        super(CreditWallet, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.user.email + " || " + self.available
+        return self.user.email + " || " + str(self.available)
 
 # user credit purchasing history
 class CreditPurchasingHistory(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True, null=True)
     purchased_credit_amnt = models.CharField(max_length=255, blank=True, null=True)
-    paid_amount = models.CharField(max_length=255, blank=True, null=True) # in usd
+    paid_amount = models.FloatField(default=0, blank=True, null=True) # in usd
 
     # payment details
     # payee infomations
@@ -102,10 +113,15 @@ class CreditPurchasingHistory(models.Model):
 # number of chance/spin tokens to play/spin the game
 class WinningChance(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE)
-    remaining_chances = models.CharField(max_length=255, default='0')
-    purchased = models.CharField(blank=True, null=True, max_length=255, default='0')
-    spent = models.CharField(default='0', blank=True, null=True, max_length=255)
+    remaining_chances = models.IntegerField(default=0, blank=True, null=True)
+    purchased = models.IntegerField(default=0, blank=True, null=True)
+    spent = models.IntegerField(default=0, blank=True, null=True)
+    total_spin_tokens_of_crnt_usr = models.IntegerField(default=0, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        self.total_spin_tokens_of_crnt_usr = self.remaining_chances + self.spent
+        super(WinningChance, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.user.email
@@ -114,7 +130,7 @@ class WinningChance(models.Model):
 class WinningChancePurchasingHistory(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True, null=True)
     point_charged = models.CharField(max_length=255, blank=True, null=True)
-    amount_paid = models.CharField(max_length=255, blank=True, null=True)
+    amount_paid = models.FloatField(default=0, blank=True, null=True)
     chance_purchased = models.CharField(max_length=255, blank=True, null=True)
 
     # payment details

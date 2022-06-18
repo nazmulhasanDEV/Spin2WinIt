@@ -57,6 +57,7 @@
 
     {% block dataTable_css %}{% endblock %}
     {% block shopper_profile_css %}{% endblock %}
+    {% block cdnLinkOfPDFGen %}{% endblock %}
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -169,22 +170,24 @@
                     </ul>
                 </li>
 
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-th"></i>
-                        <span>Analytics</span>
-                        <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="{% url 'apUniqueVisitorsList' %}"><i class="fa fa-circle-o"></i> Unique Visitors</a></li>
-                        <li><a href="{% url 'apRegisteredUserList' %}"><i class="fa fa-circle-o"></i> Registered Users</a></li>
-                        <li><a href="{% url 'apGivenPoinBonusHistory' %}"><i class="fa fa-circle-o"></i> Point Bonus History</a></li>
-                        <li><a href="{% url 'apGivenPoinBonusHistory' %}"><i class="fa fa-circle-o"></i> Spin Tokens History</a></li>
-                        <li><a href="{% url 'apGivenPoinBonusHistory' %}"><i class="fa fa-circle-o"></i> Spin Credit History</a></li>
-                    </ul>
-                </li>
+<!--                <li class="treeview">-->
+<!--                    <a href="#">-->
+<!--                        <i class="fa fa-th"></i>-->
+<!--                        <span>Analytics</span>-->
+<!--                        <span class="pull-right-container">-->
+<!--              <i class="fa fa-angle-left pull-right"></i>-->
+<!--            </span>-->
+<!--                    </a>-->
+<!--                    <ul class="treeview-menu">-->
+<!--                        <li><a href="/ap/analytics/home"><i class="fa fa-circle-o"></i> Anaytics Home</a></li>-->
+
+<!--                        <li><a href="{% url 'apUniqueVisitorsList' %}"><i class="fa fa-circle-o"></i> Unique Visitors</a></li>-->
+<!--                        <li><a href="{% url 'apRegisteredUserList' %}"><i class="fa fa-circle-o"></i> Registered Users</a></li>-->
+<!--                        <li><a href="{% url 'apGivenPoinBonusHistory' %}"><i class="fa fa-circle-o"></i> Point Bonus History</a></li>-->
+<!--                        <li><a href="{% url 'apGivenPoinBonusHistory' %}"><i class="fa fa-circle-o"></i> Spin Tokens History</a></li>-->
+<!--                        <li><a href="{% url 'apGivenPoinBonusHistory' %}"><i class="fa fa-circle-o"></i> Spin Credit History</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
 
                 <li class="treeview">
                     <a href="#">
@@ -545,5 +548,7 @@
 {% block datatable_js %}{% endblock %}
 
 {% block dropzone_block %} {% endblock %}
+
+{% block chartJS %} {% endblock %}
 </body>
 </html>
