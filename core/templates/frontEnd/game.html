@@ -694,6 +694,30 @@
                 }
                 // ends for pc-bronze
 
+
+                // for diamond
+                else if (current_prize_txt.toString().includes('Diamond') && parseInt(total_num_of_times_played.innerHTML) % (parseInt('{{diamond_prize_necessaary_spins}}')) !== 0 ) {
+                    resetWheel();
+                    startSpin();
+
+                    //ajax starts
+
+                    $.ajax({
+                         url:'/fe/game/',
+                         type:'get',
+                         data: {
+                            fromRestartSpin: 1,
+                         },
+                         success: function(response){
+                            // updating total number of times played the game till now
+                            const total_num_of_times_played = document.getElementById('total_num_of_times_played');
+                            total_num_of_times_played.innerHTML = response.current_total_num_of_played;
+                         },
+                       });
+                    //ajax ends
+                }
+                // ends for pc-bronze
+
                 else {
                     let winning__moment__audio = document.querySelector('#winning__moment__audio');
                     let game__prize__flash__message = document.querySelector('.game__prize__flash__message');

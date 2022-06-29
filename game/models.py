@@ -148,6 +148,8 @@ class SegmentList(models.Model):
 
     point_as_prize = models.ForeignKey(PointAs_Prize, on_delete=models.CASCADE, blank=True, null=True) # not necessary
     product_as_prize = models.ForeignKey(SponsoredProductForPrize, on_delete=models.CASCADE, blank=True, null=True)
+    product_cost = models.FloatField(default=0, blank=True, null=True)
+
     prize_point_amount = models.CharField(max_length=255, blank=True, null=True)
     status = models.BooleanField(default=False, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
@@ -156,9 +158,6 @@ class SegmentList(models.Model):
     def __str__(self):
         return self.segment.name + " || " + str(self.segment_no)
 
-    # def save(self, *args, **kwargs):
-    #     self.segment_no = self.segment_no + 1
-    #     super().save(*args, **kwargs)
 
 # applicable rules/regulations for prize winner
 class ApplicableRulesForWinner(models.Model):

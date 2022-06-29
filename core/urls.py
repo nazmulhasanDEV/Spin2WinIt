@@ -129,23 +129,25 @@ urlpatterns = [
 
     # policy section
     re_path(r'^fe/beta/test/terms/condition/$', views.front_BetatestTerms_andCondition, name='frontBetaTestTermsCondition'),
-    re_path(r'^fe/refund/policy/$', views.front_refund_policy, name='frontRefundPolicy'),
-    re_path(r'^fe/return/policy/$', views.front_return_policy, name='frontReturnPolicy'),
-    re_path(r'^fe/security/policy/$', views.front_security_policy, name='frontSecurityPolicy'),
-    re_path(r'^fe/delivery/policy/$', views.front_delivery_policy, name='frontDeliveryPolicy'),
+    re_path(r'^fe/refund-policy/$', views.front_refund_policy, name='frontRefundPolicy'),
+
+    re_path(r'^fe/return-policy/$', views.front_return_policy, name='frontReturnPolicy'),
+
+    re_path(r'^fe/security-policy/$', views.front_security_policy, name='frontSecurityPolicy'),
+    re_path(r'^fe/delivery-policy/$', views.front_delivery_policy, name='frontDeliveryPolicy'),
 
     re_path(r'^fe/members/policy/details/$', views.front_MembershipPolicy, name='frontMembersPolicy'),
     re_path(r'^fe/shopper/policy/details/$', views.front_ShopperPolicy, name='frontShopperPolicy'),
 
     # company
-    re_path(r'^fe/about/us/$', views.front_about_us, name='frontAboutUs'),
-    re_path(r'^fe/cookie/policy/$', views.front_cookie_policy, name='frontCookiePolicy'),
+    re_path(r'^fe/about-us/$', views.front_about_us, name='frontAboutUs'),
+    re_path(r'^fe/cookie-policy/$', views.front_cookie_policy, name='frontCookiePolicy'),
     re_path(r'^fe/terms/condition/$', views.front_terms_conditions, name='frontTermsCondition'),
-    re_path(r'^fe/privacy/policy/$', views.front_privacy_policy, name='frontPrivacyPolicy'),
+    re_path(r'^fe/privacy-policy/$', views.front_privacy_policy, name='frontPrivacyPolicy'),
 
     # sign up for newletter
     re_path(r'^fe/sign_up/newletter/$', views.front_signup_for_newletter, name='fronSignupForNewletter'),
-    re_path(r'^fe/contact/us/$', views.front_contact_us, name='frontContactUs'),
+    re_path(r'^fe/contact-us/$', views.frontContact__us, name='frontContactUs'),
 
     # how it works***********************************************************************
     # re_path(r'^fe/how/spinwin/works/$', views.front_how_spinWinWorks, name='frontHowSpinWinWorks'),
