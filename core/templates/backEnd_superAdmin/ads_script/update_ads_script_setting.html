@@ -1,0 +1,101 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-12">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>{{message.tags}}: </strong>{{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Ads script setting</h3>
+                    <p>
+                        <ul>
+                            <li>Col-6 for <strong>horizontal banner ads</strong></li>
+                            <li>Col-2 for <strong>vertical banner ads</strong></li>
+                            <li>Col-4 for <strong>square banner ads</strong></li>
+                        </ul>
+                    </p>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="{% url 'ap_update_ads_script' pk=crnt_pk %}" method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Select page</label>
+                                <select name="ads_page" class="form-control ads_page" required disabled>
+                                    {% if crnt_obj %}
+
+                                    <option value="{{crnt_obj.page.pk}}" selected>{{crnt_obj.page.name}}</option>
+
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Select Row</label>
+                                <select name="ads_row" class="form-control ads_row" required disabled>
+                                    {% if crnt_obj %}
+                                    <option value="{{crnt_obj.row.pk}}" selected>{{crnt_obj.row.name}}</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Select column</label>
+                                <select name="ads_column" class="form-control ads_column" required disabled>
+                                    {% if crnt_obj %}
+                                    <option value="{{crnt_obj.col.pk}}">{{crnt_obj.col.col_name}}</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Add ads script</label>
+                                <input type="text" name="ads_script" value="{{crnt_obj.adsScript}}" class="form-control ads_script" placeholder="Ads script" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary admin__prdctAdd_btn">LET'S UPDATE</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block dropzone_block %}
+
+<script>
+</script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}
+
+

@@ -28,14 +28,22 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
+            {% if row_1_col_1_ads.ads_script %}
+            {{row_1_col_1_ads.ads_script}}
+            {% else %}
             <!--yllx 468x60 starts &*************************************-->
             <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
             <!--yllx ends here **********************************-->
+            {% endif %}
         </div>
         <div class="col-md-6">
+            {% if row_1_col_2_ads.ads_script %}
+            {{row_1_col_2_ads.ads_script}}
+            {% else %}
             <!--yllx 468x60 starts &*************************************-->
             <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
             <!--yllx ends here **********************************-->
+            {% endif %}
         </div>
     </div>
 </div>
@@ -75,57 +83,8 @@
         </div>
     </div>
     <div class="col-md-3">
-        <div>
-            <div style="height: 120px;">
-                <!-- ylliex 120x60 -->
-                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
-                <!-- yllix 120x60 ends here -->
-            </div>
-        </div>
     </div>
 </div>
-
-
-<!-- Begin Li's Static Banner Area -->
-<!--<div class="li-static-banner pt-20 pt-sm-30">-->
-<!--                <div class="container">-->
-<!--                    <div class="row">-->
-<!--                        &lt;!&ndash; Begin Single Banner Area &ndash;&gt;-->
-<!--                        <div class="col-lg-4 col-md-4 text-center">-->
-<!--                            <div class="single-banner pb-xs-30">-->
-<!--                                <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
-<!--&lt;!&ndash;                                <a href="#">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <img src="{% static 'frontEnd/images/banner/1_3.jpg' %}" alt="Li's Static Banner">&ndash;&gt;-->
-<!--&lt;!&ndash;                                </a>&ndash;&gt;-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash; Single Banner Area End Here &ndash;&gt;-->
-<!--                        &lt;!&ndash; Begin Single Banner Area &ndash;&gt;-->
-<!--                        <div class="col-lg-4 col-md-4 text-center">-->
-<!--                            <div class="single-banner pb-xs-30">-->
-<!--                                <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
-<!--&lt;!&ndash;                                <a href="#">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <img src="{% static 'frontEnd/images/banner/1_4.jpg' %}" alt="Li's Static Banner">&ndash;&gt;-->
-<!--&lt;!&ndash;                                </a>&ndash;&gt;-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash; Single Banner Area End Here &ndash;&gt;-->
-<!--                        &lt;!&ndash; Begin Single Banner Area &ndash;&gt;-->
-<!--                        <div class="col-lg-4 col-md-4 text-center">-->
-<!--                            <div class="single-banner">-->
-<!--                                <script async src="https://dvypar.com/na/waWQiOjExMjE0NjQsInNpZCI6MTEzOTQyMiwid2lkIjozMzQ0NjEsInNyYyI6Mn0=eyJ.js"></script>-->
-<!--&lt;!&ndash;                                <a href="#">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <img src="{% static 'frontEnd/images/banner/1_5.jpg' %}" alt="Li's Static Banner">&ndash;&gt;-->
-<!--&lt;!&ndash;                                </a>&ndash;&gt;-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash; Single Banner Area End Here &ndash;&gt;-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!-- Li's Static Banner Area End Here -->
-
-
 <br><br>
 
 
@@ -133,7 +92,11 @@
     <div class="row">
 
         <div class="col-md-4">
+            {% if row_2_col_1_ads.ads_script %}
+            {{row_2_col_1_ads.ads_script}}
+            {% else %}
                 <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=17'></script>
+            {% endif %}
             </div>
 
         <div class="col-md-4">
@@ -149,7 +112,11 @@
                 </div>
         </div>
         <div class="col-md-4">
+            {% if row_2_col_2_ads.ads_script %}
+            {{row_2_col_2_ads.ads_script}}
+            {% else %}
                 <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_0'></script>
+            {% endif %}
             </div>
     </div>
 </div>
@@ -162,19 +129,31 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div>
+                            {% if row_3_col_1_ads.ads_script %}
+                            {{row_3_col_1_ads.ads_script}}
+                            {% else %}
 <!--                            <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=15'></script>-->
                            <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-4">
+                {% if row_3_col_2_ads.ads_script %}
+                {{row_3_col_2_ads.ads_script}}
+                {% else %}
                 <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                {% endif %}
             </div>
 
             <div class="col-md-4">
+                {% if row_3_col_3_ads.ads_script %}
+                {{row_3_col_3_ads.ads_script}}
+                {% else %}
                 <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/300x250.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                {% endif %}
             </div>
 
         </div>
@@ -187,35 +166,55 @@
     <div class="row">
         <div class="col-md-2">
             <div>
+                {% if row_4_col_1_ads.ads_script %}
+                {{row_4_col_1_ads.ads_script}}
+                {% else %}
                 <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/120x600.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                {% endif %}
             </div>
         </div>
 
         <div class="col-md-4">
             <div>
+                {% if row_4_col_2_ads.ads_script %}
+                {{row_4_col_2_ads.ads_script}}
+                {% else %}
                 <div id="container-ec5611cf27ddd923a905f8d14e217991"></div>
+                {% endif %}
             </div>
         </div>
 
         <div class="col-md-2">
             <div>
+                {% if row_4_col_3_ads.ads_script %}
+                {{row_4_col_3_ads.ads_script}}
+                {% else %}
                 <!-- ylliex 120x60 -->
                 <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
                 <!-- yllix 120x60 ends here -->
+                {% endif %}
             </div>
         </div>
 
         <div class="col-md-2">
             <div>
+                {% if row_4_col_4_ads.ads_script %}
+                {{row_4_col_4_ads.ads_script}}
+                {% else %}
                 <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/120x600.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                {% endif %}
             </div>
         </div>
 
         <div class="col-md-2">
             <div>
+                {% if row_4_col_5_ads.ads_script %}
+                {{row_4_col_5_ads.ads_script}}
+                {% else %}
                 <!-- ylliex 120x60 -->
                 <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
                 <!-- yllix 120x60 ends here -->
+                {% endif %}
             </div>
         </div>
 
@@ -227,6 +226,9 @@
     <div class="row">
         <div class="col-md-6">
                                     <div>
+                                        {% if row_5_col_1_ads.ads_script %}
+                                        {{row_5_col_1_ads.ads_script}}
+                                        {% else %}
                                         <script type="text/javascript">
                                             atOptions = {
                                                 'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
@@ -237,11 +239,15 @@
                                             };
                                             document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
                                         </script>
+                                        {% endif %}
                                     </div>
                                 </div>
 
         <div class="col-md-6">
                                     <div>
+                                        {% if row_5_col_2_ads.ads_script %}
+                                        {{row_5_col_2_ads.ads_script}}
+                                        {% else %}
                                         <script type="text/javascript">
                                             atOptions = {
                                                 'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
@@ -252,6 +258,7 @@
                                             };
                                             document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
                                         </script>
+                                        {% endif %}
                                     </div>
                                 </div>
     </div>
@@ -260,11 +267,6 @@
 
 
 <!-- ads section ends -->
-
-
-<!-- adster 1x1 native ads-->
-<script async="async" data-cfasync="false" src="//pl17231266.safestgatetocontent.com/ec5611cf27ddd923a905f8d14e217991/invoke.js"></script>
-<!-- adster 1x1 native ads ends-->
 
 
 <script type="text/javascript">

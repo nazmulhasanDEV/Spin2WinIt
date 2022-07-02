@@ -8610,7 +8610,128 @@ def ap_updateGroupedProductsShippingClass(request):
 
 
 
+# ads script settings **************************************************************************
 
+@login_required(login_url='/fe/login/register')
+def ap_ads_scriptSetting(request):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    # all pages with ads script
+    ads_script_all_pages = AdsPageName.objects.all()
+
+    # all rows with ads script
+    ads_script_all_rows = AdsRow.objects.all()
+
+    # all cols with ads script
+    ads_script_all_cols = AdsColPerRow.objects.all()
+
+    if request.method == 'GET':
+
+        # ads page ajax request part
+        current_ads_page_pk = request.GET.get('current_ads_page')
+        if current_ads_page_pk:
+            crent_ads_page = AdsPageName.objects.filter(pk=current_ads_page_pk).first()
+            rows_of_crrent_adsPg = AdsRow.objects.filter(page_name=crent_ads_page)
+
+            if rows_of_crrent_adsPg and request.is_ajax():
+                rows_of_crnt_ads_page = list(rows_of_crrent_adsPg.values())
+                return JsonResponse({'rows_of_crnt_ads_page': rows_of_crnt_ads_page})
+        # ads page ajax request part ends
+
+        current_ads_row_pk = request.GET.get('current_ads_row')
+        if current_ads_row_pk:
+            crrent_ads_row = AdsRow.objects.filter(pk=current_ads_row_pk).first()
+            cols_of_crrent_ads_row = AdsColPerRow.objects.filter(row=crrent_ads_row)
+
+            if cols_of_crrent_ads_row and request.is_ajax():
+                cols_of_crnt_adsRow = list(cols_of_crrent_ads_row.values())
+                return JsonResponse({'cols_of_crnt_adsRow': cols_of_crnt_adsRow})
+
+    if request.method == 'POST':
+        adsPagePk = request.POST.get('ads_page')
+        adsRowsPk = request.POST.get('ads_row')
+        adsColsPk = request.POST.get('ads_column')
+        adsScript = request.POST.get('ads_script')
+
+        if adsPagePk and adsRowsPk and adsColsPk and adsScript:
+            adscrntPage = AdsPageName.objects.filter(pk=adsPagePk).first()
+            adsCurrntRow = AdsRow.objects.filter(pk=adsRowsPk).first()
+            adsCurrntCol = AdsColPerRow.objects.filter(pk=adsColsPk).first()
+
+            if len(AdsScript.objects.filter(col=adsCurrntCol)) > 0:
+                messages.warning(request, 'This column already exists with ads scirpt! Remove it or update it!')
+                return redirect('ap_ads_scriptSetting')
+
+            ads_script_model = AdsScript.objects.create(
+                page=adscrntPage,
+                row=adsCurrntRow,
+                col=adsCurrntCol,
+                adsScript=adsScript
+            )
+            messages.success(request, 'Successfully added new ads script!')
+            return redirect('ap_ads_scriptSetting')
+
+    # current all ads script
+    crrent_all_ads_script = AdsScript.objects.all()
+
+    context = {
+        'crrent_all_ads_script': crrent_all_ads_script,
+        'ads_script_all_pages': ads_script_all_pages,
+        'ads_script_all_rows': ads_script_all_rows,
+        'ads_script_all_cols': ads_script_all_cols,
+    }
+
+    return render(request, 'backEnd_superAdmin/ads_script/ads_script_setting.html', context)
+
+
+@login_required(login_url='/fe/login/register')
+def ap_remove_ads_script(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_ads_script = AdsScript.objects.get(pk=pk)
+        crnt_ads_script.delete()
+        messages.success(request, 'Successfully deleted!')
+        return redirect('ap_ads_scriptSetting')
+    except:
+        messages.warning(request, 'Can not be deleted! try again!')
+        return redirect('ap_ads_scriptSetting')
+
+    return redirect('ap_ads_scriptSetting')
+
+@login_required(login_url='/fe/login/register')
+def ap_update_ads_script(request, pk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = AdsScript.objects.get(pk=pk)
+    except:
+        messages.warning(request, "Ads script not found!")
+        return redirect('ap_ads_scriptSetting')
+
+    if request.method == 'POST':
+        ads_script = request.POST.get('ads_script')
+
+        if ads_script:
+            crnt_obj.adsScript = ads_script
+            crnt_obj.save()
+            messages.success(request, "Ads script successfully updated!")
+            return redirect('ap_ads_scriptSetting')
+
+    context = {
+        'crnt_pk': pk,
+        'crnt_obj': crnt_obj,
+    }
+
+    return render(request, 'backEnd_superAdmin/ads_script/update_ads_script_setting.html', context)
+
+# ads script settings ends**************************************************************************
 
 
 

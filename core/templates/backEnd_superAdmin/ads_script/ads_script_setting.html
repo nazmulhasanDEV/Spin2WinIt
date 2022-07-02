@@ -1,0 +1,323 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+
+
+{% block dataTable_css %}
+<!-- DataTables -->
+<link rel="stylesheet"
+      href="{% static 'backEnd/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+{% endblock %}
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-12">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>{{message.tags}}: </strong>{{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Ads script setting</h3>
+                    <p>
+                        <ul>
+                            <li>Col-6 for <strong>horizontal banner ads</strong></li>
+                            <li>Col-2 for <strong>vertical banner ads</strong></li>
+                            <li>Col-4 for <strong>square banner ads</strong></li>
+                        </ul>
+                    </p>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="{% url 'ap_ads_scriptSetting' %}" method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Select page</label>
+                                <select name="ads_page" class="form-control ads_page" required>
+                                    <option value="" selected>Select page</option>
+                                    {% if ads_script_all_pages %}
+
+                                    {% for page in ads_script_all_pages %}
+                                    <option value="{{page.pk}}">{{page.name}}</option>
+                                    {% endfor %}
+
+                                    {% else %}
+
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Select Row</label>
+                                <select name="ads_row" class="form-control ads_row" required>
+                                    {% if ads_script_all_rows %}
+                                    {% for row in ads_script_all_rows %}
+                                    <option value="{{row.pk}}">{{row.name}}</option>
+                                    {% endfor %}
+                                    {% else %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Select column</label>
+                                <select name="ads_column" class="form-control ads_column" required>
+                                    {% if ads_script_all_cols %}
+
+                                    {% for col in ads_script_all_cols %}
+                                    <option value="{{col.pk}}">{{col.col_name}}</option>
+                                    {% endfor %}
+
+                                    {% else %}
+                                    <option value="{{col.pk}}">{{col.col_name}}</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Add ads script</label>
+                                <input type="text" name="ads_script" class="form-control ads_script" placeholder="Ads script" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary admin__prdctAdd_btn">LET'S ADD</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+
+
+<!--data tables*******************************************-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <section class="content-header">
+                <h1>
+                    Current Ads Script By page
+                </h1>
+            </section>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Ads Script List</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <!--                                    <th>No. of segments</th>-->
+                                    <th>Page Name</th>
+                                    <th>Row</th>
+                                    <th>Column</th>
+                                    <th>Ads Script</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if crrent_all_ads_script %}
+                                {% for x in crrent_all_ads_script %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <!--                                    <td>{{x.no_of_segments}}</td>-->
+                                    <td>{{x.page.name}}</td>
+                                    <td>{{x.row.name}}</td>
+                                    <td>{{x.col.col_name}}</td>
+                                    <td>{{x.adsScript}}</td>
+
+                                    <td class="text-center">
+
+                                        <a href="{% url 'ap_update_ads_script' pk=x.pk %}">
+                                            <button type="button" style="border:none; background: #00C0EF;color:white;">
+                                                <i class="fas fa-edit"></i> Update
+                                            </button>
+                                        </a>
+
+                                        <!-- modal for deleting object-->
+
+                                        <button type="button" style="border:none; background: #FF0000;color:white;"
+                                                data-toggle="modal"
+                                                data-target="#remove{{x.pk}}">
+                                            <i class="fas fa-backspace"></i> Remove
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="remove{{x.pk}}" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-left" id="exampleModalLabel">Are you
+                                                            confirm to delete this?</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close
+                                                        </button>
+                                                        <a href="{% url 'ap_remove_ads_script' pk=x.pk %}">
+                                                            <button type="button" class="btn btn-primary">
+                                                                Confirm
+                                                            </button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--                                        modal for deleting object ends-->
+
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <!--                                    <th>No. of segments</th>-->
+                                    <th>Page Name</th>
+                                    <th>Row</th>
+                                    <th>Column</th>
+                                    <th>Ads Script</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block dropzone_block %}
+
+<script>
+</script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}
+
+
+{% block datatable_js %}
+<!-- DataTables -->
+<script src="{% static 'backEnd/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'backEnd/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+
+
+</script>
+
+<script>
+
+const ads_page = document.querySelector('.ads_page');
+const ads_row = document.querySelector('.ads_row');
+const ads_column = document.querySelector('.ads_column');
+
+
+ads_page.onchange = (e) =>{
+
+
+//ajax starts
+
+ads_row.innerHTML = '';
+ads_row.innerHTML = '<option value="">Select Row</option>';
+
+$.ajax({
+         url:'/ap/ads/script/setting/',
+         type:'get',
+         data: {
+            current_ads_page: e.target.value,
+         },
+         success: function(response){
+            let rows_of_crnt_adsPage = response.rows_of_crnt_ads_page;
+            rows_of_crnt_adsPage.map((row)=>{
+                const option = document.createElement('option');
+                option.value = row.id;
+                option.innerHTML = row.name;
+                ads_row.append(option);
+            });
+         },
+       });
+//ajax ends
+}
+
+ads_row.onchange = (e) =>{
+
+
+//ajax starts
+
+ads_column.innerHTML = '';
+ads_column.innerHTML = '<option value="">Select Column</option>';
+
+$.ajax({
+         url:'/ap/ads/script/setting/',
+         type:'get',
+         data: {
+            current_ads_row: e.target.value,
+         },
+         success: function(response){
+            let cols_of_crnt_adsRow = response.cols_of_crnt_adsRow;
+            cols_of_crnt_adsRow.map((col)=>{
+                const option = document.createElement('option');
+                option.value = col.id;
+                option.innerHTML = col.col_name;
+                ads_column.append(option);
+            });
+         },
+       });
+//ajax ends
+}
+</script>
+{% endblock %}
+

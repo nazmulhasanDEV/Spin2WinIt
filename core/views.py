@@ -223,6 +223,24 @@ def front_home(request):
     # prizes for game
     current_sponsoredGamePrizes = SponsoredProductForPrize.objects.filter(status=True)
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='homep').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # ends ads script ****************************************************
+
     context = {
         'ip_exist': ip_exist,
         'current_package_list': current_package_list,
@@ -246,6 +264,17 @@ def front_home(request):
 
         'home_pg_mini_top_slidr': home_pg_mini_top_slidr,
         'home_pg_bottom_slidr': home_pg_bottom_slidr,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
     }
 
     return render(request, 'frontEnd/home.html', context)
@@ -1516,6 +1545,35 @@ def front_shop_for_all_category(request):
 
     products = ProductList.objects.all()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='shopp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+
+    # row-5
+    row_5_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c1'))
+    row_5_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c2'))
+    row_5_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c3'))
+    row_5_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c4'))
+    row_5_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
+
     # product category list which has at least one product
     product_catList_with_prodct = []
     for x in product_cat_list_all:
@@ -1540,6 +1598,7 @@ def front_shop_for_all_category(request):
             current_cat_products = ProductList.objects.filter(Q(category=cat) | Q(cat_name__icontains=cat.name))[:5]
             product_list.extend(current_cat_products)
 
+
     if request.user.is_authenticated:
 
         # user cart status
@@ -1555,6 +1614,8 @@ def front_shop_for_all_category(request):
 
         # user cart status
         user_wishlist_status = WishList.objects.filter(user=request.user)
+
+
 
         context = {
             'main_banner_or_slider': main_banner_or_slider,
@@ -1572,6 +1633,26 @@ def front_shop_for_all_category(request):
             'safe_payment_content_setting': safe_payment_content_setting,
             'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
             'help_center_content_setting': help_center_content_setting,
+
+            # ads script
+            'row_1_col_1_ads': row_1_col_1_ads,
+            'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_2_col_1_ads': row_2_col_1_ads,
+            'row_2_col_2_ads': row_2_col_2_ads,
+
+            'row_3_col_1_ads': row_3_col_1_ads,
+            'row_3_col_2_ads': row_3_col_2_ads,
+
+            'row_4_col_1_ads': row_4_col_1_ads,
+            'row_4_col_2_ads': row_4_col_2_ads,
+            'row_4_col_3_ads': row_4_col_3_ads,
+
+            'row_5_col_1_ads': row_5_col_1_ads,
+            'row_5_col_2_ads': row_5_col_2_ads,
+            'row_5_col_3_ads': row_5_col_3_ads,
+            'row_5_col_4_ads': row_5_col_4_ads,
+            'row_5_col_5_ads': row_5_col_5_ads,
         }
         return render(request, 'frontEnd/shop/shop_for_all_cats.html', context)
 
@@ -1589,6 +1670,26 @@ def front_shop_for_all_category(request):
         'safe_payment_content_setting': safe_payment_content_setting,
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
+        'row_4_col_3_ads': row_4_col_3_ads,
+
+        'row_5_col_1_ads': row_5_col_1_ads,
+        'row_5_col_2_ads': row_5_col_2_ads,
+        'row_5_col_3_ads': row_5_col_3_ads,
+        'row_5_col_4_ads': row_5_col_4_ads,
+        'row_5_col_5_ads': row_5_col_5_ads,
     }
 
     return render(request, 'frontEnd/shop/shop_for_all_cats.html', context)
@@ -1618,6 +1719,33 @@ def front_shop(request, pk):
 
     # shop page banner by category
     banner_at_shop_page_by_cat = ShopPageBanner.objects.filter(status=True).first()
+
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='shoppbc').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+
+    # row-5
+    row_5_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c1'))
+    row_5_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c2'))
+
+    # ads scripts ends*****************************************
 
     # django pagination
     paginator = Paginator(products, 15)
@@ -1674,6 +1802,24 @@ def front_shop(request, pk):
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'banner_at_shop_page_by_cat': banner_at_shop_page_by_cat,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
+        'row_4_col_3_ads': row_4_col_3_ads,
+
+        'row_5_col_1_ads': row_5_col_1_ads,
+        'row_5_col_2_ads': row_5_col_2_ads,
     }
     return render(request, 'frontEnd/shop/shop.html', context)
 
@@ -1709,8 +1855,38 @@ def front_productDetails(request, product_id):
     security_policy = SecurityPolicy.objects.filter().first()
     delivery_policy = DeliveryPolicy.objects.filter().first()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='prodctdp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+
+    # row-5
+    row_5_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c1'))
+    row_5_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c2'))
+    row_5_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c3'))
+    row_5_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c4'))
+    row_5_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
+
     # ratings and reviews of current product
     current_prod_revs = ProductRating.objects.filter(product=current_product)
+
 
     num_of_5_star = 0
     num_of_4_star = 0
@@ -1766,6 +1942,26 @@ def front_productDetails(request, product_id):
             'num_of_3_star': num_of_3_star,
             'num_of_2_star': num_of_2_star,
             'num_of_1_star': num_of_1_star,
+
+            # ads script
+            'row_1_col_1_ads': row_1_col_1_ads,
+            'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_2_col_1_ads': row_2_col_1_ads,
+            'row_2_col_2_ads': row_2_col_2_ads,
+
+            'row_3_col_1_ads': row_3_col_1_ads,
+            'row_3_col_2_ads': row_3_col_2_ads,
+
+            'row_4_col_1_ads': row_4_col_1_ads,
+            'row_4_col_2_ads': row_4_col_2_ads,
+            'row_4_col_3_ads': row_4_col_3_ads,
+
+            'row_5_col_1_ads': row_5_col_1_ads,
+            'row_5_col_2_ads': row_5_col_2_ads,
+            'row_5_col_3_ads': row_5_col_3_ads,
+            'row_5_col_4_ads': row_5_col_4_ads,
+            'row_5_col_5_ads': row_5_col_5_ads,
         }
         return render(request, 'frontEnd/product-details.html', context)
 
@@ -1792,6 +1988,26 @@ def front_productDetails(request, product_id):
         'num_of_3_star': num_of_3_star,
         'num_of_2_star': num_of_2_star,
         'num_of_1_star': num_of_1_star,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
+        'row_4_col_3_ads': row_4_col_3_ads,
+
+        'row_5_col_1_ads': row_5_col_1_ads,
+        'row_5_col_2_ads': row_5_col_2_ads,
+        'row_5_col_3_ads': row_5_col_3_ads,
+        'row_5_col_4_ads': row_5_col_4_ads,
+        'row_5_col_5_ads': row_5_col_5_ads,
     }
 
     return render(request, 'frontEnd/product-details.html', context)
@@ -1864,6 +2080,28 @@ def front_cart_items_list(request, username):
     # user cart status
     user_cart_status = Cart.objects.filter(user=request.user)
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='cartp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+
+    # ends ads script*************************************
+
     # ajax request part to handle increasing/decreasing product items from cart list
 
     product_id = request.GET.get('item_id')
@@ -1927,6 +2165,20 @@ def front_cart_items_list(request, username):
         'safe_payment_content_setting': safe_payment_content_setting,
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
+        'row_4_col_3_ads': row_4_col_3_ads,
     }
 
     return render(request, 'frontEnd/cart.html', context)
@@ -1968,6 +2220,30 @@ def front_checkout(request, username):
     # user default billing address
     usr_deflt_billing_address = DefaultBillingInfo.objects.filter(user=request.user).first()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='checkp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+    row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
+    row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
+    # ads scripts ends*****************************************
+
     total_amount = 0
     shipping_cost = 0
 
@@ -1990,7 +2266,6 @@ def front_checkout(request, username):
                 except:
                     shipping_cost = 0
 
-
     context = {
         'site_logo': site_logo,
         'contact_info': contact_info,
@@ -2005,6 +2280,24 @@ def front_checkout(request, username):
         'shipping_cost': shipping_cost,
         'usr_deflt_shipping_addrss': usr_deflt_shipping_addrss,
         'usr_deflt_billing_address': usr_deflt_billing_address,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
+        'row_4_col_3_ads': row_4_col_3_ads,
+        'row_4_col_4_ads': row_4_col_4_ads,
+        'row_4_col_5_ads': row_4_col_5_ads,
+
     }
 
     return render(request, 'frontEnd/checkout.html', context)
@@ -2273,6 +2566,29 @@ def front_complete_payment(request, username, order_id):
     # help center setting
     help_center_content_setting = HelpCenter.objects.filter().first()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='prdctprpp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+    row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
+    row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
+    # ads scripts ends*****************************************
 
     # user cart status
     user_cart_status = Cart.objects.filter(user=request.user)
@@ -2413,6 +2729,23 @@ def front_complete_payment(request, username, order_id):
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
         'current_order' : current_order,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
+        'row_4_col_3_ads': row_4_col_3_ads,
+        'row_4_col_4_ads': row_4_col_4_ads,
+        'row_4_col_5_ads': row_4_col_5_ads,
     }
 
     return render(request, 'frontEnd/payment.html', context)
@@ -2580,6 +2913,29 @@ def front_game(request):
 
     # grabing sponsored product sponsored product
     sponsored_product = SponsoredProductForPrize.objects.filter(status=True).first()
+
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='gp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+
+
+    # ads scripts ends*****************************************
 
     # applicable rules for sponsored product
     applicable_rules = None
@@ -2776,6 +3132,21 @@ def front_game(request):
 
         'sponsored_product': sponsored_product,
         'applicable_rules' : applicable_rules,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
+        'row_4_col_3_ads': row_4_col_3_ads,
     }
     return render(request, 'frontEnd/game.html', context)
 
@@ -2806,6 +3177,36 @@ def front_buy_winning_chance(request):
 
     # user wishlist status
     user_wishlist_status = WishList.objects.filter(user=request.user)
+
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='spintprp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+    row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
+    row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
+
+    # row-5
+    row_5_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c1'))
+    row_5_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c2'))
+
+    # ads scripts ends*****************************************
 
     total_amount = 0
     if user_cart_status:
@@ -2995,6 +3396,26 @@ def front_buy_winning_chance(request):
                     'user_cart_status': user_cart_status,
                     'user_wishlist_status': user_wishlist_status,
                     'total_amount': total_amount,
+
+                    # ads script
+                    'row_1_col_1_ads': row_1_col_1_ads,
+                    'row_1_col_2_ads': row_1_col_2_ads,
+
+                    'row_2_col_1_ads': row_2_col_1_ads,
+                    'row_2_col_2_ads': row_2_col_2_ads,
+
+                    'row_3_col_1_ads': row_3_col_1_ads,
+                    'row_3_col_2_ads': row_3_col_2_ads,
+                    'row_3_col_3_ads': row_3_col_3_ads,
+
+                    'row_4_col_1_ads': row_4_col_1_ads,
+                    'row_4_col_2_ads': row_4_col_2_ads,
+                    'row_4_col_3_ads': row_4_col_3_ads,
+                    'row_4_col_4_ads': row_4_col_4_ads,
+                    'row_4_col_5_ads': row_4_col_5_ads,
+
+                    'row_5_col_1_ads': row_5_col_1_ads,
+                    'row_5_col_2_ads': row_5_col_2_ads,
                 }
 
                 return render(request, 'frontEnd/pay_for_purchasing_wnning_chance.html', context)
@@ -3013,6 +3434,26 @@ def front_buy_winning_chance(request):
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
+        'row_4_col_3_ads': row_4_col_3_ads,
+        'row_4_col_4_ads': row_4_col_4_ads,
+        'row_4_col_5_ads': row_4_col_5_ads,
+
+        'row_5_col_1_ads': row_5_col_1_ads,
+        'row_5_col_2_ads': row_5_col_2_ads,
     }
 
     return render(request, 'frontEnd/buy_winning_chance.html', context)
@@ -3188,6 +3629,32 @@ def front_winning_chance_purchasing_succss_msg(request, username):
     # user wishlist status
     user_wishlist_status = WishList.objects.filter(user=request.user)
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='spintprp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+
+    # row-3
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+    row_2_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c3'))
+
+    # row-4
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+    row_3_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c4'))
+    row_3_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c5'))
+
+    # row-5
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+
+    # ads scripts ends*****************************************
+
     total_amount = 0
     if user_cart_status:
         for x in user_cart_status:
@@ -3207,6 +3674,23 @@ def front_winning_chance_purchasing_succss_msg(request, username):
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_2_col_3_ads': row_2_col_3_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        'row_3_col_4_ads': row_3_col_4_ads,
+        'row_3_col_5_ads': row_3_col_5_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
     }
 
     return render(request, 'frontEnd/buy_winning_chance/success_msg.html', context)
@@ -3240,6 +3724,30 @@ def front_payment_successfull_msg(request, username):
     # user wishlist status
     user_wishlist_status = WishList.objects.filter(user=request.user)
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='pprpsm').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+    row_2_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c3'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+    row_3_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c4'))
+    row_3_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c5'))
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    # ads scripts ends*****************************************
+
     total_amount = 0
     if user_cart_status:
         for x in user_cart_status:
@@ -3258,6 +3766,23 @@ def front_payment_successfull_msg(request, username):
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_2_col_3_ads': row_2_col_3_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        'row_3_col_4_ads': row_3_col_4_ads,
+        'row_3_col_5_ads': row_3_col_5_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
     }
 
     return render(request, 'frontEnd/payment_successfull_msg.html', context)
@@ -3298,6 +3823,35 @@ def front_buy_credit_point(request, username):
     # available points
     usr_available_points = PointWallet.objects.filter(user=request.user).first()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='spincpp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+    row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
+    row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
+
+    # row-5
+    row_5_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c1'))
+    row_5_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c2'))
+
+    # ads scripts ends*****************************************
+
     # ajax part starts for buying credit points ***********************************************
     # assuming 1 credit point = $0.5
     credit_amount = request.GET.get('credit_amount')
@@ -3320,9 +3874,40 @@ def front_buy_credit_point(request, username):
         crnt_user_credit_wallet = CreditWallet.objects.filter(user=request.user).first()
 
         context = {
+            'site_logo': site_logo,
+            'contact_info': contact_info,
+            'free_delivery_content_setting': free_delivery_content_setting,
+            'safe_payment_content_setting': safe_payment_content_setting,
+            'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
+            'help_center_content_setting': help_center_content_setting,
+
+            'user_cart_status': user_cart_status,
+            'user_wishlist_status': user_wishlist_status,
+            'total_amount': total_amount,
+
             'credit__amount': credit__amount,
             'amount_to_be_charged': amount_to_be_charged,
             'crnt_user_credit_wallet': crnt_user_credit_wallet,
+
+            # ads script
+            'row_1_col_1_ads': row_1_col_1_ads,
+            'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_2_col_1_ads': row_2_col_1_ads,
+            'row_2_col_2_ads': row_2_col_2_ads,
+
+            'row_3_col_1_ads': row_3_col_1_ads,
+            'row_3_col_2_ads': row_3_col_2_ads,
+            'row_3_col_3_ads': row_3_col_3_ads,
+
+            'row_4_col_1_ads': row_4_col_1_ads,
+            'row_4_col_2_ads': row_4_col_2_ads,
+            'row_4_col_3_ads': row_4_col_3_ads,
+            'row_4_col_4_ads': row_4_col_4_ads,
+            'row_4_col_5_ads': row_4_col_5_ads,
+
+            'row_5_col_1_ads': row_5_col_1_ads,
+            'row_5_col_2_ads': row_5_col_2_ads,
         }
         return render(request, 'frontEnd/credit/payment.html', context)
 
@@ -3340,6 +3925,26 @@ def front_buy_credit_point(request, username):
         'username': username,
         'user_available_credits': user_available_credits,
         'usr_available_points': usr_available_points,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
+        'row_4_col_3_ads': row_4_col_3_ads,
+        'row_4_col_4_ads': row_4_col_4_ads,
+        'row_4_col_5_ads': row_4_col_5_ads,
+
+        'row_5_col_1_ads': row_5_col_1_ads,
+        'row_5_col_2_ads': row_5_col_2_ads,
     }
 
     return render(request, 'frontEnd/credit/buy_credit.html', context)
@@ -3351,10 +3956,9 @@ def front_pay_for_purchasing_Creditpoint(request):
     if request.user.is_authenticated and request.user.is_buyer != True:
         return redirect('frontEndLoginRegister')
 
-
     # site logo
     site_logo = SiteLogo.objects.filter().first()
-    print(site_logo)
+
 
     contact_info = ContactUs.objects.first()
     # free delivery setting
@@ -3374,6 +3978,35 @@ def front_pay_for_purchasing_Creditpoint(request):
 
     # user wishlist status
     user_wishlist_status = WishList.objects.filter(user=request.user)
+
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='spincppp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+    row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
+    row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
+
+    # row-5
+    row_5_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c1'))
+    row_5_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c2'))
+
+    # ads scripts ends*****************************************
 
     total_amount = 0
     if user_cart_status:
@@ -3512,6 +4145,26 @@ def front_pay_for_purchasing_Creditpoint(request):
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
+        'row_4_col_3_ads': row_4_col_3_ads,
+        'row_4_col_4_ads': row_4_col_4_ads,
+        'row_4_col_5_ads': row_4_col_5_ads,
+
+        'row_5_col_1_ads': row_5_col_1_ads,
+        'row_5_col_2_ads': row_5_col_2_ads,
     }
     return render(request, 'frontEnd/credit/payment.html', context)
 
@@ -3543,6 +4196,35 @@ def fron_credit_purchase_success_msg(request, username):
     # user wishlist status
     user_wishlist_status = WishList.objects.filter(user=request.user)
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='scppsm').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+    row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
+    row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
+
+    # row-5
+    row_5_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c1'))
+    row_5_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c2'))
+
+    # ads scripts ends*****************************************
+
     total_amount = 0
     if user_cart_status:
         for x in user_cart_status:
@@ -3562,6 +4244,26 @@ def fron_credit_purchase_success_msg(request, username):
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
+        'row_4_col_3_ads': row_4_col_3_ads,
+        'row_4_col_4_ads': row_4_col_4_ads,
+        'row_4_col_5_ads': row_4_col_5_ads,
+
+        'row_5_col_1_ads': row_5_col_1_ads,
+        'row_5_col_2_ads': row_5_col_2_ads,
     }
 
     return render(request, 'frontEnd/credit/success_msg.html', context)
@@ -3715,6 +4417,37 @@ def front_user_profile(request, username):
     # user wishlist status
     user_wishlist_status = WishList.objects.filter(user=request.user)
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='shoprpp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+
+
+    # row-5
+    row_5_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c1'))
+    row_5_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c2'))
+    row_5_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c3'))
+    row_5_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c4'))
+    row_5_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
+
     total_amount = 0
     if user_cart_status:
         for x in user_cart_status:
@@ -3748,6 +4481,26 @@ def front_user_profile(request, username):
         'safe_payment_content_setting': safe_payment_content_setting,
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
+        'row_4_col_3_ads': row_4_col_3_ads,
+
+        'row_5_col_1_ads': row_5_col_1_ads,
+        'row_5_col_2_ads': row_5_col_2_ads,
+        'row_5_col_3_ads': row_5_col_3_ads,
+        'row_5_col_4_ads': row_5_col_4_ads,
+        'row_5_col_5_ads': row_5_col_5_ads,
     }
     return render(request, 'frontEnd/user_profile.html', context)
 
@@ -4725,6 +5478,31 @@ def front_BetatestTerms_andCondition(request):
     # beta test terms and condition
     betaTestTermsCondition = BetaTestTermsConditions.objects.filter().first()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='btp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+    row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
+    row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
+
     if request.user.is_authenticated:
         # user cart status
         user_cart_status = Cart.objects.filter(user=request.user)
@@ -4754,6 +5532,20 @@ def front_BetatestTerms_andCondition(request):
             'total_amount': total_amount,
             'refund_policy': refund_policy,
             'product_cat_list_all': product_cat_list_all,
+
+            # ads script
+            'row_1_col_1_ads': row_1_col_1_ads,
+            'row_1_col_2_ads': row_1_col_2_ads,
+            'row_2_col_1_ads': row_2_col_1_ads,
+            'row_2_col_2_ads': row_2_col_2_ads,
+            'row_3_col_1_ads': row_3_col_1_ads,
+            'row_3_col_2_ads': row_3_col_2_ads,
+            'row_3_col_3_ads': row_3_col_3_ads,
+            'row_4_col_1_ads': row_4_col_1_ads,
+            'row_4_col_2_ads': row_4_col_2_ads,
+            'row_4_col_3_ads': row_4_col_3_ads,
+            'row_4_col_4_ads': row_4_col_4_ads,
+            'row_4_col_5_ads': row_4_col_5_ads,
         }
         return render(request, 'frontEnd/policy/beta_test_termsCondition.html', context)
 
@@ -4767,8 +5559,24 @@ def front_BetatestTerms_andCondition(request):
         'help_center_content_setting': help_center_content_setting,
         'refund_policy' : refund_policy,
         'product_cat_list_all': product_cat_list_all,
-    }
 
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
+        'row_4_col_3_ads': row_4_col_3_ads,
+        'row_4_col_4_ads': row_4_col_4_ads,
+        'row_4_col_5_ads': row_4_col_5_ads,
+    }
     return render(request, 'frontEnd/policy/beta_test_termsCondition.html', context)
 
 # members
@@ -4799,6 +5607,31 @@ def front_MembershipPolicy(request):
     # all product category
     product_cat_list_all = ProductCategory.objects.all()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='mgp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # # row-4
+    # row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    # row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    # row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+    # row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
+    # row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
+
     if request.user.is_authenticated:
         # user cart status
         user_cart_status = Cart.objects.filter(user=request.user)
@@ -4828,6 +5661,20 @@ def front_MembershipPolicy(request):
             'total_amount': total_amount,
             'refund_policy': refund_policy,
             'product_cat_list_all': product_cat_list_all,
+
+            # ads script
+            'row_1_col_1_ads': row_1_col_1_ads,
+            'row_1_col_2_ads': row_1_col_2_ads,
+            'row_2_col_1_ads': row_2_col_1_ads,
+            'row_2_col_2_ads': row_2_col_2_ads,
+            'row_3_col_1_ads': row_3_col_1_ads,
+            'row_3_col_2_ads': row_3_col_2_ads,
+            'row_3_col_3_ads': row_3_col_3_ads,
+            # 'row_4_col_1_ads': row_4_col_1_ads,
+            # 'row_4_col_2_ads': row_4_col_2_ads,
+            # 'row_4_col_3_ads': row_4_col_3_ads,
+            # 'row_4_col_4_ads': row_4_col_4_ads,
+            # 'row_4_col_5_ads': row_4_col_5_ads,
         }
         return render(request, 'frontEnd/policy/members.html', context)
 
@@ -4841,6 +5688,20 @@ def front_MembershipPolicy(request):
         'help_center_content_setting': help_center_content_setting,
         'refund_policy' : refund_policy,
         'product_cat_list_all': product_cat_list_all,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        # 'row_4_col_1_ads': row_4_col_1_ads,
+        # 'row_4_col_2_ads': row_4_col_2_ads,
+        # 'row_4_col_3_ads': row_4_col_3_ads,
+        # 'row_4_col_4_ads': row_4_col_4_ads,
+        # 'row_4_col_5_ads': row_4_col_5_ads,
     }
 
 
@@ -4872,6 +5733,31 @@ def front_ShopperPolicy(request):
     # all product category
     product_cat_list_all = ProductCategory.objects.all()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='sgp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # # row-4
+    # row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    # row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    # row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+    # row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
+    # row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
+
     if request.user.is_authenticated:
         # user cart status
         user_cart_status = Cart.objects.filter(user=request.user)
@@ -4901,6 +5787,20 @@ def front_ShopperPolicy(request):
             'total_amount': total_amount,
             'refund_policy': refund_policy,
             'product_cat_list_all': product_cat_list_all,
+
+            # ads script
+            'row_1_col_1_ads': row_1_col_1_ads,
+            'row_1_col_2_ads': row_1_col_2_ads,
+            'row_2_col_1_ads': row_2_col_1_ads,
+            'row_2_col_2_ads': row_2_col_2_ads,
+            'row_3_col_1_ads': row_3_col_1_ads,
+            'row_3_col_2_ads': row_3_col_2_ads,
+            'row_3_col_3_ads': row_3_col_3_ads,
+            # 'row_4_col_1_ads': row_4_col_1_ads,
+            # 'row_4_col_2_ads': row_4_col_2_ads,
+            # 'row_4_col_3_ads': row_4_col_3_ads,
+            # 'row_4_col_4_ads': row_4_col_4_ads,
+            # 'row_4_col_5_ads': row_4_col_5_ads,
         }
         return render(request, 'frontEnd/policy/shoppers.html', context)
 
@@ -4914,6 +5814,20 @@ def front_ShopperPolicy(request):
         'help_center_content_setting': help_center_content_setting,
         'refund_policy' : refund_policy,
         'product_cat_list_all': product_cat_list_all,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        # 'row_4_col_1_ads': row_4_col_1_ads,
+        # 'row_4_col_2_ads': row_4_col_2_ads,
+        # 'row_4_col_3_ads': row_4_col_3_ads,
+        # 'row_4_col_4_ads': row_4_col_4_ads,
+        # 'row_4_col_5_ads': row_4_col_5_ads,
     }
     return render(request, 'frontEnd/policy/shoppers.html', context)
 
@@ -4943,6 +5857,31 @@ def front_refund_policy(request):
     # current refund policy
     refund_policy = RefundPolicy.objects.filter().first()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='rpp').first()
+
+    # row-1
+    # row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    # row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-3
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+    row_2_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c3'))
+
+    # row-4
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+    row_3_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c4'))
+    row_3_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
+
     if request.user.is_authenticated:
         # user cart status
         user_cart_status = Cart.objects.filter(user=request.user)
@@ -4971,6 +5910,23 @@ def front_refund_policy(request):
             'total_amount': total_amount,
             'refund_policy': refund_policy,
             'product_cat_list_all': product_cat_list_all,
+
+            # ads script
+            # 'row_1_col_1_ads': row_1_col_1_ads,
+            # 'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_1_col_1_ads': row_1_col_1_ads,
+            'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_2_col_1_ads': row_2_col_1_ads,
+            'row_2_col_2_ads': row_2_col_2_ads,
+            'row_2_col_3_ads': row_2_col_3_ads,
+
+            'row_3_col_1_ads': row_3_col_1_ads,
+            'row_3_col_2_ads': row_3_col_2_ads,
+            'row_3_col_3_ads': row_3_col_3_ads,
+            'row_3_col_4_ads': row_3_col_4_ads,
+            'row_3_col_5_ads': row_3_col_5_ads,
         }
         return render(request, 'frontEnd/policy/refund_policy.html', context)
 
@@ -4983,6 +5939,23 @@ def front_refund_policy(request):
         'help_center_content_setting': help_center_content_setting,
         'refund_policy' : refund_policy,
         'product_cat_list_all': product_cat_list_all,
+
+        # ads script
+        # 'row_1_col_1_ads': row_1_col_1_ads,
+        # 'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_2_col_3_ads': row_2_col_3_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        'row_3_col_4_ads': row_3_col_4_ads,
+        'row_3_col_5_ads': row_3_col_5_ads,
     }
     return render(request, 'frontEnd/policy/refund_policy.html', context)
 
@@ -5013,6 +5986,31 @@ def front_return_policy(request):
     # all product category
     product_cat_list_all = ProductCategory.objects.all()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='retpp').first()
+
+    # row-1
+    # row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    # row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-3
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+    row_2_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c3'))
+
+    # row-4
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+    row_3_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c4'))
+    row_3_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
+
     if request.user.is_authenticated:
         # user cart status
         user_cart_status = Cart.objects.filter(user=request.user)
@@ -5041,6 +6039,23 @@ def front_return_policy(request):
             'total_amount': total_amount,
             'return_policy': return_policy,
             'product_cat_list_all': product_cat_list_all,
+
+            # ads script
+            # 'row_1_col_1_ads': row_1_col_1_ads,
+            # 'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_1_col_1_ads': row_1_col_1_ads,
+            'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_2_col_1_ads': row_2_col_1_ads,
+            'row_2_col_2_ads': row_2_col_2_ads,
+            'row_2_col_3_ads': row_2_col_3_ads,
+
+            'row_3_col_1_ads': row_3_col_1_ads,
+            'row_3_col_2_ads': row_3_col_2_ads,
+            'row_3_col_3_ads': row_3_col_3_ads,
+            'row_3_col_4_ads': row_3_col_4_ads,
+            'row_3_col_5_ads': row_3_col_5_ads,
         }
         return render(request, 'frontEnd/policy/return_policy.html', context)
 
@@ -5055,6 +6070,23 @@ def front_return_policy(request):
 
         'product_cat_list_all': product_cat_list_all,
         'return_policy': return_policy,
+
+        # ads script
+        # 'row_1_col_1_ads': row_1_col_1_ads,
+        # 'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_2_col_3_ads': row_2_col_3_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        'row_3_col_4_ads': row_3_col_4_ads,
+        'row_3_col_5_ads': row_3_col_5_ads,
     }
     return render(request, 'frontEnd/policy/return_policy.html', context)
 
@@ -5081,6 +6113,31 @@ def front_security_policy(request):
 
     # security policy
     security_policy = SecurityPolicy.objects.filter().first()
+
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='secpp').first()
+
+    # row-1
+    # row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    # row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-3
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+    row_2_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c3'))
+
+    # row-4
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+    row_3_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c4'))
+    row_3_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
 
     if request.user.is_authenticated:
         # user cart status
@@ -5109,6 +6166,23 @@ def front_security_policy(request):
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
             'security_policy': security_policy,
+
+            # ads script
+            # 'row_1_col_1_ads': row_1_col_1_ads,
+            # 'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_1_col_1_ads': row_1_col_1_ads,
+            'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_2_col_1_ads': row_2_col_1_ads,
+            'row_2_col_2_ads': row_2_col_2_ads,
+            'row_2_col_3_ads': row_2_col_3_ads,
+
+            'row_3_col_1_ads': row_3_col_1_ads,
+            'row_3_col_2_ads': row_3_col_2_ads,
+            'row_3_col_3_ads': row_3_col_3_ads,
+            'row_3_col_4_ads': row_3_col_4_ads,
+            'row_3_col_5_ads': row_3_col_5_ads,
         }
         return render(request, 'frontEnd/policy/security_policy.html', context)
 
@@ -5121,6 +6195,23 @@ def front_security_policy(request):
         'help_center_content_setting': help_center_content_setting,
 
         'security_policy': security_policy,
+
+        # ads script
+        # 'row_1_col_1_ads': row_1_col_1_ads,
+        # 'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_2_col_3_ads': row_2_col_3_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        'row_3_col_4_ads': row_3_col_4_ads,
+        'row_3_col_5_ads': row_3_col_5_ads,
     }
 
     return render(request, 'frontEnd/policy/security_policy.html', context)
@@ -5147,6 +6238,31 @@ def front_delivery_policy(request):
 
     # delivery policy
     delivery_policy = DeliveryPolicy.objects.filter().first()
+
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='dpp').first()
+
+    # row-1
+    # row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    # row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-3
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+    row_2_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c3'))
+
+    # row-4
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+    row_3_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c4'))
+    row_3_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
 
     if request.user.is_authenticated:
         # user cart status
@@ -5175,6 +6291,23 @@ def front_delivery_policy(request):
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
             'delivery_policy': delivery_policy,
+
+            # ads script
+            # 'row_1_col_1_ads': row_1_col_1_ads,
+            # 'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_1_col_1_ads': row_1_col_1_ads,
+            'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_2_col_1_ads': row_2_col_1_ads,
+            'row_2_col_2_ads': row_2_col_2_ads,
+            'row_2_col_3_ads': row_2_col_3_ads,
+
+            'row_3_col_1_ads': row_3_col_1_ads,
+            'row_3_col_2_ads': row_3_col_2_ads,
+            'row_3_col_3_ads': row_3_col_3_ads,
+            'row_3_col_4_ads': row_3_col_4_ads,
+            'row_3_col_5_ads': row_3_col_5_ads,
         }
         return render(request, 'frontEnd/policy/delivery_policy.html', context)
 
@@ -5187,6 +6320,23 @@ def front_delivery_policy(request):
         'help_center_content_setting': help_center_content_setting,
 
         'delivery_policy' : delivery_policy,
+
+        # ads script
+        # 'row_1_col_1_ads': row_1_col_1_ads,
+        # 'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_2_col_3_ads': row_2_col_3_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        'row_3_col_4_ads': row_3_col_4_ads,
+        'row_3_col_5_ads': row_3_col_5_ads,
     }
 
     return render(request, 'frontEnd/policy/delivery_policy.html', context)
@@ -5213,6 +6363,31 @@ def front_about_us(request):
 
     # delivery policy
     about_us = AboutUs.objects.filter().first()
+
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='aup').first()
+
+    # row-1
+    # row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    # row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    # row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    # row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-3
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+    row_1_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c3'))
+
+    # row-4
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+    row_2_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c3'))
+    row_2_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c4'))
+    row_2_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
 
     if request.user.is_authenticated:
         # user cart status
@@ -5253,6 +6428,23 @@ def front_about_us(request):
         'help_center_content_setting': help_center_content_setting,
 
         'about_us': about_us,
+
+        # ads script
+        # 'row_1_col_1_ads': row_1_col_1_ads,
+        # 'row_1_col_2_ads': row_1_col_2_ads,
+        #
+        # 'row_1_col_1_ads': row_1_col_1_ads,
+        # 'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+        'row_1_col_3_ads': row_1_col_3_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_2_col_3_ads': row_2_col_3_ads,
+        'row_2_col_4_ads': row_2_col_4_ads,
+        'row_2_col_5_ads': row_2_col_5_ads,
     }
 
     return render(request, 'frontEnd/company/about_us.html', context)
@@ -5279,6 +6471,31 @@ def front_cookie_policy(request):
 
     # delivery policy
     cookie = CookiePolicy.objects.filter().first()
+
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='cp').first()
+
+    # row-1
+    # row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    # row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-3
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+    row_2_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c3'))
+
+    # row-4
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+    row_3_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c4'))
+    row_3_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
 
     if request.user.is_authenticated:
         # user cart status
@@ -5307,6 +6524,23 @@ def front_cookie_policy(request):
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
             'cookie': cookie,
+
+            # ads script
+            # 'row_1_col_1_ads': row_1_col_1_ads,
+            # 'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_1_col_1_ads': row_1_col_1_ads,
+            'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_2_col_1_ads': row_2_col_1_ads,
+            'row_2_col_2_ads': row_2_col_2_ads,
+            'row_2_col_3_ads': row_2_col_3_ads,
+
+            'row_3_col_1_ads': row_3_col_1_ads,
+            'row_3_col_2_ads': row_3_col_2_ads,
+            'row_3_col_3_ads': row_3_col_3_ads,
+            'row_3_col_4_ads': row_3_col_4_ads,
+            'row_3_col_5_ads': row_3_col_5_ads,
         }
         return render(request, 'frontEnd/company/cookie.html', context)
 
@@ -5319,6 +6553,23 @@ def front_cookie_policy(request):
         'help_center_content_setting': help_center_content_setting,
 
         'cookie': cookie,
+
+        # ads script
+        # 'row_1_col_1_ads': row_1_col_1_ads,
+        # 'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_2_col_3_ads': row_2_col_3_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        'row_3_col_4_ads': row_3_col_4_ads,
+        'row_3_col_5_ads': row_3_col_5_ads,
     }
 
     return render(request, 'frontEnd/company/cookie.html', context)
@@ -5345,6 +6596,31 @@ def front_terms_conditions(request):
 
     # delivery policy
     terms_condition = TermsConditions.objects.filter().first()
+
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='tcp').first()
+
+    # row-1
+    # row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    # row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-3
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+    row_2_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c3'))
+
+    # row-4
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+    row_3_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c4'))
+    row_3_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
 
     if request.user.is_authenticated:
         # user cart status
@@ -5373,6 +6649,23 @@ def front_terms_conditions(request):
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
             'terms_condition': terms_condition,
+
+            # ads script
+            # 'row_1_col_1_ads': row_1_col_1_ads,
+            # 'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_1_col_1_ads': row_1_col_1_ads,
+            'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_2_col_1_ads': row_2_col_1_ads,
+            'row_2_col_2_ads': row_2_col_2_ads,
+            'row_2_col_3_ads': row_2_col_3_ads,
+
+            'row_3_col_1_ads': row_3_col_1_ads,
+            'row_3_col_2_ads': row_3_col_2_ads,
+            'row_3_col_3_ads': row_3_col_3_ads,
+            'row_3_col_4_ads': row_3_col_4_ads,
+            'row_3_col_5_ads': row_3_col_5_ads,
         }
         return render(request, 'frontEnd/company/terms_condition.html', context)
 
@@ -5383,9 +6676,24 @@ def front_terms_conditions(request):
         'safe_payment_content_setting': safe_payment_content_setting,
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
-
-
         'terms_condition': terms_condition,
+
+        # ads script
+        # 'row_1_col_1_ads': row_1_col_1_ads,
+        # 'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_2_col_3_ads': row_2_col_3_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        'row_3_col_4_ads': row_3_col_4_ads,
+        'row_3_col_5_ads': row_3_col_5_ads,
     }
 
     return render(request, 'frontEnd/company/terms_condition.html', context)
@@ -5412,6 +6720,31 @@ def front_privacy_policy(request):
 
     # privacy policy
     privacy_polilcy = PrivacyPolicy.objects.filter().first()
+
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='ppp').first()
+
+    # row-1
+    #row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    #row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-3
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+    row_2_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c3'))
+
+    # row-4
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+    row_3_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c4'))
+    row_3_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
 
     if request.user.is_authenticated:
         # user cart status
@@ -5440,6 +6773,23 @@ def front_privacy_policy(request):
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
             'privacy_polilcy': privacy_polilcy,
+
+            # ads script
+            # 'row_1_col_1_ads': row_1_col_1_ads,
+            # 'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_1_col_1_ads': row_1_col_1_ads,
+            'row_1_col_2_ads': row_1_col_2_ads,
+
+            'row_2_col_1_ads': row_2_col_1_ads,
+            'row_2_col_2_ads': row_2_col_2_ads,
+            'row_2_col_3_ads': row_2_col_3_ads,
+
+            'row_3_col_1_ads': row_3_col_1_ads,
+            'row_3_col_2_ads': row_3_col_2_ads,
+            'row_3_col_3_ads': row_3_col_3_ads,
+            'row_3_col_4_ads': row_3_col_4_ads,
+            'row_3_col_5_ads': row_3_col_5_ads,
         }
         return render(request, 'frontEnd/company/privacy.html', context)
 
@@ -5452,11 +6802,29 @@ def front_privacy_policy(request):
         'help_center_content_setting': help_center_content_setting,
 
         'privacy_polilcy': privacy_polilcy,
+
+        # ads script
+        # 'row_1_col_1_ads': row_1_col_1_ads,
+        # 'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_2_col_3_ads': row_2_col_3_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        'row_3_col_4_ads': row_3_col_4_ads,
+        'row_3_col_5_ads': row_3_col_5_ads,
     }
 
     return render(request, 'frontEnd/company/privacy.html', context)
 
 def front_game_terms_policies(request):
+
     site_logo = SiteLogo.objects.filter().first()
 
     contact_info = ContactUs.objects.first()
@@ -5474,6 +6842,31 @@ def front_game_terms_policies(request):
 
     # privacy policy
     privacy_polilcy = PrivacyPolicy.objects.filter().first()
+
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='gtp').first()
+
+    # row-1
+    # row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    # row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-3
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+    row_2_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c3'))
+
+    # row-4
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+    row_3_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c4'))
+    row_3_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
 
     user_cart_status = []
     user_wishlist_status = []
@@ -5512,6 +6905,23 @@ def front_game_terms_policies(request):
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
         'privacy_polilcy': privacy_polilcy,
+
+        # ads script
+        # 'row_1_col_1_ads': row_1_col_1_ads,
+        # 'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_2_col_3_ads': row_2_col_3_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        'row_3_col_4_ads': row_3_col_4_ads,
+        'row_3_col_5_ads': row_3_col_5_ads,
     }
 
     return render(request, 'frontEnd/game/game_terms_policies.html', context)
@@ -5550,6 +6960,40 @@ def frontContact__us(request):
     # help center setting
     help_center_content_setting = HelpCenter.objects.filter().first()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='conup').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+
+    # row-4
+    row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+
+
+    # row-5
+    row_5_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c1'))
+    row_5_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c2'))
+    row_5_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c3'))
+    row_5_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c4'))
+    row_5_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r5') & Q(col__col_id='c5'))
+
+    # row-6
+    row_6_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r6') & Q(col__col_id='c1'))
+    row_6_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r6') & Q(col__col_id='c2'))
+
+    # ads scripts ends*****************************************
+
     if request.method == 'POST':
         name = request.POST.get('customerName')
         email = request.POST.get('customerEmail')
@@ -5565,6 +7009,8 @@ def frontContact__us(request):
             messages.warning(request, "Your message can't be proccesed! Try again!")
             return redirect('frontContactUs')
 
+
+
     context = {
         'site_logo': site_logo,
         'contact_info': contact_info,
@@ -5572,6 +7018,30 @@ def frontContact__us(request):
         'safe_payment_content_setting': safe_payment_content_setting,
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+
+        'row_4_col_1_ads': row_4_col_1_ads,
+        'row_4_col_2_ads': row_4_col_2_ads,
+        'row_4_col_3_ads': row_4_col_3_ads,
+
+
+        'row_5_col_1_ads': row_5_col_1_ads,
+        'row_5_col_2_ads': row_5_col_2_ads,
+        'row_5_col_3_ads': row_5_col_3_ads,
+        'row_5_col_4_ads': row_5_col_4_ads,
+        'row_5_col_5_ads': row_5_col_5_ads,
+
+        'row_6_col_1_ads': row_6_col_1_ads,
+        'row_6_col_2_ads': row_6_col_2_ads,
+
     }
 
     return render(request, 'frontEnd/contact_us.html', context)
@@ -5602,6 +7072,32 @@ def front_howIt_works(request):
     # how it works
     how_spin_it_win_works = HowSpinIt2WinWorks.objects.filter().first()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='hiwp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # # row-4
+    # row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    # row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    # row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+    # row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
+    # row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
+
+
     context = {
         'site_logo': site_logo,
         'contact_info': contact_info,
@@ -5610,6 +7106,20 @@ def front_howIt_works(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'how_spin_it_win_works': how_spin_it_win_works,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        # 'row_4_col_1_ads': row_4_col_1_ads,
+        # 'row_4_col_2_ads': row_4_col_2_ads,
+        # 'row_4_col_3_ads': row_4_col_3_ads,
+        # 'row_4_col_4_ads': row_4_col_4_ads,
+        # 'row_4_col_5_ads': row_4_col_5_ads,
     }
 
     return render(request, 'frontEnd/how_works/how_it_works.html', context)
@@ -5664,6 +7174,24 @@ def front_howIt_account_details(request):
     # how it works
     how_spin_it_win_works = HowSpinIt2WinWorks.objects.filter().first()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='adp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # ads scripts ends*****************************************
+
     context = {
         'site_logo': site_logo,
         'contact_info': contact_info,
@@ -5672,6 +7200,17 @@ def front_howIt_account_details(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'how_spin_it_win_works': how_spin_it_win_works,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
     }
 
     return render(request, 'frontEnd/how_works/account_details.html', context)
@@ -5729,6 +7268,31 @@ def front_howIt_SpinPoints(request):
     # how it works
     # how_spin_it_win_works = HowSpinIt2WinWorks.objects.filter().first()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='stp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # # row-4
+    # row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    # row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    # row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+    # row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
+    # row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
+
     context = {
         'site_logo': site_logo,
         'contact_info': contact_info,
@@ -5736,6 +7300,20 @@ def front_howIt_SpinPoints(request):
         'safe_payment_content_setting': safe_payment_content_setting,
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        # 'row_4_col_1_ads': row_4_col_1_ads,
+        # 'row_4_col_2_ads': row_4_col_2_ads,
+        # 'row_4_col_3_ads': row_4_col_3_ads,
+        # 'row_4_col_4_ads': row_4_col_4_ads,
+        # 'row_4_col_5_ads': row_4_col_5_ads,
     }
 
     return render(request, 'frontEnd/how_works/spinPoints.html', context)
@@ -5759,6 +7337,31 @@ def front_howIt__spin_tokens(request):
     # how it works
     how_spin_it_win_works = HowSpinIt2WinWorks.objects.filter().first()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='stp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # # row-4
+    # row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    # row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    # row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+    # row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
+    # row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
+
     context = {
         'site_logo': site_logo,
         'contact_info': contact_info,
@@ -5767,6 +7370,20 @@ def front_howIt__spin_tokens(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'how_spin_it_win_works': how_spin_it_win_works,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        # 'row_4_col_1_ads': row_4_col_1_ads,
+        # 'row_4_col_2_ads': row_4_col_2_ads,
+        # 'row_4_col_3_ads': row_4_col_3_ads,
+        # 'row_4_col_4_ads': row_4_col_4_ads,
+        # 'row_4_col_5_ads': row_4_col_5_ads,
     }
 
     return render(request, 'frontEnd/how_works/spin_tokens.html', context)
@@ -5792,6 +7409,31 @@ def front_howIt__spinCredit(request):
     # how it works
     how_spin_it_win_works = HowSpinIt2WinWorks.objects.filter().first()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='scp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # # row-4
+    # row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    # row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    # row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+    # row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
+    # row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
+
     context = {
         'site_logo': site_logo,
         'contact_info': contact_info,
@@ -5800,6 +7442,20 @@ def front_howIt__spinCredit(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'how_spin_it_win_works': how_spin_it_win_works,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        # 'row_4_col_1_ads': row_4_col_1_ads,
+        # 'row_4_col_2_ads': row_4_col_2_ads,
+        # 'row_4_col_3_ads': row_4_col_3_ads,
+        # 'row_4_col_4_ads': row_4_col_4_ads,
+        # 'row_4_col_5_ads': row_4_col_5_ads,
     }
 
     return render(request, 'frontEnd/how_works/spin_credit.html', context)
@@ -5825,6 +7481,31 @@ def front_howIt__prizeGuide(request):
     # how it works
     how_spin_it_win_works = HowSpinIt2WinWorks.objects.filter().first()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='pgp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # # row-4
+    # row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
+    # row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
+    # row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
+    # row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
+    # row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
+
+    # ads scripts ends*****************************************
+
     context = {
         'site_logo': site_logo,
         'contact_info': contact_info,
@@ -5833,6 +7514,20 @@ def front_howIt__prizeGuide(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'how_spin_it_win_works': how_spin_it_win_works,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
+        # 'row_4_col_1_ads': row_4_col_1_ads,
+        # 'row_4_col_2_ads': row_4_col_2_ads,
+        # 'row_4_col_3_ads': row_4_col_3_ads,
+        # 'row_4_col_4_ads': row_4_col_4_ads,
+        # 'row_4_col_5_ads': row_4_col_5_ads,
     }
 
     return render(request, 'frontEnd/how_works/prize_guide.html', context)
@@ -5893,6 +7588,24 @@ def front_howIt__accountDetails(request):
     # how it works
     how_spin_it_win_works = HowSpinIt2WinWorks.objects.filter().first()
 
+    # ads scripts starts*****************************************
+    ads_page = AdsPageName.objects.filter(page_id='adp').first()
+
+    # row-1
+    row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
+    row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
+
+    # row-2
+    row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
+    row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
+
+    # row-3
+    row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
+    row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
+    row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
+
+    # ads scripts ends*****************************************
+
     context = {
         'site_logo': site_logo,
         'contact_info': contact_info,
@@ -5901,6 +7614,17 @@ def front_howIt__accountDetails(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'how_spin_it_win_works': how_spin_it_win_works,
+
+        # ads script
+        'row_1_col_1_ads': row_1_col_1_ads,
+        'row_1_col_2_ads': row_1_col_2_ads,
+
+        'row_2_col_1_ads': row_2_col_1_ads,
+        'row_2_col_2_ads': row_2_col_2_ads,
+
+        'row_3_col_1_ads': row_3_col_1_ads,
+        'row_3_col_2_ads': row_3_col_2_ads,
+        'row_3_col_3_ads': row_3_col_3_ads,
     }
 
     return render(request, 'frontEnd/how_works/account_details.html', context)

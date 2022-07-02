@@ -258,16 +258,24 @@
     <div class="container">
         <div class="row" style="margin-top: 40px;">
             <div class="col-md-6">
+                {% if row_1_col_1_ads.ads_script %}
+                {{row_1_col_1_ads.ads_script}}
+                {% else %}
                 <!--yllx 468x60 starts &*************************************-->
                 <script type="text/javascript"
                         src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
                 <!--yllx ends here **********************************-->
+                {% endif %}
             </div>
             <div class="col-md-6">
+                {% if row_1_col_2_ads.ads_script %}
+                {{row_1_col_2_ads.ads_script}}
+                {% else %}
                 <!--yllx 468x60 starts &*************************************-->
                 <script type="text/javascript"
                         src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
                 <!--yllx ends here **********************************-->
+                {% endif %}
             </div>
         </div>
     </div>
@@ -950,12 +958,16 @@
 <section id="captcha__section">
     <div class="container">
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-4">
+                {% if row_2_col_1_ads.ads_script %}
+                {{row_2_col_1_ads.ads_script}}
+                {% else %}
                 <script data-cfasync='false' type='text/javascript'
                         src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=17'></script>
+                {% endif %}
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div>
                     <h5>Click to this reCaptcha and get 50 points bonus!</h5>
                     <form action="{% url 'frontCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
@@ -971,8 +983,12 @@
                 </div>
             </div>
             <div class="col-md-4">
+                {% if row_2_col_2_ads.ads_script %}
+                {{row_2_col_2_ads.ads_script}}
+                {% else %}
                 <script data-cfasync='false' type='text/javascript'
                         src='//p447162.clksite.com/adServe/banners?tid=447162_875550_0'></script>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -986,23 +1002,35 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div>
+                            {% if row_3_col_1_ads.ads_script %}
+                            {{row_3_col_1_ads.ads_script}}
+                            {% else %}
                             <script type="text/javascript"
                                     src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-4">
+                {% if row_3_col_2_ads.ads_script %}
+                {{row_3_col_2_ads.ads_script}}
+                {% else %}
                 <script type="text/javascript"
                         src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                {% endif %}
             </div>
 
             <div class="col-md-4">
+                {% if row_3_col_3_ads.ads_script %}
+                {{row_3_col_3_ads.ads_script}}
+                {% else %}
                 <a href="https://yllix.com/publishers/444213" target="_blank"><img
                         src="//ylx-aff.advertica-cdn.com/pub/300x250.png"
                         style="border:none;margin:0;padding:0;vertical-align:baseline;"
                         alt="ylliX - Online Advertising Network"/></a>
+                {% endif %}
             </div>
 
         </div>
@@ -1011,11 +1039,6 @@
 
 
 <!-- ads section ends -->
-
-<!-- adster native 1x1 starts-->
-<script async="async" data-cfasync="false"
-        src="//pl17231266.safestgatetocontent.com/ec5611cf27ddd923a905f8d14e217991/invoke.js"></script>
-<!-- adster native 1x1 ends-->
 
 
 <!-- invisible recaptcha -->

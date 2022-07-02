@@ -15,16 +15,24 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
+            {% if row_1_col_1_ads.ads_script %}
+            {{row_1_col_1_ads.ads_script}}
+            {% else %}
             <!--yllx 468x60 starts &*************************************-->
             <script type="text/javascript"
                     src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
             <!--yllx ends here **********************************-->
+            {% endif %}
         </div>
         <div class="col-md-6">
+            {% if row_1_col_2_ads.ads_script %}
+            {{row_1_col_2_ads.ads_script}}
+            {% else %}
             <!--yllx 468x60 starts &*************************************-->
             <script type="text/javascript"
                     src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
             <!--yllx ends here **********************************-->
+            {% endif %}
         </div>
     </div>
 </div>
@@ -260,14 +268,11 @@
     <!-- yllx 468x60 starts here************************** -->
     <div class="container">
         <div class="row">
-            <!--                                <div class="col-md-4">-->
-            <!--                                    <div>-->
-            <!--                                        <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/468x60.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>-->
-            <!--                                    </div>-->
-            <!--                                </div>-->
-
             <div class="col-md-6">
                 <div>
+                    {% if row_2_col_1_ads.ads_script %}
+                    {{row_2_col_1_ads.ads_script}}
+                    {% else %}
                     <script type="text/javascript">
                                             atOptions = {
                                                 'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
@@ -279,15 +284,20 @@
                                             document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
 
                     </script>
+                    {% endif %}
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div>
+                    {% if row_2_col_2_ads.ads_script %}
+                    {{row_2_col_2_ads.ads_script}}
+                    {% else %}
                     <a href="https://yllix.com/publishers/444213" target="_blank"><img
                             src="//ylx-aff.advertica-cdn.com/pub/468x60.png"
                             style="border:none;margin:0;padding:0;vertical-align:baseline;"
                             alt="ylliX - Online Advertising Network"/></a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -305,7 +315,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
+            {% if row_3_col_1_ads.ads_script %}
+            {{row_3_col_1_ads.ads_script}}
+            {% else %}
                 <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=17'></script>
+            {% endif %}
             </div>
         <div class="col-md-4">
             <div>
@@ -321,7 +335,11 @@
             </div>
         </div>
         <div class="col-md-4">
+            {% if row_3_col_2_ads.ads_script %}
+            {{row_3_col_2_ads.ads_script}}
+            {% else %}
                 <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_0'></script>
+            {% endif %}
             </div>
     </div>
 </div>
@@ -334,19 +352,31 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div>
+                            {% if row_4_col_1_ads.ads_script %}
+                            {{row_4_col_1_ads.ads_script}}
+                            {% else %}
 <!--                            <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=15'></script>-->
                            <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-4">
+                {% if row_4_col_2_ads.ads_script %}
+                {{row_4_col_2_ads.ads_script}}
+                {% else %}
                 <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                {% endif %}
             </div>
 
             <div class="col-md-4">
+                {% if row_4_col_3_ads.ads_script %}
+                {{row_4_col_3_ads.ads_script}}
+                {% else %}
                 <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/300x250.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                {% endif %}
             </div>
 
         </div>

@@ -5,6 +5,7 @@ from product.models import ProductList
 
 # ads script setting
 class AdsPageName(models.Model):
+    page_id = models.CharField(default='', max_length=255, blank=True, null=True)
     name = models.CharField(default='', max_length=255)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -30,6 +31,7 @@ class AdsRow(models.Model):
         ('vrba', 'Vertical Rectangle Banner Ads'), # vba == 'Vertical reactangle Banner ads
         ('sqba', 'Square Banner Ads'), # sqba == "Square Banner Ads"
     )
+    row_id = models.CharField(default='', max_length=255, blank=True, null=True)
     page_name = models.ForeignKey(AdsPageName, on_delete=models.CASCADE)
     name = models.CharField(default='', max_length=255)
     allowed_ads_type = models.CharField(default='', max_length=255, choices=allowed_ads_options)
@@ -40,16 +42,71 @@ class AdsRow(models.Model):
     verticalRectBnrAds = VerticalRectBnrAds()
     squareBnrAds = SquareBnrAds()
 
+    def save(self, *args, **kwargs):
+        if self.name == 'Row-1':
+            self.row_id = 'r1'
+            super(AdsRow, self).save(*args, **kwargs)
+        if self.name == 'Row-2':
+            self.row_id = 'r2'
+            super(AdsRow, self).save(*args, **kwargs)
+        if self.name == 'Row-3':
+            self.row_id = 'r3'
+            super(AdsRow, self).save(*args, **kwargs)
+        if self.name == 'Row-4':
+            self.row_id = 'r4'
+            super(AdsRow, self).save(*args, **kwargs)
+        if self.name == 'Row-5':
+            self.row_id = 'r5'
+            super(AdsRow, self).save(*args, **kwargs)
+        if self.name == 'Row-6':
+            self.row_id = 'r6'
+            super(AdsRow, self).save(*args, **kwargs)
+
+
     def __str__(self):
         return self.page_name.name + ' || ' + self.name + " || " + self.allowed_ads_type
 
 class AdsColPerRow(models.Model):
+    col_id = models.CharField(default='', max_length=255, blank=True, null=True)
     row = models.ForeignKey(AdsRow, on_delete=models.CASCADE)
     col_name = models.CharField(default='', max_length=255)
+    ads_script = models.TextField(default='', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if 'Column-1' in self.col_name:
+            self.col_id = 'c1'
+            super(AdsColPerRow, self).save(*args, **kwargs)
+        if 'Column-2' in self.col_name:
+            self.col_id = 'c2'
+            super(AdsColPerRow, self).save(*args, **kwargs)
+        if 'Column-3' in self.col_name:
+            self.col_id = 'c3'
+            super(AdsColPerRow, self).save(*args, **kwargs)
+        if 'Column-4' in self.col_name:
+            self.col_id = 'c4'
+            super(AdsColPerRow, self).save(*args, **kwargs)
+        if 'Column-5' in self.col_name:
+            self.col_id = 'c5'
+            super(AdsColPerRow, self).save(*args, **kwargs)
+        if 'Column-6' in self.col_name:
+            self.col_id = 'c6'
+            super(AdsColPerRow, self).save(*args, **kwargs)
+        if 'Column-7' in self.col_name:
+            self.col_id = 'c7'
+            super(AdsColPerRow, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.row.page_name.name + "||" + self.row.name + "||" + self.col_name
+
+class AdsScript(models.Model):
+    page = models.ForeignKey(AdsPageName, on_delete=models.CASCADE)
+    row = models.ForeignKey(AdsRow, on_delete=models.CASCADE)
+    col = models.ForeignKey(AdsColPerRow, on_delete=models.CASCADE)
+    adsScript = models.TextField(default='')
+
+    def __str__(self):
+        return self.page.name + '||' + self.row.name + '||' + self.col.col_name + '||' + self.adsScript
 
 
 

@@ -447,4 +447,10 @@ urlpatterns = [
     re_path(r'^ap/group/up/products/by/shipping/class/$', views.ap_group_up_productsByShippingClass, name='apGroupUpProductsByShippinigClass'),
     re_path(r'^ap/update/grouped/products/shipping/class/$', views.ap_updateGroupedProductsShippingClass, name='apupdateGroupedProductsShippingClass'),
 
+
+    # ads script setting *****************************************************
+    re_path(r'^ap/ads/script/setting/$', views.ap_ads_scriptSetting, name='ap_ads_scriptSetting'),
+    re_path(r'^ap/remove/ads/script/(?P<pk>\d+)/$', views.ap_remove_ads_script, name='ap_remove_ads_script'),
+    re_path(r'^ap/update/ads/script/(?P<pk>\d+)/$', views.ap_update_ads_script, name='ap_update_ads_script'),
+
 ]

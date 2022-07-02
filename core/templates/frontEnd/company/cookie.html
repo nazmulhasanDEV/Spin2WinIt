@@ -11,10 +11,171 @@
         </div>
 
         <div style="padding-bottom: 20px;">
-          {{cookie|safe}}
+          {% if cookie %} {{cookie|safe}} {% else %} Not specified! {% endif %}
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+                {% if row_1_col_1_ads.ads_script %}
+                {{row_1_col_1_ads.ads_script}}
+                {% else %}
+                    <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=17'></script>
+                {% endif %}
+            </div>
+        <div class="col-md-4">
+            <div>
+                <h5>Click to this reCaptcha and get 50 points bonus!</h5>
+                <form action="{% url 'frontGamePageCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
+                      id="captcha__form_game">
+                    {% csrf_token %}
+                    <div id="html_element_game"></div>
+                    <br>
+                    <button type="submit" class="captcha_submit__btn"><img src="{% static 'frontEnd/images/logo/logo.jpeg' %}" alt=""> &nbsp; Click to Collect</button>
+<!--                    <input type="submit" value="Collect">-->
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+                {% if row_1_col_2_ads.ads_script %}
+                {{row_1_col_2_ads.ads_script}}
+                {% else %}
+                    <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_0'></script>
+                {% endif %}
+            </div>
+    </div>
+</div>
+<br>
+<br>
+
+<br>
+<section id="captcha__section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            {% if row_2_col_1_ads.ads_script %}
+                            {{row_2_col_1_ads.ads_script}}
+                            {% else %}
+<!--                            <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=15'></script>-->
+                           <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                {% if row_2_col_2_ads.ads_script %}
+                {{row_2_col_2_ads.ads_script}}
+                {% else %}
+                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                {% endif %}
+            </div>
+
+            <div class="col-md-4">
+                {% if row_2_col_3_ads.ads_script %}
+                {{row_2_col_3_ads.ads_script}}
+                {% else %}
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/300x250.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- yllx 120x60 starts here -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div>
+                {% if row_3_col_1_ads.ads_script %}
+                {{row_3_col_1_ads.ads_script}}
+                {% else %}
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/120x600.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div>
+                {% if row_3_col_2_ads.ads_script %}
+                {{row_3_col_2_ads.ads_script}}
+                {% else %}
+                <div id="container-ec5611cf27ddd923a905f8d14e217991"></div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                {% if row_3_col_3_ads.ads_script %}
+                {{row_3_col_3_ads.ads_script}}
+                {% else %}
+                <!-- ylliex 120x60 -->
+                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <!-- yllix 120x60 ends here -->
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                {% if row_3_col_4_ads.ads_script %}
+                {{row_3_col_4_ads.ads_script}}
+                {% else %}
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/120x600.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div>
+                {% if row_3_col_5_ads.ads_script %}
+                {{row_3_col_5_ads.ads_script}}
+                {% else %}
+                <!-- ylliex 120x60 -->
+                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <!-- yllix 120x60 ends here -->
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- yllx 120x60 ends here -->
+
+<script type="text/javascript">
+
+// captcha-1
+      var onloadCallback = function() {
+
+
+        grecaptcha.render('html_element_game', {
+          'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
+        });
+      };
+
+
+      var captcha__form_game = document.getElementById('captcha__form_game');
+        captcha__form_game.addEventListener("submit", function(event){
+
+            if (grecaptcha.getResponse() === '') {
+              event.preventDefault();
+              alert('Please check the recaptcha');
+            }
+          }
+        , false);
+
+        // ends captcha-1
+
+</script>
 {% endblock %}

@@ -142,7 +142,7 @@ urlpatterns = [
     # company
     re_path(r'^fe/about-us/$', views.front_about_us, name='frontAboutUs'),
     re_path(r'^fe/cookie-policy/$', views.front_cookie_policy, name='frontCookiePolicy'),
-    re_path(r'^fe/terms/condition/$', views.front_terms_conditions, name='frontTermsCondition'),
+    re_path(r'^fe/terms-condition/$', views.front_terms_conditions, name='frontTermsCondition'),
     re_path(r'^fe/privacy-policy/$', views.front_privacy_policy, name='frontPrivacyPolicy'),
 
     # sign up for newletter
