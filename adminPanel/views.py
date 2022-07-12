@@ -10,7 +10,7 @@ from verification.random_code_gen import rand_num_gen
 from verification.email_threadings import EmailThreading
 from django.utils import timezone
 from .models import *
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from django.http import JsonResponse
 from product.models import *
 from game.models import *
@@ -2111,6 +2111,18 @@ def home(request):
     # total no of shoppers account
     total_no_of_shoppers_account = Account.objects.filter(Q(is_buyer=True) & Q(is_active=True)).count()
 
+    # latest registered account
+    latest_registered_accnts = Account.objects.filter(is_admin=False)[:8]
+    profile_pic_list_of_ltst_accnts = UserProfilePicture.objects.filter(user__in=latest_registered_accnts.values_list('pk', flat=True))
+    latest_registered_accnts_without_profile_pic = []
+    latest_registered_accnts_with_profile_pic = []
+    for user in latest_registered_accnts:
+        if profile_pic_list_of_ltst_accnts:
+            if profile_pic_list_of_ltst_accnts.filter(user=user).count() <= 0:
+                latest_registered_accnts_without_profile_pic.append(user)
+            else:
+                latest_registered_accnts_with_profile_pic.append(user)
+
     context = {
         'total_spin_pointsGiven': total_spin_pointsGiven,
         'total_spin_credit_given': total_spin_credit_given,
@@ -2129,6 +2141,11 @@ def home(request):
         'profile_pic' : profile_pic,
         'total_number_of_orders': total_number_of_orders,
         'total_registered_usr': total_registered_usr,
+        'latest_registered_accnts': latest_registered_accnts,
+        'profile_pic_list_of_ltst_accnts': profile_pic_list_of_ltst_accnts,
+        'latest_registered_accnts_without_profile_pic': latest_registered_accnts_without_profile_pic,
+        'latest_registered_accnts_with_profile_pic': latest_registered_accnts_with_profile_pic,
+
         'total_number_of_products': total_number_of_products,
         'unique_visitors': unique_visitors,
         'total_no_of_visitors': total_no_of_visitors,
@@ -4491,12 +4508,15 @@ def ap_single_buyer_details(request, pk):
         return redirect('frontEndLoginUser')
 
     try:
+        crnt_buyer = Account.objects.get(pk=pk)
+        # current user profile pic
+        crnt_user_profile_pic = UserProfilePicture.objects.filter(user=crnt_buyer).first()
 
         total_points_earned = 0
         total_credit_earned = 0
         total_winning_chance = 0
 
-        crnt_buyer = Account.objects.get(pk=pk)
+
         spin_point_wallet_of_crnt_usr = PointWallet.objects.filter(user=crnt_buyer).first()
         spin_credit_wallet_of_crnt_usr = CreditWallet.objects.filter(user=crnt_buyer).first()
         spin_token_wallet_of_crnt_usr = WinningChance.objects.filter(user=crnt_buyer).first()
@@ -4572,6 +4592,34 @@ def ap_single_buyer_details(request, pk):
         # total given bonus for solving captcha
         total_given_bonus_for_captcha_solving = total_captha_bonus_objects * 50
 
+        # product orders
+        current_orders = OrderList.objects.filter(user=crnt_buyer)[:6]
+        total_order_amount_by_crnt_usr = OrderList.objects.filter(user=crnt_buyer).aggregate(Sum('total_amount'))
+        total_no_of_orders_by_crnt_user = current_orders.count()
+
+        if request.method == 'GET':
+            # current_user = Account.objects.get(pk=pk)
+            no_of_requested_items = request.GET.get('no_of_items')
+            if no_of_requested_items:
+                if OrderList.objects.filter(user=crnt_buyer).count() < int(no_of_requested_items):
+                    no_of_requested_items = OrderList.objects.filter(user=crnt_buyer).count()
+                else:
+                    no_of_requested_items = int(no_of_requested_items)
+
+                currentNoOfOrderByUser = OrderList.objects.filter(user=crnt_buyer)[:no_of_requested_items]
+
+                if request.is_ajax():
+                    requested_order_items = list(currentNoOfOrderByUser.values())
+                    return JsonResponse({'requested_order_items': requested_order_items})
+
+
+        # games section
+        all_prizes_of_crnt_user = PrizeList.objects.filter(user=crnt_buyer)
+        total_noOf_timesPlayed = PrizeList.objects.filter(user=crnt_buyer).count() # for current user
+        total_noOfPoint_Prize = PrizeList.objects.filter(Q(user=crnt_buyer) & Q(prize_type='point')).count()
+        total_noOf_Product_Prize = PrizeList.objects.filter(Q(user=crnt_buyer) & Q(prize_type='product')).count()
+
+
     except:
         messages.warning(request, "Shopper not found with current information!")
         return redirect('apBuyerAccountsList')
@@ -4579,6 +4627,12 @@ def ap_single_buyer_details(request, pk):
     context = {
         'crnt_pk': pk,
         'crnt_buyer': crnt_buyer,
+        'crnt_user_profile_pic': crnt_user_profile_pic,
+        'all_prizes_of_crnt_user': all_prizes_of_crnt_user,
+        'current_orders': current_orders,
+        'total_order_amount_by_crnt_usr': total_order_amount_by_crnt_usr,
+        'total_no_of_orders_by_crnt_user': total_no_of_orders_by_crnt_user,
+
         'spin_point_wallet_of_crnt_usr': spin_point_wallet_of_crnt_usr,
         'total_points_earned': total_points_earned,
 
@@ -4587,6 +4641,11 @@ def ap_single_buyer_details(request, pk):
 
         'spin_token_wallet_of_crnt_usr': spin_token_wallet_of_crnt_usr,
         'total_winning_chance': total_winning_chance,
+
+        # games
+        'total_noOf_timesPlayed': total_noOf_timesPlayed,
+        'total_noOfPoint_Prize': total_noOfPoint_Prize,
+        'total_noOf_Product_Prize': total_noOf_Product_Prize,
 
         'got_bonus_for_registering': got_bonus_for_registering,
         'got_daily_signInBonus': got_daily_signInBonus,
@@ -4689,6 +4748,187 @@ def ap_add_spinTokensToShopperAccntFromAP(request, pk):
             messages.success(request, "Can't be added! Try again please!")
             return redirect('apSingleBuyerDetails', pk=pk)
 
+
+    return redirect('apSingleBuyerDetails', pk=pk)
+
+
+# change buyer/shopper first name from admin panel
+@login_required(login_url='/ap/register/updated')
+def ap_change_buyer_fname(request, pk):
+
+    try:
+        if request.method == 'POST':
+            fname = request.POST.get('fname')
+
+            crnt_user = Account.objects.get(pk=pk)
+
+            if fname:
+                crnt_user.fname = fname
+                crnt_user.save()
+                messages.success(request, "Successfully updated!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+            else:
+                messages.warning(request, "Can't be updated! Try again!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+    except:
+        messages.warning(request, "Can't be updated! Try again!")
+        return redirect('apSingleBuyerDetails', pk=pk)
+
+    return redirect('apSingleBuyerDetails', pk=pk)
+
+
+# change buyer/shopper last name from admin panel
+@login_required(login_url='/ap/register/updated')
+def ap_change_buyer_lname(request, pk):
+
+    try:
+        if request.method == 'POST':
+            lname = request.POST.get('lname')
+
+            crnt_user = Account.objects.get(pk=pk)
+
+            if lname:
+                crnt_user.lname = lname
+                crnt_user.save()
+                messages.success(request, "Successfully updated!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+            else:
+                messages.warning(request, "Can't be updated! Try again!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+    except:
+        messages.warning(request, "Can't be updated! Try again!")
+        return redirect('apSingleBuyerDetails', pk=pk)
+
+    return redirect('apSingleBuyerDetails', pk=pk)
+
+# change buyer/shopper email from admin panel
+@login_required(login_url='/ap/register/updated')
+def ap_change_buyer_email(request, pk):
+
+    try:
+        if request.method == 'POST':
+            email = request.POST.get('email')
+
+            crnt_user = Account.objects.get(pk=pk)
+
+            if email:
+                crnt_user.email = email
+                crnt_user.save()
+                messages.success(request, "Successfully updated!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+            else:
+                messages.warning(request, "Can't be updated! Try again!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+    except:
+        messages.warning(request, "Can't be updated! Try again!")
+        return redirect('apSingleBuyerDetails', pk=pk)
+
+    return redirect('apSingleBuyerDetails', pk=pk)
+
+
+# change buyer/shopper username from admin panel
+@login_required(login_url='/ap/register/updated')
+def ap_change_buyer_username(request, pk):
+
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+
+            crnt_user = Account.objects.get(pk=pk)
+
+            if username:
+                crnt_user.username = username
+                crnt_user.save()
+                messages.success(request, "Successfully updated!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+            else:
+                messages.warning(request, "Can't be updated! Try again!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+    except:
+        messages.warning(request, "Can't be updated! Try again!")
+        return redirect('apSingleBuyerDetails', pk=pk)
+
+    return redirect('apSingleBuyerDetails', pk=pk)
+
+
+# change buyer/shopper phone no from admin panel
+@login_required(login_url='/ap/register/updated')
+def ap_change_buyer_phoneNo(request, pk):
+
+    try:
+        if request.method == 'POST':
+            phone = request.POST.get('phone')
+
+            crnt_user = Account.objects.get(pk=pk)
+
+            if phone:
+                crnt_user.phone_no = phone
+                crnt_user.save()
+                messages.success(request, "Successfully updated!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+            else:
+                messages.warning(request, "Can't be updated! Try again!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+    except:
+        messages.warning(request, "Can't be updated! Try again!")
+        return redirect('apSingleBuyerDetails', pk=pk)
+
+    return redirect('apSingleBuyerDetails', pk=pk)
+
+
+# change buyer/shopper active status from admin panel
+@login_required(login_url='/ap/register/updated')
+def ap_change_buyer_account_activation_status(request, pk):
+
+    try:
+        if request.method == 'POST':
+            status = request.POST.get('accnt_status')
+
+            crnt_user = Account.objects.get(pk=pk)
+
+            if status:
+                if status == '0':
+                    crnt_user.is_active = False
+                    crnt_user.save()
+                    messages.success(request, "Successfully updated!")
+                    return redirect('apSingleBuyerDetails', pk=pk)
+                else:
+                    crnt_user.is_active = True
+                    crnt_user.save()
+                    messages.success(request, "Successfully updated!")
+                    return redirect('apSingleBuyerDetails', pk=pk)
+            else:
+                messages.warning(request, "Can't be updated! Try again!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+    except:
+        messages.warning(request, "Can't be updated! Try again!")
+        return redirect('apSingleBuyerDetails', pk=pk)
+
+    return redirect('apSingleBuyerDetails', pk=pk)
+
+
+# change buyer/shopper change password
+@login_required(login_url='/ap/register/updated')
+def ap_change_buyer_account_reset_password(request, pk):
+
+    try:
+        if request.method == 'POST':
+            password = request.POST.get('password')
+
+            crnt_user = Account.objects.get(pk=pk)
+
+            if password:
+                crnt_user.set_password(password)
+                crnt_user.save()
+                messages.success(request, "Password has been updated successfully!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+
+            else:
+                messages.warning(request, "Can't be updated! Try again!")
+                return redirect('apSingleBuyerDetails', pk=pk)
+    except:
+        messages.warning(request, "Can't be updated! Try again!")
+        return redirect('apSingleBuyerDetails', pk=pk)
 
     return redirect('apSingleBuyerDetails', pk=pk)
 

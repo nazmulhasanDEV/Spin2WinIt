@@ -2,6 +2,11 @@
 {% load static %}
 {% load tag_library %}
 
+{% block dataTable_css %}
+<!-- DataTables -->
+<link rel="stylesheet"
+      href="{% static 'backEnd/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+{% endblock %}
 
 {% block shopper_profile_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'backEnd/shopper_profile.css' %}">
@@ -49,8 +54,8 @@
             <!-- Profile Image -->
             <div class="box box-primary">
                 <div class="box-body box-profile">
-                    {% if profile_pic %}
-                    <img class="profile-user-img img-responsive img-circle" src="{{profile_pic.pic.url}}"
+                    {% if crnt_user_profile_pic %}
+                    <img class="profile-user-img img-responsive img-circle" src="{{crnt_user_profile_pic.pic.url}}"
                          style="width: 70px; height: 70px; border-radius: 50%;" alt="User profile picture">
                     {% else %}
                     <img class="profile-user-img img-responsive img-circle"
@@ -58,6 +63,7 @@
                     {% endif %}
 
                     <h3 class="profile-username text-center">{{crnt_buyer.fname}} {{crnt_buyer.lname}}</h3>
+                    <p class="text-center"><strong>Member Since</strong> {{crnt_buyer.joined_at}}</p>
 
                     <p class="text-muted text-center">Shopper</p>
 
@@ -133,13 +139,15 @@
         <div class="col-md-9">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#spin_point" data-toggle="tab">Spin Points</a></li>
+                    <li class=""><a href="#spin_point" data-toggle="tab">Spin Points</a></li>
                     <li class=""><a href="#spin_credit" data-toggle="tab">Spin Credits</a></li>
                     <li class=""><a href="#spin_token" data-toggle="tab">Spin Tokens</a></li>
-                    <li class=""><a href="#settings" data-toggle="tab">Settings</a></li>
+                    <li class=""><a href="#orders" data-toggle="tab">Orders</a></li>
+                    <li class=""><a href="#games" data-toggle="tab">Games</a></li>
+                    <li class="active"><a href="#profile_settings" data-toggle="tab">Profile setting</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div class="active tab-pane" id="spin_point">
+                    <div class="tab-pane" id="spin_point">
                         <!--                header starts ***************************************-->
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -199,7 +207,8 @@
                                             <div class="box-footer no-padding">
                                                 <ul class="nav nav-stacked earning__source__table">
                                                     <li>
-                                                        <a href="{% url 'apSingleShopperCaptchaHistory' pk=crnt_pk %}"> Earned from <strong>Captcha</strong>
+                                                        <a href="{% url 'apSingleShopperCaptchaHistory' pk=crnt_pk %}">
+                                                            Earned from <strong>Captcha</strong>
                                                             <span class=" badge bg-blue earning_badge">{{total_given_bonus_for_captcha_solving}}</span>
                                                             <button type="button" class="pull-right check_history_btn">
                                                                 Check History
@@ -210,13 +219,14 @@
                                                     <li>
                                                         <a href="#">Earned from <strong>Registration</strong> <span
                                                                 class="pull-right badge earning_badge">{% if got_bonus_for_registering.point_amnt %} {{got_bonus_for_registering.point_amnt}} {% else %} 0 {% endif %}</span>
-<!--                                                            <button type="button" class="pull-right check_history_btn">-->
-<!--                                                                Check History-->
-<!--                                                            </button>-->
+                                                            <!--                                                            <button type="button" class="pull-right check_history_btn">-->
+                                                            <!--                                                                Check History-->
+                                                            <!--                                                            </button>-->
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="{% url 'ap_singleShopperDailySignInBonusPoint_history' pk=crnt_pk %}">Earned from <strong>Daily Sign In Bonus</strong>
+                                                        <a href="{% url 'ap_singleShopperDailySignInBonusPoint_history' pk=crnt_pk %}">Earned
+                                                            from <strong>Daily Sign In Bonus</strong>
                                                             <span
                                                                     class="pull-right badge bg-aqua earning_badge">{% if got_daily_signInBonus %} {{got_daily_signInBonus|multiply}} {% else %} 0 {% endif %}</span>
                                                             <button type="button" class="pull-right check_history_btn">
@@ -225,16 +235,18 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="{% url 'ap_singleShopperEmailInvitationBonsHistory' pk=crnt_pk %}">Earned from <strong>Email Invitation</strong> <span
-                                                                class="pull-right badge bg-aqua earning_badge">{% if got_bonus_for_email_invitatioin %} {% widthratio got_bonus_for_email_invitatioin 1 50 %} {% else %} 0 {% endif %}</span>
+                                                        <a href="{% url 'ap_singleShopperEmailInvitationBonsHistory' pk=crnt_pk %}">Earned
+                                                            from <strong>Email Invitation</strong> <span
+                                                                    class="pull-right badge bg-aqua earning_badge">{% if got_bonus_for_email_invitatioin %} {% widthratio got_bonus_for_email_invitatioin 1 50 %} {% else %} 0 {% endif %}</span>
                                                             <button type="button" class="pull-right check_history_btn">
                                                                 Check History
                                                             </button>
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="{% url 'ap_singleShopperReferalBonsHistory' pk=crnt_pk %}">Earned from <strong>Refering People</strong> <span
-                                                                class="pull-right badge bg-aqua earning_badge">{% if got_bonus_for_refering_people %} {% widthratio got_bonus_for_email_invitatioin 1 250 %} {% else %} 0 {% endif %}</span>
+                                                        <a href="{% url 'ap_singleShopperReferalBonsHistory' pk=crnt_pk %}">Earned
+                                                            from <strong>Refering People</strong> <span
+                                                                    class="pull-right badge bg-aqua earning_badge">{% if got_bonus_for_refering_people %} {% widthratio got_bonus_for_email_invitatioin 1 250 %} {% else %} 0 {% endif %}</span>
                                                             <button type="button" class="pull-right check_history_btn">
                                                                 Check History
                                                             </button>
@@ -251,6 +263,40 @@
                             <!-- /.col -->
                         </div>
                         <!--                        main content with all statistics-->
+
+                        <div class="row">
+                            <!-- left column -->
+                            <div class="col-md-6">
+                                <!-- general form elements -->
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Add Spin Point</h3>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <!-- form start -->
+                                    <form role="form" action="{% url 'apAddSpinPointToShopperAccntFromAP' pk=crnt_pk %}"
+                                          method="post"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Spin point amount</label>
+                                                <input type="number" name="spin_point" class="form-control"
+                                                       id="exampleInputEmail1"
+                                                       placeholder="Spin point">
+                                            </div>
+                                        </div>
+                                        <!-- /.box-body -->
+
+                                        <div class="box-footer">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.box -->
+                            </div>
+                            <!--/.col (left) -->
+                        </div>
                     </div>
 
                     <div class="tab-pane" id="spin_credit">
@@ -332,13 +378,13 @@
                                                     </a>
                                                 </div>
 
-<!--                                                <div class="col-md-6 spin__credit_history_btn2">-->
-<!--                                                    <a href="">-->
-<!--                                                        <button type="button" class="spin__credit_history_btn2">Spending-->
-<!--                                                            History-->
-<!--                                                        </button>-->
-<!--                                                    </a>-->
-<!--                                                </div>-->
+                                                <!--                                                <div class="col-md-6 spin__credit_history_btn2">-->
+                                                <!--                                                    <a href="">-->
+                                                <!--                                                        <button type="button" class="spin__credit_history_btn2">Spending-->
+                                                <!--                                                            History-->
+                                                <!--                                                        </button>-->
+                                                <!--                                                    </a>-->
+                                                <!--                                                </div>-->
                                             </div>
                                         </div>
                                         <div class="col-md-1"></div>
@@ -349,6 +395,41 @@
                             <!-- /.col -->
                         </div>
                         <!--                        main content with all statistics-->
+
+                        <div class="row">
+                            <!-- left column -->
+                            <div class="col-md-6">
+                                <!-- general form elements -->
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Add Spin Credit</h3>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <!-- form start -->
+                                    <form role="form"
+                                          action="{% url 'apAddSpinCreditToShopperAccntFromAP' pk=crnt_pk %}"
+                                          method="post"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Spin credit amount</label>
+                                                <input type="number" name="spin_credit" class="form-control"
+                                                       id="exampleInputEmail1"
+                                                       placeholder="Spin point">
+                                            </div>
+                                        </div>
+                                        <!-- /.box-body -->
+
+                                        <div class="box-footer">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.box -->
+                            </div>
+                            <!--/.col (left) -->
+                        </div>
 
                     </div>
 
@@ -431,7 +512,9 @@
 
                                                 <div class="col-md-6">
                                                     <a href="{% url 'ap_singleShopper_spinTokenSpendingHistory' user_pk=crnt_pk %}">
-                                                        <button type="button" class="spin__credit_history_btn2">Spending History</button>
+                                                        <button type="button" class="spin__credit_history_btn2">Spending
+                                                            History
+                                                        </button>
                                                     </a>
                                                 </div>
                                             </div>
@@ -444,93 +527,605 @@
                             <!-- /.col -->
                         </div>
                         <!--                        main content with all statistics-->
-                    </div>
-                    <div class="tab-pane" id="settings">
 
                         <div class="row">
+                            <!-- left column -->
                             <div class="col-md-6">
-                                <form action="{% url 'apAddSpinPointToShopperAccntFromAP' pk=crnt_pk %}" method="post"
-                                      enctype="multipart/form-data" class="form-horizontal">
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                        <label for="inputEmail" class="col-sm-6 control-label">Give Spin Point</label>
-                                        <div class="col-sm-6">
-
-                                        </div>
+                                <!-- general form elements -->
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Add Spin Token</h3>
                                     </div>
-
-                                    <div class="form-group">
-                                        <label for="inputName" class="col-sm-2 control-label">Spin point</label>
-
-                                        <div class="col-sm-10">
-                                            <input type="number" name="spin_point" class="form-control" id="inputName"
-                                                   placeholder="Spin Point Amnt." required>
+                                    <!-- /.box-header -->
+                                    <!-- form start -->
+                                    <form role="form"
+                                          action="{% url 'apAddSpinTokensToShopperAccntFromAP' pk=crnt_pk %}"
+                                          method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Spin token amount</label>
+                                                <input type="number" name="spin_tokens" class="form-control"
+                                                       id="exampleInputEmail1"
+                                                       placeholder="Spin point">
+                                            </div>
                                         </div>
-                                    </div>
+                                        <!-- /.box-body -->
 
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="submit" class="btn btn-danger">Submit</button>
+                                        <div class="box-footer">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
+                                    </form>
+                                </div>
+                                <!-- /.box -->
+                            </div>
+                            <!--/.col (left) -->
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="orders">
+                        <div class="row" style="margin-bottom: 15px;">
+                            <div class="col-md-6">
+                                <div class="info-box bg-aqua">
+                                    <span class="info-box-icon"><i class="fa fa-bookmark-o"></i></span>
+
+                                    <div class="info-box-content">
+                                      <span class="info-box-text">Total orders:</span>
+                                      <span class="info-box-number">{{total_no_of_orders_by_crnt_user}}</span>
+
+                                      <div class="progress">
+                                        <div class="progress-bar" style="width: 10%"></div>
+                                      </div>
                                     </div>
-                                </form>
+                                    <!-- /.info-box-content -->
+                                  </div>
                             </div>
 
                             <div class="col-md-6">
-                                <form action="{% url 'apAddSpinCreditToShopperAccntFromAP' pk=crnt_pk %}" method="post"
-                                      enctype="multipart/form-data"
-                                      class="form-horizontal">
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                        <label for="inputEmail" class="col-sm-6 control-label">Give Spin Credit</label>
-                                        <div class="col-sm-6">
+                                <div class="info-box bg-green">
+                                    <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
 
-                                        </div>
+                                    <div class="info-box-content">
+                                      <span class="info-box-text">Total purchased amount:</span>
+                                      <span class="info-box-number">${{total_order_amount_by_crnt_usr.total_amount__sum}}</span>
+
+                                      <div class="progress">
+                                        <div class="progress-bar" style="width: 10%"></div>
+                                      </div>
                                     </div>
-
-                                    <div class="form-group">
-                                        <label for="inputName" class="col-sm-2 control-label">Spin credit</label>
-
-                                        <div class="col-sm-10">
-                                            <input type="number" name="spin_credit" class="form-control" id="inputName"
-                                                   placeholder="Spin Credit Amnt." required>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="submit" class="btn btn-danger">Submit</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                    <!-- /.info-box-content -->
+                                  </div>
                             </div>
+                        </div>
 
-                            <div class="col-md-6">
-                                <form action="{% url 'apAddSpinTokensToShopperAccntFromAP' pk=crnt_pk %}" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                        <label for="inputEmail" class="col-sm-6 control-label">Give Spin Tokens</label>
-                                        <div class="col-sm-6">
+                        <div class="row" id="orders_list">
+                            {% if current_orders %}
+                            {% for order in current_orders %}
+                            <div class="col-md-4">
+                                <div class="card" style="width: 100%;">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><strong>Order ID: </strong>{{order.order_id}}</li>
+                                        <li class="list-group-item"><strong>Status: </strong>
+                                            {% if order.order_status == 'a' %} Approved {% endif %}
+                                            {% if order.order_status == 'p' %} Pending {% endif %}
+                                            {% if order.order_status == 'c' %} Cancelled {% endif %}
+                                        </li>
+                                        <li class="list-group-item"><strong>Sub-total: </strong>${{order.sub_total_amount}}
+                                        </li>
+                                        <li class="list-group-item"><strong>Shipping cost: </strong>${{order.total_shipping_cost}}
+                                        </li>
+                                        <li class="list-group-item"><strong>Total: </strong>${{order.total_amount}}</li>
+                                        <li class="list-group-item"><strong>Delivery status: </strong>
+                                            {% if order.delivery_status %} Delivered {% else %} Not delivered {% endif %}
+                                        </li>
 
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="inputName" class="col-sm-2 control-label">Spin token</label>
-
-                                        <div class="col-sm-10">
-                                            <input type="number" name="spin_tokens" class="form-control" id="inputName"
-                                                   placeholder="Spin Tokens" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="submit" class="btn btn-danger">Submit</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                        <li class="list-group-item"><strong>Payment status: </strong>
+                                            {% if order.payment_status %} Paid {% else %} Not paid {% endif %}
+                                        </li>
+                                        <li class="list-group-item"><strong>Created: </strong>{{order.created}}</li>
+                                    </ul>
+                                </div>
                             </div>
+                            {% endfor %}
+                            {% else %}
+                            <h3>No order found!</h3>
+                            {% endif %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="text-center">
+                                    <button type="button" class="load_more_btn">Load More</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="games">
+                        <div class="box-footer no-border">
+                            <div class="row">
+                                <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
+                                    <input type="text" class="knob" data-readonly="true"
+                                           value="{{total_noOf_timesPlayed}}"
+                                           data-width="120" data-height="120"
+                                           data-fgColor="#F39C12">
+
+                                    <div class="knob-label" style="font-size: 18px;"><strong>Total
+                                        Played(Times)</strong></div>
+                                </div>
+                                <!-- ./col -->
+                                <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
+                                    <input type="text" class="knob" data-readonly="true"
+                                           value="{{total_noOfPoint_Prize}}"
+                                           data-width="120" data-height="120"
+                                           data-fgColor="#39CCCC">
+
+                                    <div class="knob-label" style="font-size: 18px;"><strong>Point Prize(Times)</strong>
+                                    </div>
+                                </div>
+                                <!-- ./col -->
+                                <div class="col-xs-4 text-center">
+                                    <input type="text" class="knob" data-readonly="true"
+                                           value="{{total_noOf_Product_Prize}}"
+                                           data-width="120" data-height="120"
+                                           data-fgColor="#DD4B39">
+
+                                    <div class="knob-label" style="font-size: 18px;"><strong>Product
+                                        Prize(Times)</strong></div>
+                                </div>
+                                <!-- ./col -->
+                            </div>
+                            <!-- /.row -->
+                            <!--data tables*******************************************-->
+                            <br><br><br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="box">
+                                                    <div class="box-header">
+                                                        <h3 class="box-title">Prize List</h3>
+                                                    </div>
+                                                    <!-- /.box-header -->
+                                                    <div class="box-body">
+                                                        <table id="example1" class="table table-bordered table-striped">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>ID</th>
+                                                                <th>Prize Type</th>
+                                                                <th>Prize</th>
+                                                                <th>Delivery Status</th>
+                                                                <th>Created</th>
+<!--                                                                <th class="text-center">Action</th>-->
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% if all_prizes_of_crnt_user %}
+                                                            {% for x in all_prizes_of_crnt_user %}
+
+                                                            <tr>
+                                                                <td>{{forloop.counter}}</td>
+                                                                {% if x.prize_type == 'point' %}
+                                                                <td> Point</td>
+                                                                {% else %}
+                                                                <td style="background: #3C8DBC; color: white;">
+                                                                    Product
+                                                                </td>
+                                                                {% endif %}
+
+                                                                {% if x.prize_type == 'point' %}
+                                                                <td>{{x.pirze}}</td>
+                                                                {% else %}
+                                                                <td>{{x.product_as_prize.title|safe|truncatechars:25}}
+                                                                </td>
+                                                                {% endif %}
+
+                                                                <td>{% if x.status %} Delivered {% else %} Not Delivered
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>{{x.created}}</td>
+
+<!--                                                                <td class="text-center">-->
+                                                                    <!--                                        <a href="">-->
+                                                                    <!--                                            <button type="button" style="border:none; background: #222D32;color:white;">-->
+                                                                    <!--                                                Details</button>-->
+                                                                    <!--                                        </a>-->
+
+
+                                                                    <!--                                         modal for deleting object-->
+
+<!--                                                                    <button type="button"-->
+<!--                                                                            style="border:none; background: #FF0000;color:white;"-->
+<!--                                                                            data-toggle="modal"-->
+<!--                                                                            data-target="#remove{{x.pk}}">-->
+<!--                                                                        <i class="fas fa-backspace"></i> Remove-->
+<!--                                                                    </button>-->
+
+                                                                    <!-- Modal -->
+<!--                                                                    <div class="modal fade" id="remove{{x.pk}}"-->
+<!--                                                                         tabindex="-1" role="dialog"-->
+<!--                                                                         aria-labelledby="exampleModalLabel"-->
+<!--                                                                         aria-hidden="true">-->
+<!--                                                                        <div class="modal-dialog" role="document">-->
+<!--                                                                            <div class="modal-content">-->
+<!--                                                                                <div class="modal-header">-->
+<!--                                                                                    <h5 class="modal-title text-left"-->
+<!--                                                                                        id="exampleModalLabel">Are you-->
+<!--                                                                                        confirm to delete this?</h5>-->
+<!--                                                                                    <button type="button" class="close"-->
+<!--                                                                                            data-dismiss="modal"-->
+<!--                                                                                            aria-label="Close">-->
+<!--                                                                                        <span aria-hidden="true">&times;</span>-->
+<!--                                                                                    </button>-->
+<!--                                                                                </div>-->
+<!--                                                                                <div class="modal-footer">-->
+<!--                                                                                    <button type="button"-->
+<!--                                                                                            class="btn btn-secondary"-->
+<!--                                                                                            data-dismiss="modal">Close-->
+<!--                                                                                    </button>-->
+<!--                                                                                    <a href="{% url 'apRemovePrizeFromAllPrizesForAnalytics' pk=x.pk %}">-->
+<!--                                                                                        <button type="button"-->
+<!--                                                                                                class="btn btn-primary">-->
+<!--                                                                                            Confirm-->
+<!--                                                                                        </button>-->
+<!--                                                                                    </a>-->
+<!--                                                                                </div>-->
+<!--                                                                            </div>-->
+<!--                                                                        </div>-->
+<!--                                                                    </div>-->
+<!--                                                                    &lt;!&ndash;                                        modal for deleting object ends&ndash;&gt;-->
+
+<!--                                                                </td>-->
+                                                            </tr>
+
+                                                            {% endfor %}
+                                                            {% endif %}
+                                                            </tbody>
+                                                            <tfoot>
+                                                            <tr>
+                                                                <th>ID</th>
+                                                                <th>Prize Type</th>
+                                                                <th>Prize</th>
+                                                                <th>Delivery Status</th>
+                                                                <th>Created</th>
+<!--                                                                <th class="text-center">Action</th>-->
+                                                            </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                    <!-- /.box-body -->
+                                                </div>
+                                            </div>
+                                            <!-- /.col -->
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+
+                    <div class="active tab-pane" id="profile_settings">
+
+                        <div class="row">
+                            <!-- left column -->
+                            <div class="col-md-12">
+                                <!-- general form elements -->
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Profile Info</h3>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <!-- form start -->
+                                    <div role="form">
+                                        <div class="row box-body">
+                                            <!--                                            first name starts ************************-->
+                                            <div class="col-md-6" style="position: relative; margin-top: 10px;">
+                                                <label for="exampleInputEmail1">First Name</label>
+                                                <input type="text" class="form-control" value="{{crnt_buyer.fname}}"
+                                                       id="exampleInputEmail1"
+                                                       placeholder="First Name" readonly>
+                                                <button type="button" data-toggle="modal" data-target="#fname_change"
+                                                        style="position: absolute; right: 5%;top: 50%;">
+                                                    Change
+                                                </button>
+
+                                                <!-- Modal starts here ******************************** -->
+                                                <div class="modal fade" id="fname_change" tabindex="-1"
+                                                     role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                                                    Change First Name</h5>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="{% url 'apChangeBuyerFname' pk=crnt_pk %}"
+                                                                      method="post" enctype="multipart/form-data">
+                                                                    {% csrf_token %}
+
+                                                                    <div class="form-group" style="position: relative;">
+                                                                        <label for="fname">First Name</label>
+                                                                        <input type="text" value="{{crnt_buyer.fname}}"
+                                                                               name="fname"
+                                                                               class="form-control" id="fname"
+                                                                               placeholder="First Name">
+                                                                    </div>
+
+                                                                    <button type="button" class="btn btn-warning"
+                                                                            data-dismiss="modal">Cancel
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-primary">Save
+                                                                        changes
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--                                                modal ends here **************************************-->
+                                            </div>
+
+                                            <!--                                            last name starts *******************************-->
+                                            <div class="col-md-6" style="position: relative; margin-top: 10px;">
+                                                <label for="last_name">Last Name</label>
+                                                <input type="text" class="form-control" value="{{crnt_buyer.lname}}"
+                                                       id="last_name"
+                                                       placeholder="Last Name" readonly>
+                                                <button type="button" data-toggle="modal"
+                                                        data-target="#last_name_change"
+                                                        style="position: absolute; right: 5%;top: 50%;">
+                                                    Change
+                                                </button>
+
+                                                <!-- Modal starts here ******************************** -->
+                                                <div class="modal fade" id="last_name_change" tabindex="-1"
+                                                     role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                                                    Change Last Name</h5>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="{% url 'apChangeBuyerLname' pk=crnt_pk %}"
+                                                                      method="post" enctype="multipart/form-data">
+                                                                    {% csrf_token %}
+                                                                    <div class="form-group" style="position: relative;">
+                                                                        <label for="lname">Last Name</label>
+                                                                        <input type="text" name="lname"
+                                                                               value="{{crnt_buyer.lname}}"
+                                                                               class="form-control" id="lname"
+                                                                               placeholder="Last Name">
+                                                                    </div>
+
+                                                                    <button type="button" class="btn btn-warning"
+                                                                            data-dismiss="modal">Cancel
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-primary">Save
+                                                                        changes
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--                                                modal ends here **************************************-->
+                                            </div>
+
+                                            <!--                                            email starts *****************************************-->
+                                            <div class="col-md-6" style="position: relative; margin-top: 10px;">
+                                                <label for="email">E-mail</label>
+                                                <input type="text" value="{{crnt_buyer.email}}" class="form-control"
+                                                       id="email"
+                                                       placeholder="E-mail" readonly>
+                                                <button type="button" data-toggle="modal" data-target="#email_change"
+                                                        style="position: absolute; right: 5%;top: 50%;">
+                                                    Change
+                                                </button>
+
+                                                <!-- Modal starts here ******************************** -->
+                                                <div class="modal fade" id="email_change" tabindex="-1"
+                                                     role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                                                    Change E-mail</h5>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="{% url 'apChangeBuyerEmail' pk=crnt_pk %}"
+                                                                      method="post" enctype="multipart/form-data">
+                                                                    {% csrf_token %}
+                                                                    <div class="form-group" style="position: relative;">
+                                                                        <label for="email">E-mail</label>
+                                                                        <input type="text" value="{{crnt_buyer.email}}"
+                                                                               name="email"
+                                                                               class="form-control" id="email"
+                                                                               placeholder="E-mail">
+                                                                    </div>
+
+                                                                    <button type="button" class="btn btn-warning"
+                                                                            data-dismiss="modal">Cancel
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-primary">Save
+                                                                        changes
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--                                                modal ends here **************************************-->
+                                            </div>
+
+                                            <!--                                            username starts *****************************************-->
+                                            <div class="col-md-6" style="position: relative; margin-top: 10px;">
+                                                <label for="username">Username</label>
+                                                <input type="text" value="{{crnt_buyer.username}}" class="form-control"
+                                                       id="username"
+                                                       placeholder="Username" readonly>
+                                                <button type="button" data-toggle="modal" data-target="#username_change"
+                                                        style="position: absolute; right: 5%;top: 50%;">
+                                                    Change
+                                                </button>
+
+                                                <!-- Modal starts here ******************************** -->
+                                                <div class="modal fade" id="username_change" tabindex="-1"
+                                                     role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                                                    Change Username</h5>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="{% url 'apChangeBuyerUsername' pk=crnt_pk %}"
+                                                                      method="post" enctype="multipart/form-data">
+                                                                    {% csrf_token %}
+                                                                    <div class="form-group" style="position: relative;">
+                                                                        <label for="username">Username</label>
+                                                                        <input type="text" name="username"
+                                                                               value="{{crnt_buyer.username}}"
+                                                                               class="form-control" id="username"
+                                                                               placeholder="Username">
+                                                                    </div>
+
+                                                                    <button type="button" class="btn btn-warning"
+                                                                            data-dismiss="modal">Cancel
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-primary">Save
+                                                                        changes
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--                                                modal ends here **************************************-->
+                                            </div>
+
+                                            <!--                                            phone no starts ****************************************-->
+                                            <div class="col-md-6" style="position: relative; margin-top: 10px;">
+                                                <label for="phone">Phone No.</label>
+                                                <input type="text" value="{{crnt_buyer.phone_no}}" class="form-control"
+                                                       id="phone"
+                                                       placeholder="Phone no" readonly>
+                                                <button type="button" data-toggle="modal" data-target="#phone_change"
+                                                        style="position: absolute; right: 5%;top: 50%;">
+                                                    Change
+                                                </button>
+
+                                                <!-- Modal starts here ******************************** -->
+                                                <div class="modal fade" id="phone_change" tabindex="-1"
+                                                     role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                                                    Change Phone No</h5>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="{% url 'apChangeBuyerPhoneNo' pk=crnt_pk %}"
+                                                                      method="post" enctype="multipart/form-data">
+                                                                    {% csrf_token %}
+                                                                    <div class="form-group" style="position: relative;">
+                                                                        <label for="phone">Phone No.</label>
+                                                                        <input type="text" name="phone"
+                                                                               value="{{crnt_buyer.phone_no}}"
+                                                                               class="form-control" id="phone"
+                                                                               placeholder="Phone no">
+                                                                    </div>
+
+                                                                    <button type="button" class="btn btn-warning"
+                                                                            data-dismiss="modal">Cancel
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-primary">Save
+                                                                        changes
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--                                                modal ends here **************************************-->
+                                            </div>
+
+                                            <!--                                            is_active starts*********************************************-->
+                                            <div class="col-md-6" style="position: relative; margin-top: 10px;">
+                                                <label for="exampleInputEmail1">Account status</label>
+                                                <input type="text"
+                                                       value="{% if crnt_buyer.is_active %} Active {% else %} De-activated {% endif %}"
+                                                       class="form-control" id="exampleInputEmail1"
+                                                       placeholder="Account status" readonly>
+                                                <button type="button" data-toggle="modal"
+                                                        data-target="#accnt_status_change"
+                                                        style="position: absolute; right: 5%;top: 50%;">
+                                                    Change
+                                                </button>
+
+                                                <!-- Modal starts here ******************************** -->
+                                                <div class="modal fade" id="accnt_status_change" tabindex="-1"
+                                                     role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                                                    Change Account Status</h5>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="{% url 'apChangeBuyerAcntActivationStatus' pk=crnt_pk %}"
+                                                                      method="post" enctype="multipart/form-data">
+                                                                    {% csrf_token %}
+                                                                    <div class="form-group" style="position: relative;">
+                                                                        <select name="accnt_status"
+                                                                                class="form-control">
+                                                                            <option value="1">Activate</option>
+                                                                            <option value="0">De-activate</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <button type="button" class="btn btn-warning"
+                                                                            data-dismiss="modal">Cancel
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-primary">Save
+                                                                        changes
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--                                                modal ends here **************************************-->
+                                            </div>
+
+
+                                            <!--                                            change password starts*********************************************-->
+                                            <div class="col-md-6" style="position: relative; margin-top: 10px;">
+                                                <form action="{% url 'apChangeBuyerChangeBuyerPassword' pk=crnt_pk %}"
+                                                      method="post" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <div class="form-group" style="position: relative;">
+                                                        <label for="phone">Reset Password</label>
+                                                        <input type="text" name="password" class="form-control"
+                                                               id="password" placeholder="Reset password">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Reset</button>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--/.col (left) -->
 
                         </div>
 
@@ -544,6 +1139,110 @@
     </div>
     <!-- /.row -->
 
+
 </section>
 <!-- /.content -->
+
+
+<script>
+    const load_more_btn = document.querySelector('.load_more_btn');
+    const orders_list = document.querySelector('#orders_list');
+
+    var noOfItems = 6;
+
+    load_more_btn.onclick = () => {
+
+        var str = '';
+
+        $.ajax({
+             url:'/ap/buyer/details/{{crnt_pk}}/',
+             type:'get',
+             data: {
+                no_of_items: noOfItems + 6,
+             },
+             success: function(response){
+                let orderItems = response.requested_order_items;
+                orderItems.map(order=>{
+
+                    var orderStatus = '';
+                    var paymentStatus = '';
+                    var deliveryStatus = '';
+
+                    if (order.order_status === 'a') {
+                        orderStatus = "Approved";
+                    }
+                    if (order.order_status === 'p') {
+                        orderStatus = "Pending";
+                    }
+                    if (order.order_status === 'c') {
+                        orderStatus = "Cancelled";
+                    }
+
+                    if (order.delivery_status) {
+                        deliveryStatus = 'Delivered';
+                    }
+                    if (order.delivery_status == false) {
+                        deliveryStatus = 'Not Delivered';
+                    }
+
+                    if (order.payment_status) {
+                        paymentStatus = 'Paid';
+                    }
+
+                    if (order.payment_status === false) {
+                        paymentStatus = 'Unpaid';
+                    }
+
+                    var item = `<div class="col-md-4">
+                                <div class="card" style="width: 100%;">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><strong>Order ID: </strong>${order.order_id}</li>
+                                        <li class="list-group-item"><strong>Status: </strong>${orderStatus}</li>
+                                        <li class="list-group-item"><strong>Sub-total: </strong>$${order.sub_total_amount}</li>
+                                        <li class="list-group-item"><strong>Shipping cost: </strong>$${order.total_shipping_cost}</li>
+                                        <li class="list-group-item"><strong>Total: </strong>$${order.total_amount}</li>
+                                        <li class="list-group-item"><strong>Delivery status: </strong>${deliveryStatus}</li>
+
+                                        <li class="list-group-item"><strong>Payment status: </strong>${paymentStatus}</li>
+                                        <li class="list-group-item"><strong>Created: </strong>${order.created}</li>
+                                    </ul>
+                                </div>
+                            </div>`;
+
+                            str += item;
+
+                });
+
+                orders_list.innerHTML = str;
+
+             },
+
+           });
+
+           noOfItems = noOfItems + 6;
+    };
+
+
+</script>
+{% endblock %}
+
+{% block datatable_js %}
+<!-- DataTables -->
+<script src="{% static 'backEnd/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'backEnd/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+
+</script>
 {% endblock %}

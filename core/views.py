@@ -5993,16 +5993,16 @@ def front_return_policy(request):
     # row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
     # row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
 
-    # row-2
+    # row-1
     row_1_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c1'))
     row_1_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r1') & Q(col__col_id='c2'))
 
-    # row-3
+    # row-2
     row_2_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c1'))
     row_2_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c2'))
     row_2_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r2') & Q(col__col_id='c3'))
 
-    # row-4
+    # row-3
     row_3_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c1'))
     row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
     row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))

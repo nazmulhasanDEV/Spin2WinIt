@@ -142,11 +142,34 @@ urlpatterns = [
     re_path(r'^ap/seller/accounts/list/$', views.ap_seller_accounts_list, name='apsellerAccountsList'),
     re_path(r'^ap/buyer/acccounts/list/$', views.ap_buyer_accounts_list, name='apBuyerAccountsList'),
     re_path(r'^ap/remove/buyer/account/(?P<pk>\d+)/$', views.ap_remove_buyer_account, name='apRemoveBuyerAccount'),
+
     re_path(r'^ap/buyer/details/(?P<pk>\d+)/$', views.ap_single_buyer_details, name='apSingleBuyerDetails'),
+
     # add spin point to shopper account from admin panel
     re_path(r'^ap/add/spin/point/to/shopper/account/(?P<pk>\d+)/$', views.ap_add_spinPointToShopperAccntFromAP, name='apAddSpinPointToShopperAccntFromAP'),
     re_path(r'^ap/add/spin/credit/to/shopper/account/(?P<pk>\d+)/$', views.ap_add_spinCreditToShopperAccntFromAP, name='apAddSpinCreditToShopperAccntFromAP'),
     re_path(r'^ap/add/spin/tokens/to/shopper/account/(?P<pk>\d+)/$', views.ap_add_spinTokensToShopperAccntFromAP, name='apAddSpinTokensToShopperAccntFromAP'),
+
+    # change buyer fname
+    re_path(r'^ap/change/buyer/fname/(?P<pk>\d+)/$', views.ap_change_buyer_fname, name='apChangeBuyerFname'),
+
+    # change buyer lname
+    re_path(r'^ap/change/buyer/lname/(?P<pk>\d+)/$', views.ap_change_buyer_lname, name='apChangeBuyerLname'),
+
+    # change buyer email
+    re_path(r'^ap/change/buyer/email/(?P<pk>\d+)/$', views.ap_change_buyer_email, name='apChangeBuyerEmail'),
+
+    # change buyer username
+    re_path(r'^ap/change/buyer/username/(?P<pk>\d+)/$', views.ap_change_buyer_username, name='apChangeBuyerUsername'),
+
+    # change buyer username
+    re_path(r'^ap/change/buyer/phone/no/(?P<pk>\d+)/$', views.ap_change_buyer_phoneNo, name='apChangeBuyerPhoneNo'),
+
+    # change buyer account activation status
+    re_path(r'^ap/change/buyer/account/activation/status/(?P<pk>\d+)/$', views.ap_change_buyer_account_activation_status, name='apChangeBuyerAcntActivationStatus'),
+
+    # change buyer account change buyer password
+    re_path(r'^ap/change/buyer/account/change/password/(?P<pk>\d+)/$', views.ap_change_buyer_account_reset_password, name='apChangeBuyerChangeBuyerPassword'),
 
     # single user captcha history
     re_path(r'^ap/shopper/captcha/history/(?P<pk>\d+)/$', views.ap_singleShopperCaptcha_history, name='apSingleShopperCaptchaHistory'),
