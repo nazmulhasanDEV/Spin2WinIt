@@ -1,0 +1,193 @@
+{% extends 'frontEnd/index.html' %}
+{% load static %}
+
+{% block main_block %}
+
+<!-- ads -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            {% if row_1_col_1_ads.ads_script %}
+            {{row_1_col_1_ads.ads_script}}
+            {% else %}
+            <!--yllx 468x60 starts &*************************************-->
+            <script type="text/javascript"
+                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+            <!--yllx ends here **********************************-->
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            {% if row_1_col_2_ads.ads_script %}
+            {{row_1_col_2_ads.ads_script}}
+            {% else %}
+            <!--yllx 468x60 starts &*************************************-->
+            <script type="text/javascript"
+                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+            <!--yllx ends here **********************************-->
+            {% endif %}
+        </div>
+    </div>
+</div>
+<!-- ads ends here-->
+
+<section id="refund_policy">
+    <div class="container">
+        <div class="row">
+            <!-- Main Content Section -->
+
+            <section class="container">
+                <div class="guide-page-content p-lg-5 p-md-4 p-sm-3 p-2 my-5">
+                    <h4 class="text-center heading-text-secondary">SPIN CREDITS</h4>
+
+
+                    <p class="guide-page-content-text mt-3">
+                        <span><img src="images/guide-pages/star.png" alt="" srcset=""></span>&nbsp;&nbsp;&nbsp;Spin Credits are <strong>Spinit2win.com</strong> Store credits used to make purchase on <strong>Spinit2win.com</strong> store products, merchandise and service.
+                        <br>
+                        <span><img src="images/guide-pages/star.png" alt="" srcset=""></span>&nbsp;&nbsp;&nbsp;Spin Credits must be used at <strong>www.Spinit2win.com</strong> and can not be refunded or exchange for cash.
+                        <br>
+                        <span><img src="images/guide-pages/star.png" alt="" srcset=""></span>&nbsp;&nbsp;&nbsp;Spin Credits do not expire, but are forfieted if User Account/ Wallet is closed for any reason.
+                        <br>
+                        <span><img src="images/guide-pages/star.png" alt="" srcset=""></span>&nbsp;&nbsp;&nbsp;Spin Credits are for promotional use issued at the discretion of <strong>Spinit2win.com</strong> and affiliates.
+                        <br>
+                        <span><img src="images/guide-pages/star.png" alt="" srcset=""></span>&nbsp;&nbsp;&nbsp;Spin Credits cannot be used to purchase any delivery and shipping fees
+
+
+                    </p>
+                    <div class="row mb-2">
+                        <button class="btn btn-warning   mx-auto" > <b>BUY SPIN CREDITS</b></button>
+                    </div>
+
+                    <h4 class="text-center my-4 heading-text-secondary">ORDER PROCESSING</h4>
+                    <p class="guide-page-content-text mt-4">
+                        Orders are processed within 24-72hrs after payments are received in full
+                        <br>
+                        Prizes are processed within 24-72hrs after shipping fee payments have been received in full.
+
+                    </p>
+                    <h4 class="text-center mt-4 heading-text-secondary">SHIPPING</h4>
+                    <p class="guide-page-content-text mt-4">
+                        Shipping provided by third party shipping company at time of checkout. Terms and Conditions provided by thirs party shipping.
+                        <br>
+                        Due to delays, expected shipping times range and can take up to 6 weeks. Tracking information provided by third party shipping company. In any case that the order is not delivered within the time provided by the shipping company tracking information, the order will be cancelled refunded.
+                        <br>If the order arrives after the refund have been processed, a shipping lable would be provided to customer to return the cancelled.
+                    </p>
+                    <h4 class="text-center mt-4 heading-text-secondary">DAMAGED DELIVERY</h4>
+                    <p class="guide-page-content-text mt-4">
+                        In the event of damaged caused during shipping process, customers may report to customer service at <strong>info@spinit2win.com</strong> .
+                        <br>See complete details in Terms and Conditions Policy, Return Policy, Refund Policy for more information.
+                    </p>
+
+                </div>
+
+            </section>
+
+            <!-- End Main Content Section -->
+        </div>
+    </div>
+
+    <br><br>
+
+</section>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            {% if row_2_col_1_ads.ads_script %}
+            {{row_2_col_1_ads.ads_script}}
+            {% else %}
+                <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=17'></script>
+            {% endif %}
+            </div>
+        <div class="col-md-4">
+            <div>
+                <h5>Click to this reCaptcha and get 50 points bonus!</h5>
+                <form action="{% url 'frontGamePageCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
+                      id="captcha__form_game">
+                    {% csrf_token %}
+                    <div id="html_element_game"></div>
+                    <br>
+                    <button type="submit" class="captcha_submit__btn"><img src="{% static 'frontEnd/images/logo/logo.jpeg' %}" alt=""> &nbsp; Click to Collect</button>
+<!--                    <input type="submit" value="Collect">-->
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            {% if row_2_col_2_ads.ads_script %}
+            {{row_2_col_2_ads.ads_script}}
+            {% else %}
+                <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_0'></script>
+            {% endif %}
+            </div>
+    </div>
+</div>
+<br>
+<br>
+
+<br>
+<section id="captcha__section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            {% if row_3_col_1_ads.ads_script %}
+                            {{row_3_col_1_ads.ads_script}}
+                            {% else %}
+<!--                            <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=15'></script>-->
+                           <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                {% if row_3_col_2_ads.ads_script %}
+                {{row_3_col_2_ads.ads_script}}
+                {% else %}
+                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                {% endif %}
+            </div>
+
+            <div class="col-md-4">
+                {% if row_3_col_3_ads.ads_script %}
+                {{row_3_col_3_ads.ads_script}}
+                {% else %}
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/300x250.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<script type="text/javascript">
+
+// captcha-1
+      var onloadCallback = function() {
+
+
+        grecaptcha.render('html_element_game', {
+          'sitekey' : '6LeyWrMfAAAAALCToOdJC3Y5Xat2bgwCZMJLL2E2',
+        });
+      };
+
+
+      var captcha__form_game = document.getElementById('captcha__form_game');
+        captcha__form_game.addEventListener("submit", function(event){
+
+            if (grecaptcha.getResponse() === '') {
+              event.preventDefault();
+              alert('Please check the recaptcha');
+            }
+          }
+        , false);
+
+        // ends captcha-1
+
+</script>
+
+
+{% endblock %}

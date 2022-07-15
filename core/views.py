@@ -5623,12 +5623,6 @@ def front_MembershipPolicy(request):
     row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
     row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
 
-    # # row-4
-    # row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
-    # row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
-    # row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
-    # row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
-    # row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
 
     # ads scripts ends*****************************************
 
@@ -5670,13 +5664,8 @@ def front_MembershipPolicy(request):
             'row_3_col_1_ads': row_3_col_1_ads,
             'row_3_col_2_ads': row_3_col_2_ads,
             'row_3_col_3_ads': row_3_col_3_ads,
-            # 'row_4_col_1_ads': row_4_col_1_ads,
-            # 'row_4_col_2_ads': row_4_col_2_ads,
-            # 'row_4_col_3_ads': row_4_col_3_ads,
-            # 'row_4_col_4_ads': row_4_col_4_ads,
-            # 'row_4_col_5_ads': row_4_col_5_ads,
         }
-        return render(request, 'frontEnd/policy/members.html', context)
+        return render(request, 'frontEnd/how_works/updated_templates/members_guide.html', context)
 
     context = {
         'membershipPolicy': membershipPolicy,
@@ -5697,15 +5686,9 @@ def front_MembershipPolicy(request):
         'row_3_col_1_ads': row_3_col_1_ads,
         'row_3_col_2_ads': row_3_col_2_ads,
         'row_3_col_3_ads': row_3_col_3_ads,
-        # 'row_4_col_1_ads': row_4_col_1_ads,
-        # 'row_4_col_2_ads': row_4_col_2_ads,
-        # 'row_4_col_3_ads': row_4_col_3_ads,
-        # 'row_4_col_4_ads': row_4_col_4_ads,
-        # 'row_4_col_5_ads': row_4_col_5_ads,
     }
 
-
-    return render(request, 'frontEnd/policy/members.html', context)
+    return render(request, 'frontEnd/how_works/updated_templates/members_guide.html', context)
 
 def front_ShopperPolicy(request):
 
@@ -5802,7 +5785,7 @@ def front_ShopperPolicy(request):
             # 'row_4_col_4_ads': row_4_col_4_ads,
             # 'row_4_col_5_ads': row_4_col_5_ads,
         }
-        return render(request, 'frontEnd/policy/shoppers.html', context)
+        return render(request, 'frontEnd/how_works/updated_templates/shopper_guide.html', context)
 
     context = {
         'shoppershipPolicy': shoppershipPolicy,
@@ -5829,7 +5812,7 @@ def front_ShopperPolicy(request):
         # 'row_4_col_4_ads': row_4_col_4_ads,
         # 'row_4_col_5_ads': row_4_col_5_ads,
     }
-    return render(request, 'frontEnd/policy/shoppers.html', context)
+    return render(request, 'frontEnd/how_works/updated_templates/shopper_guide.html', context)
 
 def front_refund_policy(request):
 
@@ -7088,13 +7071,6 @@ def front_howIt_works(request):
     row_3_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c2'))
     row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
 
-    # # row-4
-    # row_4_col_1_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c1'))
-    # row_4_col_2_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c2'))
-    # row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
-    # row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
-    # row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
-
     # ads scripts ends*****************************************
 
 
@@ -7115,14 +7091,9 @@ def front_howIt_works(request):
         'row_3_col_1_ads': row_3_col_1_ads,
         'row_3_col_2_ads': row_3_col_2_ads,
         'row_3_col_3_ads': row_3_col_3_ads,
-        # 'row_4_col_1_ads': row_4_col_1_ads,
-        # 'row_4_col_2_ads': row_4_col_2_ads,
-        # 'row_4_col_3_ads': row_4_col_3_ads,
-        # 'row_4_col_4_ads': row_4_col_4_ads,
-        # 'row_4_col_5_ads': row_4_col_5_ads,
     }
 
-    return render(request, 'frontEnd/how_works/how_it_works.html', context)
+    return render(request, 'frontEnd/how_works/updated_templates/how_it_works.html', context)
 
 def front_how_spinWinWorks(request):
     site_logo = SiteLogo.objects.filter().first()
@@ -7155,6 +7126,7 @@ def front_how_spinWinWorks(request):
 
     return render(request, 'frontEnd/how_works/how_spinwin_works.html', context)
 
+# unnecessary
 def front_howIt_account_details(request):
     site_logo = SiteLogo.objects.filter().first()
 
@@ -7213,7 +7185,7 @@ def front_howIt_account_details(request):
         'row_3_col_3_ads': row_3_col_3_ads,
     }
 
-    return render(request, 'frontEnd/how_works/account_details.html', context)
+    return render(request, 'frontEnd/how_works/updated_templates/account_details.html', context)
 
 def front_howIt_howSpinit2Win_works(request):
 
@@ -7316,7 +7288,8 @@ def front_howIt_SpinPoints(request):
         # 'row_4_col_5_ads': row_4_col_5_ads,
     }
 
-    return render(request, 'frontEnd/how_works/spinPoints.html', context)
+    return render(request, 'frontEnd/how_works/updated_templates/spin_point.html', context)
+    # return render(request, 'frontEnd/how_works/spinPoints.html', context)
 
 def front_howIt__spin_tokens(request):
     site_logo = SiteLogo.objects.filter().first()
@@ -7386,7 +7359,8 @@ def front_howIt__spin_tokens(request):
         # 'row_4_col_5_ads': row_4_col_5_ads,
     }
 
-    return render(request, 'frontEnd/how_works/spin_tokens.html', context)
+    return render(request, 'frontEnd/how_works/updated_templates/spin_token.html', context)
+    # return render(request, 'frontEnd/how_works/spin_tokens.html', context)
 
 def front_howIt__spinCredit(request):
 
@@ -7458,7 +7432,8 @@ def front_howIt__spinCredit(request):
         # 'row_4_col_5_ads': row_4_col_5_ads,
     }
 
-    return render(request, 'frontEnd/how_works/spin_credit.html', context)
+    return render(request, 'frontEnd/how_works/updated_templates/spin_credit.html', context)
+    # return render(request, 'frontEnd/how_works/spin_credit.html', context)
 
 def front_howIt__prizeGuide(request):
 
@@ -7627,7 +7602,7 @@ def front_howIt__accountDetails(request):
         'row_3_col_3_ads': row_3_col_3_ads,
     }
 
-    return render(request, 'frontEnd/how_works/account_details.html', context)
+    return render(request, 'frontEnd/how_works/updated_templates/account_details.html', context)
 #how works ends************************************************************************************
 
 
