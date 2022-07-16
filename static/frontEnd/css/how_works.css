@@ -1,0 +1,54 @@
+
+.guide-page-content{
+	/* background-color: #F0F8FB; */
+	/* border: 2px solid #AEACAD; */
+	color: #000;
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.guide-page-content-text{
+	font-size: large;
+	color: #333;
+}
+.heading-text{
+	text-shadow: 2px 1px #0363cd;
+	font-weight: bolder;
+	font-size: 50px;
+	color: #FED700;
+}
+.heading-text-secondary{
+	text-shadow: 2px 1px #0363cd;
+	font-weight: bolder;
+	font-size: 30px;
+	color: #FED700;
+}
+.points-table{
+	font-size: larger;
+}
+
+.guide-page-content-text li {
+	list-style-type: decimal-leading-zero !important;
+	margin-top: 8px;
+}
+
+
+@media screen and (max-width: 500px) {
+	.guide-page-content-text{
+		font-size: medium;
+	}
+	.heading-text{
+		text-shadow: 2px 1px #0363cd;
+		font-weight: bolder;
+		font-size: 30px;
+		color: #FED700;
+	}
+	.heading-text-secondary{
+		text-shadow: 2px 1px #0363cd;
+		font-weight: bolder;
+		font-size: 20px;
+		color: #FED700;
+	}
+	.points-table{
+		font-size: small;
+	}
+}
+

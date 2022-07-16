@@ -5547,7 +5547,8 @@ def front_BetatestTerms_andCondition(request):
             'row_4_col_4_ads': row_4_col_4_ads,
             'row_4_col_5_ads': row_4_col_5_ads,
         }
-        return render(request, 'frontEnd/policy/beta_test_termsCondition.html', context)
+        return render(request, 'frontEnd/how_works/updated_templates/beta_test.html', context)
+        # return render(request, 'frontEnd/policy/beta_test_termsCondition.html', context)
 
     context = {
         'betaTestTermsCondition': betaTestTermsCondition,
@@ -5577,7 +5578,8 @@ def front_BetatestTerms_andCondition(request):
         'row_4_col_4_ads': row_4_col_4_ads,
         'row_4_col_5_ads': row_4_col_5_ads,
     }
-    return render(request, 'frontEnd/policy/beta_test_termsCondition.html', context)
+    return render(request, 'frontEnd/how_works/updated_templates/beta_test.html', context)
+    # return render(request, 'frontEnd/policy/beta_test_termsCondition.html', context)
 
 # members
 def front_MembershipPolicy(request):
@@ -7505,7 +7507,7 @@ def front_howIt__prizeGuide(request):
         # 'row_4_col_5_ads': row_4_col_5_ads,
     }
 
-    return render(request, 'frontEnd/how_works/prize_guide.html', context)
+    return render(request, 'frontEnd/how_works/updated_templates/prize_guide.html', context)
 
 
 def front_howIt__spinPilotPromotion(request):

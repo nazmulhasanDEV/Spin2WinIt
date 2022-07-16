@@ -54,7 +54,17 @@
 
                     </p>
                     <div class="row mb-2">
-                        <button class="btn btn-warning   mx-auto" > <b>BUY SPIN CREDITS</b></button>
+                        <div class="col-md-12 text-center">
+                            {% if request.user.is_authenticated %}
+                            <a href="/fe/buy/credit/points/{{request.user.username}}">
+                                <button class="btn btn-warning   mx-auto" > <b>BUY SPIN CREDITS</b></button>
+                            </a>
+                            {% else %}
+                            <a href="/fe/login/user">
+                                <button class="btn btn-warning   mx-auto" > <b>BUY SPIN CREDITS</b></button>
+                            </a>
+                            {% endif %}
+                        </div>
                     </div>
 
                     <h4 class="text-center my-4 heading-text-secondary">ORDER PROCESSING</h4>
