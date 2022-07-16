@@ -2,23 +2,24 @@
 {% load static %}
 
 {% block main_block %}
-
+<h1>asdfajslfdjalsdfjlkasdjfflsajdflajsdflkasdlf</h1>
 <!-- ads -->
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            {% if row_1_col_1_ads %}
-            {{row_1_col_1_ads}}
+            {% if row_1_col_1_ads.ads_script %}
+            {{row_1_col_1_ads.ads_script}}
             {% else %}
             <!--yllx 468x60 starts &*************************************-->
+
             <script type="text/javascript"
                     src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
             <!--yllx ends here **********************************-->
             {% endif %}
         </div>
         <div class="col-md-6">
-            {% if row_1_col_2_ads %}
-            {{row_1_col_2_ads}}
+            {% if row_1_col_2_ads.ads_script %}
+            {{row_1_col_2_ads.ads_script}}
             {% else %}
             <!--yllx 468x60 starts &*************************************-->
             <script type="text/javascript"
@@ -65,8 +66,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            {% if row_2_col_1_ads %}
-            {{row_2_col_1_ads}}
+            {% if row_2_col_1_ads.ads_script %}
+            {{row_2_col_1_ads.ads_script}}
             {% else %}
                 <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=17'></script>
             {% endif %}
@@ -85,8 +86,8 @@
             </div>
         </div>
         <div class="col-md-4">
-            {% if row_2_col_2_ads %}
-            {{row_2_col_2_ads}}
+            {% if row_2_col_2_ads.ads_script %}
+            {{row_2_col_2_ads.ads_script}}
             {% else %}
                 <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_0'></script>
             {% endif %}
