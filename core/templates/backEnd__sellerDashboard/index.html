@@ -100,7 +100,7 @@
 
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="/seller/profile/edit/{{request.user.username}}" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="{% url 'apLogoutSuperUser' %}" class="btn btn-default btn-flat">Sign out</a>
@@ -256,5 +256,6 @@
 {% block owl_carousel_js %} {% endblock %}
 
 {% block payment_integration_block_for_packagePurchase %} {% endblock %}
+{% block otherscripts %}{% endblock %}
 </body>
 </html>

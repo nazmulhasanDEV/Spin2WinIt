@@ -26,9 +26,12 @@ urlpatterns = [
     re_path(r'^seller/product/collection/list/$', views.seller_productCollections, name='sellerProductCollectionList'),
 
     # profile
+    re_path(r'^seller/profile/edit/(?P<username>[-\w]+)/$', views.seller_profile_edit, name='sellerProfileEdit'),
     re_path(r'^seller/profile/setting/(?P<username>[-\w]+)/$', views.seller_profile_setting, name='sellerProfileSetting'),
     re_path(r'^seller/upate/profile/pic/$', views.seller_update_profile_pic, name='sellerUpdateSellerProfilePic'),
     re_path(r'^seller/update/full/name/$', views.seller_update_full_name, name='sellerUpdateFullName'),
+    re_path(r'^seller/update/full/name/username/$', views.seller_update_full_name_username, name='sellerUpdateUsernameFullName'),
     re_path(r'^seller/update/user/password/$', views.seller_update_user_password, name='sellerUpdateUserPassword'),
+    re_path(r'^seller/reset/user/password/$', views.seller_reset_user_password, name='sellerResetUserPassword'),
 ]
 

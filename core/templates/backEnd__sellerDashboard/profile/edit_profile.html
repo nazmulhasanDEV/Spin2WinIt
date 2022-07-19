@@ -28,7 +28,7 @@
 <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        User Profile
+        Edit Information
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -41,83 +41,126 @@
     <section class="content">
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3 col">
 
           <!-- Profile Image -->
           <div class="box box-primary">
-            <div class="box-body box-profile">
+            <div class="box-header with-border">
+              <h3 class="box-title">Change Image</h3>
+            </div>
+            <div class="box-body box-profile ">
               {% if profile_pic %}
-              <img class="profile-user-img img-responsive img-circle" src="{{profile_pic.pic.url}}" style="width: 70px; height: 70px; border-radius: 50%;" alt="User profile picture">
+              <img class="profile-user-img img-responsive img-circle" src="{{profile_pic.pic.url}}" id="img-prof" style="width: 150px; height: 150px;" alt="User profile picture">
               {% else %}
-              <img class="profile-user-img img-responsive img-circle" src="{% static 'backEnd/dist/img/avatar.png' %}" alt="User profile picture">
+              <img class="profile-user-img img-responsive img-circle" src="{% static 'backEnd/dist/img/avatar.png' %}" id="img-prof" style="width: 150px; height: 150px;" alt="User profile picture">
               {% endif %}
+              <p class="text-muted text-center">Acceptable formats jpg, png etc</p>
+              <p class="text-muted text-center">Max file size is 8 MB</p>
+              
+              <div class="text-center" style="margin-top:20px;">
+                <form action="{% url 'sellerUpdateSellerProfilePic' %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                  {% csrf_token %}
+                    <label class="btn btn-danger " for="profile_pic"><b>Choose Image</b></label>
+                    <input type="submit" class="btn btn-primary" value="submit" name="submit">
+                    <input type="file" name="profile_pic" onchange="loadFile(event)"  id="profile_pic" placeholder="Email" required style="display:none;">
+                </form>
 
-              <h3 class="profile-username text-center">{{request.user.fname}} {{request.user.lname}}</h3>
-
-              <p class="text-muted text-center">Software Engineer</p>
-
-              <ul class="list-group list-group-unbordered">
-                <li class="list-group-item">
-                  <b>Followers</b> <a class="pull-right">1,322</a>
-                </li>
-                <li class="list-group-item">
-                  <b>Following</b> <a class="pull-right">543</a>
-                </li>
-                <li class="list-group-item">
-                  <b>Friends</b> <a class="pull-right">13,287</a>
-                </li>
-              </ul>
-
-              <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                
+                
+              </div>
+              <p> &nbsp;</p>
             </div>
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
 
-          <!-- About Me Box -->
-<!--          <div class="box box-primary">-->
-<!--            <div class="box-header with-border">-->
-<!--              <h3 class="box-title">About Me</h3>-->
-<!--            </div>-->
-<!--            &lt;!&ndash; /.box-header &ndash;&gt;-->
-<!--            <div class="box-body">-->
-<!--              <strong><i class="fa fa-book margin-r-5"></i> Education</strong>-->
-
-<!--              <p class="text-muted">-->
-<!--                B.S. in Computer Science from the University of Tennessee at Knoxville-->
-<!--              </p>-->
-
-<!--              <hr>-->
-
-<!--              <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>-->
-
-<!--              <p class="text-muted">Malibu, California</p>-->
-
-<!--              <hr>-->
-
-<!--              <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>-->
-
-<!--              <p>-->
-<!--                <span class="label label-danger">UI Design</span>-->
-<!--                <span class="label label-success">Coding</span>-->
-<!--                <span class="label label-info">Javascript</span>-->
-<!--                <span class="label label-warning">PHP</span>-->
-<!--                <span class="label label-primary">Node.js</span>-->
-<!--              </p>-->
-
-<!--              <hr>-->
-
-<!--              <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>-->
-
-<!--              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>-->
-<!--            </div>-->
-<!--            &lt;!&ndash; /.box-body &ndash;&gt;-->
-<!--          </div>-->
-          <!-- /.box -->
         </div>
         <!-- /.col -->
-        <div class="col-md-9">
-          <div class="nav-tabs-custom">
+          <div class="col-md-9">
+            <!-- account information -->
+            <div class="box box-primary">
+              <div class="box-header with-border">
+                <h3 class="box-title">Account Information</h3>
+              </div>
+              <!-- /.box-header -->
+              <!-- form start -->
+              <form action="{% url 'sellerUpdateUsernameFullName' %}" method="post" enctype="multipart/form-data" class="form-horizontal ">
+                {% csrf_token %}
+
+                <p> &nbsp;</p>
+                <div class="form-group">
+                  <label for="username" class="col-sm-2 control-label">UserName</label>
+
+                  <div class="col-sm-9">
+                    <input type="text" name="username" class="form-control" id="username" value="{{request.user.username}}" placeholder="First Name" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputName" class="col-sm-2 control-label">First Name</label>
+
+                  <div class="col-sm-9">
+                    <input type="text" name="fname" class="form-control" id="inputName" value="{{request.user.fname}}" placeholder="First Name" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputEmail" class="col-sm-2 control-label">Last Name</label>
+
+                  <div class="col-sm-9">
+                    <input type="text" name="lname" class="form-control" value="{{request.user.lname}}" id="inputEmail" placeholder="Last Name" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </div>
+                <p> &nbsp;</p>
+              </form>
+            </div>
+            <!-- /.box -->
+            <!-- account information -->
+            <div class="box box-danger">
+              <div class="box-header with-border">
+                <h3 class="box-title">Reset Password</h3>
+              </div>
+              <p> &nbsp;</p>
+              <!-- /.box-header -->
+              <!-- form start -->
+              <form action="{% url 'sellerResetUserPassword' %}" method="post"  class="form-horizontal">
+                {% csrf_token %}
+                
+
+                
+                
+
+                <div class="form-group">
+                  <label for="inputSkills" class="col-sm-2 control-label">New Password</label>
+
+                  <div class="col-sm-9">
+                    <input type="password" name="new_pass" class="form-control" id="inputSkills" placeholder="New Password" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputSkills" class="col-sm-2 control-label">Confirm Password</label>
+
+                  <div class="col-sm-9">
+                    <input type="password" name="confirm_pass" class="form-control" id="inputSkills" placeholder="Confirm Password" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </div>
+                <p> &nbsp;</p>
+              </form>
+            </div>
+            <!-- /.box -->
+  
+          </div>
+          {% comment %} <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#settings" data-toggle="tab">Settings</a></li>
             </ul>
@@ -228,9 +271,8 @@
               <!-- /.tab-pane -->
             </div>
             <!-- /.tab-content -->
-          </div>
+          </div> {% endcomment %}
           <!-- /.nav-tabs-custom -->
-        </div>
         <!-- /.col -->
       </div>
       <!-- /.row -->
@@ -238,3 +280,12 @@
     </section>
     <!-- /.content -->
 {% endblock %}
+
+{% block otherscripts %}
+<script>
+  var loadFile = function(event) {
+    var image = document.getElementById('img-prof');
+    image.src = URL.createObjectURL(event.target.files[0]);
+  };
+  </script>
+{% endblock  %}

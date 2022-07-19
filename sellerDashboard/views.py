@@ -787,14 +787,27 @@ def seller_productCollections(request):
     return render(request, 'backEnd__sellerDashboard/product/collections.html', context)
 
 @login_required(login_url='/fe/login/register')
-def seller_profile_setting(request, username):
+def seller_profile_edit(request, username):
 
     if request.user.is_seller != True:
         return redirect('frontEndLoginRegister')
 
     # profile pic
     profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
+    context = {
+        'profile_pic' : profile_pic,
+    }
 
+    return render(request, 'backEnd__sellerDashboard/profile/edit_profile.html', context)
+
+@login_required(login_url='/fe/login/register')
+def seller_profile_setting(request, username):
+
+    if request.user.is_seller != True:
+        return redirect('frontEndLoginRegister')
+
+    # profile pic
+    profile_pic = UserProfilePicture.objects.select_related().filter(user=request.user).first()
     context = {
         'profile_pic' : profile_pic,
     }
@@ -810,6 +823,8 @@ def seller_update_profile_pic(request):
 
     if request.method == 'POST':
         profile_picture = request.FILES['profile_pic']
+        submit = request.POST.get('submit',None)
+
 
         if profile_picture:
             fs = FileSystemStorage()
@@ -821,12 +836,18 @@ def seller_update_profile_pic(request):
                 user_profile_pic.pic = profile_picture
                 user_profile_pic.save()
                 messages.success(request, "Successfully updated!")
-                return redirect('sellerProfileSetting', username=request.user.username)
+                if submit is not None:
+                    return redirect('sellerProfileEdit', username=request.user.username)
+                else:
+                    return redirect('sellerProfileSetting', username=request.user.username)
             except:
                 user_profile_pic = UserProfilePicture(user=request.user, pic=profile_picture)
                 user_profile_pic.save()
                 messages.success(request, "Successfully updated!")
-                return redirect('sellerProfileSetting', username=request.user.username)
+                if submit is not None:
+                    return redirect('sellerProfileEdit', username=request.user.username)
+                else:
+                    return redirect('sellerProfileSetting', username=request.user.username)
 
     return render(request, 'backEnd__sellerDashboard/profile/my_profile.html')
 
@@ -852,6 +873,33 @@ def seller_update_full_name(request):
             except:
                 messages.warning(request, "Can't be updated!")
                 return redirect('sellerProfileSetting', username=request.user.username)
+
+    return render(request, 'backEnd__sellerDashboard/profile/my_profile.html')
+
+@login_required(login_url='/fe/login/register')
+def seller_update_full_name_username(request):
+
+    if request.user.is_seller != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        username = request.POST.get('username')
+
+        if fname and lname and username:
+            try:
+                user = Account.objects.get(email=request.user.email)
+                user.fname = fname
+                user.laname = lname
+                if username != request.user.username:
+                    user.username = username
+                user.save()
+                messages.success(request, "Successfully updated!")
+                return redirect('sellerProfileEdit', username=request.user.username)
+            except:
+                messages.warning(request, "Can't be updated!")
+                return redirect('sellerProfileEdit', username=request.user.username)
 
     return render(request, 'backEnd__sellerDashboard/profile/my_profile.html')
 
@@ -883,6 +931,30 @@ def seller_update_user_password(request):
                 return redirect('sellerProfileSetting', username=request.user.username)
 
     return render(request, 'backEnd__sellerDashboard/profile/my_profile.html')
+
+@login_required(login_url='/fe/login/register')
+def seller_reset_user_password(request):
+
+    if request.user.is_seller != True:
+        return redirect('frontEndLoginRegister')
+
+    if request.method == 'POST':
+        confirm_pass = request.POST.get('confirm_pass')
+        new_pass = request.POST.get('new_pass')
+
+        if new_pass == confirm_pass:
+            try:
+                user = Account.objects.get(email=request.user.email)
+                if user is not None:
+                    user.set_password(new_pass)
+                    user.save()
+                    messages.success(request, "Successfully updated!")
+                    return redirect("frontEndLoginRegister")
+            except:
+                messages.warning(request, "Can't be updated! Try again!")
+                return redirect('sellerProfileEdit', username=request.user.username)
+
+    return redirect('sellerProfileEdit', username=request.user.username)
 
 
 
