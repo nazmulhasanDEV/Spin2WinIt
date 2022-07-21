@@ -2,6 +2,7 @@ from django.core.management.utils import get_random_secret_key
 from pathlib import Path
 import os
 import sys
+import envvar
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -183,13 +184,13 @@ from .cdn.conf import *
 # email sending set up
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-DEFAULT_FROM_EMAIL = 'spinit2win.com@gmail.com'
-SERVER_EMAIL = 'spinit2win.com@gmail.com'
+EMAIL_HOST = envvar.email_host
+DEFAULT_FROM_EMAIL = envvar.default_email
+SERVER_EMAIL = envvar.server_email
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'spinit2win.com@gmail.com'
-EMAIL_HOST_PASSWORD = 'mbvnpdclbxjfgmff'
+EMAIL_HOST_USER = envvar.host_user
+EMAIL_HOST_PASSWORD = envvar.app_password
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
