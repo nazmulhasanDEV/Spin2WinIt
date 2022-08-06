@@ -95,8 +95,7 @@ AUTH_USER_MODEL = 'user.Account'
 #     }
 # }
 
-# ends prev section &**************************
-# 3********************
+# ends prev section &**********************************************
 
 
 # DATABASES = {

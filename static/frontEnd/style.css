@@ -71,6 +71,8 @@
 /*----------------------------------------*/
 /*  1.1 Basic
 /*----------------------------------------*/
+
+
 body {
 	color: #242424;
 	font-family: 'Rubik', sans-serif;
@@ -79,6 +81,26 @@ body {
 	font-weight: normal;
 	overflow-x: hidden;
 	/*background: #F5F5F5;*/
+}
+
+
+@media only screen and (max-width: 991px) {
+    .header-for-logo {
+        position: relative;
+        margin-bottom: 60px;
+        text-align: center;
+        width: 100%;
+    }
+    .header-for-logo a{
+        width: 100%;
+        position: relative;
+    }
+    .header-for-logo a img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%);
+    }
 }
 
 /* captcha submit btn section starts ***********************************/
