@@ -308,30 +308,61 @@
             </div>
             <!-- /.box -->
 
-            <!-- AREA CHART -->
-            <div class="box-footer no-border">
+
+            <div class="box box-solid bg-teal-gradient">
+                <div class="box-header">
+                    <i class="fa fa-th"></i>
+
+                    <h3 class="box-title">Orders</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn bg-teal btn-sm" data-widget="collapse"><i
+                                class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn bg-teal btn-sm" data-widget="remove"><i
+                                class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body border-radius-none text-center" style="background: #00A65A;">
+                    <div>
+                        <h2>Total Visitors</h2>
+                        <h3>{{total_no_of_visitors}}</h3>
+                    </div>
+                    <div>
+                        <a href="/ap/unique/visitors/list/" style="color: white; text-style: underline;">View all unique visitors</a>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                 <!-- /.box-body -->
+                <div class="box-footer no-border">
                     <div class="row">
                         <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
-                            <input type="text" class="knob" data-readonly="true"
-                                   value="{% if total_no_of_visitors %} {{total_no_of_visitors}} {% else %} 0 {% endif %}"
-                                   data-width="120" data-height="120"
-                                   data-fgColor="#F39C12">
+                            <div style="width: 130px; height: 130px; border: 10px solid #DD4B39; border-radius: 50%; position: relative;">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 30px; color: black;">
+                                    {{total_no_of_visitors.num_of_visitor}}
+                                </div>
+                            </div>
 
                             <div class="knob-label" style="font-size: 18px;"><strong>Total Visitors</strong></div>
                         </div>
                         <!-- ./col -->
                         <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
-                            <input type="text" class="knob" data-readonly="true" value="{{unique_visitors}}"
-                                   data-width="120" data-height="120"
-                                   data-fgColor="#39CCCC">
+                            <div style="width: 130px; height: 130px; border: 10px solid #39CCCC; border-radius: 50%; position: relative;">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 30px; color: black;">
+                                    {{unique_visitors}}
+                                </div>
+                            </div>
 
                             <div class="knob-label" style="font-size: 18px;"><strong>Unique Visitors</strong></div>
                         </div>
                         <!-- ./col -->
                         <div class="col-xs-4 text-center">
-                            <input type="text" class="knob" data-readonly="true" value="{{total_no_of_shoppers_account}}"
-                                   data-width="120" data-height="120"
-                                   data-fgColor="#DD4B39">
+                            <div style="width: 130px; height: 130px; border: 10px solid #F39C12; border-radius: 50%; position: relative;">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 30px; color: black;">
+                                    {{total_no_of_shoppers_account}}
+                                </div>
+                            </div>
 
                             <div class="knob-label" style="font-size: 18px;"><strong>Shopper Account</strong></div>
                         </div>
@@ -394,6 +425,9 @@
                     </div>
                     <!-- /.row -->
                 </div>
+                <!-- /.box-footer -->
+            </div>
+            <!-- /.box -->
 
         </div>
         <!-- /.col (RIGHT) -->

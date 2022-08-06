@@ -6,9 +6,6 @@ urlpatterns = [
 
     # re_path(r'^ap/create/order/$', views.create_order, name='createOrder'),
 
-    re_path(r'^ap/authorization/$', views.authorizationAPI, name='authoRizationAPi'),
-    re_path(r'^ap/check/api/$', views.checkAPI, name='checkAPI'),
-
     # login-register
     re_path(r'^ap/register/updated/$', views.ap_RegisterSuperUser, name="apSuperAdminRegister"),
     re_path(r'^ap/login/updated/$', views.ap_loginSuperUser, name="apSuperAdminLogin"),
