@@ -110,7 +110,7 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>{{total_no_times_played_game}}</h3>
+                    <h3>{% if total_no_times_played_game %} {{total_no_times_played_game}} {% else %} 0 {% endif %}</h3>
 
                     <p>Total No of Times Played</p>
                 </div>

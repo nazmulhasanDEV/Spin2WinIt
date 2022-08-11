@@ -174,9 +174,11 @@ class PrizeList(models.Model):
     def save(self, *args, **kwargs):
         if self.prize_type  == 'point':
             self.delivery_status = True
+            self.status = True
             super(PrizeList, self).save(*args, **kwargs)
         else:
             self.delivery_status = False
+            self.status = False
             super(PrizeList, self).save(*args, **kwargs)
 
     def __str__(self):
