@@ -16,37 +16,51 @@
            <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+            <span class="info-box-icon bg-yellow"><i class="fas fa-gamepad"></i></span>
 
             <div class="info-box-content">
               <span class="info-box-text">Total Played</span>
-              <span class="info-box-number">2,000</span>
+              <span class="info-box-number">{{total_number_of_times_played}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
+          {% if max_prize_winner %}
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+            <span class="info-box-icon bg-aqua"><i class="fas fa-award"></i></span>
 
             <div class="info-box-content">
               <span class="info-box-text">Most Prize Winner</span>
-              <span class="info-box-number">90<small>%</small></span>
+                <div style="width: 100%; display: flex;">
+                    <div>
+                        {% if max_winner_user_porfile_pic %}
+                        <a href=""><img src="{{max_winner_user_porfile_pic.pic.url}}" style="width: 50px; height: 50px; border-radius: 50%;" alt=""></a>
+                        {% else %}
+                        <a href=""><img src="{% static 'backEnd/dist/img/avatar@2x.jpg' %}" style="width: 50px; height: 50px; border-radius: 50%;" alt=""></a>
+                        {% endif %}
+                    </div>
+                    <div style="margin-left: 5px; margin-top: -5px;">
+                        <h4><a href="">{{max_prize_winner.fname}} {{max_prize_winner.lname}}</a></h4>
+                        <h5>{{max_prize_winner.email}}</h5>
+                    </div>
+                </div>
             </div>
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
         </div>
+          {% endif %}
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
+            <span class="info-box-icon bg-red"><i class="fas fa-hat-wizard"></i></span>
 
             <div class="info-box-content">
               <span class="info-box-text">Point Prize Won(Times)</span>
-              <span class="info-box-number">41,410</span>
+              <span class="info-box-number">{% if num_of_point_prize_given %} {{num_of_point_prize_given}} {% else %} 0 {% endif %}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -59,11 +73,11 @@
 
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+            <span class="info-box-icon bg-green"><i class="fas fa-award"></i></span>
 
             <div class="info-box-content">
               <span class="info-box-text">Product Prize Won(Times)</span>
-              <span class="info-box-number">760</span>
+              <span class="info-box-number">{% if num_of_product_prize_given %} {{num_of_product_prize_given}} {% else %} 0 {% endif %}</span>
             </div>
             <!-- /.info-box-content -->
           </div>

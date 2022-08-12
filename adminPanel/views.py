@@ -25,7 +25,7 @@ from advertisement.models import *
 from core.models import *
 from config.activate_deactivate_status import activate_status, deactivate_status
 from config.custom_functions import delete_obj
-from django.db.models import Avg, Sum
+from django.db.models import Avg, Sum, Count, Max
 
 # woocomerce to connect with woocommerce store
 from woocommerce import API
@@ -7278,8 +7278,32 @@ def ap_all_prizesForAnalytics(request):
     # all prize list won by user/shoppers/buyers
     all_prize_list = PrizeList.objects.all()
 
+    # total number of times played
+    total_number_of_times_played = TotalNumOfTimesPlayed.objects.filter().first()
+
+    max_prize_winner = None
+    max_winner_user_porfile_pic = None
+    # most prize winner
+    prize_winner_list = PrizeList.objects.values('user').order_by('user').annotate(Count('user'))
+    if prize_winner_list:
+        max_prize_winner_obj = max(prize_winner_list, key=lambda x: x['user__count'])
+        max_prize_winner = Account.objects.get(pk=max_prize_winner_obj['user'])
+        if max_prize_winner:
+            max_winner_user_porfile_pic = UserProfilePicture.objects.filter(user=max_prize_winner).first()
+    # point prize given times
+    num_of_point_prize_given = PrizeList.objects.filter(prize_type='point').count()
+
+    # product prize given times
+    num_of_product_prize_given = PrizeList.objects.filter(prize_type='product').count()
+
+
     context = {
         'all_prize_list': all_prize_list,
+        'total_number_of_times_played': total_number_of_times_played,
+        'max_prize_winner': max_prize_winner,
+        'max_winner_user_porfile_pic': max_winner_user_porfile_pic,
+        'num_of_point_prize_given': num_of_point_prize_given,
+        'num_of_product_prize_given': num_of_product_prize_given,
     }
 
     return render(request, 'backEnd_superAdmin/analytics/prizes/all_prizes.html', context)
