@@ -70,6 +70,9 @@
 <!--                                    <th>Registered User</th>-->
                                     <th>Country</th>
                                     <th>Visited</th>
+                                    <th>Longitude</th>
+                                    <th>Latitude</th>
+                                    <th>Post Code</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
@@ -81,6 +84,9 @@
 <!--                                    <td>{% if request.user.is_authenticated %} Yes {% else %} No {% endif %}</td>-->
                                     <td>{% if x.visitors_country %} {{x.visitors_country}} {% endif %}, {% if x.country_code %} {{x.country_code}} {% endif %}</td>
                                     <td>{{x.visited}}</td>
+                                    <td>{{x.longitude}}</td>
+                                    <td>{{x.latitude}}</td>
+                                    <td>{{x.postal_code}}</td>
                                     <td class="text-center">
 <!--                                        <a href="">-->
 <!--                                            <button type="button" style="border:none; background: #222D32;color:white;">-->

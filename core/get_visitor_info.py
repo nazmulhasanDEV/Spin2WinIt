@@ -26,7 +26,6 @@ def get_or_countVisitorInfo(x_forwarded_for, request_obj):
         ip = x_forwarded_for.split(',')[-1].strip()
 
         visitor_ipList_model = VisitorInfo.objects.filter(visitor_ip=ip).first()
-
         if visitor_ipList_model is None:
             details_of_crnt_ip = get_location(ip)
 
@@ -34,9 +33,10 @@ def get_or_countVisitorInfo(x_forwarded_for, request_obj):
                 visitor_ip=ip,
                 visitors_country=details_of_crnt_ip['country'],
                 country_code=details_of_crnt_ip['continent_code'],
-                latitude=details_of_crnt_ip['postal'],
-                longitude=details_of_crnt_ip['latitude'],
-                timezone=details_of_crnt_ip['longitude'],
+                latitude=details_of_crnt_ip['latitude'],
+                longitude=details_of_crnt_ip['longitude'],
+                timezone=details_of_crnt_ip['timezone'],
+                postal_code=details_of_crnt_ip['postal']
             )
 
         # visitor count model

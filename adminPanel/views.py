@@ -6349,7 +6349,7 @@ def ap_unique_visitors_list(request):
     if request.user.is_admin != True:
         return redirect('frontEndLoginUser')
 
-    visitor_ip_address_list = VisitorInfo.objects.all().order_by('visited')
+    visitor_ip_address_list = VisitorInfo.objects.all().order_by('-visited')
 
     context = {
         'visitor_ip_address_list': visitor_ip_address_list,
