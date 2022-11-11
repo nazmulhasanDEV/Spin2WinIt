@@ -15,7 +15,8 @@ $.ajax({
          },
          success: function(response){
             let number_of_winnging_chance = response.number_of_winnging_chance;
-            point_to_be_charged.value = number_of_winnging_chance * 2;
+            point_to_be_charged.value = (number_of_winnging_chance * 0.333).toFixed(2);
+//            point_to_be_charged.value = number_of_winnging_chance * 2;
          },
        });
 //ajax ends

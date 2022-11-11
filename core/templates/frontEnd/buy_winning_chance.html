@@ -53,12 +53,17 @@
     <div class="col-md-3"></div>
     <div class="col-md-6">
         <div class="buy_winning_chances">
-            <h4 style="margin-bottom: 20px;">It will charge 2 credits or $1 usd per chance*</h4>
-            {% if usr_credit_wllet.available %}
-            <h6>Available spin credit: <strong style="color: #293A6C;">{{usr_credit_wllet.available}}.00</strong></h6>
+            <h4 class="text-center p-2">You will be charged $0.33 for every <strong>Spin Token</strong>*</h4>
+            {% if point_wallet.remaining_chances %}
+            <h6 class="text-center pb-3">Available <strong>Spin Tokens</strong>: {{point_wallet.remaining_chances}}</h6>
             {% else %}
-            <h6>Available spin credits: <strong style="color: #293A6C;">0</strong></h6>
+            <h6 class="text-center pb-3">Available <strong>Spin Tokens</strong>: 0</h6>
             {% endif %}
+<!--            {% if usr_credit_wllet.available %}-->
+<!--            <h6>Available spin credit: <strong style="color: #293A6C;">{{usr_credit_wllet.available}}.00</strong></h6>-->
+<!--            {% else %}-->
+<!--            <h6>Available spin credits: <strong style="color: #293A6C;">0</strong></h6>-->
+<!--            {% endif %}-->
             <form action="{% url 'frontBuyWinningChance' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row">
@@ -73,6 +78,8 @@
 
                     <div class="col-md-6">
                         <input type="submit" value="Proceed to buy" class="form-control" placeholder="" id="" />
+
+                        <p class="mt-2"><a href="/fe/how/works/spin/tokens/" style="color: #F5B120;"><strong>Check pricing</strong></a></p>
                     </div>
                 </div>
             </form>

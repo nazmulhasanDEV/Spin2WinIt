@@ -70,11 +70,9 @@
             <div class="col-md-6">
                 <div class="content">
                     <div>
-                        <h6 style="margin-bottom: 10px; opacity: .7">Available Credits: {{available_points}}</h6>
-                        <h6 style="margin-bottom: 10px; opacity: .7">Neccessary Credits: {{necessary_points}}</h6>
+<!--                        <h6 style="margin-bottom: 10px; opacity: .7">Available Credits: {{available_points}}</h6>-->
                         <h6 style="margin-bottom: 10px; opacity: .7">Winning chance: {{winning_chance}}</h6>
-                        <h6 style="margin-bottom: 15px; opacity: .7">Total payable amount: ${{payable_amount}} ($1 for 2
-                            credit points)</h6>
+                        <h6 style="margin-bottom: 15px; opacity: .7">Total payable amount: ${{payable_amount}}</h6>
                     </div>
                     <div id="paypal-button-container"></div>
                 </div>
@@ -336,8 +334,7 @@
                 data: {
                     paid_amount: "{{payable_amount}}",
                     purchased_chances: "{{winning_chance}}",
-                    necessary_points: "{{necessary_points}}",
-                    available_points: "{{available_points}}",
+                    // available_points: "{{available_points}}",
                     order_data: JSON.stringify(orderData, null, 2),
                 },
                 success: function(response){

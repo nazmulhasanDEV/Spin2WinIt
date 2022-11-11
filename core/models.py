@@ -107,7 +107,7 @@ class CreditPurchasingHistory(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user.email + '||' + self.purchased_credit_amnt + "||" + self.paid_amount
+        return self.user.email + '||' + str(self.purchased_credit_amnt) + "||" + str(self.paid_amount)
 
 
 # number of chance/spin tokens to play/spin the game
