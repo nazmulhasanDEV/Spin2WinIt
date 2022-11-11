@@ -1330,7 +1330,7 @@ def front_loginRegister(request):
                     # user.nid_no = nid__card_no
                     user.save()
 
-                    verification_url = f'http://127.0.0.1:8000/user/account/veirfication/{username}/{phone}'
+                    verification_url = f'https://spinit2win.com/user/account/veirfication/{username}/{phone}'
                     subject = f"Verification code"
                     html_content = render_to_string('backEnd_superAdmin/verification_template.html',
                                                     context={'verification_url': verification_url})
@@ -1364,7 +1364,7 @@ def front_loginRegister(request):
                     # user.nid_no = nid__card_no
                     user.save()
 
-                    verification_url = f'http://127.0.0.1:8000/user/account/veirfication/{username}/{phone}'
+                    verification_url = f'https://spinit2win.com/user/account/veirfication/{username}/{phone}'
                     subject = f"Verification code"
                     html_content = render_to_string('backEnd_superAdmin/verification_template.html',
                                                     context={'verification_url': verification_url})
@@ -4336,7 +4336,7 @@ def front_give_email_to_reset_pass(request):
                 reset_permission_model.save()
 
                 # send reset password link
-                verification_url = f'http://127.0.0.1:8000/fe/reset/password/{username}'
+                verification_url = f'https://spinit2win.com/fe/reset/password/{username}'
                 subject = f"Reset Password"
                 html_content = render_to_string('verification/reset_password_link.html',
                                                 context={'verification_url': verification_url})
