@@ -3155,7 +3155,7 @@ def front_game(request):
     return render(request, 'frontEnd/game.html', context)
 
 @login_required(login_url='/fe/login/register')
-def front_buy_winning_chance(request):
+def front_buy_winning_chance(request, pack_id):
 
     if request.user.is_authenticated and request.user.is_buyer != True:
         return redirect('frontEndLoginRegister')
@@ -3458,6 +3458,8 @@ def front_buy_winning_chance(request):
             #     return render(request, 'frontEnd/pay_for_purchasing_wnning_chance.html', context)
 
     context = {
+        'pack_id': pack_id,
+        'package_rate_amount': pack_id,
         # 'game_setting': game_setting,
         'point_wallet' : point_wallet,
         'usr_credit_wllet': usr_credit_wllet,

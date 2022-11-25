@@ -44,7 +44,8 @@
             {{row_1_col_1_ads.ads_script}}
             {% else %}
             <!--yllx 468x60 starts &*************************************-->
-            <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+            <script type="text/javascript"
+                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
             <!--yllx ends here **********************************-->
             {% endif %}
         </div>
@@ -53,7 +54,8 @@
             {{row_1_col_2_ads.ads_script}}
             {% else %}
             <!--yllx 468x60 starts &*************************************-->
-            <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
+            <script type="text/javascript"
+                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
             <!--yllx ends here **********************************-->
             {% endif %}
         </div>
@@ -70,9 +72,34 @@
             <div class="col-md-6">
                 <div class="content">
                     <div>
-<!--                        <h6 style="margin-bottom: 10px; opacity: .7">Available Credits: {{available_points}}</h6>-->
-                        <h6 style="margin-bottom: 10px; opacity: .7">Winning chance: {{winning_chance}}</h6>
-                        <h6 style="margin-bottom: 15px; opacity: .7">Total payable amount: ${{payable_amount}}</h6>
+                        <!--                        <h6 style="margin-bottom: 10px; opacity: .7">Available Credits: {{available_points}}</h6>-->
+                        <!--                        <h6 style="margin-bottom: 10px; opacity: .7">Winning chance: {{winning_chance}}</h6>-->
+                        <!--                        <h6 style="margin-bottom: 15px; opacity: .7">Total payable amount: ${{payable_amount}}</h6>-->
+                        <table class="table">
+                            <thead>
+                            <div class="text-center p-4">
+                                {% if site_logo %}
+                                <img src="{{site_logo.logo.url}}" style="width: 120px; height: 80px;" alt=""/>
+                                {% else %}
+                                <h5>Logo not added</h5>
+                                {% endif %}
+                                <h4>Please confirm and proceed to buy <strong>Spin Token</strong></h4>
+                            </div>
+                            <tr>
+                                <th scope="col">#1</th>
+                                <th scope="col">Number of Token</th>
+                                <th scope="col">Amout($)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>{{winning_chance}}
+                                </td>
+                                <td>${{payable_amount}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div id="paypal-button-container"></div>
                 </div>
@@ -90,34 +117,39 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-                {% if row_2_col_1_ads.ads_script %}
-                 {{row_2_col_1_ads.ads_script}}
-                 {% else %}
-                    <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=17'></script>
-                 {% endif %}
-            </div>
+            {% if row_2_col_1_ads.ads_script %}
+            {{row_2_col_1_ads.ads_script}}
+            {% else %}
+            <script data-cfasync='false' type='text/javascript'
+                    src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=17'></script>
+            {% endif %}
+        </div>
 
         <div class="col-md-4">
             <div>
                 <h5>Click to this reCaptcha and get 50 points bonus!</h5>
-                <form action="{% url 'frontPymntPgPrchasingWinningChnceCheckBoxCaptchaBonus' %}" method="POST" enctype="multipart/form-data"
+                <form action="{% url 'frontPymntPgPrchasingWinningChnceCheckBoxCaptchaBonus' %}" method="POST"
+                      enctype="multipart/form-data"
                       id="captcha__form_prchage_wnning_chance">
                     {% csrf_token %}
                     <div id="html_element_pr_win_chance"></div>
                     <br>
-                    <button type="submit" class="captcha_submit__btn"><img src="{% static 'frontEnd/images/logo/logo.jpeg' %}" alt=""> &nbsp; Click to Collect</button>
-<!--                    <input type="submit" value="Collect">-->
+                    <button type="submit" class="captcha_submit__btn"><img
+                            src="{% static 'frontEnd/images/logo/logo.jpeg' %}" alt=""> &nbsp; Click to Collect
+                    </button>
+                    <!--                    <input type="submit" value="Collect">-->
                 </form>
             </div>
         </div>
 
         <div class="col-md-4">
-                {% if row_2_col_2_ads.ads_script %}
-                {{row_2_col_2_ads.ads_script}}
-                {% else %}
-                    <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_0'></script>
-                {% endif %}
-            </div>
+            {% if row_2_col_2_ads.ads_script %}
+            {{row_2_col_2_ads.ads_script}}
+            {% else %}
+            <script data-cfasync='false' type='text/javascript'
+                    src='//p447162.clksite.com/adServe/banners?tid=447162_875550_0'></script>
+            {% endif %}
+        </div>
     </div>
 </div>
 
@@ -132,8 +164,9 @@
                             {% if row_3_col_1_ads.ads_script %}
                             {{row_3_col_1_ads.ads_script}}
                             {% else %}
-<!--                            <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=15'></script>-->
-                           <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                            <!--                            <script data-cfasync='false' type='text/javascript' src='//p447162.clksite.com/adServe/banners?tid=447162_875550_3&size=15'></script>-->
+                            <script type="text/javascript"
+                                    src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
                             {% endif %}
                         </div>
                     </div>
@@ -144,7 +177,8 @@
                 {% if row_3_col_2_ads.ads_script %}
                 {{row_3_col_2_ads.ads_script}}
                 {% else %}
-                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"></script>
                 {% endif %}
             </div>
 
@@ -152,7 +186,10 @@
                 {% if row_3_col_3_ads.ads_script %}
                 {{row_3_col_3_ads.ads_script}}
                 {% else %}
-                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/300x250.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/300x250.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
                 {% endif %}
             </div>
 
@@ -169,7 +206,10 @@
                 {% if row_4_col_1_ads.ads_script %}
                 {{row_4_col_1_ads.ads_script}}
                 {% else %}
-                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/120x600.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/120x600.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
                 {% endif %}
             </div>
         </div>
@@ -191,7 +231,8 @@
                 {{row_4_col_3_ads.ads_script}}
                 {% else %}
                 <!-- ylliex 120x60 -->
-                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
                 <!-- yllix 120x60 ends here -->
                 {% endif %}
             </div>
@@ -202,7 +243,10 @@
                 {% if row_4_col_4_ads.ads_script %}
                 {{row_4_col_4_ads.ads_script}}
                 {% else %}
-                <a href="https://yllix.com/publishers/444213" target="_blank"><img src="//ylx-aff.advertica-cdn.com/pub/120x600.png" style="border:none;margin:0;padding:0;vertical-align:baseline;" alt="ylliX - Online Advertising Network" /></a>
+                <a href="https://yllix.com/publishers/444213" target="_blank"><img
+                        src="//ylx-aff.advertica-cdn.com/pub/120x600.png"
+                        style="border:none;margin:0;padding:0;vertical-align:baseline;"
+                        alt="ylliX - Online Advertising Network"/></a>
                 {% endif %}
             </div>
         </div>
@@ -213,7 +257,8 @@
                 {{row_4_col_5_ads.ads_script}}
                 {% else %}
                 <!-- ylliex 120x60 -->
-                <script type="text/javascript" src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
+                <script type="text/javascript"
+                        src="https://udbaa.com/bnr.php?section=General&pub=444213&format=120x600&ga=g"></script>
                 <!-- yllix 120x60 ends here -->
                 {% endif %}
             </div>
@@ -226,11 +271,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-                                    <div>
-                                        {% if row_5_col_1_ads.ads_script %}
-                                        {{row_5_col_1_ads.ads_script}}
-                                        {% else %}
-                                        <script type="text/javascript">
+            <div>
+                {% if row_5_col_1_ads.ads_script %}
+                {{row_5_col_1_ads.ads_script}}
+                {% else %}
+                <script type="text/javascript">
                                             atOptions = {
                                                 'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
                                                 'format' : 'iframe',
@@ -239,17 +284,18 @@
                                                 'params' : {}
                                             };
                                             document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
-                                        </script>
-                                        {% endif %}
-                                    </div>
-                                </div>
+
+                </script>
+                {% endif %}
+            </div>
+        </div>
 
         <div class="col-md-6">
-                                    <div>
-                                        {% if row_5_col_2_ads.ads_script %}
-                                        {{row_5_col_2_ads.ads_script}}
-                                        {% else %}
-                                        <script type="text/javascript">
+            <div>
+                {% if row_5_col_2_ads.ads_script %}
+                {{row_5_col_2_ads.ads_script}}
+                {% else %}
+                <script type="text/javascript">
                                             atOptions = {
                                                 'key' : '8641aba4c7f1250ff3a115fcbcb8a5d6',
                                                 'format' : 'iframe',
@@ -258,10 +304,11 @@
                                                 'params' : {}
                                             };
                                             document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.effectivedisplayformats.com/8641aba4c7f1250ff3a115fcbcb8a5d6/invoke.js"></scr' + 'ipt>');
-                                        </script>
-                                        {% endif %}
-                                    </div>
-                                </div>
+
+                </script>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
 
@@ -291,6 +338,7 @@
         , false);
 
         // ends captcha-1
+
 </script>
 {% endblock %}
 
@@ -349,6 +397,7 @@
           });
         }
       }).render('#paypal-button-container');
+
 
 
 

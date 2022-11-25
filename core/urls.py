@@ -118,7 +118,7 @@ urlpatterns = [
 
     # gameing urls and winning chance purchase
     re_path(r'^fe/game/$', views.front_game, name='frontGame'),
-    re_path(r'^fe/buy/winning/chance/$', views.front_buy_winning_chance, name='frontBuyWinningChance'),
+    re_path(r'^fe/buy/winning/chance/(?P<pack_id>\d+)/$', views.front_buy_winning_chance, name='frontBuyWinningChance'),
     re_path(r'^fe/pay/for/game/purchasing/chance/$', views.front_pay_for_purchasing_wnning_chance, name='frontPayForPurchasingGame'),
     re_path(r'^fe/purchaing/winning/chance/success/message/(?P<username>[-\w]+)/$', views.front_winning_chance_purchasing_succss_msg, name="frontWinningChancePurchasingSccssMsg"),
     # payment successfull message purchasing product

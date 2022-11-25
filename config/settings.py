@@ -83,7 +83,7 @@ AUTH_USER_MODEL = 'user.Account'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-#  prev section *************************************************
+# #  prev section *************************************************
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
