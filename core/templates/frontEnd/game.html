@@ -112,17 +112,24 @@
             <div class="col-md-12" id="gaming__main__section">
 
                 <!--                game section new-->
-                <div class="row">
-                    <div class="col-md-12 col-sm-12"
-                         style="background-image: url({% static 'frontEnd/gaming_files/background.jpeg' %}); bacground-repeat: no-repeat; background-size: cover; width: 100%;">
+                <div class="row" style="background-image: url({% static 'frontEnd/gaming_files/background.png' %}); background-repeat: no-repeat; background-size: cover; width: 100%; height: 500px;">
+                    <div class="col-md-12 col-sm-12">
                         <!--                            row for spin wheel -->
                         <div class="row">
-                            <div class="col-md-2"></div>
+                            <div class="col-md-2">
+                                <a href="">
+                                    <img src="{% static 'frontEnd/gaming_files/deposit.png' %}" style="zoom: 45%;" />
+                                </a>
+
+                                <a href="">
+                                    <img src="{% static 'frontEnd/gaming_files/balance.png' %}" style="zoom: 45%;" />
+                                </a>
+                            </div>
                             <div class="col-md-8">
                                 <div>
                                     <div align="center">
-                                        <h1 class="text-center spinning___title">Play & Win Attractive Prizes</h1>
-                                        <br/>
+<!--                                        <h1 class="text-center spinning___title">Play & Win Attractive Prizes</h1>-->
+<!--                                        <br/>-->
 <!--                                        <img src="{% static 'frontEnd/gaming_files/bg4.png' %}" style="width: 100%;" alt="">-->
 <!--                                        <img src="{% static 'frontEnd/gaming_files/wheel_back.png' %}" style="width: 100%;" alt="">-->
                                         <table cellpadding="0" cellspacing="0" border="0">
@@ -158,34 +165,13 @@
                                                         </table>
                                                         <!--                                    power controls ends **********************************************-->
                                                         <br/>
-                                                        <!--                                    <p style="color: red; display:none;" id="spining_warning_alert"><strong>Note:</strong> You don't have any chances to spin</p>-->
-                                                        <div style="width: 100%; position: relative; padding-top: 30px; padding-bottom: 30px;">
-                                                            <div style="width: 200px; display: flex; position: absolute; left: 45%; transform: translate(-50%, -50%);">
-                                                                {% if request.user.is_authenticated %}
-                                                                <button id="spin_button" onClick="startSpin();"
-                                                                        style="cursor: pointer;">
-                                                                    Start to spin
-                                                                </button>
-                                                                {% else %}
-                                                                <button id="spin_button" onClick="startSpin();"
-                                                                        style="cursor: pointer;"
-                                                                        disabled>Start to spin
-                                                                </button>
-                                                                {% endif %}
-                                                                <br/><br/>
-                                                                <button id="reset__spin__btn"
-                                                                                    onClick="resetWheel(); return false;"
-                                                                                    style="cursor: pointer;">Play Again
-                                                            </button>
-                                                            </div>
-                                                        </div>
-                                                        <!--                                    <br/><span style="color: white;">(Reset)</span>-->
+
                                                     </div>
                                                 </td>
                                                 <td width="438" height="582" class="the_wheel" align="center"
-                                                    valign="center">
+                                                    valign="center" style="position: relative; z-index: 1000;zoom: 70%; margin-bottom: 15px;">
 
-                                                    <canvas id="canvas" width="434" height="434">
+                                                    <canvas id="canvas" width="434" height="434" style="position: relative; z-index: 1000;">
                                                         <p style="color: white" align="center">
                                                             Sorry, your browser doesn't support canvas. Please try
                                                             another.
@@ -197,7 +183,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2"></div>
+                            <div class="col-md-2">
+                                <div style="position: absolute; left: -20px;">
+                                    <a href="">
+                                    <img src="{% static 'frontEnd/gaming_files/history.png' %}" style="zoom: 45%;" />
+                                    </a>
+
+                                    <a href="">
+                                        <img src="{% static 'frontEnd/gaming_files/price.png' %}" style="zoom: 45%;" />
+                                    </a>
+
+                                    <a href="">
+                                        <img src="{% static 'frontEnd/gaming_files/profile.png' %}" style="zoom: 45%;" />
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         <!--                            row for spin wheel -->
 
@@ -247,6 +247,31 @@
                         </div>
                         <!--         prize list for game ends                   -->
                         <br><br>
+                         <div style="background-image: url({% static 'frontEnd/gaming_files/table.png' %}); background-repeat: no-repeat; background-size: cover; width: 100%; height: 255px; position: absolute; bottom: 0;" >
+                        <!--                                    <p style="color: red; display:none;" id="spining_warning_alert"><strong>Note:</strong> You don't have any chances to spin</p>-->
+<!--                        width: 100%; position: relative; padding-top: 30px; padding-bottom: 30px;-->
+                                                        <div>
+                                                            <div style="display: flex;position: absolute; bottom: 20px; left: 50%; transform: translate(-50%, -50%);" class="text-center">
+                                                                {% if request.user.is_authenticated %}
+                                                                <button id="spin_button" onClick="startSpin();"
+                                                                        style="cursor: pointer;">
+                                                                    Start to spin
+                                                                </button>
+                                                                {% else %}
+                                                                <button id="spin_button" onClick="startSpin();"
+                                                                        style="cursor: pointer;"
+                                                                        disabled>Start to spin
+                                                                </button>
+                                                                {% endif %}
+                                                                <br/><br/>
+                                                                <button id="reset__spin__btn"
+                                                                                    onClick="resetWheel(); return false;"
+                                                                                    style="cursor: pointer;">Play Again
+                                                            </button>
+                                                            </div>
+                                                        </div>
+                                                        <!--                                    <br/><span style="color: white;">(Reset)</span>-->
+                    </div>
                     </div>
                 </div>
 
