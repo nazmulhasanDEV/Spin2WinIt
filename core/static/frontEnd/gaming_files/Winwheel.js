@@ -1638,7 +1638,6 @@ Winwheel.prototype.getIndicatedSegmentNumber = function()
             break;
         }
     }
-
     return indicatedPrize;
 }
 
@@ -1716,7 +1715,7 @@ Winwheel.prototype.getRotationPosition = function()
 
         rawAngle = (360 + rawAngle);    // Make in the range 0-360. Is plus because raw is still negative.
     }
-
+//      return 360;
     return rawAngle;
 }
 
@@ -1869,7 +1868,8 @@ Winwheel.prototype.computeAnimation = function()
                 // Add the stopAngle to the propertyValue as the wheel must rotate around to this place and stop there.
                 this.animation.propertyValue += this.animation._stopAngle;
             }
-        } else if (this.animation.type == 'spinAndBack') {
+        }
+        else if (this.animation.type == 'spinAndBack') {
             // This is basically is a spin for a number of times then the animation reverses and goes back to start.
             // If a repeat is specified then this can be used to make the wheel "rock" left and right.
 
@@ -1934,7 +1934,6 @@ Winwheel.prototype.getRandomForSegment = function(segmentNumber)
             let startAngle = this.segments[segmentNumber].startAngle;
             let endAngle = this.segments[segmentNumber].endAngle;
             let range = (endAngle - startAngle) - 2;
-            console.log(range);
             if (range > 0) {
                 stopAngle = (startAngle + 1 + Math.floor((Math.random() * range)));
             } else {
@@ -1946,6 +1945,7 @@ Winwheel.prototype.getRandomForSegment = function(segmentNumber)
     } else {
         console.log('Segment number not specified');
     }
+    console.log('Winwheel.prototype.getRandomForSegment', stopAngle);
 
     return stopAngle;
 }

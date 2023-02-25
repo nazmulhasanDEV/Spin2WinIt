@@ -135,6 +135,10 @@ class Segment(models.Model):
 
 # segment list with prizes
 class SegmentList(models.Model):
+    segmentPrizeType = (
+        ('random', 'Random'),
+        ('periodic', 'Periodic'),
+    )
     option = (
         ('1', 'Product'),
         ('2', 'Point'),
@@ -149,6 +153,9 @@ class SegmentList(models.Model):
     point_as_prize = models.ForeignKey(PointAs_Prize, on_delete=models.CASCADE, blank=True, null=True) # not necessary
     product_as_prize = models.ForeignKey(SponsoredProductForPrize, on_delete=models.CASCADE, blank=True, null=True)
     product_cost = models.FloatField(default=0, blank=True, null=True)
+
+    required_spin_to_win = models.IntegerField(default=0, blank=True, null=True)
+    prize_type = models.CharField(max_length=255, choices=segmentPrizeType, blank=True, null=True)
 
     prize_point_amount = models.CharField(max_length=255, blank=True, null=True)
     status = models.BooleanField(default=False, blank=True, null=True)

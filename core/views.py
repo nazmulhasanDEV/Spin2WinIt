@@ -2,6 +2,7 @@ import json
 import math
 import threading
 import uuid
+import random
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -2939,7 +2940,36 @@ def front_game(request):
     row_4_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c3'))
 
 
+
+
     # ads scripts ends*****************************************
+
+    total_number_of_times_played_till_now = TotalNumOfTimesPlayed.objects.first()
+    print(total_number_of_times_played_till_now)
+
+    number_of_segments = len(SegmentList.objects.filter(status=True))
+    active_segment_list = SegmentList.objects.filter(status=True).order_by('segment_no')
+
+    # find out and sort random and periodic segments
+    stopAt = 0
+    # total_number_of_times_played_by_users = TotalNumOfTimesPlayed.objects.first()
+    total_number_of_times_played_by_users = 56
+    random_segments = list(SegmentList.objects.filter(prize_type='random').values_list('segment_no', flat=True))
+    periodic_segments = list(SegmentList.objects.filter(prize_type='periodic').values_list('segment_no', flat=True))
+
+    periodic_segments_with_no_of_required_spin = list(SegmentList.objects.filter(prize_type='periodic').values_list('segment_no', 'required_spin_to_win'))
+
+    periodic_segments_with_required_spins = dict((x, y) for x,y in periodic_segments_with_no_of_required_spin) # x is segment no and y is required spin number
+    print(periodic_segments_with_required_spins)
+    # for segment in periodic_segments:
+    #     # print(periodic_segments_with_required_spins[segment])
+    #     if (total_number_of_times_played_by_users%periodic_segments_with_required_spins[segment] == 0):
+    #         # print(segment)
+    #         stopAt = (((360 / number_of_segments) * segment) + 1 - 10)
+    #         # print('stop of periodic', stopAt)
+    #     else:
+    #         stopAt = (((360 / number_of_segments) * random.choice(random_segments)) + 1 + random.randint(1, 43))
+    #         # print('stop of random', stopAt)
 
     # applicable rules for sponsored product
     applicable_rules = None
@@ -3008,9 +3038,19 @@ def front_game(request):
 
         # getting current winning chance/spin tokens chances
         current_chances = request.GET.get('current_chances')
+        get_no_of_times_played = request.GET.get('get_no_of_times_played')
+
+        no_of_active_setment_list = SegmentList.objects.filter(status=True).count()
 
         # getting request from restart spin
         fromRestartSpin = request.GET.get('fromRestartSpin')
+
+        if get_no_of_times_played:
+            print(get_no_of_times_played)
+            if request.is_ajax():
+                current_total_num_of_played = TotalNumOfTimesPlayed.objects.filter().first()
+                return JsonResponse({'total_number_of_times_played': current_total_num_of_played.num_of_times_played})
+
 
         if fromRestartSpin:
             totalNumberOfTimesPlayedModel = TotalNumOfTimesPlayed.objects.filter().first()
@@ -3053,7 +3093,7 @@ def front_game(request):
 
                 if request.is_ajax():
                     current_total_num_of_played = TotalNumOfTimesPlayed.objects.filter().first()
-                    return JsonResponse({'current_total_num_of_played': current_total_num_of_played.num_of_times_played})
+                    return JsonResponse({'current_total_num_of_played': current_total_num_of_played.num_of_times_played,  "number_of_segments": number_of_segments})
         # updating total number of times play/spinned till now
 
 
@@ -3096,8 +3136,7 @@ def front_game(request):
         # grabing game settings
         game_setting = GameSetting.objects.filter(status=True).first()
 
-        number_of_segments = len(SegmentList.objects.filter(status=True))
-        active_segment_list = SegmentList.objects.filter(status=True).order_by('segment_no')
+
 
         context = {
             'site_logo': site_logo,
@@ -3117,7 +3156,12 @@ def front_game(request):
             'user_total_remaining_chances' : user_total_remaining_chances,
             'game_setting': game_setting,
             'active_segment_list' : active_segment_list,
+            'total_number_of_times_played': total_number_of_times_played_till_now,
+            'initial_stopAt': stopAt,
             'number_of_segments' : number_of_segments,
+            'random_segments': random_segments,
+            'periodic_segments': periodic_segments,
+            'periodic_segments_with_required_spins': periodic_segments_with_required_spins
         }
 
         return render(request, 'frontEnd/game.html', context)
@@ -3136,6 +3180,8 @@ def front_game(request):
 
         'sponsored_product': sponsored_product,
         'applicable_rules' : applicable_rules,
+        'active_segment_list' : active_segment_list,
+        'number_of_segments' : number_of_segments,
 
         # ads script
         'row_1_col_1_ads': row_1_col_1_ads,
@@ -3276,186 +3322,6 @@ def front_buy_winning_chance(request, pack_id):
             }
 
             return render(request, 'frontEnd/pay_for_purchasing_wnning_chance.html', context)
-
-            # if user_credit_point_wallet and user_credit_point_wallet.available:
-            #     if int(user_credit_point_wallet.available) >= int(credit_point_to_be_charged):
-            #         if len(WinningChance.objects.filter(user=request.user)) > 0:
-            #             user_winning_chance_model = WinningChance.objects.get(user=request.user)
-            #             user_winning_chance_model.remaining_chances = int(user_winning_chance_model.remaining_chances) + int(number_of_winning_chance)
-            #             if user_winning_chance_model.purchased:
-            #                 user_winning_chance_model.purchased = int(user_winning_chance_model.purchased) + int(number_of_winning_chance)
-            #             else:
-            #                 user_winning_chance_model.purchased = number_of_winning_chance
-            #             user_winning_chance_model.save()
-            #
-            #             # updating credit point wallet after buying
-            #             user_credit_point_wallet.available = int(user_credit_point_wallet.available) - int(credit_point_to_be_charged)
-            #             if user_credit_point_wallet.spent:
-            #                 user_credit_point_wallet.spent = int(user_credit_point_wallet.spent) + int(credit_point_to_be_charged)
-            #             else:
-            #                 user_credit_point_wallet.spent = credit_point_to_be_charged
-            #             user_credit_point_wallet.save()
-            #
-            #             # save to user purchase history
-            #             user_winning_change_prchase_history_model = WinningChancePurchasingHistory.objects.create(
-            #                 user=request.user,
-            #                 point_charged = credit_point_to_be_charged,
-            #                 chance_purchased= number_of_winning_chance
-            #             )
-            #
-            #             # sending details to buyer/payer email
-            #             subject = f"Winning Chance Purchase Details"
-            #
-            #             paymentID = None
-            #             paid_amount = None
-            #             payer_name = None
-            #             payer_email = None
-            #             payer_id = None
-            #             payer_post_code = None
-            #             payer_country_code = None
-            #
-            #             context_info = {
-            #                 'number_of_winning_chance': number_of_winning_chance,
-            #                 'credit_point_to_be_charged': credit_point_to_be_charged,
-            #
-            #                 'paymentID': paymentID,
-            #                 'paid_amount': paid_amount,
-            #                 'payer_name': payer_name,
-            #                 'payer_email': payer_email,
-            #                 'payer_id': payer_id,
-            #                 'payer_post_code': payer_post_code,
-            #                 'payer_country_code': payer_country_code,
-            #             }
-            #             html_content = render_to_string('frontEnd/buy_winning_chance/winning_chnce_purchase_cnfrm_mail.html',
-            #                                             context_info)
-            #             email = EmailMessage(subject, html_content, to=[request.user.email])
-            #             email.content_subtype = 'html'
-            #             EmailThreading(email).start()
-            #
-            #             messages.success(request, "Successfully bought new chances!")
-            #             return redirect('frontEndUserProfile', username=request.user.username)
-            #         else:
-            #             user_winning_chance_model = WinningChance(user=request.user, remaining_chances=number_of_winning_chance, purchased=number_of_winning_chance)
-            #             user_winning_chance_model.save()
-            #
-            #             # updating point wallet after buying
-            #             user_credit_point_wallet.available = int(user_credit_point_wallet.available) - int(credit_point_to_be_charged)
-            #             if user_credit_point_wallet.spent:
-            #                 user_credit_point_wallet.spent = int(user_credit_point_wallet.spent) + int(credit_point_to_be_charged)
-            #             else:
-            #                 user_credit_point_wallet.spent = credit_point_to_be_charged
-            #             user_credit_point_wallet.save()
-            #
-            #             # save to user purchase history
-            #             user_winning_change_prchase_history_model = WinningChancePurchasingHistory.objects.create(
-            #                 user=request.user,
-            #                 point_charged=credit_point_to_be_charged,
-            #                 chance_purchased=number_of_winning_chance
-            #             )
-            #
-            #             # sending details to payer email
-            #             subject = f"Winning Chance Purchase Details"
-            #
-            #             paymentID = None
-            #             paid_amount = None
-            #             payer_name = None
-            #             payer_email = None
-            #             payer_id = None
-            #             payer_post_code = None
-            #             payer_country_code = None
-            #
-            #             context_info = {
-            #                 'number_of_winning_chance': number_of_winning_chance,
-            #                 'credit_point_to_be_charged': credit_point_to_be_charged,
-            #
-            #                 'paymentID': paymentID,
-            #                 'paid_amount': paid_amount,
-            #                 'payer_name': payer_name,
-            #                 'payer_email': payer_email,
-            #                 'payer_id': payer_id,
-            #                 'payer_post_code': payer_post_code,
-            #                 'payer_country_code': payer_country_code,
-            #             }
-            #             html_content = render_to_string('frontEnd/buy_winning_chance/winning_chnce_purchase_cnfrm_mail.html',context_info)
-            #             email = EmailMessage(subject, html_content, to=[request.user.email])
-            #             email.content_subtype = 'html'
-            #             EmailThreading(email).start()
-            #
-            #             messages.success(request, "Successfully bought new chances!")
-            #             return redirect('frontEndUserProfile', username=request.user.username)
-            #     else:
-            #         # current available credits
-            #         available__credit_points = int(user_credit_point_wallet.available)
-            #
-            #         # updating credit point wallet after buying
-            #         # user_credit_point_wallet.available = 0
-            #         # if user_credit_point_wallet.spent:
-            #         #     user_credit_point_wallet.spent = int(user_credit_point_wallet.spent) + int(available__credit_points)
-            #         # else:
-            #         #     user_credit_point_wallet.spent = available__credit_points
-            #         # user_credit_point_wallet.save()
-            #
-            #         # finding lack of points to buy chance
-            #         lack_of_credit_points = int(credit_point_to_be_charged) - available__credit_points
-            #
-            #         # payable amount for buying chance for lack of points
-            #         payable_amount = (lack_of_credit_points) * (0.5)
-            #
-            #         context = {
-            #             'payable_amount' : payable_amount,
-            #             'available_points': available__credit_points,
-            #             'necessary_points' : credit_point_to_be_charged,
-            #             'winning_chance' : number_of_winning_chance,
-            #
-            #             'site_logo': site_logo,
-            #             'contact_info': contact_info,
-            #             'free_delivery_content_setting': free_delivery_content_setting,
-            #             'safe_payment_content_setting': safe_payment_content_setting,
-            #             'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
-            #             'help_center_content_setting': help_center_content_setting,
-            #
-            #             'user_cart_status': user_cart_status,
-            #             'user_wishlist_status': user_wishlist_status,
-            #             'total_amount': total_amount,
-            #         }
-            #
-            #         return render(request, 'frontEnd/pay_for_purchasing_wnning_chance.html', context)
-            # else:
-            #     payable_amount = int(credit_point_to_be_charged) * (0.5)
-            #
-            #     context = {
-            #         'payable_amount': payable_amount,
-            #         'available_points': 0,
-            #         'necessary_points' : credit_point_to_be_charged,
-            #         'winning_chance': number_of_winning_chance,
-            #
-            #         'site_logo': site_logo,
-            #         'user_cart_status': user_cart_status,
-            #         'user_wishlist_status': user_wishlist_status,
-            #         'total_amount': total_amount,
-            #
-            #         # ads script
-            #         'row_1_col_1_ads': row_1_col_1_ads,
-            #         'row_1_col_2_ads': row_1_col_2_ads,
-            #
-            #         'row_2_col_1_ads': row_2_col_1_ads,
-            #         'row_2_col_2_ads': row_2_col_2_ads,
-            #
-            #         'row_3_col_1_ads': row_3_col_1_ads,
-            #         'row_3_col_2_ads': row_3_col_2_ads,
-            #         'row_3_col_3_ads': row_3_col_3_ads,
-            #
-            #         'row_4_col_1_ads': row_4_col_1_ads,
-            #         'row_4_col_2_ads': row_4_col_2_ads,
-            #         'row_4_col_3_ads': row_4_col_3_ads,
-            #         'row_4_col_4_ads': row_4_col_4_ads,
-            #         'row_4_col_5_ads': row_4_col_5_ads,
-            #
-            #         'row_5_col_1_ads': row_5_col_1_ads,
-            #         'row_5_col_2_ads': row_5_col_2_ads,
-            #     }
-            #
-            #     return render(request, 'frontEnd/pay_for_purchasing_wnning_chance.html', context)
 
     context = {
         'pack_id': pack_id,
