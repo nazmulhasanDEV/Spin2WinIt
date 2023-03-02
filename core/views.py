@@ -2945,7 +2945,7 @@ def front_game(request):
     # ads scripts ends*****************************************
 
     total_number_of_times_played_till_now = TotalNumOfTimesPlayed.objects.first()
-    print(total_number_of_times_played_till_now)
+
 
     number_of_segments = len(SegmentList.objects.filter(status=True))
     active_segment_list = SegmentList.objects.filter(status=True).order_by('segment_no')
@@ -2960,16 +2960,7 @@ def front_game(request):
     periodic_segments_with_no_of_required_spin = list(SegmentList.objects.filter(prize_type='periodic').values_list('segment_no', 'required_spin_to_win'))
 
     periodic_segments_with_required_spins = dict((x, y) for x,y in periodic_segments_with_no_of_required_spin) # x is segment no and y is required spin number
-    print(periodic_segments_with_required_spins)
-    # for segment in periodic_segments:
-    #     # print(periodic_segments_with_required_spins[segment])
-    #     if (total_number_of_times_played_by_users%periodic_segments_with_required_spins[segment] == 0):
-    #         # print(segment)
-    #         stopAt = (((360 / number_of_segments) * segment) + 1 - 10)
-    #         # print('stop of periodic', stopAt)
-    #     else:
-    #         stopAt = (((360 / number_of_segments) * random.choice(random_segments)) + 1 + random.randint(1, 43))
-    #         # print('stop of random', stopAt)
+
 
     # applicable rules for sponsored product
     applicable_rules = None

@@ -26,6 +26,7 @@ from core.models import *
 from config.activate_deactivate_status import activate_status, deactivate_status
 from config.custom_functions import delete_obj
 from django.db.models import Avg, Sum, Count, Max
+from .conversions.models import *
 
 # woocomerce to connect with woocommerce store
 from woocommerce import API
@@ -2801,43 +2802,54 @@ def ap_segment_setting(request):
             segment_prize__type = request.POST.get('segment_prize__type')
             point_as_prize = request.POST.get('point_as_prize')
             product_as_prize = request.POST.get('product_as_prize')
-            product_cost = request.POST.get('product_cost')
+            prize_cost = request.POST.get('prize_cost')
 
             segment_status = request.POST.get('segment_status')
             segment_order = request.POST.get('segment_order')
 
+            select_prize_mode = request.POST.get('select_prize_mode')
 
 
-            if segment and bg_color and segment_prize__type and segment_status and len(SegmentList.objects.filter(segment=Segment.objects.get(pk=segment))) <= 0:
-                if segment_prize__type == 'product':
-                    current_segment = Segment.objects.get(pk=segment)
+
+            if segment and bg_color and segment_prize__type and segment_status and len(SegmentList.objects.filter(segment=Segment.objects.get(pk=segment))) <= 0 and select_prize_mode:
+                spin_to_usd_rate = SpinConversionRateIntoUSD.objects.filter().first().spinRateValueInUSD
+                current_segment = Segment.objects.get(pk=segment)
+                if prize_cost:
+                    if spin_to_usd_rate:
+                        required_spin_for_current_prize_segment = round(float(prize_cost)/float(spin_to_usd_rate))
+
+                segment_list_model = SegmentList.objects.create(
+                    segment_no=segment_order,
+                    segment=current_segment,
+                    bg_color=bg_color,
+                    prize_title=prize_title,
+                    segment_prize_type='1',
+                    status=segment_status,
+                    prize_type = select_prize_mode
+                )
+
+                if segment_prize__type == 'product' and select_prize_mode == 'periodic':
                     current_prodct_as_prize = SponsoredProductForPrize.objects.get(pk=product_as_prize)
 
-                    segment_list_model = SegmentList(
-                        segment_no=segment_order,
-                        segment=current_segment,
-                        bg_color=bg_color,
-                        prize_title=prize_title,
-                        segment_prize_type='1',
-                        product_as_prize=current_prodct_as_prize,
-                        product_cost=product_cost,
-                        status=segment_status
-                    )
+                    product_cost_of_current_product_prize = current_prodct_as_prize.product.price
+
+                    segment_list_model.product_as_prize = current_prodct_as_prize
+                    segment_list_model.product_cost = current_prodct_as_prize.product.price
+                    segment_list_model.required_spin_to_win = round(float(product_cost_of_current_product_prize)/spin_to_usd_rate)
                     segment_list_model.save()
                     messages.success(request, "Succesfully added!")
                     return redirect('apSegmentSettings')
-                if segment_prize__type == 'point':
-                    current_segment = Segment.objects.get(pk=segment)
 
-                    segment_list_model = SegmentList(
-                        segment_no=segment_order,
-                        segment=current_segment,
-                        bg_color=bg_color,
-                        prize_title=prize_title,
-                        segment_prize_type='2',
-                        prize_point_amount=point_as_prize,
-                        status=segment_status
-                    )
+                if segment_prize__type != 'product' and select_prize_mode == 'periodic':
+                    segment_list_model.product_cost=prize_cost
+                    segment_list_model.required_spin_to_win = required_spin_for_current_prize_segment
+                    segment_list_model.save()
+                    messages.success(request, "Succesfully added!")
+                    return redirect('apSegmentSettings')
+
+                if select_prize_mode == 'random':
+                    segment_list_model.segment_prize_type='2'
+                    segment_list_model.prize_point_amount=point_as_prize
                     segment_list_model.save()
                     messages.success(request, "Succesfully added!")
                     return redirect('apSegmentSettings')
@@ -2902,6 +2914,7 @@ def ap_deactivate__segment(request, pk):
 @login_required(login_url='/ap/register/updated')
 def ap_update_segment_setting(request, pk):
 
+    global required_spin_for_current_prize_segment
     if request.user.is_admin != True:
         return redirect('frontEndLoginUser')
 
@@ -2922,38 +2935,53 @@ def ap_update_segment_setting(request, pk):
             segment_prize__type = request.POST.get('segment_prize__type')
             point_as_prize = request.POST.get('point_as_prize')
             product_as_prize = request.POST.get('product_as_prize')
+            prize_cost = request.POST.get('prize_cost')
+
             segment_status = request.POST.get('segment_status')
             segment_order = request.POST.get('segment_order')
 
-            if segment and bg_color and segment_prize__type and segment_status:
-                if segment_prize__type == 'product':
-                    current_segment = Segment.objects.get(pk=segment)
-                    current_prodct_as_prize = SponsoredProductForPrize.objects.get(pk=product_as_prize)
+            select_prize_mode = request.POST.get('select_prize_mode')
 
-                    segment_list_model = SegmentList.objects.get(pk=pk)
-                    segment_list_model.segment_no=segment_order
-                    segment_list_model.segment=current_segment
-                    segment_list_model.bg_color=bg_color
-                    segment_list_model.segment_prize_type='1'
-                    segment_list_model.product_as_prize=current_prodct_as_prize
-                    segment_list_model.status=segment_status
-                    segment_list_model.prize_title = prize_title
+            if segment and bg_color and segment_prize__type and segment_status:
+                spin_to_usd_rate = SpinConversionRateIntoUSD.objects.filter().first().spinRateValueInUSD
+                if prize_cost:
+                    if spin_to_usd_rate:
+                        required_spin_for_current_prize_segment = round(float(prize_cost)/float(spin_to_usd_rate))
+
+                current_segment = Segment.objects.get(pk=segment)
+
+                segment_list_model = SegmentList.objects.get(pk=pk)
+                segment_list_model.segment_no = segment_order
+                segment_list_model.segment = current_segment
+                segment_list_model.bg_color = bg_color
+
+                segment_list_model.status = segment_status
+                segment_list_model.prize_title = prize_title
+                segment_list_model.prize_type = select_prize_mode
+                segment_list_model.save()
+
+                if segment_prize__type == 'product' and select_prize_mode == 'periodic':
+                    current_prodct_as_prize = SponsoredProductForPrize.objects.get(pk=product_as_prize)
+                    product_cost_of_current_product_prize = current_prodct_as_prize.product.price
+
+                    segment_list_model.required_spin_to_win = round(float(product_cost_of_current_product_prize)/spin_to_usd_rate)
+                    segment_list_model.segment_prize_type = '1'
+                    segment_list_model.product_as_prize = current_prodct_as_prize
                     segment_list_model.save()
 
                     messages.success(request, "Succesfully updated!")
                     return redirect('apSegmentSettings')
 
-                if segment_prize__type == 'point':
-                    current_segment = Segment.objects.get(pk=segment)
+                if segment_prize__type != 'product' and select_prize_mode == 'periodic':
+                    segment_list_model.product_cost=prize_cost
+                    segment_list_model.required_spin_to_win = required_spin_for_current_prize_segment
+                    segment_list_model.save()
+                    messages.success(request, "Succesfully added!")
+                    return redirect('apSegmentSettings')
 
-                    segment_list_model = SegmentList.objects.get(pk=pk)
-                    segment_list_model.segment_no = segment_order
-                    segment_list_model.segment=current_segment
-                    segment_list_model.bg_color=bg_color
-                    segment_list_model.segment_prize_type='2'
-                    segment_list_model.prize_point_amount=point_as_prize
-                    segment_list_model.status=segment_status
-                    segment_list_model.prize_title = prize_title
+                if segment_prize__type == 'point':
+                    segment_list_model.segment_prize_type = '2'
+                    segment_list_model.prize_point_amount = point_as_prize
                     segment_list_model.save()
 
                     messages.success(request, "Succesfully updated!")
@@ -7789,8 +7817,12 @@ def ap_update_ads_script(request, pk):
 
 
 
+# settings section starts
 
+@login_required(login_url='/fe/login/register')
+def ap_settings(request):
 
+    return render(request, 'backEnd_superAdmin/settings/settings.html')
 
 
 

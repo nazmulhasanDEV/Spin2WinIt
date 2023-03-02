@@ -1,0 +1,219 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+{% load tag_library %}
+
+{% block dataTable_css %}
+<!-- DataTables -->
+<link rel="stylesheet"
+      href="{% static 'backEnd/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+{% endblock %}
+
+{% block shopper_profile_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'backEnd/shopper_profile.css' %}">
+{% endblock %}
+
+{% block main_block %}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Shopper Details
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">settings</a></li>
+    </ol>
+</section>
+
+<div class="container-fluid" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+<!-- Main content -->
+<section class="content">
+
+    <div class="row">
+        <!-- /.col -->
+        <div class="col-md-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#profile_settings" data-toggle="tab">Conversions</a></li>
+                </ul>
+                <div class="tab-content">
+
+                    <div class="active tab-pane" id="profile_settings">
+
+                        <div class="row">
+                            <!-- left column -->
+                            <div class="col-md-12">
+                                <!-- general form elements -->
+                                <div class="box box-primary">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Spin Conversion Rate</h3>
+                                    </div>
+                                   <form action="{% url 'updateSpinRate' %}" method="post" enctype="multipart/form-data">
+                                       {% csrf_token %}
+                                       <div class="row">
+                                           <div class="col-md-4">
+                                               <label for="exampleInputEmail1">Number of spins</label>
+                                                <input type="text" class="form-control" value="1"
+                                                       id="exampleInputEmail1"
+                                                       placeholder="Number of spins" readonly>
+                                           </div>
+
+                                           <div class="col-md-4">
+                                               <label for="exampleInputEmail1">USD Rate($)</label>
+                                                <input type="number" name="spin_value_in_usd" step="0.001" class="form-control" value="0.10"
+                                                       id="exampleInputEmail1"
+                                                       placeholder="Spin value in USD">
+                                           </div>
+
+
+                                       </div>
+                                       <br>
+                                       <div class="row">
+                                           <div class="col-md-3">
+                                                <input type="submit" class="btn btn-primary form-control" value="Update"
+                                                       id=""
+                                           </div>
+                                       </div>
+                                   </form>
+                                </div>
+
+                            </div>
+                            <!--/.col (left) -->
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+
+</section>
+<!-- /.content -->
+
+
+<script>
+    const load_more_btn = document.querySelector('.load_more_btn');
+    const orders_list = document.querySelector('#orders_list');
+
+    var noOfItems = 6;
+
+    load_more_btn.onclick = () => {
+
+        var str = '';
+
+        $.ajax({
+             url:'/ap/buyer/details/{{crnt_pk}}/',
+             type:'get',
+             data: {
+                no_of_items: noOfItems + 6,
+             },
+             success: function(response){
+                let orderItems = response.requested_order_items;
+                orderItems.map(order=>{
+
+                    var orderStatus = '';
+                    var paymentStatus = '';
+                    var deliveryStatus = '';
+
+                    if (order.order_status === 'a') {
+                        orderStatus = "Approved";
+                    }
+                    if (order.order_status === 'p') {
+                        orderStatus = "Pending";
+                    }
+                    if (order.order_status === 'c') {
+                        orderStatus = "Cancelled";
+                    }
+
+                    if (order.delivery_status) {
+                        deliveryStatus = 'Delivered';
+                    }
+                    if (order.delivery_status == false) {
+                        deliveryStatus = 'Not Delivered';
+                    }
+
+                    if (order.payment_status) {
+                        paymentStatus = 'Paid';
+                    }
+
+                    if (order.payment_status === false) {
+                        paymentStatus = 'Unpaid';
+                    }
+
+                    var item = `<div class="col-md-4">
+                                <div class="card" style="width: 100%;">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><strong>Order ID: </strong>${order.order_id}</li>
+                                        <li class="list-group-item"><strong>Status: </strong>${orderStatus}</li>
+                                        <li class="list-group-item"><strong>Sub-total: </strong>$${order.sub_total_amount}</li>
+                                        <li class="list-group-item"><strong>Shipping cost: </strong>$${order.total_shipping_cost}</li>
+                                        <li class="list-group-item"><strong>Total: </strong>$${order.total_amount}</li>
+                                        <li class="list-group-item"><strong>Delivery status: </strong>${deliveryStatus}</li>
+
+                                        <li class="list-group-item"><strong>Payment status: </strong>${paymentStatus}</li>
+                                        <li class="list-group-item"><strong>Created: </strong>${order.created}</li>
+                                    </ul>
+                                </div>
+                            </div>`;
+
+                            str += item;
+
+                });
+
+                orders_list.innerHTML = str;
+
+             },
+
+           });
+
+           noOfItems = noOfItems + 6;
+    };
+
+
+</script>
+{% endblock %}
+
+{% block datatable_js %}
+<!-- DataTables -->
+<script src="{% static 'backEnd/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'backEnd/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+
+</script>
+{% endblock %}

@@ -155,7 +155,7 @@ class SegmentList(models.Model):
     product_cost = models.FloatField(default=0, blank=True, null=True)
 
     required_spin_to_win = models.IntegerField(default=0, blank=True, null=True)
-    prize_type = models.CharField(max_length=255, choices=segmentPrizeType, blank=True, null=True)
+    prize_type = models.CharField(max_length=255, choices=segmentPrizeType, blank=True, null=True) # periodic or random
 
     prize_point_amount = models.CharField(max_length=255, blank=True, null=True)
     status = models.BooleanField(default=False, blank=True, null=True)
@@ -165,6 +165,13 @@ class SegmentList(models.Model):
     def __str__(self):
         return self.segment.name + " || " + str(self.segment_no)
 
+
+    # def save(self, *args, **kwargs):
+    #
+    #     if self.product_cost:
+    #         self.required_spin_to_win =
+    #
+    #     super(SegmentList, self).save(*args, **kwargs)
 
 # applicable rules/regulations for prize winner
 class ApplicableRulesForWinner(models.Model):

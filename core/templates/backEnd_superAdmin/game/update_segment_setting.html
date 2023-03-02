@@ -1,5 +1,5 @@
 {% extends 'backEnd_superAdmin/index.html' %}
-
+{% load tag_library %}
 {% load static %}
 
 
@@ -32,37 +32,35 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form action="{% url 'apUpdateSegmentSetting' current_pk %}" method="post" enctype="multipart/form-data" role="form">
+                <form action="{% url 'apUpdateSegmentSetting' pk=current_pk %}" method="post" enctype="multipart/form-data" role="form">
                     {% csrf_token %}
                     <div class="box-body">
 
                         <div class="row form-group">
                             <div class="col-md-6">
-                                <label>Select Segment</label>
+                                <label>Select Segment*</label>
                                 <select name="segment_name" class="form-control segment_name" required>
                                     <option>Select segment</option>
                                     {% if segments %}
                                     {% for x in segments %}
-
-                                    {% if x.name == current_obj.segment.name %}
+                                    {% if x.pk == current_obj.segment.pk %}
                                     <option value="{{x.pk}}" selected>{{x.name}}</option>
                                     {% else %}
                                     <option value="{{x.pk}}">{{x.name}}</option>
                                     {% endif %}
-
                                     {% endfor %}
                                     {% endif %}
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label>Segment background color</label>
+                                <label>Segment background color*</label>
                                 <input type="color" name="bg_color" value="{{current_obj.bg_color}}" class="form-control bg_color" placeholder="Background Color" required>
                             </div>
                         </div>
 
                         <div class="row form-group">
                             <div class="col-md-6">
-                                <label>Segment prize type</label>
+                                <label>Segment prize type*</label>
                                 <select name="segment_prize__type" class="form-control" id="segment_prize__type" required>
                                     <option selected>Select prize type</option>
                                     {% if current_obj.segment_prize_type == '1' %}
@@ -75,26 +73,17 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-6 point_amnt_as_prize">
-                                <label>Point amount as prize(for current segment)</label>
-                                <input type="text" name="point_as_prize" value="{{current_obj.prize_point_amount}}" class="form-control" placeholder="Point amount(ex: 20 points)">
-                            </div>
-
-                            <div class="col-md-6">
-                                <label>Prize Title</label>
-                                <input type="text" name="prize_title" value="{{current_obj.prize_title}}" class="form-control" placeholder="Prize Title">
-                            </div>
 
                             <div class="col-md-6 sgmnt_product_as_prize">
-                                <label>Select product as prize</label>
+                                <label>Select product as prize*</label>
                                 <select name="product_as_prize" class="form-control" id="">
                                     {% if sponsored_products %}
                                     {% for x in sponsored_products %}
 
                                     {% if current_obj.product_as_prize.pk == x.pk %}
-                                    <option value="{{x.pk}}" selected>{{x.product.title}}</option>
+                                    <option value="{{x.pk}}" selected>{{x.product.title|safe}}</option>
                                     {% else %}
-                                    <option value="{{x.pk}}">{{x.product.title}}</option>
+                                    <option value="{{x.pk}}">{{x.product.title|safe}}</option>
                                     {% endif %}
 
                                     {% endfor %}
@@ -104,11 +93,54 @@
                                 </select>
                             </div>
 
+                            <div class="col-md-6 point_amnt_as_prize">
+                                <label>Point amount as prize(for current segment)*</label>
+                                <input type="text" name="point_as_prize" value="{{current_obj.prize_point_amount}}" class="form-control" placeholder="Point amount(ex: 20 points)">
+                            </div>
+
+                        </div>
+
+                        <div class="row form-group" id="product_cost_for_noOfSpinControl">
+                            <div class="col-md-6">
+                                <label>Prize Title</label>
+                                <input type="text" name="prize_title" value="{{current_obj.prize_title}}" class="form-control" placeholder="Prize Title">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Prize mode*</label>
+                                <select name="select_prize_mode" class="select_prize_mode form-control" id="select_prize_mode" required>
+                                    {% if current_obj.prize_type == 'periodic' %}
+                                    <option value="periodic" selected>Spin specified</option>
+                                    <option value="random">Random</option>
+                                    {% else %}
+                                    <option value="random" selected>Random</option>
+                                    <option value="periodic">Spin specified</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6 prize_cost">
+                                <label for="prize_cost" style="font-size: 12px;">Prize Cost<strong style="color: red;">(For calculating required number of spins. if prize type is product, don't need to provide cost)</strong></label>
+                                {% if current_obj.product_cost and current_obj.segment_prize_type == '1' %}
+                                <input type="number" name="prize_cost" id="prize_cost" value="" class="form-control" placeholder="Prize cost" step="0.001" />
+                                {% else %}
+                                <input type="number" name="prize_cost" id="prize_cost" value="{{current_obj.product_cost}}" class="form-control" placeholder="Prize cost" step="0.001" />
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="segment_order">Segment Order No.*</label>
+                                <input type="number" name="segment_order" id="segment_order" value="{{current_obj.segment_no}}" class="form-control" placeholder="Segment Order" />
+                            </div>
+
                         </div>
 
                         <div class="row form-group">
                             <div class="col-md-6">
-                                <label>Select segment status</label>
+                                <label>Select segment status*</label>
+
                                 <select name="segment_status" class="form-control" id="segment_prize__type" required>
                                     {% if current_obj.status %}
                                     <option value="True" selected>Activate now</option>
@@ -117,14 +149,7 @@
                                     <option value="True">Activate now</option>
                                     <option value="False" selected>Will activate later</option>
                                     {% endif %}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
-                            <div class="col-md-6">
-                                <label for="segment_order">Segment Order No.</label>
-                                <input type="number" name="segment_order" value="{{current_obj.segment_no}}" id="segment_order" class="form-control" placeholder="Segment Order" />
+                                    </select>
                             </div>
                         </div>
 
@@ -132,7 +157,10 @@
                     <!-- /.box-body -->
 
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary sgmnt_stting_sbmit_btn">LET'S ADD</button>
+                        <button type="submit" class="btn btn-primary sgmnt_stting_sbmit_btn">Update</button>
+                        <a href="/ap/segment/setting/">
+                            <button type="button" class="btn btn-primary" style="border:none; background: #FF0000;color:white;">Cancel</button>
+                        </a>
                     </div>
                 </form>
             </div>
@@ -140,33 +168,46 @@
         </div>
     </div>
 </div>
-
 {% endblock %}
 
 {% block dropzone_block %}
 
 <script>
+let current_prize_type = {{current_obj.segment_prize_type|safe}};
+console.log(typeof current_prize_type)
     const segment_prize__type = document.querySelector('#segment_prize__type');
     const sgmnt_product_as_prize = document.querySelector('.sgmnt_product_as_prize');
     const point_amnt_as_prize = document.querySelector('.point_amnt_as_prize');
+    const prize_cost = document.querySelector('.prize_cost');
+    const select_prize_mode = document.querySelector('.select_prize_mode');
 
     const sgmnt_stting_sbmit_btn = document.querySelector('.sgmnt_stting_sbmit_btn');
 
-    sgmnt_product_as_prize.style.display = 'none';
+    const product_cost_for_noOfSpinControl = document.querySelector('#product_cost_for_noOfSpinControl');
+
+    if (current_prize_type === 1) {
+        sgmnt_product_as_prize.style.display = 'inherit';
+        point_amnt_as_prize.style.display ='none';
+    } else {
+        point_amnt_as_prize.style.display ='inherit';
+        sgmnt_product_as_prize.style.display = 'none'
+    }
+
+    select_prize_mode.onchange =(e) =>{
+        if (e.target.value ==='random') {
+            prize_cost.style.display = 'none';
+        } else {
+            prize_cost.style.display = 'inherit';
+        }
+    }
 
     segment_prize__type.onchange = (e)=>{
-        if (e.target.value === 'product'){
+        if (e.target.value === 'product') {
             sgmnt_product_as_prize.style.display = 'inherit';
-            sgmnt_product_as_prize.required = true;
-
             point_amnt_as_prize.style.display = 'none';
-            point_amnt_as_prize.required = false;
-        }if (e.target.value === 'point') {
+        } else {
             sgmnt_product_as_prize.style.display = 'none';
-            sgmnt_product_as_prize.required = false;
-
             point_amnt_as_prize.style.display = 'inherit';
-            point_amnt_as_prize.required = true;
         }
 
     }
@@ -177,4 +218,24 @@
 
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}
+
+{% block datatable_js %}
+<!-- DataTables -->
+<script src="{% static 'backEnd/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'backEnd/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>
 {% endblock %}

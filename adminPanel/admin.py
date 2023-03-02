@@ -1,4 +1,5 @@
 from django.contrib import admin
+from .conversions.models import *
 from .models import *
 
 
@@ -58,3 +59,6 @@ admin.site.register(PackageOptions)
 
 # how it works section
 admin.site.register(HowSpinIt2WinWorks)
+
+# conversion models
+admin.site.register(SpinConversionRateIntoUSD)

@@ -473,4 +473,7 @@ urlpatterns = [
     re_path(r'^ap/remove/ads/script/(?P<pk>\d+)/$', views.ap_remove_ads_script, name='ap_remove_ads_script'),
     re_path(r'^ap/update/ads/script/(?P<pk>\d+)/$', views.ap_update_ads_script, name='ap_update_ads_script'),
 
+    # settings section starts
+    re_path(r'^ap/settings/$', views.ap_settings, name='ap_settings'),
+
 ]
