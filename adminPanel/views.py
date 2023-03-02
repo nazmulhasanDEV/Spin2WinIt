@@ -2870,7 +2870,7 @@ def ap_segment_setting(request):
         return render(request, 'backEnd_superAdmin/game/segment_setting.html', context)
     except:
         messages.warning(request, "Number of segment is not specified. Please complete game setting or activate game configuration!")
-        return redirect('apGameSettings')
+        # return redirect('apGameSettings')
 
     return render(request, 'backEnd_superAdmin/game/segment_setting.html')
 
