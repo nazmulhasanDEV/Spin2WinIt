@@ -2788,10 +2788,8 @@ def ap_segment_setting(request):
     try:
         # user profile picture
         profile_pic = UserProfilePicture.objects.filter(user=request.user).first()
-        print(profile_pic)
 
         game__setting = GameSetting.objects.get(status=True)
-        print(game__setting)
 
         segments_list = Segment.objects.all()
 

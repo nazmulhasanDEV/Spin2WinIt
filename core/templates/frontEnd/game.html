@@ -626,7 +626,8 @@
 
               for (let i=0; i<periodic_segments.length; i++) {
                    if ((current_total_number_of_spin)%(periodic_segmenets_with_required_spin[periodic_segments[i]]) === 0){
-                             const stopAt = (((360/{{number_of_segments}}) * periodic_segments[i]) + 1 - 10);
+                             //**to stop at specific segment** const stopAt = (((360/{{number_of_segments}}) * periodic_segments[i]) + 1 - 10);
+                             const stopAt = (((360/{{number_of_segments}}) * periodic_segments[i]) + 1 - Math.floor(Math.random() * 70));
                              theWheel.animation.stopAngle = stopAt;
                              break;
                    } else {
