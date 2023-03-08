@@ -20,3 +20,7 @@ main.py
 /main.py
 main.py/
 /main.py/
+
+**/migrations/
+**/**/migrations
+
