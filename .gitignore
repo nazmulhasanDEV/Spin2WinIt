@@ -4,3 +4,19 @@ venv
 #idea folder
 .idea/
 .idea
+db.sqlite3
+/db.sqlite3/
+/db.sqlite3
+
+adminPanel/migrations
+advertisement/migrations
+core/migrations
+game/migrations
+product/migrations
+sellerDashboard/migrations
+user/migrations
+verification/migrations
+main.py
+/main.py
+main.py/
+/main.py/
