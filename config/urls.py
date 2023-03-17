@@ -10,6 +10,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('', include('adminPanel.urls')),
     path('', include('adminPanel.conversions.urls')),
+    path('', include('product.shopify.urls')),
     path('', include('sellerDashboard.urls')),
     path('product/', include('product.urls')),
     path('game/', include('game.urls')),

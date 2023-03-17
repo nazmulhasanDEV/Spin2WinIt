@@ -3,6 +3,7 @@ from user.models import *
 from adminPanel.models import ProductCategory, ProductSubCategory, MemberShipRank
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
+from .shopify.models import *
 
 
 class ShippingClass(models.Model):
@@ -24,11 +25,16 @@ class ProductWeightCriteria(models.Model):
 
 
 class ProductImg(models.Model):
+    img_id = models.CharField(max_length=255, blank=True, null=True)
     product_id = models.CharField(max_length=255, blank=True, null=True)
     product_type = models.CharField(max_length=5, blank=True, null=True)
+    positions = models.IntegerField(default=0, blank=True, null=True)
+    width = models.CharField(max_length=255, blank=True, null=True)
+    height = models.CharField(max_length=255, blank=True, null=True)
     img = models.ImageField(upload_to='productImg', blank=True, null=True)
     img_link = models.CharField(max_length=500, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     class Meta:
         ordering = ['-pk']
@@ -79,9 +85,14 @@ class ProductList(models.Model):
         def get_queryset(self):
             return super().get_queryset().filter(product_type='mcp')
 
+    class shopifyProducts(models.Manager):
+        def get_queryset(self):
+            return super().get_queryset().filter(product_type='shopify_product')
+
     productType = (
         ('wsp', 'Woocommerce store product'), # wsp refers to "woocomerce store products"
         ('mcp', 'Custom Product'), # mcp refers to "My custom products"
+        ('shopify_product', 'Shopify Product'), # shopify products
     )
     product_type = models.CharField(max_length=255, choices=productType, blank=True, null=True)
     product_id = models.CharField(default='id', max_length=255, blank=True, null=True)
@@ -104,6 +115,9 @@ class ProductList(models.Model):
 
     product_thumbnail = models.ImageField(upload_to="product_thumbnail_img", blank=True, null=True)
     productImg = models.ManyToManyField(ProductImg, blank=True)
+    productVariant = models.ManyToManyField(ShopifyProductVariant, blank=True)
+
+    product_options = models.ManyToManyField(ProductOption, blank=True) # for shopify products
 
     policy_followed = models.CharField(default='Not selected', max_length=255, blank=True, null=True)
 
@@ -144,6 +158,7 @@ class ProductList(models.Model):
     objects = models.Manager()
     wspObjects = woocmrcePrdcts()
     mcpObjects = customPrducts()
+    shopifyProducts = shopifyProducts()
 
     def __str__(self):
         return self.title

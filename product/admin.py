@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import *
+from .shopify.models import *
 
 # class ProductListAdmin(admin.ModelAdmin):
 #     list_display = ('user', 'category', 'title', 'new_price', 'created')
@@ -7,8 +8,9 @@ from .models import *
 # admin.site.register(Product_list, ProductListAdmin)
 
 class Product_ListAdmin(admin.ModelAdmin):
-    list_display = ('user','product_type', 'category', 'title', 'new_price', 'created')
-    list_filter = ('user', 'category',)
+    list_display = ('title','product_type','cat_name', 'category', 'new_price', 'created')
+    list_filter = ('title', 'cat_name', 'category',)
+
 admin.site.register(ProductList, Product_ListAdmin)
 
 admin.site.register(ProductImg)
@@ -68,3 +70,8 @@ admin.site.register(OfferedSingleProductBasedOnMembershipRank)
 admin.site.register(ShippingClass)
 admin.site.register(ProductWeightCriteria)
 
+
+
+# shopify products section
+admin.site.register(ShopifyProductVariant)
+admin.site.register(ProductOption)
