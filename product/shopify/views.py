@@ -36,68 +36,69 @@ def getProductFromShopify(request):
     products = json.loads(product_request.text)
     if len(products['products']) > 0:
         for product in products['products']:
-            saveToProductList = ProductList.objects.create(
-                product_type='shopify_product',
-                product_id=product['id'],
-                cat_name=product['tags'],
-                title=product['title'],
-                details=product['body_html'],
-            )
-
-            for option in product['options']:
-                saveToProductOption = ProductOption.objects.create(
-                    option_id=option['id'],
-                    product_id=option['product_id'],
-                    name=option['name'],
-                    position=option['position'],
-                    values=option['values']
+            if len(ProductList.shopifyProducts.filter(product_id=product['id'])) <= 0:
+                saveToProductList = ProductList.objects.create(
+                    product_type='shopify_product',
+                    product_id=product['id'],
+                    cat_name=product['tags'],
+                    title=product['title'],
+                    details=product['body_html'],
                 )
-                saveToProductList.product_options.add(saveToProductOption)
-                saveToProductList.save()
 
-            for img in product['images']:
-                saveToProductImages = ProductImg.objects.create(
-                    img_id=img['id'],
-                    product_id=img['product_id'],
-                    positions=img['position'],
-                    width=img['width'],
-                    height=img['height'],
-                    img_link=img['src'],
-                    created=img['created_at'],
-                    updated_at=img['updated_at']
-                )
-                saveToProductList.productImg.add(saveToProductImages)
-                saveToProductList.save()
+                for option in product['options']:
+                    saveToProductOption = ProductOption.objects.create(
+                        option_id=option['id'],
+                        product_id=option['product_id'],
+                        name=option['name'],
+                        position=option['position'],
+                        values=option['values']
+                    )
+                    saveToProductList.product_options.add(saveToProductOption)
+                    saveToProductList.save()
 
-            for variant in product['variants']:
-                saveToVariantList = ShopifyProductVariant.objects.create(
-                    vairant_id = variant['id'],
-                    product_id = variant['product_id'],
-                    variant_title = variant['title'],
-                    variant_price = variant['price'],
-                    variant_sku = variant['sku'],
-                    position = variant['position'],
-                    inventory_policy = variant['inventory_policy'] or '',
-                    compare_at_price = variant['compare_at_price'] or '',
-                    fulfillment_service = variant['fulfillment_service'] or '',
-                    inventory_management = variant['inventory_management'] or '',
-                    created_at = variant['created_at'],
-                    updated_at = variant['updated_at'],
-                    taxable = variant['taxable'] or '',
-                    barcode = variant['barcode'] or '',
-                    grams = variant['grams'] or '',
-                    weight = variant['weight'] or '',
-                    weight_unit = variant['weight_unit'] or '',
-                    inventory_item_id = variant['inventory_item_id'] or '',
-                    inventory_quantity = variant['inventory_quantity'] or '',
-                    old_inventory_quantity = variant['old_inventory_quantity'] or '',
-                    requires_shipping = variant['requires_shipping'] or '',
-                    option1 = variant['option1'] or '',
-                    option2 = variant['option2'] or '',
-                    option3 = variant['option3'] or '',
-                )
-                saveToProductList.productVariant.add(saveToVariantList)
-                saveToProductList.save()
+                for img in product['images']:
+                    saveToProductImages = ProductImg.objects.create(
+                        img_id=img['id'],
+                        product_id=img['product_id'],
+                        positions=img['position'],
+                        width=img['width'],
+                        height=img['height'],
+                        img_link=img['src'],
+                        created=img['created_at'],
+                        updated_at=img['updated_at']
+                    )
+                    saveToProductList.productImg.add(saveToProductImages)
+                    saveToProductList.save()
+
+                for variant in product['variants']:
+                    saveToVariantList = ShopifyProductVariant.objects.create(
+                        vairant_id = variant['id'],
+                        product_id = variant['product_id'],
+                        variant_title = variant['title'],
+                        variant_price = variant['price'],
+                        variant_sku = variant['sku'],
+                        position = variant['position'],
+                        inventory_policy = variant['inventory_policy'] or '',
+                        compare_at_price = variant['compare_at_price'] or '',
+                        fulfillment_service = variant['fulfillment_service'] or '',
+                        inventory_management = variant['inventory_management'] or '',
+                        created_at = variant['created_at'],
+                        updated_at = variant['updated_at'],
+                        taxable = variant['taxable'] or '',
+                        barcode = variant['barcode'] or '',
+                        grams = variant['grams'] or '',
+                        weight = variant['weight'] or '',
+                        weight_unit = variant['weight_unit'] or '',
+                        inventory_item_id = variant['inventory_item_id'] or '',
+                        inventory_quantity = variant['inventory_quantity'] or '',
+                        old_inventory_quantity = variant['old_inventory_quantity'] or '',
+                        requires_shipping = variant['requires_shipping'] or '',
+                        option1 = variant['option1'] or '',
+                        option2 = variant['option2'] or '',
+                        option3 = variant['option3'] or '',
+                    )
+                    saveToProductList.productVariant.add(saveToVariantList)
+                    saveToProductList.save()
 
     return redirect('shopifyProducts')
 
