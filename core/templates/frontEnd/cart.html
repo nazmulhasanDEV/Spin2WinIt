@@ -53,6 +53,7 @@
                                                 <th class="li-product-remove">remove</th>
                                                 <th class="li-product-thumbnail">images</th>
                                                 <th class="cart-product-name">Product Name</th>
+                                                <th class="cart-product-name">Variant</th>
                                                 <th class="li-product-price">Unit Price</th>
                                                 <th class="li-product-quantity">Quantity</th>
                                                 <th class="li-product-subtotal">Total</th>
@@ -94,9 +95,10 @@
                                                 {% else %}
                                                     <tr>
                                                         <td class="li-product-remove"><a href="{% url 'frontRemovItemFromMiniCart' pk=x.pk %}"><i class="fas fa-times-circle"></i></a></td>
-                                                        <td class="li-product-thumbnail"><a href="/fe/product/details/{{x.product.product_id}}"><img src="{{x.product.product_thumbnail.url}}" style="width: 100px; height: 100px;" alt="Li's Product Image"></a></td>
+                                                        <td class="li-product-thumbnail"><a href="/fe/product/details/{{x.product.product_id}}"><img src="{{x.product.productImg.first.img_link}}" style="width: 100px; height: 100px;" alt="Li's Product Image"></a></td>
                                                         <td class="li-product-name"><a href="/fe/product/details/{{x.product.product_id}}">{{x.product.title|safe|truncatechars:30}}</a></td>
-                                                        <td class="li-product-price">$<span class="amount">{{x.product.new_price}}</span></td>
+                                                        <td class="li-product-name"><a href="/fe/product/details/{{x.product.product_id}}">{{x.product_variant.variant_title}}</a></td>
+                                                        <td class="li-product-price">$<span class="amount">{{x.product_variant.variant_price}}</span></td>
                                                         <td class="quantity">
                                                             <label>Quantity</label>
                                                             <div class="cart-plus-minus">

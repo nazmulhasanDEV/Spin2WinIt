@@ -95,31 +95,31 @@ AUTH_USER_MODEL = 'user.Account'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'spinwintest',
-#         'USER': 'postgres',
-#         'PASSWORD': 'eastern747406^%',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'spinwintest',
+        'USER': 'postgres',
+        'PASSWORD': 'eastern747406^%',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 # ends prev section &**********************************************
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        "OPTIONS": {
-    # ...
-    "timeout": 20,
-    # ...
-}
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#         "OPTIONS": {
+#     # ...
+#     "timeout": 20,
+#     # ...
+# }
+#     }
+# }
 
 
 

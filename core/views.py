@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q, Avg
+from django.db.models import Q, Avg, Sum
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from user.models import *
@@ -65,10 +65,12 @@ def front_index(request):
 
     product_cat_list = ProductCategory.objects.all()
 
-    products = Product_list.objects.all()
+    products = ProductList.objects.all()
 
     # user cart status
     user_cart_status = Cart.objects.filter(user=request.user)
+
+    total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
     # user cart status
     user_wishlist_status = WishList.objects.filter(user=request.user)
@@ -86,6 +88,7 @@ def front_index(request):
         'product_list': products,
 
         'user_cart_status': user_cart_status,
+        'total_amount': total_amount,
         'user_wishlist_status': user_wishlist_status,
     }
 
@@ -216,11 +219,8 @@ def front_home(request):
         user_wishlist_status = WishList.objects.filter(user=request.user)
 
         if user_cart_status:
-            for x in user_cart_status:
-                if x.product.product_type == 'wsp':
-                    total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
-                if x.product.product_type == 'mcp':
-                    total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+            total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
+
     # prizes for game
     current_sponsoredGamePrizes = SponsoredProductForPrize.objects.filter(status=True)
 
@@ -317,11 +317,7 @@ def front_all_packages(request):
         user_wishlist_status = WishList.objects.filter(user=request.user)
 
         if user_cart_status:
-            for x in user_cart_status:
-                if x.product.product_type == 'wsp':
-                    total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
-                if x.product.product_type == 'mcp':
-                    total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+            total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
     context = {
         'current_package_list': current_package_list,
         'site_logo': site_logo,
@@ -1489,11 +1485,7 @@ def front_search(request):
 
         total_amount = 0
         if user_cart_status:
-            for x in user_cart_status:
-                if x.product.product_type == 'wsp':
-                    total_amount = total_amount + (float(x.product.price) * x.quantity)
-                if x.product.product_type == 'mcp':
-                    total_amount = total_amount + (x.product.new_price * x.quantity)
+            total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
         # user cart status
         user_wishlist_status = WishList.objects.filter(user=request.user)
@@ -1611,11 +1603,7 @@ def front_shop_for_all_category(request):
 
         total_amount = 0
         if user_cart_status:
-            for x in user_cart_status:
-                if x.product.product_type == 'wsp':
-                    total_amount = total_amount + (float(x.product.price) * x.quantity)
-                if x.product.product_type == 'mcp':
-                    total_amount = total_amount + (x.product.new_price * x.quantity)
+            total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
         # user cart status
         user_wishlist_status = WishList.objects.filter(user=request.user)
@@ -1780,11 +1768,7 @@ def front_shop(request, pk):
 
 
         if user_cart_status:
-            for x in user_cart_status:
-                if x.product.product_type == 'wsp':
-                    total_amount = total_amount + (float(x.product.price) * x.quantity)
-                if x.product.product_type == 'mcp':
-                    total_amount = total_amount + (x.product.new_price * x.quantity)
+            total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
         # user cart status
         user_wishlist_status = WishList.objects.filter(user=request.user)
@@ -1849,7 +1833,10 @@ def front_productDetails(request, product_id):
     prod_details_pg_bnr = BannerProdDetail.objects.filter(status=True).first()
 
     # current product
-    current_product = ProductList.objects.get(product_id=product_id)
+    current_product = ProductList.objects.filter(product_id=product_id).first()
+
+    # current product starting price
+    starting_price = current_product.productVariant.first().variant_price
 
     # products of current category
     current_cat_product_list = ProductList.objects.filter(Q(category=current_product.category) | Q(cat_name=current_product.cat_name))[:8]
@@ -1907,17 +1894,24 @@ def front_productDetails(request, product_id):
         num_of_1_star = round(((ProductRating.objects.filter(Q(product=current_product) & Q(rating_val=1)).count()) / current_prod_revs.count()) * 100)
 
 
+
+
     if request.user.is_authenticated:
+
+        if request.method == "GET":
+            product_variant_ID = request.GET.get('variantID')
+            if product_variant_ID and int(product_variant_ID) > 0:
+                variant = ShopifyProductVariant.objects.filter(vairant_id=product_variant_ID).first()
+                if request.is_ajax():
+
+                    return JsonResponse({'variant_price': variant.variant_price})
+
         # user cart status
         user_cart_status = Cart.objects.filter(user=request.user)
 
         total_amount = 0
         if user_cart_status:
-            for x in user_cart_status:
-                if x.product.product_type == 'wsp':
-                    total_amount = total_amount + (float(x.product.price) * x.quantity)
-                if x.product.product_type == 'mcp':
-                    total_amount = total_amount + (x.product.new_price * x.quantity)
+            total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
         # user cart status
         user_wishlist_status = WishList.objects.filter(user=request.user)
@@ -1928,6 +1922,7 @@ def front_productDetails(request, product_id):
             'user_wishlist_status': user_wishlist_status,
 
             'current_product': current_product,
+            'starting_price': starting_price,
             'current_cat_product_list': current_cat_product_list,
             'refund_policy': refund_policy,
             'return_policy': return_policy,
@@ -1973,6 +1968,7 @@ def front_productDetails(request, product_id):
 
     context = {
         'current_product' : current_product,
+        'starting_price': starting_price,
         'current_cat_product_list' : current_cat_product_list,
         'refund_policy' : refund_policy,
         'return_policy' : return_policy,
@@ -2024,21 +2020,48 @@ def front_add_to_cart(request, product_id):
         return redirect('frontEndLoginRegister')
 
     # getting current product
-    current_product = ProductList.objects.get(product_id=product_id)
+    current_product = ProductList.objects.filter(product_id=product_id).first()
+
+    if request.method == 'POST':
+        variant_id = request.POST.get('variant')
+        quantity = request.POST.get('quantity')
+        variant_price = request.POST.get('product_price')
+        product_id = request.POST.get('product_id')
+
+
+
+        if request.user.is_authenticated and current_product and int(quantity) > 0 and int(variant_id) > 0:
+            variant = get_object_or_404(ShopifyProductVariant, vairant_id=variant_id)
+
+            if len(Cart.objects.filter(Q(user=request.user) & Q(product=current_product))) > 0:
+
+                cart_model = Cart.objects.filter(Q(user=request.user) & Q(product=current_product)).first()
+
+                cart_model.quantity = cart_model.quantity + int(quantity)
+                cart_model.product_variant= variant
+                cart_model.save()
+                return redirect(request.META.get('HTTP_REFERER'))
+            else:
+                product_cart_model = Cart(user=request.user, product=current_product, quantity=int(quantity))
+                product_cart_model.product_variant= variant
+                product_cart_model.save()
+                return redirect(request.META.get('HTTP_REFERER'))
+
+        return redirect(request.META.get('HTTP_REFERER'))
 
     if request.user.is_authenticated and current_product:
         if len(Cart.objects.filter(Q(user=request.user) & Q(product=current_product))) > 0:
-            cart_model = Cart.objects.filter(Q(user=request.user) & Q(product=current_product)).first()
 
+            cart_model = Cart.objects.filter(Q(user=request.user) & Q(product=current_product)).first()
             cart_model.quantity = cart_model.quantity + 1
+            cart_model.product_variant = current_product.productVariant.first()
             cart_model.save()
             return redirect(request.META.get('HTTP_REFERER'))
         else:
             product_cart_model = Cart(user=request.user, product=current_product, quantity=1)
+            product_cart_model.product_variant = current_product.productVariant.first()
             product_cart_model.save()
             return redirect(request.META.get('HTTP_REFERER'))
-
-    return redirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required(login_url='/fe/login/register')
@@ -2129,10 +2152,7 @@ def front_cart_items_list(request, username):
 
         # collecting updated total amount
         for x in user_cart_status:
-            if x.product.product_type == 'wsp':
-                updated_total_amount = round(updated_total_amount + (float(x.product.price) * x.quantity), 2)
-            if x.product.product_type == 'mcp':
-                updated_total_amount = round(updated_total_amount + (x.product.new_price * x.quantity), 2)
+            total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
         updated_product_info = {
             'no_current_item': current_cart_item.quantity,
@@ -2143,13 +2163,8 @@ def front_cart_items_list(request, username):
             return JsonResponse({'updated_product_info': updated_product_info})
 
     if user_cart_status:
-        for x in user_cart_status:
-            if x.product.product_type == 'wsp':
-                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
-                sub_total_amount = total_amount
-            if x.product.product_type == 'mcp':
-                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
-                sub_total_amount = total_amount
+        total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
+        sub_total_amount = total_amount
 
     # user cart status
     user_wishlist_status = WishList.objects.filter(user=request.user)
@@ -2252,24 +2267,31 @@ def front_checkout(request, username):
     total_amount = 0
     shipping_cost = 0
 
+    # user cart status
+    user_cart_status = Cart.objects.filter(user=request.user)
+
+    total_amount = 0
     if user_cart_status:
-        for x in user_cart_status:
-            if x.product.product_type == 'wsp':
-                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
-                # shipping cost calculations
-                try:
-                    if x.product.shipping_class.cost_rate:
-                        shipping_cost = shipping_cost + x.product.shipping_class.cost_rate
-                except:
-                    shipping_cost = 0
-            if x.product.product_type == 'mcp':
-                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
-                # shipping cost calculations
-                try:
-                    if x.product.shipping_class.cost_rate:
-                        shipping_cost = shipping_cost + x.product.shipping_class.cost_rate
-                except:
-                    shipping_cost = 0
+        total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
+
+    # if user_cart_status:
+    #     for x in user_cart_status:
+    #         if x.product.product_type == 'wsp':
+    #             total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
+    #             # shipping cost calculations
+    #             try:
+    #                 if x.product.shipping_class.cost_rate:
+    #                     shipping_cost = shipping_cost + x.product.shipping_class.cost_rate
+    #             except:
+    #                 shipping_cost = 0
+    #         if x.product.product_type == 'mcp':
+    #             total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+    #             # shipping cost calculations
+    #             try:
+    #                 if x.product.shipping_class.cost_rate:
+    #                     shipping_cost = shipping_cost + x.product.shipping_class.cost_rate
+    #             except:
+    #                 shipping_cost = 0
 
     context = {
         'site_logo': site_logo,
@@ -3037,7 +3059,6 @@ def front_game(request):
         fromRestartSpin = request.GET.get('fromRestartSpin')
 
         if get_no_of_times_played:
-            print(get_no_of_times_played)
             if request.is_ajax():
                 current_total_num_of_played = TotalNumOfTimesPlayed.objects.filter().first()
                 return JsonResponse({'total_number_of_times_played': current_total_num_of_played.num_of_times_played})

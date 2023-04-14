@@ -1,4 +1,5 @@
-{% extends 'frontEnd/index.html' %} {% load static %} {% block gaming_css_block %}
+{% extends 'frontEnd/index.html' %} {% load static %} {% block gaming_css_block
+%}
 <link
   rel="stylesheet"
   href="{% static 'frontEnd/gaming_files/custom.css' %}"
@@ -15,9 +16,7 @@
   type="text/javascript"
   src="{% static 'frontEnd/gaming_files/Winwheel.js' %}"
 ></script>
-{% endblock %}
-
-{% block main_block %}
+{% endblock %} {% block main_block %}
 
 <!-- ads -->
 <div class="container">
@@ -148,7 +147,7 @@
         <div
           class="row"
           style="
-            background-image: url({% static 'frontEnd/gaming_files/background.png' %});
+            background-image: url({%static'frontEnd/gaming_files/background.png'%});
             background-repeat: no-repeat;
             background-size: cover;
             width: 100%;
@@ -287,74 +286,68 @@
             <!--                            row for spin wheel -->
 
             <!--         prize list for game                   -->
-<!--            <div class="row">-->
-<!--              {% if active_segment_list %}-->
-<!--              {% for product in active_segment_list %}-->
-<!--              {% if product.segment_prize_type == '1' %}-->
-<!--              <div class="col-md-3">-->
-<!--                <div-->
-<!--                  class="card game_prize_card"-->
-<!--                  style="width: 100%; height: 370px"-->
-<!--                >-->
-<!--                  <div style="width: 100%; height: 180px">-->
-<!--                    {% if product.product_as_prize.product.product_type == 'wsp' %}-->
-<!--                    {% if product.product_as_prize.product.product_thumbnail %}-->
-<!--                    <img-->
-<!--                      class="card-img-top"-->
-<!--                      src="{{product.product_as_prize.product.product_thumbnail.url}}"-->
-<!--                      style="width: 100%; height: 100%"-->
-<!--                      alt="Card image cap"-->
-<!--                    />-->
-<!--                    {% else %}-->
-<!--                    {% if product.product_as_prize.product.productImg %}-->
-<!--                    {% for p in product.product_as_prize.product.productImg.all %}-->
-<!--                    {% if forloop.counter == 1 %}-->
-<!--                    <img-->
-<!--                      class="card-img-top"-->
-<!--                      src="{{p.img_link}}"-->
-<!--                      style="width: 100%"-->
-<!--                      alt="Card image cap"-->
-<!--                    />-->
-<!--                    {% endif %}-->
-<!--                    {% endfor %}-->
-<!--                    {% endif %}-->
-<!--                    {% endif %}-->
-<!--                    {% else %}-->
-<!--                    <img-->
-<!--                      class="card-img-top"-->
-<!--                      src="{{product.img.url}}"-->
-<!--                      style="width: 100%"-->
-<!--                      alt="Card image cap"-->
-<!--                    />-->
-<!--                    {% endif %}-->
-<!--                  </div>-->
-<!--                  <div-->
-<!--                    class="card-body"-->
-<!--                    style="position: absolute; bottom: 0px"-->
-<!--                  >-->
-<!--                    <h5 class="card-title product___prize__title">-->
-<!--                      {{product.prize_title}}-->
-<!--                    </h5>-->
-<!--                    &lt;!&ndash;                                        <p class="card-text">Some quick example text to build on the card title and make&ndash;&gt;-->
-<!--                    &lt;!&ndash;                                            up the&ndash;&gt;-->
-<!--                    &lt;!&ndash;                                            bulk of the card's content.</p>&ndash;&gt;-->
-<!--                    <a-->
-<!--                      href=""-->
-<!--                      class="btn"-->
-<!--                      >View Details</a-->
-<!--                    >-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              {% endif %}-->
-<!--              {% endfor %}-->
-<!--              {% endif %}-->
-<!--            </div>-->
+            <div class="row">
+              {% if active_segment_list %} {% for product in active_segment_list
+              %} {% if product.segment_prize_type == '1' %}
+              <div class="col-md-3">
+                <div
+                  class="card game_prize_card"
+                  style="width: 100%; height: 370px"
+                >
+                  <div style="width: 100%; height: 180px">
+                    {% if product.product_as_prize.product.product_type == 'wsp'
+                    %} {% if product.product_as_prize.product.product_thumbnail
+                    %}
+                    <img
+                      class="card-img-top"
+                      src="{{product.product_as_prize.product.product_thumbnail.url}}"
+                      style="width: 100%; height: 100%"
+                      alt="Card image cap"
+                    />
+                    {% else %} {% if product.product_as_prize.product.productImg
+                    %} {% for p in
+                    product.product_as_prize.product.productImg.all %} {% if
+                    forloop.counter == 1 %}
+                    <img
+                      class="card-img-top"
+                      src="{{p.img_link}}"
+                      style="width: 100%"
+                      alt="Card image cap"
+                    />
+                    {% endif %} {% endfor %} {% endif %} {% endif %} {% else %}
+                    <img
+                      class="card-img-top"
+                      src="{{product.img.url}}"
+                      style="width: 100%"
+                      alt="Card image cap"
+                    />
+                    {% endif %}
+                  </div>
+                  <div
+                    class="card-body"
+                    style="position: absolute; bottom: 0px"
+                  >
+                    <h5 class="card-title product___prize__title">
+                      {{product.prize_title}}
+                    </h5>
+                    <!--                                        <p class="card-text">Some quick example text to build on the card title and make-->
+                    <!--                                            up the-->
+                    <!--                                            bulk of the card's content.</p>-->
+                    <a
+                      href="{% url 'frontEndProductDetails' product_id=product.product_as_prize.product.product_id %}"
+                      class="btn"
+                      >View Details</a
+                    >
+                  </div>
+                </div>
+              </div>
+              {% endif %} {% endfor %} {% endif %}
+            </div>
             <!--         prize list for game ends                   -->
             <br /><br />
             <div
               style="
-                background-image: url({% static 'frontEnd/gaming_files/table.png' %});
+                background-image: url({%static'frontEnd/gaming_files/table.png'%});
                 background-repeat: no-repeat;
                 background-size: cover;
                 width: 100%;
@@ -429,7 +422,8 @@
     <div class="row">
       <div class="col-md-6">
         <div>
-          {% if row_2_col_1_ads.ads_script %} {{row_2_col_1_ads.ads_script}} {% else %}
+          {% if row_2_col_1_ads.ads_script %} {{row_2_col_1_ads.ads_script}} {%
+          else %}
           <script type="text/javascript">
             atOptions = {
               key: "8641aba4c7f1250ff3a115fcbcb8a5d6",
@@ -452,9 +446,8 @@
 
       <div class="col-md-6">
         <div>
-          {% if row_2_col_2_ads.ads_script %}
-          {{row_2_col_2_ads.ads_script}}
-          {% else %}
+          {% if row_2_col_2_ads.ads_script %} {{row_2_col_2_ads.ads_script}} {%
+          else %}
           <a href="https://yllix.com/publishers/444213" target="_blank"
             ><img
               src="//ylx-aff.advertica-cdn.com/pub/468x60.png"
@@ -482,9 +475,8 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4">
-      {% if row_3_col_1_ads.ads_script %}
-      {{row_3_col_1_ads.ads_script}}
-      {% else %}
+      {% if row_3_col_1_ads.ads_script %} {{row_3_col_1_ads.ads_script}} {% else
+      %}
       <script
         data-cfasync="false"
         type="text/javascript"
@@ -513,9 +505,8 @@
       </div>
     </div>
     <div class="col-md-4">
-      {% if row_3_col_2_ads.ads_script %}
-      {{row_3_col_2_ads.ads_script}}
-      {% else %}
+      {% if row_3_col_2_ads.ads_script %} {{row_3_col_2_ads.ads_script}} {% else
+      %}
       <script
         data-cfasync="false"
         type="text/javascript"
@@ -548,9 +539,8 @@
       </div>
 
       <div class="col-md-4">
-        {% if row_4_col_2_ads.ads_script %}
-        {{row_4_col_2_ads.ads_script}}
-        {% else %}
+        {% if row_4_col_2_ads.ads_script %} {{row_4_col_2_ads.ads_script}} {%
+        else %}
         <script
           type="text/javascript"
           src="https://udbaa.com/bnr.php?section=General&pub=444213&format=300x250&ga=g"
@@ -559,9 +549,8 @@
       </div>
 
       <div class="col-md-4">
-        {% if row_4_col_3_ads.ads_script %}
-        {{row_4_col_3_ads.ads_script}}
-        {% else %}
+        {% if row_4_col_3_ads.ads_script %} {{row_4_col_3_ads.ads_script}} {%
+        else %}
         <a href="https://yllix.com/publishers/444213" target="_blank"
           ><img
             src="//ylx-aff.advertica-cdn.com/pub/300x250.png"
@@ -611,34 +600,7 @@
 <!-- game scripts -->
 <script>
 
-
-
-          var current_total_number_of_spin = {{total_number_of_times_played}} + 1
-              let random_segments = {{random_segments|safe}};
-
-              let periodic_segmenets_with_required_spin = {{periodic_segments_with_required_spins|safe}};
-              let periodic_segments = {{periodic_segments|safe}};
-
           // Create new wheel object specifying the parameters at creation time.
-
-          function controlStopAnimationAngle() {
-              // set stop angle here
-
-              for (let i=0; i<periodic_segments.length; i++) {
-                   if ((current_total_number_of_spin)%(periodic_segmenets_with_required_spin[periodic_segments[i]]) === 0){
-                             //**to stop at specific segment** const stopAt = (((360/{{number_of_segments}}) * periodic_segments[i]) + 1 - 10);
-                             const stopAt = (((360/{{number_of_segments}}) * periodic_segments[i]) + 1 - Math.floor(Math.random() * 70));
-                             theWheel.animation.stopAngle = stopAt;
-                             break;
-                   } else {
-                        const stopAt = (((360/{{number_of_segments}}) * random_segments[Math.floor(Math.random()*random_segments.length)]) + 1 - Math.floor((Math.random() * 30)));
-                        theWheel.animation.stopAngle = stopAt;
-                   }
-              }
-
-              // ends stop angle setting
-          }
-
           let theWheel = new Winwheel({
               responsive   : true,  // This wheel is responsive!
               outerRadius: 187, // Set outer radius so wheel fits inside the background. Default was: 214
@@ -671,15 +633,13 @@
               ],
               // Specify the animation to use.
               animation: {
-                  //easing: 'Linear.easeNone',
+                  easing       : 'Linear.easeNone',
                   type: "spinToStop",
-                  duration: 5, // Duration in seconds. Defualt: 10s {{game_setting.spining_duration}}
+                  duration: 10, // Duration in seconds. Defualt: 10s {{game_setting.spining_duration}}
                   spins: 15, // Default number of complete spins. default:3 {{game_setting.no_of_complt_spins}}
                   callbackFinished: alertPrize,
                   callbackSound: playSound, // Function to call when the tick sound is to be triggered.
                   soundTrigger: "pin", // Specify pins are to trigger the sound, the other option is 'segment'.
-                  //stopAngle: (((360/{{number_of_segments}}) * 1) + 1 - Math.floor((Math.random() * 43)))
-                  //stopAngle: {{initial_stopAt}}
               },
               // Turn pins on.
               pins: {
@@ -701,6 +661,7 @@
 
               // Play the sound.
               audio.play();
+              console.log("Played");
           }
 
           // Vars used by the code in this page to do power controls.
@@ -762,7 +723,6 @@
               const current_numbe_of_chances = document.querySelector('#current_numbe_of_chances');
               const reset__spin__btn = document.querySelector('#reset__spin__btn');
 
-
               // disable "spin start" button untill the rotation is done
 
               const disableTimeSpinStartBtn = setTimeout(disableSpinStartBtn, 10000);
@@ -816,7 +776,6 @@
                   document.getElementById("spin_button").className = "";
 
                   // Begin the spin animation by calling startAnimation on the wheel object.
-                  controlStopAnimationAngle()
                   theWheel.startAnimation();
 
                   // Set to true so that power can't be changed and spin button re-enabled during
@@ -838,25 +797,9 @@
                   spin_button.disabled  = true;
               }
 
-
-
               theWheel.stopAnimation(false); // Stop the animation, false as param so does not call callback function.
               theWheel.rotationAngle = 0; // Re-set the wheel angle to 0 degrees.
               theWheel.draw(); // Call draw to render changes to the wheel.
-
-              //ajax starts
-
-                  $.ajax({
-                       url:'/fe/game/',
-                       type:'get',
-                       data: {
-                          get_no_of_times_played: "get_no_of_times_played",
-                       },
-                       success: function(response){
-                             current_total_number_of_spin = response.total_number_of_times_played + 1;
-                       },
-                     });
-              //ajax ends
 
               document.getElementById("pw1").className = ""; // Remove all colours from the power level indicators.
               document.getElementById("pw2").className = "";
@@ -869,23 +812,154 @@
           // Called when the spin animation has finished by the callback feature of the wheel because I specified callback in the parameters.
           // -------------------------------------------------------
           function alertPrize(indicatedSegment) {
-              const myTimeout = setTimeout(showPrizeBox, 1500);
-                      function showPrizeBox() {
-                            let winning__moment__audio = document.querySelector('#winning__moment__audio');
-                            let game__prize__flash__message = document.querySelector('.game__prize__flash__message');
-                            const flash_msg_main_content = document.querySelector('.flash_msg_main_content');
-                            let flash__msg_content = document.querySelector('.flash__msg_content');
-                            let won__prize_poin_amnt = document.querySelector('.won__prize_poin_amnt');
-                            let won__prize__img = document.querySelector('.won__prize__img');
-                            let current__product__as_prize = document.querySelector('.current__product__as_prize');
+              //ajax starts
 
-                            winning__moment__audio.play();
-                            won__prize_poin_amnt.innerHTML = indicatedSegment.text + ' Prize';
-                            game__prize__flash__message.style.display = 'inherit';
-                            flash_msg_main_content.style.display = 'inherit';
-                            flash__msg_content.style.display = 'inherit';
-                            won__prize__img.style.display = 'none';
-                      }
+                  $.ajax({
+                       url:'/fe/game/',
+                       type:'get',
+                       data: {
+                          won_prize: indicatedSegment.text,
+                       },
+                       success: function(response){
+
+                       },
+
+                     });
+                      //ajax ends
+
+              // Just alert to the user what happened.
+              // In a real project probably want to do something more interesting than this with the result.
+              current_prize_txt = indicatedSegment.text;
+
+              if (current_prize_txt.toString().includes('PC')) {
+
+                  let total_num_of_times_played = document.querySelector('#total_num_of_times_played');
+
+                  if (current_prize_txt.toString().includes('Gold') && parseInt(total_num_of_times_played.innerHTML) % (parseInt('{{gold_prize_necessaary_spins}}')) !== 0 ) {
+  // <!--                    resetWheel();-->
+                      startSpin();
+
+                      //ajax starts
+
+                      $.ajax({
+                           url:'/fe/game/',
+                           type:'get',
+                           data: {
+                              fromRestartSpin: 1,
+                           },
+                           success: function(response){
+                              // updating total number of times played the game till now
+                              const total_num_of_times_played = document.getElementById('total_num_of_times_played');
+                              total_num_of_times_played.innerHTML = response.current_total_num_of_played;
+                           },
+                         });
+                      //ajax ends
+                  }
+
+                  // for pc-silver
+                  else if (current_prize_txt.toString().includes('Silver') && parseInt(total_num_of_times_played.innerHTML) % (parseInt('{{silver_prize_necessaary_spins}}')) !== 0 ) {
+  // <!--                    resetWheel();-->
+                      startSpin();
+
+                      //ajax starts
+
+                      $.ajax({
+                           url:'/fe/game/',
+                           type:'get',
+                           data: {
+                              fromRestartSpin: 1,
+                           },
+                           success: function(response){
+                              // updating total number of times played the game till now
+                              const total_num_of_times_played = document.getElementById('total_num_of_times_played');
+                              total_num_of_times_played.innerHTML = response.current_total_num_of_played;
+                           },
+                         });
+                      //ajax ends
+                  }
+                  // ends for pc-silver
+
+                  // for pc-bronze
+                  else if (current_prize_txt.toString().includes('Bronze') && parseInt(total_num_of_times_played.innerHTML) % (parseInt('{{bronze_prize_necessaary_spins}}')) !== 0 ) {
+  // <!--                    resetWheel();-->
+                      startSpin();
+
+                      //ajax starts
+
+                      $.ajax({
+                           url:'/fe/game/',
+                           type:'get',
+                           data: {
+                              fromRestartSpin: 1,
+                           },
+                           success: function(response){
+                              // updating total number of times played the game till now
+                              const total_num_of_times_played = document.getElementById('total_num_of_times_played');
+                              total_num_of_times_played.innerHTML = response.current_total_num_of_played;
+                           },
+                         });
+                      //ajax ends
+                  }
+                  // ends for pc-bronze
+
+
+                  // for diamond
+                  else if (current_prize_txt.toString().includes('Diamond') && parseInt(total_num_of_times_played.innerHTML) % (parseInt('{{diamond_prize_necessaary_spins}}')) !== 0 ) {
+  // <!--                    resetWheel();-->
+                      startSpin();
+
+                      //ajax starts
+
+                      $.ajax({
+                           url:'/fe/game/',
+                           type:'get',
+                           data: {
+                              fromRestartSpin: 1,
+                           },
+                           success: function(response){
+                              // updating total number of times played the game till now
+                              const total_num_of_times_played = document.getElementById('total_num_of_times_played');
+                              total_num_of_times_played.innerHTML = response.current_total_num_of_played;
+                           },
+                         });
+                      //ajax ends
+                  }
+                  // ends for pc-bronze
+
+                  else {
+                      let winning__moment__audio = document.querySelector('#winning__moment__audio');
+                      let game__prize__flash__message = document.querySelector('.game__prize__flash__message');
+                      const flash_msg_main_content = document.querySelector('.flash_msg_main_content');
+                      let flash__msg_content = document.querySelector('.flash__msg_content');
+                      let won__prize_poin_amnt = document.querySelector('.won__prize_poin_amnt');
+                      let won__prize__img = document.querySelector('.won__prize__img');
+                      let current__product__as_prize = document.querySelector('.current__product__as_prize');
+
+                      winning__moment__audio.play();
+                      won__prize_poin_amnt.innerHTML = indicatedSegment.text + ' Prize';
+                      game__prize__flash__message.style.display = 'inherit';
+                      flash_msg_main_content.style.display = 'inherit';
+                      flash__msg_content.style.display = 'inherit';
+                      won__prize__img.style.display = 'none';
+                  }
+
+              } else {
+                  let winning__moment__audio = document.querySelector('#winning__moment__audio');
+                  let game__prize__flash__message = document.querySelector('.game__prize__flash__message');
+                  const flash_msg_main_content = document.querySelector('.flash_msg_main_content');
+                  let flash__msg_content = document.querySelector('.flash__msg_content');
+                  let won__prize_poin_amnt = document.querySelector('.won__prize_poin_amnt');
+                  let won__prize__img = document.querySelector('.won__prize__img');
+                  let current__product__as_prize = document.querySelector('.current__product__as_prize');
+
+                  winning__moment__audio.play();
+                  won__prize_poin_amnt.innerHTML = indicatedSegment.text + ' Points';
+                  game__prize__flash__message.style.display = 'inherit';
+                  flash_msg_main_content.style.display = 'inherit';
+                  flash__msg_content.style.display = 'inherit';
+                  won__prize__img.style.display = 'none';
+
+              }
           }
 </script>
 <!-- game scripts ends -->

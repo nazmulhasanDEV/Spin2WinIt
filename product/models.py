@@ -224,6 +224,7 @@ class Cart(models.Model):
     product = models.ForeignKey(ProductList, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0, blank=True, null=True)
     total_amount = models.FloatField(blank=True, null=True)
+    product_variant = models.ForeignKey(ShopifyProductVariant, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return "Title: " + self.product.title+ " || " +str(self.user.email)
@@ -233,6 +234,8 @@ class Cart(models.Model):
             self.total_amount = round(float(self.product.price) * float(self.quantity), 2)
         if self.product.product_type == 'mcp':
             self.total_amount = round(float(self.product.new_price) * float(self.quantity), 2)
+        if self.product.product_type == 'shopify_product':
+            self.total_amount = round(float(self.product_variant.variant_price) * float(self.quantity), 2)
         super(Cart, self).save(*args, **kwargs)
 
 # order items

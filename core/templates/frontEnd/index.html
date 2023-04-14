@@ -249,7 +249,7 @@
                                                     {% if x.product.product_type == 'wsp' %}
                                                     <span>${{x.product.price}} x {{x.quantity}}</span>
                                                     {% else %}
-                                                    <span>${{x.product.new_price}} x {{x.quantity}}</span>
+                                                    <span>${{x.product_variant.variant_price}} x {{x.quantity}}</span>
                                                     {% endif %}
                                                 </div>
                                                 <a href="{% url 'frontRemovItemFromMiniCart' pk=x.pk %}">
@@ -262,7 +262,7 @@
                                             {% endif %}
                                         </ul>
                                         <p class="minicart-total">
-                                            SUBTOTAL: <span>${{total_amount|floatformat:'2'}}</span>
+                                            SUBTOTAL: <span>${{total_amount}}</span>
                                         </p>
                                         <div class="minicart-button">
                                             <a
