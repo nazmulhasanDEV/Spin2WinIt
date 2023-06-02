@@ -1539,6 +1539,7 @@ def front_shop_for_all_category(request):
     main_banner_or_slider = BannerList.objects.all()
 
     product_cat_list_all = ProductCategory.objects.all()
+    print(product_cat_list_all)
 
     products = ProductList.objects.all()
 
@@ -2265,15 +2266,13 @@ def front_checkout(request, username):
     # ads scripts ends*****************************************
 
     total_amount = 0
-    shipping_cost = 0
+    shipping_cost = ShippingClass.objects.filter(status=True).first().cost_rate
 
     # user cart status
     user_cart_status = Cart.objects.filter(user=request.user)
-
     total_amount = 0
     if user_cart_status:
-        total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
-
+        total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum'] + shipping_cost
     # if user_cart_status:
     #     for x in user_cart_status:
     #         if x.product.product_type == 'wsp':

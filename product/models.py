@@ -10,6 +10,7 @@ class ShippingClass(models.Model):
     classID = models.CharField(default='', max_length=255, blank=True, null=True)
     name = models.CharField(default='', max_length=255)
     cost_rate = models.FloatField(default=0)
+    status = models.BooleanField(default=False, blank=True, null=True)
 
     def __str__(self):
         return self.name + " Cost: " + str(self.cost_rate)

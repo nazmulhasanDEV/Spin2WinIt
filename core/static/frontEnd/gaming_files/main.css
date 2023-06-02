@@ -20,7 +20,8 @@ td.the_wheel
 {
     background-image: url("/static/frontEnd/gaming_files/game_bg.png");
     background-position: center;
-    background-repeat: none;
+    background-repeat: no-repeat;
+    background-size: 480px 480px;                   /* Width and height should at least be the same as the canvas */
 }
 
 /* Do some css reset on selected elements */

@@ -457,6 +457,9 @@ urlpatterns = [
     re_path(r'^ap/add/shipping/class/$', views.ap_add_shippingClass, name='apAddShippingClass'),
     re_path(r'^ap/update/shipping/class/(?P<pk>\d+)/$', views.ap_update_shippingClass, name='apUpdateShippingClass'),
     re_path(r'^ap/remove/shipping/class/(?P<pk>\d+)/$', views.ap_remove_shippingClass, name='apRemoveShippingClass'),
+    re_path(r'^ap/activate-disable/shipping/class/(?P<pk>\d+)/$', views.ap_activateOrDisableShippingClass, name='activateOrDisableShippingClass'),
+
+
     re_path(r'^ap/products/under/shipping/class/(?P<pk>\d+)/$', views.ap_productListByShippingClass, name='apProudctsUnderShippingClass'),
 
     # criteria

@@ -120,61 +120,63 @@
                         {% if product_list %}
                         {% for y in product_list %}
 
+
                         {% if x.name in y.cat_name or y.category.name == x.name %}
 
                         {% if y.product_type == 'wsp' %}
                         <div class="col-lg-12">
                             <!-- single-product-wrap start -->
-                            <div class="single-product-wrap" style="height: 370px; max-height: 370px; position: relative;">
+                            <div class="single-product-wrap" style="height: 370px; max-height: 370px;">
                                 <div class="product-image" style="height: 220px; max-height: 220px;">
                                     <a href="/fe/product/details/{{y.product_id}}" style="height: 100%;">
                                         {% if y.product_thumbnail %}
-                                        <img src="{{y.product_thumbnail.url}}" style="width: 100%; height: 100%;" alt="Li's Product Image"
-                                        />
+                                        <img src="{{y.product_thumbnail.url}}" alt="Li's Product Image"
+                                             style="width: 100%;height: 100%;"/>
                                         {% else %}
-                                            {% if y.productImg %}
-                                                {% for img in y.productImg.all %}
+                                        {% if y.productImg %}
+                                        {% for img in y.productImg.all %}
 
-                                                {% if forloop.counter == 1 %}
-                                                    {% if img.img %}
-                                                    <img src="{{img.img.url}}" style="width: 100%; height: 100%;" alt="Li's Product Image"/>
-                                                    {% else %}
-                                                    <img src="{{img.img_link}}" style="width: 100%; height: 100%;" alt="Li's Product Image"/>
-                                                    {% endif %}
-                                                {% endif %}
+                                        {% if forloop.counter == 1 %}
+                                        {% if img.img %}
+                                        <img src="{{img.img.url}}" alt="Li's Product Image"
+                                             style="width: 100%;height: 100%;"/>
+                                        {% else %}
+                                        <img src="{{img.img_link}}" alt="Li's Product Image"
+                                             style="width: 100%;height: 100%;"/>
+                                        {% endif %}
+                                        {% endif %}
 
-                                                {% endfor %}
-                                            {% else %}
-                                            <img src="" alt="Li's Product Image"/>
-                                            {% endif %}
+                                        {% endfor %}
+                                        {% else %}
+                                        <img src="" alt="Li's Product Image"/>
+                                        {% endif %}
                                         {% endif %}
                                     </a>
-
-<!--                                    <span class="sticker">New</span>-->
+                                    <!--                                    <span class="sticker">New</span>-->
                                 </div>
                                 <div class="product_desc">
                                     <div class="product_desc_info">
-<!--                                        <div class="product-review">-->
-<!--                                            <h5 class="manufacturer">-->
-<!--                                                <a href="shop-left-sidebar.html"-->
-<!--                                                >{{y.brand_name}}</a-->
-<!--                                                >-->
-<!--                                            </h5>-->
-<!--                                            <div class="rating-box">-->
-<!--                                                <ul class="rating">-->
-<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
-<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
-<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
-<!--                                                    <li class="no-star">-->
-<!--                                                        <i class="fa fa-star-o"></i>-->
-<!--                                                    </li>-->
-<!--                                                    <li class="no-star">-->
-<!--                                                        <i class="fa fa-star-o"></i>-->
-<!--                                                    </li>-->
-<!--                                                </ul>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-                                        <h4>
+                                        <!--                                        <div class="product-review">-->
+                                        <!--                                                                                        <h5 class="manufacturer">-->
+                                        <!--                                                                                            <a href="shop-left-sidebar.html"-->
+                                        <!--                                                                                            >{{y.brand_name}}</a-->
+                                        <!--                                                                                            >-->
+                                        <!--                                                                                        </h5>-->
+                                        <!--                                            <div class="rating-box">-->
+                                        <!--                                                <ul class="rating">-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li class="no-star">-->
+                                        <!--                                                        <i class="fa fa-star-o"></i>-->
+                                        <!--                                                    </li>-->
+                                        <!--                                                    <li class="no-star">-->
+                                        <!--                                                        <i class="fa fa-star-o"></i>-->
+                                        <!--                                                    </li>-->
+                                        <!--                                                </ul>-->
+                                        <!--                                            </div>-->
+                                        <!--                                        </div>-->
+                                        <h4 style="text-align: justify; margin-top: 10px;">
                                             <a class="product_name" href="/fe/product/details/{{y.product_id}}">{{y.title|safe|truncatechars:48}}</a
                                             >
                                         </h4>
@@ -183,7 +185,7 @@
                                             {% if y.regular_price %}
                                             <span class="old-price">${{y.regular_price|floatformat:2}}</span>
                                             {% endif %}
-<!--                                            <span class="discount-percentage">-7%</span>-->
+                                            <!--                                            <span class="discount-percentage">-7%</span>-->
                                         </div>
                                     </div>
                                     <div class="add-actions">
@@ -197,18 +199,93 @@
                                                         class="links-details"
                                                         href="{% url 'frontAddToWishlist' product_id=y.product_id %}"
                                                         data-toggle="tooltip" data-placement="bottom"
-                                                        title="Add to wishlist"
-                                                ><i class="fas fa-heart"></i></a>
+                                                        title="Add to wishlist"><i class="fas fa-heart"></i></a>
                                             </li>
-<!--                                            <li>-->
-<!--                                                <a-->
-<!--                                                        class="quick-view"-->
-<!--                                                        data-toggle="modal"-->
-<!--                                                        data-target="#product_toggle_{{y.product_id}}"-->
-<!--                                                        href="#" data-toggle="tooltip" data-placement="bottom"-->
-<!--                                                        title="Add to compare"-->
-<!--                                                ><i class="fas fa-list"></i></a>-->
-<!--                                            </li>-->
+                                            <!--                                            <li>-->
+                                            <!--                                                <a-->
+                                            <!--                                                        class="quick-view"-->
+                                            <!--                                                        data-toggle="modal"-->
+                                            <!--                                                        data-target="#product_toggle_{{y.product_id}}"-->
+                                            <!--                                                        href="#" data-toggle="tooltip" data-placement="bottom"-->
+                                            <!--                                                        title="Add to compare"-->
+                                            <!--                                                ><i class="fas fa-list"></i></a>-->
+                                            <!--                                            </li>-->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- single-product-wrap end -->
+                        </div>
+                        {% elif y.product_type == 'shopify_product' %}
+                        <div class="col-lg-12">
+                            <!-- single-product-wrap start -->
+                            <div class="single-product-wrap" style="height: 370px; max-height: 370px;">
+                                <div class="product-image" style="height: 220px; max-height: 220px;">
+                                    <a href="/fe/product/details/{{y.product_id}}" style="height: 100%;">
+                                        {% if y.product_thumbnail %}
+                                        <img src="{{y.product_thumbnail.url}}" alt="Li's Product Image"
+                                             style="width: 100%;height: 100%;"/>
+                                        {% else %}
+                                        {% if y.productImg %}
+                                        {% for img in y.productImg.all %}
+
+                                        {% if forloop.counter == 1 %}
+                                        {% if img.img %}
+                                        <img src="{{img.img.url}}" alt="Li's Product Image"
+                                             style="width: 100%;height: 100%;"/>
+                                        {% else %}
+                                        <img src="{{img.img_link}}" alt="Li's Product Image"
+                                             style="width: 100%;height: 100%;"/>
+                                        {% endif %}
+                                        {% endif %}
+
+                                        {% endfor %}
+                                        {% else %}
+                                        <img src="" alt="Li's Product Image"/>
+                                        {% endif %}
+                                        {% endif %}
+                                    </a>
+                                    <!--                                    <span class="sticker">New</span>-->
+                                </div>
+                                <div class="product_desc">
+                                    <div class="product_desc_info">
+
+                                        <h4 style="text-align: justify; margin-top: 10px;">
+                                            <a class="product_name" href="/fe/product/details/{{y.product_id}}">{{y.title|safe|truncatechars:48}}</a
+                                            >
+                                        </h4>
+                                        <div class="price-box">
+                                            {% if y.productVariant %}
+                            {% if y.productVariant.all.first %}
+                            Started at:
+                            <span class="new-price new-price-2 product-price">${{y.productVariant.all.first.variant_price}}</span>
+                            {% endif %}
+                            {% endif %}
+                                            <!--                                            <span class="discount-percentage">-7%</span>-->
+                                        </div>
+                                    </div>
+                                    <div class="add-actions">
+                                        <ul class="add-actions-link">
+                                            <li class="add-cart active">
+                                                <a href="{% url 'frontAddToCart' product_id=y.product_id %}">Add to
+                                                    cart</a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                        class="links-details"
+                                                        href="{% url 'frontAddToWishlist' product_id=y.product_id %}"
+                                                        data-toggle="tooltip" data-placement="bottom"
+                                                        title="Add to wishlist"><i class="fas fa-heart"></i></a>
+                                            </li>
+                                            <!--                                            <li>-->
+                                            <!--                                                <a-->
+                                            <!--                                                        class="quick-view"-->
+                                            <!--                                                        data-toggle="modal"-->
+                                            <!--                                                        data-target="#product_toggle_{{y.product_id}}"-->
+                                            <!--                                                        href="#" data-toggle="tooltip" data-placement="bottom"-->
+                                            <!--                                                        title="Add to compare"-->
+                                            <!--                                                ><i class="fas fa-list"></i></a>-->
+                                            <!--                                            </li>-->
                                         </ul>
                                     </div>
                                 </div>
@@ -218,47 +295,49 @@
                         {% else %}
                         <div class="col-lg-12">
                             <!-- single-product-wrap start -->
-                            <div class="single-product-wrap" style="height: 370px; max-height: 370px;">
+                            <div class="single-product-wrap"
+                                 style="height: 370px; max-height: 370px; position: relative;">
                                 <div class="product-image">
                                     <a href="/fe/product/details/{{y.product_id}}">
                                         <img src="{{y.product_thumbnail.url}}"
-                                             alt="Li's Product Image"
+                                             alt="Li's Product Image" style="width: 100%;"
                                         />
                                     </a>
                                     <span class="sticker">New</span>
                                 </div>
-                                <div class="product_desc">
+                                <div class="product_desc"
+                                     style="padding-left: 10px; padding-bottom: 5px; position: absolute; bottom: 5px;">
                                     <div class="product_desc_info">
-<!--                                        <div class="product-review">-->
-<!--                                            <h5 class="manufacturer">-->
-<!--                                                <a href="shop-left-sidebar.html"-->
-<!--                                                >{{y.brand_name}}</a-->
-<!--                                                >-->
-<!--                                            </h5>-->
-<!--                                            <div class="rating-box">-->
-<!--                                                <ul class="rating">-->
-<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
-<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
-<!--                                                    <li><i class="fa fa-star-o"></i></li>-->
-<!--                                                    <li class="no-star">-->
-<!--                                                        <i class="fa fa-star-o"></i>-->
-<!--                                                    </li>-->
-<!--                                                    <li class="no-star">-->
-<!--                                                        <i class="fa fa-star-o"></i>-->
-<!--                                                    </li>-->
-<!--                                                </ul>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
+                                        <!--                                        <div class="product-review">-->
+                                        <!--                                            <h5 class="manufacturer">-->
+                                        <!--                                                <a href="shop-left-sidebar.html"-->
+                                        <!--                                                >{{y.brand_name}}</a-->
+                                        <!--                                                >-->
+                                        <!--                                            </h5>-->
+                                        <!--                                            <div class="rating-box">-->
+                                        <!--                                                <ul class="rating">-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li><i class="fa fa-star-o"></i></li>-->
+                                        <!--                                                    <li class="no-star">-->
+                                        <!--                                                        <i class="fa fa-star-o"></i>-->
+                                        <!--                                                    </li>-->
+                                        <!--                                                    <li class="no-star">-->
+                                        <!--                                                        <i class="fa fa-star-o"></i>-->
+                                        <!--                                                    </li>-->
+                                        <!--                                                </ul>-->
+                                        <!--                                            </div>-->
+                                        <!--                                        </div>-->
                                         <h4>
-                                            <a class="product_name" href="/fe/product/details/{{y.product_id}}">{{y.title|safe|truncatechars:40}}</a
+                                            <a class="product_name" href="/fe/product/details/{{y.product_id}}">{{y.title|safe|truncatechars:25}}</a
                                             >
                                         </h4>
                                         <div class="price-box">
-                                            <span class="new-price">${{y.new_price|floatformat:2}}</span>
+                                            <span class="new-price">${{y.new_price}}</span>
                                             {% if y.old_price %}
-                                            <span class="old-price">${{y.old_price|floatformat:2}}</span>
+                                            <span class="old-price">${{y.old_price}}</span>
                                             {% endif %}
-<!--                                            <span class="discount-percentage">-7%</span>-->
+                                            <!--                                            <span class="discount-percentage">-7%</span>-->
                                         </div>
                                     </div>
                                     <div class="add-actions">
@@ -268,12 +347,10 @@
                                                     cart</a>
                                             </li>
                                             <li>
-                                                <a
-                                                        class="links-details"
-                                                        href="{% url 'frontAddToWishlist' product_id=y.product_id %}"
-                                                        data-toggle="tooltip" data-placement="bottom"
-                                                        title="Add to wishlist"
-                                                ><i class="fas fa-heart"></i></a>
+                                                <a class="links-details"
+                                                   href="{% url 'frontAddToWishlist' product_id=y.product_id %}"
+                                                   data-toggle="tooltip" data-placement="bottom"
+                                                   title="Add to wishlist"><i class="fas fa-heart"></i></a>
                                             </li>
                                         </ul>
                                     </div>

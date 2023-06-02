@@ -118,5 +118,19 @@
 
 
 
+#canvasContainer {
+    position: relative;
+    margin-bottom: 45px;
+}
 
+#canvas {
+    z-index: 1;
+}
+
+#prizePointer {
+    position: absolute;
+    left: 172px;
+    top: -50px;
+    z-index: 6566565;
+}
 

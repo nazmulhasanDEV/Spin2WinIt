@@ -44,7 +44,7 @@
             {% if row_1_col_1_ads.ads_script %}
             {{row_1_col_1_ads.ads_script}}
             {% else %}
-            <!--yllx 468x60 starts &*************************************-->
+            <!--yllx 468x60 starts &*************cost_ratepin************************-->
             <script type="text/javascript"
                     src="https://udbaa.com/bnr.php?section=General&pub=444213&format=468x60&ga=g"></script>
             <!--yllx ends here **********************************-->
@@ -302,18 +302,18 @@
                             </tbody>
                             <tfoot>
                             <tr class="cart-subtotal">
-                                <th>Cart Subtotal</th>
-                                <td><span class="amount">${{total_amount|floatformat:2}}</span></td>
+                                <th><b>Cart Subtotal</b></th>
+                                <td><b><span class="amount">${{total_amount|floatformat:2}}</span></b></td>
                             </tr>
 
                             <tr class="cart-subtotal">
-                                <th>Shipping Cost</th>
-                                <td><span class="amount">${{shipping_cost|floatformat:2}}</span></td>
+                                <th><b>Shipping Cost</b></th>
+                                <td><b><span class="amount">${{shipping_cost|floatformat:2}}</span></b></td>
                             </tr>
 
                             <tr class="order-total">
                                 <th>Order Total</th>
-                                <td><strong><span class="amount">${{total_amount|add:shipping_cost|floatformat:2}}</span></strong></td>
+                                <td><span class="amount">${{total_amount|add:shipping_cost|floatformat:2}}</span></td>
                             </tr>
                             </tfoot>
                         </table>

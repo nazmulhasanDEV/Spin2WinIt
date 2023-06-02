@@ -2809,15 +2809,12 @@ def ap_segment_setting(request):
 
             select_prize_mode = request.POST.get('select_prize_mode')
 
-
-
             if segment and bg_color and segment_prize__type and segment_status and len(SegmentList.objects.filter(segment=Segment.objects.get(pk=segment))) <= 0 and select_prize_mode:
-                spin_to_usd_rate = SpinConversionRateIntoUSD.objects.filter().first().spinRateValueInUSD
+                spin_to_usd_rate = SpinConversionRateIntoUSD.objects.filter().first()
                 current_segment = Segment.objects.get(pk=segment)
                 if prize_cost:
                     if spin_to_usd_rate:
-                        required_spin_for_current_prize_segment = round(float(prize_cost)/float(spin_to_usd_rate))
-
+                        required_spin_for_current_prize_segment = round(float(prize_cost)/float(spin_to_usd_rate.spinRateValueInUSD))
                 segment_list_model = SegmentList.objects.create(
                     segment_no=segment_order,
                     segment=current_segment,
@@ -2828,6 +2825,8 @@ def ap_segment_setting(request):
                     prize_type = select_prize_mode
                 )
 
+                print(segment_list_model)
+
                 if segment_prize__type == 'product' and select_prize_mode == 'periodic':
                     current_prodct_as_prize = SponsoredProductForPrize.objects.get(pk=product_as_prize)
 
@@ -2835,7 +2834,7 @@ def ap_segment_setting(request):
 
                     segment_list_model.product_as_prize = current_prodct_as_prize
                     segment_list_model.product_cost = current_prodct_as_prize.product.price
-                    segment_list_model.required_spin_to_win = round(float(product_cost_of_current_product_prize)/spin_to_usd_rate)
+                    segment_list_model.required_spin_to_win = round(float(product_cost_of_current_product_prize)/spin_to_usd_rate.spinRateValueInUSD)
                     segment_list_model.save()
                     messages.success(request, "Succesfully added!")
                     return redirect('apSegmentSettings')
@@ -2848,7 +2847,7 @@ def ap_segment_setting(request):
                     return redirect('apSegmentSettings')
 
                 if select_prize_mode == 'random':
-                    segment_list_model.segment_prize_type='2'
+                    segment_list_model.segment_prize_type= '2'
                     segment_list_model.prize_point_amount=point_as_prize
                     segment_list_model.save()
                     messages.success(request, "Succesfully added!")
@@ -2943,10 +2942,10 @@ def ap_update_segment_setting(request, pk):
             select_prize_mode = request.POST.get('select_prize_mode')
 
             if segment and bg_color and segment_prize__type and segment_status:
-                spin_to_usd_rate = SpinConversionRateIntoUSD.objects.filter().first().spinRateValueInUSD
+                spin_to_usd_rate = SpinConversionRateIntoUSD.objects.filter().first()
                 if prize_cost:
                     if spin_to_usd_rate:
-                        required_spin_for_current_prize_segment = round(float(prize_cost)/float(spin_to_usd_rate))
+                        required_spin_for_current_prize_segment = round(float(prize_cost)/float(spin_to_usd_rate.spinRateValueInUSD))
 
                 current_segment = Segment.objects.get(pk=segment)
 
@@ -2964,7 +2963,7 @@ def ap_update_segment_setting(request, pk):
                     current_prodct_as_prize = SponsoredProductForPrize.objects.get(pk=product_as_prize)
                     product_cost_of_current_product_prize = current_prodct_as_prize.product.price
 
-                    segment_list_model.required_spin_to_win = round(float(product_cost_of_current_product_prize)/spin_to_usd_rate)
+                    segment_list_model.required_spin_to_win = round(float(product_cost_of_current_product_prize)/spin_to_usd_rate.spinRateValueInUSD)
                     segment_list_model.segment_prize_type = '1'
                     segment_list_model.product_as_prize = current_prodct_as_prize
                     segment_list_model.save()
@@ -7437,7 +7436,7 @@ def ap_add_shippingClass(request):
         name = request.POST.get('className')
         cost = request.POST.get('cost')
 
-        if name and cost and ShippingClass.objects.filter(name=name.capitalize()).count() <= 0:
+        if name and cost and ShippingClass.objects.filter().count() <= 0:
             shippingClassId = get_random_string(12)
             shippingClassList = ShippingClass.objects.create(classID=shippingClassId, name=name.capitalize(), cost_rate=cost)
             messages.success(request, "Successfully added!")
@@ -7500,6 +7499,27 @@ def ap_remove_shippingClass(request, pk):
         return redirect('apAddShippingClass')
     except:
         messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apAddShippingClass')
+
+    return redirect('apAddShippingClass')
+
+@login_required(login_url='/ap/register/updated')
+def ap_activateOrDisableShippingClass(request, pk):
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    try:
+        crnt_obj = ShippingClass.objects.get(pk=pk)
+        if crnt_obj.status:
+            crnt_obj.status = False
+            crnt_obj.save()
+        else:
+            crnt_obj.status = True
+            crnt_obj.save()
+        messages.success(request, "Shipping class status successfully updated!")
+        return redirect('apAddShippingClass')
+    except:
+        messages.warning(request, "Can't be updated! Try again!")
         return redirect('apAddShippingClass')
 
     return redirect('apAddShippingClass')

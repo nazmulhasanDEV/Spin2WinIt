@@ -46,8 +46,9 @@
 }
 
 .flash__msg_content {
-    background-image: url('/static/frontEnd/gaming_files/congratulations_img.jpeg');
-    background-size: cover;
+    background-image: url('/static/frontEnd/gaming_files/congra-bg-.png');
+    background-size: auto;
+    background-size: 100%;
     background-repeat: no-repeat;
     position: absolute;
     color: white;
@@ -93,6 +94,7 @@
     border-radius: 50%;
     border: 2px solid #FFD700;
     text-align: center;
+    background: #293A6C;
     right: 10px;
 }
 

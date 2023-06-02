@@ -105,18 +105,17 @@
 
                                     <td class="text-center">
 
-<!--                                        {% if x.status %}-->
-<!--                                        <a href="">-->
-<!--                                            <button type="button" style="border:none; background: #222D32;color:white;">-->
-<!--                                                De-Activate</button>-->
-<!--                                        </a>-->
-<!--                                        {% else %}-->
-<!--                                        <a href="">-->
-<!--                                            <button type="button" style="border:none; background: #222D32;color:white;">-->
-<!--                                                Activate</button>-->
-<!--                                        </a>-->
-<!--                                        {% endif %}-->
-<!--{% url 'apUpdateSegmentSetting' pk=x.pk %}-->
+                                        {% if x.status %}
+                                        <a href="{% url 'activateOrDisableShippingClass' pk=x.pk %}">
+                                            <button type="button" style="border:none; background: #FF0000;color:white;">
+                                                De-Activate</button>
+                                        </a>
+                                        {% else %}
+                                        <a href="{% url 'activateOrDisableShippingClass' pk=x.pk %}">
+                                            <button type="button" style="border:none; background: green;color:white;">
+                                                Activate</button>
+                                        </a>
+                                        {% endif %}
                                         <a href="{% url 'apUpdateShippingClass' pk=x.pk %}">
                                             <button type="button" style="border:none; background: #00C0EF;color:white;">
                                                 <i class="fas fa-edit"></i> Update</button>
