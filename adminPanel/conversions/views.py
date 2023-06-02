@@ -54,5 +54,10 @@ def updateSpinRate(request):
             messages.warning(request, "Something went wrong. Try again!")
             return redirect('updateSpinRate')
 
+    currentConvertionRate = SpinConversionRateIntoUSD.objects.filter().first()
+    context = {
+        'currentConvertionRate': currentConvertionRate
+    }
 
-    return render(request, 'backEnd_superAdmin/settings/settings.html')
+
+    return render(request, 'backEnd_superAdmin/settings/settings.html', context)

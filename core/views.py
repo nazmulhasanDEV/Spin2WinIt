@@ -26,6 +26,7 @@ from django.utils import timezone
 from django.utils.crypto import get_random_string # for getting random code...get_random_string(8) will return 8 digit random code
 from adminPanel.views import create_orderToWcmrceStore
 from .get_visitor_info import get_or_countVisitorInfo
+from adminPanel.conversions.models import SpinConversionRateIntoUSD
 
 def get_User_ip(request):
 
@@ -2965,11 +2966,13 @@ def front_game(request):
 
     # ads scripts ends*****************************************
 
+    currentRate = SpinConversionRateIntoUSD.objects.filter().first()
     total_number_of_times_played_till_now = TotalNumOfTimesPlayed.objects.first()
 
 
     number_of_segments = len(SegmentList.objects.filter(status=True))
     active_segment_list = SegmentList.objects.filter(status=True).order_by('segment_no')
+
 
     # find out and sort random and periodic segments
     stopAt = 0
@@ -2997,11 +3000,11 @@ def front_game(request):
         if gold_prize:
             if gold_prize.product_as_prize.product.product_type == 'wsp':
                 gold_prize_cost = gold_prize.product_cost
-                gold_prize_necessaary_spins = math.ceil(float(gold_prize_cost) / (.10)) # here .10 cent == 1 spin
+                gold_prize_necessaary_spins = math.ceil(float(gold_prize_cost) / (currentRate))
                 # gold_prize_necessaary_spins = 1 # here .10 cent == 1 spin
             else:
                 gold_prize_cost = gold_prize.product_cost
-                gold_prize_necessaary_spins = math.ceil(float(gold_prize_cost) / (.10)) # here .10 cent == 1 spin
+                gold_prize_necessaary_spins = math.ceil(float(gold_prize_cost) / (currentRate))
                 # gold_prize_necessaary_spins = 1 # here .10 cent == 1 spin
 
         silver_prize = SegmentList.objects.filter(prize_title='Silver').first()
@@ -3010,11 +3013,11 @@ def front_game(request):
         if silver_prize:
             if silver_prize.product_as_prize.product.product_type == 'wsp':
                 silver_prize_cost = silver_prize.product_cost
-                silver_prize_necessaary_spins = math.ceil(float(silver_prize_cost) / (.10))  # here .10 cent == 1 spin
+                silver_prize_necessaary_spins = math.ceil(float(silver_prize_cost) / (currentRate))
                 # silver_prize_necessaary_spins = 1  # here .10 cent == 1 spin
             else:
                 silver_prize_cost = silver_prize.product_cost
-                silver_prize_necessaary_spins = math.ceil(float(silver_prize_cost) / (.10))  # here .10 cent == 1 spin
+                silver_prize_necessaary_spins = math.ceil(float(silver_prize_cost) / (currentRate))
 
                 # silver_prize_necessaary_spins = 1  # here .10 cent == 1 spin
 
@@ -3025,11 +3028,11 @@ def front_game(request):
         if bronze_prize:
             if bronze_prize.product_as_prize.product.product_type == 'wsp':
                 bronze_prize_cost = bronze_prize.product_cost
-                bronze_prize_necessaary_spins = math.ceil(float(bronze_prize_cost) / (.10)) # here .10 cent == 1 spin
+                bronze_prize_necessaary_spins = math.ceil(float(bronze_prize_cost) / (currentRate))
                 # bronze_prize_necessaary_spins = 1 # here .10 cent == 1 spin
             else:
                 bronze_prize_cost = bronze_prize.product_cost
-                bronze_prize_necessaary_spins = math.ceil(float(bronze_prize_cost) / (.10))  # here .10 cent == 1 spin
+                bronze_prize_necessaary_spins = math.ceil(float(bronze_prize_cost) / (currentRate))
                 # bronze_prize_necessaary_spins = 1  # here .10 cent == 1 spin
 
 
@@ -3040,11 +3043,11 @@ def front_game(request):
         if diamond_prize:
             if diamond_prize.product_as_prize.product.product_type == 'wsp':
                 diamond_prize_cost = diamond_prize.product_cost
-                diamond_prize_necessaary_spins = math.ceil(float(diamond_prize_cost) / (.10))  # here .10 cent == 1 spin
+                diamond_prize_necessaary_spins = math.ceil(float(diamond_prize_cost) / (currentRate))
                 # bronze_prize_necessaary_spins = 1 # here .10 cent == 1 spin
             else:
                 diamond_prize_cost = diamond_prize.product_cost
-                diamond_prize_necessaary_spins = math.ceil(float(diamond_prize_cost) / (.10))  # here .10 cent == 1 spin
+                diamond_prize_necessaary_spins = math.ceil(float(diamond_prize_cost) / (currentRate))
                 # bronze_prize_necessaary_spins = 1  # here .10 cent == 1 spin
         # ends sec for diamond
 

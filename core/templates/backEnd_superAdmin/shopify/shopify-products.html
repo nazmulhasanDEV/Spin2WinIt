@@ -121,15 +121,19 @@
                                     </td>
                                     <td>{{x.stock_status}}</td>
                                     <td class="text-center">
-<!--                                        <a href="{% url 'apWoocmrcePrdctDetails' pk=x.pk %}">-->
+<!--                                        <a href="">-->
 <!--                                            <button type="button" style="border:none; background: #222D32;color:white;">-->
 <!--                                                Check details</button>-->
 <!--                                        </a>-->
-
-<!--                                        <a href="">-->
-<!--                                            <button type="button" style="border:none; background: #00C0EF;color:white;">-->
-<!--                                                <i class="fas fa-edit"></i> Update</button>-->
-<!--                                        </a>-->
+                                        {% if x.sponsor_status == 'yes' or x.sponsor_status == 'Yes' %}
+                                        <button type="button" style="border:none; background: green;color:white;">
+                                                 Sponsored</button>
+                                        {% else %}
+                                        <a href="{% url 'addSponsoredProduct' pk=x.pk %}">
+                                            <button type="button" style="border:none; background: #00C0EF;color:white;">
+                                                 Add to sponsored products</button>
+                                        </a>
+                                        {% endif %}
 
                                         <!-- modal for deleting object-->
 

@@ -2810,6 +2810,7 @@ def ap_segment_setting(request):
             select_prize_mode = request.POST.get('select_prize_mode')
 
             if segment and bg_color and segment_prize__type and segment_status and len(SegmentList.objects.filter(segment=Segment.objects.get(pk=segment))) <= 0 and select_prize_mode:
+                required_spin_for_current_prize_segment = 0
                 spin_to_usd_rate = SpinConversionRateIntoUSD.objects.filter().first()
                 current_segment = Segment.objects.get(pk=segment)
                 if prize_cost:
@@ -2822,18 +2823,15 @@ def ap_segment_setting(request):
                     prize_title=prize_title,
                     segment_prize_type='1',
                     status=segment_status,
-                    prize_type = select_prize_mode
+                    prize_type= select_prize_mode
                 )
 
-                print(segment_list_model)
-
                 if segment_prize__type == 'product' and select_prize_mode == 'periodic':
+
                     current_prodct_as_prize = SponsoredProductForPrize.objects.get(pk=product_as_prize)
-
-                    product_cost_of_current_product_prize = current_prodct_as_prize.product.price
-
+                    product_cost_of_current_product_prize = current_prodct_as_prize.product.productVariant.first().variant_price
                     segment_list_model.product_as_prize = current_prodct_as_prize
-                    segment_list_model.product_cost = current_prodct_as_prize.product.price
+                    segment_list_model.product_cost = current_prodct_as_prize.product.productVariant.first().variant_price
                     segment_list_model.required_spin_to_win = round(float(product_cost_of_current_product_prize)/spin_to_usd_rate.spinRateValueInUSD)
                     segment_list_model.save()
                     messages.success(request, "Succesfully added!")
@@ -7524,6 +7522,20 @@ def ap_activateOrDisableShippingClass(request, pk):
 
     return redirect('apAddShippingClass')
 
+@login_required(login_url='/ap/register/updated')
+def apRemoveProductFromShippingClass(request, shippingClassPk, productPk):
+
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
+
+    existingProductsUnderCurrentClass = get_object_or_404(ProductList, pk=productPk)
+    existingProductsUnderCurrentClass.shipping_class = None
+    existingProductsUnderCurrentClass.save()
+    messages.success(request, 'Successfully removed')
+
+    return redirect('apProudctsUnderShippingClass', pk=shippingClassPk)
+
+
 
 @login_required(login_url='/ap/register/updated')
 def ap_productListByShippingClass(request, pk):
@@ -7841,8 +7853,12 @@ def ap_update_ads_script(request, pk):
 
 @login_required(login_url='/fe/login/register')
 def ap_settings(request):
+    currentConvertionRate = SpinConversionRateIntoUSD.objects.filter().first()
+    context = {
+        'currentConvertionRate': currentConvertionRate
+    }
 
-    return render(request, 'backEnd_superAdmin/settings/settings.html')
+    return render(request, 'backEnd_superAdmin/settings/settings.html', context)
 
 
 

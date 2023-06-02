@@ -35,7 +35,7 @@ SHOPIFY_SHARED_SECRET = '3578de673ff5a90197a34553aade4e15'
 SHOPIFY_STORE_URL = 'https://mywybuy.myshopify.com/'
 
 
-
+@login_required(login_url='/ap/register/updated')
 def getProductFromShopify(request):
     url = 'https://mywybuy.myshopify.com/admin/api/2023-01/products.json/'
     token = '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'
@@ -133,7 +133,7 @@ def removeItemFromShopifyStore(request, pk):
     return redirect('shopifyProducts')
 
 
-import requests
+
 
 def create_draft_order(products):
     # Build the API URL for creating draft orders
@@ -250,39 +250,27 @@ def createOrder(request):
 
     return redirect('shopifyProducts')
 
-# def createOrder(request):
-#     shop = shopify.Order()
-#
-#     url = 'https://mywybuy.myshopify.com//admin/api/2023-01/orders.json/'
-#     token = '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'
-#     data = {
-#         "order": {
-#             "line_items": [
-#                 {
-#                     "variant_id": 44454513180982,
-#                     "quantity": 1
-#                 }
-#             ],
-#             "tax_lines": [
-#                 {
-#                     "price": 13.5,
-#                     "rate": 0.06,
-#                     "title": "State tax"
-#                 }
-#             ]
-#         }
-#     }
-#     order_request = requests.post(url, json=data, headers={'X-Shopify-Access-Token': token})
-#     print(order_request)
-#
-#     return redirect('shopifyProducts')
 
+@login_required(login_url='/ap/register/updated')
+def addSponsoredProduct(request, pk):
 
+    if request.user.is_admin != True:
+        return redirect('frontEndLoginUser')
 
+    product = get_object_or_404(ProductList, pk=pk)
 
+    if product.sponsor_status == 'No' or product.sponsor_status == 'no':
+        product.sponsor_status = 'Yes'
+        product.save()
 
+        # adding to sponsored product list
+        addToSponsoredProductList = SponsoredProductForPrize(product=product, status=False)
+        addToSponsoredProductList.save()
 
+        messages.success(request, "Product has been added to sponsored product list. Please activate to add in game segments")
+        return redirect('shopifyProducts')
 
+    return redirect('shopifyProducts')
 
 
 

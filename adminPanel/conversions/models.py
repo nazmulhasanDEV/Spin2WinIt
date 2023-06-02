@@ -9,4 +9,4 @@ class SpinConversionRateIntoUSD(TimeStampMixin):
 
 
     def __str__(self):
-        return self.spinRateValueInUSD
+        return str(self.spinRateValueInUSD)

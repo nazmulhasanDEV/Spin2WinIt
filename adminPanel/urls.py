@@ -461,6 +461,8 @@ urlpatterns = [
 
 
     re_path(r'^ap/products/under/shipping/class/(?P<pk>\d+)/$', views.ap_productListByShippingClass, name='apProudctsUnderShippingClass'),
+    re_path(r'^ap/remove-product/under/shipping/class/(?P<shippingClassPk>\d+)/(?P<productPk>\d+)/$', views.apRemoveProductFromShippingClass, name='apRemoveProductFromShippingClass'),
+
 
     # criteria
     re_path(r'^ap/add/product/weight/criteria/$', views.ap_add_productWeightCriteria, name='apAddProductWeightCriteria'),
