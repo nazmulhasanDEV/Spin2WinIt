@@ -1693,6 +1693,8 @@ def front_shop(request, pk):
 
     site_logo = SiteLogo.objects.filter().first()
 
+    product_cat_list_all = ProductCategory.objects.all()
+
     contact_info = ContactUs.objects.first()
     # free delivery setting
     free_delivery_content_setting = FreeDelivery.objects.filter().first()
@@ -1768,7 +1770,6 @@ def front_shop(request, pk):
         # user cart status
         user_cart_status = Cart.objects.filter(user=request.user)
 
-
         if user_cart_status:
             total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
@@ -1793,6 +1794,7 @@ def front_shop(request, pk):
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'banner_at_shop_page_by_cat': banner_at_shop_page_by_cat,
+        'product_cat_list_all': product_cat_list_all,
 
         # ads script
         'row_1_col_1_ads': row_1_col_1_ads,
@@ -1811,6 +1813,7 @@ def front_shop(request, pk):
 
         'row_5_col_1_ads': row_5_col_1_ads,
         'row_5_col_2_ads': row_5_col_2_ads,
+
     }
     return render(request, 'frontEnd/shop/shop.html', context)
 
@@ -1895,9 +1898,7 @@ def front_productDetails(request, product_id):
         num_of_2_star = round(((ProductRating.objects.filter(Q(product=current_product) & Q(rating_val=2)).count()) / current_prod_revs.count()) * 100)
         num_of_1_star = round(((ProductRating.objects.filter(Q(product=current_product) & Q(rating_val=1)).count()) / current_prod_revs.count()) * 100)
 
-
-
-
+    product_cat_list_all = ProductCategory.objects.all()
     if request.user.is_authenticated:
 
         if request.method == "GET":
@@ -1936,6 +1937,7 @@ def front_productDetails(request, product_id):
             'safe_payment_content_setting': safe_payment_content_setting,
             'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
             'help_center_content_setting': help_center_content_setting,
+            'product_cat_list_all': product_cat_list_all,
 
             'prod_details_pg_bnr': prod_details_pg_bnr,
             'current_prod_revs': current_prod_revs,
@@ -2267,31 +2269,15 @@ def front_checkout(request, username):
     # ads scripts ends*****************************************
 
     total_amount = 0
-    shipping_cost = ShippingClass.objects.filter(status=True).first().cost_rate
+    # shipping_cost = ShippingClass.objects.filter(status=True).first().cost_rate
 
     # user cart status
     user_cart_status = Cart.objects.filter(user=request.user)
     total_amount = 0
     if user_cart_status:
-        total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum'] + shipping_cost
-    # if user_cart_status:
-    #     for x in user_cart_status:
-    #         if x.product.product_type == 'wsp':
-    #             total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
-    #             # shipping cost calculations
-    #             try:
-    #                 if x.product.shipping_class.cost_rate:
-    #                     shipping_cost = shipping_cost + x.product.shipping_class.cost_rate
-    #             except:
-    #                 shipping_cost = 0
-    #         if x.product.product_type == 'mcp':
-    #             total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
-    #             # shipping cost calculations
-    #             try:
-    #                 if x.product.shipping_class.cost_rate:
-    #                     shipping_cost = shipping_cost + x.product.shipping_class.cost_rate
-    #             except:
-    #                 shipping_cost = 0
+        total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
+
+    shipping_cost_of_current_cart_items = user_cart_status.aggregate(Sum('product__shipping_class__cost_rate'))['product__shipping_class__cost_rate__sum'] or 0
 
     context = {
         'site_logo': site_logo,
@@ -2304,9 +2290,10 @@ def front_checkout(request, username):
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
-        'shipping_cost': shipping_cost,
+        # 'shipping_cost': shipping_cost,
         'usr_deflt_shipping_addrss': usr_deflt_shipping_addrss,
         'usr_deflt_billing_address': usr_deflt_billing_address,
+        'shipping_cost_of_current_cart_items': shipping_cost_of_current_cart_items,
 
         # ads script
         'row_1_col_1_ads': row_1_col_1_ads,
@@ -2845,9 +2832,11 @@ def front_add_to_wishlist(request, product_id):
 
     if request.user.is_authenticated and current_product:
         if len(WishList.objects.filter(Q(user=request.user) & Q(product=current_product))) > 0:
+            # variant = get_object_or_404(ShopifyProductVariant, vairant_id=variant_id)
             wishlist_model = WishList.objects.filter(Q(user=request.user) & Q(product=current_product)).first()
 
             wishlist_model.quantity = wishlist_model.quantity + 1
+            # wishlist_model.product_variant = current_product.productVariant.first()
             wishlist_model.save()
             return redirect(request.META.get('HTTP_REFERER'))
         else:
@@ -2858,8 +2847,9 @@ def front_add_to_wishlist(request, product_id):
     return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required(login_url='/fe/login/register')
-def front_wishlist(request, username):
+def front_wishlist(request):
 
+    print('Hello calling me')
     if request.user.is_authenticated and request.user.is_buyer != True:
         return redirect('frontEndLoginRegister')
 
@@ -2880,18 +2870,21 @@ def front_wishlist(request, username):
     help_center_content_setting = HelpCenter.objects.filter().first()
 
     # user cart status
-    user_cart_status = Cart.objects.filter(user=request.user)
+    # user_cart_status = Cart.objects.filter(user=request.user)
 
     # user wishlist status
     user_wishlist_status = WishList.objects.filter(user=request.user)
 
+    # user cart status
+    user_cart_status = Cart.objects.filter(user=request.user)
     total_amount = 0
     if user_cart_status:
-        for x in user_cart_status:
-            if x.product.product_type == 'wsp':
-                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
-            if x.product.product_type == 'mcp':
-                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+        total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
+
+    shipping_cost_of_current_cart_items = user_cart_status.aggregate(Sum('product__shipping_class__cost_rate'))[
+                                              'product__shipping_class__cost_rate__sum'] or 0
+
+    product_cat_list_all = ProductCategory.objects.all()
 
     context = {
         'site_logo': site_logo,
@@ -2904,6 +2897,7 @@ def front_wishlist(request, username):
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
+        'product_cat_list_all': product_cat_list_all
     }
 
     return render(request, 'frontEnd/wishlist.html', context)
@@ -3150,7 +3144,14 @@ def front_game(request):
         # grabing game settings
         game_setting = GameSetting.objects.filter(status=True).first()
 
+        # user cart status
+        user_cart_status = Cart.objects.filter(user=request.user)
+        total_amount = 0
+        if user_cart_status:
+            total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
+        shipping_cost_of_current_cart_items = user_cart_status.aggregate(Sum('product__shipping_class__cost_rate'))[
+                                                  'product__shipping_class__cost_rate__sum'] or 0
 
         context = {
             'site_logo': site_logo,
@@ -3175,7 +3176,9 @@ def front_game(request):
             'number_of_segments' : number_of_segments,
             'random_segments': random_segments,
             'periodic_segments': periodic_segments,
-            'periodic_segments_with_required_spins': periodic_segments_with_required_spins
+            'periodic_segments_with_required_spins': periodic_segments_with_required_spins,
+            'user_cart_status': user_cart_status,
+            'total_amount': total_amount
         }
 
         return render(request, 'frontEnd/game.html', context)
@@ -4367,14 +4370,14 @@ def front_user_profile(request, username):
 
     # ads scripts ends*****************************************
 
+    # user cart status
+    user_cart_status = Cart.objects.filter(user=request.user)
     total_amount = 0
     if user_cart_status:
-        for x in user_cart_status:
-            if x.product.product_type == 'wsp':
-                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
-            if x.product.product_type == 'mcp':
-                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+        total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
+    shipping_cost_of_current_cart_items = user_cart_status.aggregate(Sum('product__shipping_class__cost_rate'))[
+                                              'product__shipping_class__cost_rate__sum'] or 0
 
     context = {
         'username' : username,
@@ -4393,6 +4396,7 @@ def front_user_profile(request, username):
         'user_cart_status': user_cart_status,
         'user_wishlist_status': user_wishlist_status,
         'total_amount': total_amount,
+        'shipping_cost_of_current_cart_items': shipping_cost_of_current_cart_items,
 
         'site_logo' : site_logo,
         'contact_info': contact_info,
@@ -5429,13 +5433,15 @@ def front_BetatestTerms_andCondition(request):
         # user wishlist status
         user_wishlist_status = WishList.objects.filter(user=request.user)
 
-        total_amount = 0.0
+        # user cart status
+        user_cart_status = Cart.objects.filter(user=request.user)
+        total_amount = 0
         if user_cart_status:
-            for x in user_cart_status:
-                if x.product.product_type == 'wsp':
-                    total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
-                if x.product.product_type == 'mcp':
-                    total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+            total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
+
+        shipping_cost_of_current_cart_items = user_cart_status.aggregate(Sum('product__shipping_class__cost_rate'))[
+                                                  'product__shipping_class__cost_rate__sum'] or 0
+
         context = {
             'betaTestTermsCondition': betaTestTermsCondition,
             'site_logo': site_logo,
@@ -6994,6 +7000,9 @@ def front_howIt_works(request):
 
     # ads scripts ends*****************************************
 
+    user_cart_status = Cart.objects.filter(user=request.user)
+
+    total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
     context = {
         'site_logo': site_logo,
@@ -7003,6 +7012,8 @@ def front_howIt_works(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'how_spin_it_win_works': how_spin_it_win_works,
+        'user_cart_status': user_cart_status,
+        'total_amount': total_amount,
 
         # ads script
         'row_1_col_1_ads': row_1_col_1_ads,
@@ -7034,7 +7045,9 @@ def front_how_spinWinWorks(request):
 
     # how it works
     how_spin_it_win_works = HowSpinIt2WinWorks.objects.filter().first()
+    user_cart_status = Cart.objects.filter(user=request.user)
 
+    total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
     context = {
         'site_logo': site_logo,
         'contact_info': contact_info,
@@ -7043,6 +7056,8 @@ def front_how_spinWinWorks(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'how_spin_it_win_works': how_spin_it_win_works,
+        'user_cart_status': user_cart_status,
+        'total_amount': total_amount,
     }
 
     return render(request, 'frontEnd/how_works/how_spinwin_works.html', context)
@@ -7085,6 +7100,9 @@ def front_howIt_account_details(request):
 
     # ads scripts ends*****************************************
 
+    user_cart_status = Cart.objects.filter(user=request.user)
+    total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
+
     context = {
         'site_logo': site_logo,
         'contact_info': contact_info,
@@ -7093,6 +7111,8 @@ def front_howIt_account_details(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'how_spin_it_win_works': how_spin_it_win_works,
+        'user_cart_status': user_cart_status,
+        'total_amount': total_amount,
 
         # ads script
         'row_1_col_1_ads': row_1_col_1_ads,
@@ -7127,6 +7147,8 @@ def front_howIt_howSpinit2Win_works(request):
 
     # how it works
     how_spin_it_win_works = HowSpinIt2WinWorks.objects.filter().first()
+    user_cart_status = Cart.objects.filter(user=request.user)
+    total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
     context = {
         'site_logo': site_logo,
@@ -7136,6 +7158,8 @@ def front_howIt_howSpinit2Win_works(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'how_spin_it_win_works': how_spin_it_win_works,
+        'user_cart_status': user_cart_status,
+        'total_amount': total_amount
     }
 
     return render(request, 'frontEnd/how_works/how_spinit2win_works.html', context)
@@ -7185,6 +7209,8 @@ def front_howIt_SpinPoints(request):
     # row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
 
     # ads scripts ends*****************************************
+    user_cart_status = Cart.objects.filter(user=request.user)
+    total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
     context = {
         'site_logo': site_logo,
@@ -7193,6 +7219,8 @@ def front_howIt_SpinPoints(request):
         'safe_payment_content_setting': safe_payment_content_setting,
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
+        'user_cart_status': user_cart_status,
+        'total_amount': total_amount,
 
         # ads script
         'row_1_col_1_ads': row_1_col_1_ads,
@@ -7213,6 +7241,8 @@ def front_howIt_SpinPoints(request):
     # return render(request, 'frontEnd/how_works/spinPoints.html', context)
 
 def front_howIt__spin_tokens(request):
+    user_cart_status = Cart.objects.filter(user=request.user)
+    total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
     site_logo = SiteLogo.objects.filter().first()
 
     contact_info = ContactUs.objects.first()
@@ -7264,6 +7294,8 @@ def front_howIt__spin_tokens(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'how_spin_it_win_works': how_spin_it_win_works,
+        'user_cart_status': user_cart_status,
+        'total_amount': total_amount,
 
         # ads script
         'row_1_col_1_ads': row_1_col_1_ads,
@@ -7327,9 +7359,14 @@ def front_howIt__spinCredit(request):
     # row_4_col_4_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c4'))
     # row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
 
+
     # ads scripts ends*****************************************
+    user_cart_status = Cart.objects.filter(user=request.user)
+    total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
     context = {
+        'user_cart_status': user_cart_status,
+        'total_amount': total_amount,
         'site_logo': site_logo,
         'contact_info': contact_info,
         'free_delivery_content_setting': free_delivery_content_setting,
@@ -7401,8 +7438,12 @@ def front_howIt__prizeGuide(request):
     # row_4_col_5_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r4') & Q(col__col_id='c5'))
 
     # ads scripts ends*****************************************
+    user_cart_status = Cart.objects.filter(user=request.user)
+    total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
     context = {
+        'total_amount': total_amount,
+        'user_cart_status': user_cart_status,
         'site_logo': site_logo,
         'contact_info': contact_info,
         'free_delivery_content_setting': free_delivery_content_setting,
@@ -7450,6 +7491,9 @@ def front_howIt__spinPilotPromotion(request):
     # how it works
     how_spin_it_win_works = HowSpinIt2WinWorks.objects.filter().first()
 
+    user_cart_status = Cart.objects.filter(user=request.user)
+    total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
+
     context = {
         'site_logo': site_logo,
         'contact_info': contact_info,
@@ -7458,6 +7502,8 @@ def front_howIt__spinPilotPromotion(request):
         'shop_with_confidencce_content_setting': shop_with_confidencce_content_setting,
         'help_center_content_setting': help_center_content_setting,
         'how_spin_it_win_works': how_spin_it_win_works,
+        'user_cart_status': user_cart_status,
+        'total_amount': total_amount
     }
 
     return render(request, 'frontEnd/how_works/spin_promo.html', context)
@@ -7501,8 +7547,12 @@ def front_howIt__accountDetails(request):
     row_3_col_3_ads = AdsScript.objects.filter(Q(page=ads_page) & Q(row__row_id='r3') & Q(col__col_id='c3'))
 
     # ads scripts ends*****************************************
+    user_cart_status = Cart.objects.filter(user=request.user)
+    total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
     context = {
+        'user_cart_status': user_cart_status,
+        'total_amount': total_amount,
         'site_logo': site_logo,
         'contact_info': contact_info,
         'free_delivery_content_setting': free_delivery_content_setting,

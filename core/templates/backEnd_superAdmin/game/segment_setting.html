@@ -167,6 +167,7 @@
                                     <th>Segment Name</th>
                                     <th>Background Color</th>
                                     <th>Prize Type</th>
+                                    <th>Prize Mode</th>
                                     <th>Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>
@@ -183,7 +184,7 @@
                                     {% else %}
                                     <td>Point</td>
                                     {% endif %}
-
+                                    <td class="text-capitalize bg-primary" style="color: white">{{x.prize_type}}</td>
                                     {% if x.status %}
                                     <td>Active</td>
                                     {% else %}
@@ -243,6 +244,7 @@
                                         <!--                                        modal for deleting object ends-->
 
                                     </td>
+
                                 </tr>
                                 {% endfor %}
                                 {% endif %}
@@ -253,6 +255,7 @@
                                     <th>Segment Name</th>
                                     <th>Background Color</th>
                                     <th>Prize Type</th>
+                                    <th>Prize Mode</th>
                                     <th>Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>

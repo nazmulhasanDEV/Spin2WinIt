@@ -94,7 +94,6 @@
                             <div class="col-md-12">
                                 <label>Select Shipping Class</label>
                                 <select name="shippingClass" class="form-control" required>
-                                    <option>Select Shipping Class</option>
                                     {% if all_shipping_class %}
                                     {% for x in all_shipping_class %}
                                     <option value="{{x.pk}}">{{x.name}}</option>

@@ -362,15 +362,19 @@ class WishList(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     product = models.ForeignKey(ProductList, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0, blank=True, null=True)
+    product_variant = models.ForeignKey(ShopifyProductVariant, on_delete=models.CASCADE, blank=True, null=True)
+    total_amount = models.FloatField(blank=True, null=True)
 
     def __str__(self):
         return str(self.user.email)
 
     def save(self, *args, **kwargs):
         if self.product.product_type == 'wsp':
-            self.total_amount = float(self.product.price) * self.quantity
+            self.total_amount = round(float(self.product.price) * float(self.quantity), 2)
         if self.product.product_type == 'mcp':
-            self.total_amount = float(self.product.new_price) * self.quantity
+            self.total_amount = round(float(self.product.new_price) * float(self.quantity), 2)
+        if self.product.product_type == 'shopify_product' and self.product_variant:
+            self.total_amount = round(float(self.product_variant.variant_price) * float(self.quantity), 2)
         super(WishList, self).save(*args, **kwargs)
 
 

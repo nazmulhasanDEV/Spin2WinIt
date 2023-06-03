@@ -308,12 +308,12 @@
 
                             <tr class="cart-subtotal">
                                 <th><b>Shipping Cost</b></th>
-                                <td><b><span class="amount">${{shipping_cost|floatformat:2}}</span></b></td>
+                                <td><b><span class="amount">${{shipping_cost_of_current_cart_items|floatformat:2}}</span></b></td>
                             </tr>
 
                             <tr class="order-total">
                                 <th>Order Total</th>
-                                <td><span class="amount">${{total_amount|add:shipping_cost|floatformat:2}}</span></td>
+                                <td><span class="amount">${{total_amount|add:shipping_cost_of_current_cart_items|floatformat:2}}</span></td>
                             </tr>
                             </tfoot>
                         </table>

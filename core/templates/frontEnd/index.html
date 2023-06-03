@@ -180,7 +180,7 @@
                                 <!--                    </li>-->
 
                                 <li class="hm-wishlist">
-                                    <a href="/fe/wishlist/{{request.user.username}}">
+                                    <a href="{% url 'frontWishlist' %}">
                                         <i class="fas fa-heart"></i>
                                         <span class="cart-item-count wishlist-item-count">{{user_wishlist_status|length}}</span>
                                     </a>

@@ -2930,17 +2930,20 @@ def ap_update_segment_setting(request, pk):
             bg_color = request.POST.get('bg_color')
             prize_title = request.POST.get('prize_title')
             segment_prize__type = request.POST.get('segment_prize__type')
-            point_as_prize = request.POST.get('point_as_prize')
+            point_as_prize = request.POST.get('point_as_prize') or 0
             product_as_prize = request.POST.get('product_as_prize')
-            prize_cost = request.POST.get('prize_cost')
+            prize_cost = request.POST.get('prize_cost') or 0
 
             segment_status = request.POST.get('segment_status')
             segment_order = request.POST.get('segment_order')
 
             select_prize_mode = request.POST.get('select_prize_mode')
 
+            print(select_prize_mode)
+
             if segment and bg_color and segment_prize__type and segment_status:
                 spin_to_usd_rate = SpinConversionRateIntoUSD.objects.filter().first()
+                required_spin_for_current_prize_segment = 0
                 if prize_cost:
                     if spin_to_usd_rate:
                         required_spin_for_current_prize_segment = round(float(prize_cost)/float(spin_to_usd_rate.spinRateValueInUSD))
@@ -2959,7 +2962,8 @@ def ap_update_segment_setting(request, pk):
 
                 if segment_prize__type == 'product' and select_prize_mode == 'periodic':
                     current_prodct_as_prize = SponsoredProductForPrize.objects.get(pk=product_as_prize)
-                    product_cost_of_current_product_prize = current_prodct_as_prize.product.price
+
+                    product_cost_of_current_product_prize = current_prodct_as_prize.product.productVariant.first().variant_price
 
                     segment_list_model.required_spin_to_win = round(float(product_cost_of_current_product_prize)/spin_to_usd_rate.spinRateValueInUSD)
                     segment_list_model.segment_prize_type = '1'
@@ -2971,6 +2975,8 @@ def ap_update_segment_setting(request, pk):
 
                 if segment_prize__type != 'product' and select_prize_mode == 'periodic':
                     segment_list_model.product_cost=prize_cost
+                    segment_list_model.segment_prize_type = '2'
+                    segment_list_model.prize_point_amount = point_as_prize
                     segment_list_model.required_spin_to_win = required_spin_for_current_prize_segment
                     segment_list_model.save()
                     messages.success(request, "Succesfully added!")
@@ -2993,9 +2999,9 @@ def ap_update_segment_setting(request, pk):
         }
         return render(request, 'backEnd_superAdmin/game/update_segment_setting.html', context)
     except:
-        pass
+        messages.warning(request, "Something went wrong! Try again")
 
-    return render(request, 'backEnd_superAdmin/game/update_segment_setting.html')
+    return render(request, 'backEnd_superAdmin/game/update_segment_setting.html', context={'current_pk': pk})
 
 
 @login_required(login_url='/ap/register/updated')
@@ -7709,6 +7715,7 @@ def ap_updateGroupedProductsShippingClass(request):
                 for id in selected_productsIds_byCriteria:
                     crnt__product = ProductList.objects.filter(pk=id).first()
                     crnt__product.shipping_class = shipping__Class
+                    # crnt__pro
                     crnt__product.save()
                 messages.success(request, "Successfully added!")
                 return redirect('apGroupUpProductsByShippinigClass')

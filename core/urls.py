@@ -113,7 +113,8 @@ urlpatterns = [
 
     # wishlist
     re_path(r'^fe/add/to/wishlist/(?P<product_id>[-\w]+)/$', views.front_add_to_wishlist, name='frontAddToWishlist'),
-    re_path(r'^fe/wishlist/(?P<username>[-\w]+)/$', views.front_wishlist, name='frontWishlist'),
+    # re_path(r'^fe/wishlist/(?P<username>[-\w]+)/$', views.front_wishlist, name='frontWishlist'),
+    re_path(r'^fe/wishlist/$', views.front_wishlist, name='frontWishlist'),
     re_path(r'^fe/remove/item/wishlist/(?P<username>[-\w]+)/(?P<pk>\d+)/$', views.front_remove_item_from_wishlist, name='frontRemoveItemFromWishlist'),
 
     # gameing urls and winning chance purchase
