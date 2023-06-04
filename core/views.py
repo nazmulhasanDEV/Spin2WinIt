@@ -3025,64 +3025,6 @@ def front_game(request):
 
     if request.user.is_authenticated:
 
-        # segment with gold, silver, Diamond price
-        gold_prize_cost = 0
-        gold_prize_necessaary_spins = 0
-        gold_prize = SegmentList.objects.filter(prize_title='Gold').first()
-        if gold_prize:
-            if gold_prize.product_as_prize.product.product_type == 'wsp':
-                gold_prize_cost = gold_prize.product_cost
-                gold_prize_necessaary_spins = math.ceil(float(gold_prize_cost) / (currentRate))
-                # gold_prize_necessaary_spins = 1 # here .10 cent == 1 spin
-            else:
-                gold_prize_cost = gold_prize.product_cost
-                gold_prize_necessaary_spins = math.ceil(float(gold_prize_cost) / (currentRate))
-                # gold_prize_necessaary_spins = 1 # here .10 cent == 1 spin
-
-        silver_prize = SegmentList.objects.filter(prize_title='Silver').first()
-        silver_prize_cost = 0
-        silver_prize_necessaary_spins = 0
-        if silver_prize:
-            if silver_prize.product_as_prize.product.product_type == 'wsp':
-                silver_prize_cost = silver_prize.product_cost
-                silver_prize_necessaary_spins = math.ceil(float(silver_prize_cost) / (currentRate))
-                # silver_prize_necessaary_spins = 1  # here .10 cent == 1 spin
-            else:
-                silver_prize_cost = silver_prize.product_cost
-                silver_prize_necessaary_spins = math.ceil(float(silver_prize_cost) / (currentRate))
-
-                # silver_prize_necessaary_spins = 1  # here .10 cent == 1 spin
-
-        # for bronze prize
-        bronze_prize = SegmentList.objects.filter(prize_title='Bronze').first()
-        bronze_prize_cost = 0
-        bronze_prize_necessaary_spins = 0
-        if bronze_prize:
-            if bronze_prize.product_as_prize.product.product_type == 'wsp':
-                bronze_prize_cost = bronze_prize.product_cost
-                bronze_prize_necessaary_spins = math.ceil(float(bronze_prize_cost) / (currentRate))
-                # bronze_prize_necessaary_spins = 1 # here .10 cent == 1 spin
-            else:
-                bronze_prize_cost = bronze_prize.product_cost
-                bronze_prize_necessaary_spins = math.ceil(float(bronze_prize_cost) / (currentRate))
-                # bronze_prize_necessaary_spins = 1  # here .10 cent == 1 spin
-
-
-        # for diamond
-        diamond_prize = SegmentList.objects.filter(prize_title='Diamond').first()
-        diamond_prize_cost = 0
-        diamond_prize_necessaary_spins = 0
-        if diamond_prize:
-            if diamond_prize.product_as_prize.product.product_type == 'wsp':
-                diamond_prize_cost = diamond_prize.product_cost
-                diamond_prize_necessaary_spins = math.ceil(float(diamond_prize_cost) / (currentRate))
-                # bronze_prize_necessaary_spins = 1 # here .10 cent == 1 spin
-            else:
-                diamond_prize_cost = diamond_prize.product_cost
-                diamond_prize_necessaary_spins = math.ceil(float(diamond_prize_cost) / (currentRate))
-                # bronze_prize_necessaary_spins = 1  # here .10 cent == 1 spin
-        # ends sec for diamond
-
         # getting current winning chance/spin tokens chances
         current_chances = request.GET.get('current_chances')
         get_no_of_times_played = request.GET.get('get_no_of_times_played')
