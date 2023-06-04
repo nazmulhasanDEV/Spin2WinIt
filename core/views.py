@@ -2318,6 +2318,14 @@ def front_checkout(request, username):
 
 
 # send the order to woocommerce store
+SHOPIFY_STORE_URL = 'https://mywybuy.myshopify.com/'
+url = f"{SHOPIFY_STORE_URL}/admin/api/2023-01/orders.json"
+token = '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'
+# Set the headers for the API request
+headers = {
+    "Content-Type": "application/json",
+    'X-Shopify-Access-Token': token
+}
 
 @login_required(login_url='/fe/login/register')
 def front_confirm_order(request, username):
@@ -2498,6 +2506,36 @@ def front_confirm_order(request, username):
                     ship_email = order_list_model.shipping_info.default_shipping_address.email
                     ship_phone = order_list_model.shipping_info.default_shipping_address.phone
 
+                # sending order to shopify
+
+                products = [
+                    {"variant_id": x.product_variant.vairant_id, "quantity": x.quantity} for x in user_cart_items
+                ]
+
+                # Set up request payload with order ID, shipping address, and line items
+                payload = {
+                    "order": {
+                        "line_items": products or [],
+                        "customer": {
+                            "first_name": str(ship_fname) or str(bill_fname),
+                            "last_name": "",
+                            "email": str(ship_email) or str(bill_email)
+                        },
+                        "shipping_address": {
+                            "first_name": str(ship_fname) or str(bill_fname),
+                            "last_name": "",
+                            "address_1": str(ship_address_1) or str(bill_address_1),
+                            "city": str(ship_city) or str(bill_city),
+                            "province_code": "",
+                            "zip": str(ship_postcode) or str(bill_postcode),
+                            "country_code": "CA",
+                            "phone": str(ship_phone) or str(bill_phone)
+                        },
+                        "note": str(order_note) or '',
+                        "currency": "CAD"
+                    }
+                }
+                response = requests.post(url, json=payload, headers=headers)
                 order_data = {
                     "payment_method": "Paypal",
                     "payment_method_title": "Paypal",
@@ -2606,14 +2644,12 @@ def front_complete_payment(request, username, order_id):
 
     # user cart status
     user_cart_status = Cart.objects.filter(user=request.user)
-
     total_amount = 0
     if user_cart_status:
-        for x in user_cart_status:
-            if x.product.product_type == 'wsp':
-                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
-            if x.product.product_type == 'mcp':
-                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+        total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
+
+    shipping_cost_of_current_cart_items = user_cart_status.aggregate(Sum('product__shipping_class__cost_rate'))[
+                                              'product__shipping_class__cost_rate__sum'] or 0
 
     # user wishlist status
     user_wishlist_status = WishList.objects.filter(user=request.user)
@@ -2650,6 +2686,8 @@ def front_complete_payment(request, username, order_id):
         order_data = request.GET.get('order_data')
 
         if paid_amount and order_id:
+            # send order to shopify
+
             if paid_amount:
                 paid_amount = float(paid_amount)
             else:
@@ -3780,13 +3818,17 @@ def front_buy_credit_point(request, username):
     if request.is_ajax():
         return JsonResponse({'credit_amount': credit_amount})
 
+    product_cat_list_all = ProductCategory.objects.all()
+
     total_amount = 0
+    # user cart status
+    user_cart_status = Cart.objects.filter(user=request.user)
+
+    # user wishlist status
+    user_wishlist_status = WishList.objects.filter(user=request.user)
+
     if user_cart_status:
-        for x in user_cart_status:
-            if x.product.product_type == 'wsp':
-                total_amount = round(total_amount + (float(x.product.price) * x.quantity), 2)
-            if x.product.product_type == 'mcp':
-                total_amount = round(total_amount + (x.product.new_price * x.quantity), 2)
+        total_amount = user_cart_status.aggregate(Sum('total_amount'))['total_amount__sum']
 
     if request.method == 'POST':
         credit__amount = request.POST.get('credit__point__amount')
@@ -3806,6 +3848,7 @@ def front_buy_credit_point(request, username):
             'user_cart_status': user_cart_status,
             'user_wishlist_status': user_wishlist_status,
             'total_amount': total_amount,
+            'product_cat_list_all': product_cat_list_all,
 
             'credit__amount': credit__amount,
             'amount_to_be_charged': amount_to_be_charged,
@@ -3847,6 +3890,7 @@ def front_buy_credit_point(request, username):
         'username': username,
         'user_available_credits': user_available_credits,
         'usr_available_points': usr_available_points,
+        'product_cat_list_all': product_cat_list_all,
 
         # ads script
         'row_1_col_1_ads': row_1_col_1_ads,
@@ -4430,7 +4474,7 @@ def front_user_profile(request, username):
 
 # user prize cart and delivery section *******************************************************
 @login_required(login_url='/fe/login/register')
-def front_move_prizes_toPrizeCart(request, product_id, username):
+def front_move_prizes_toPrizeCart(request, product_id, username, pk):
 
     if request.user.is_authenticated and request.user.is_buyer != True:
         return redirect('frontEndLoginRegister')
@@ -4440,14 +4484,17 @@ def front_move_prizes_toPrizeCart(request, product_id, username):
 
         # current prize
         if current_product:
-            current_prize = PrizeList.objects.filter(Q(product_as_prize=current_product) & Q(user=request.user)).first()
-            current_prize.status = True
+            current_prize = PrizeList.objects.filter(Q(product_as_prize=current_product) & Q(user=request.user) & Q(pk=pk)).first()
+            current_prize.isAddedToCart='yes'
             current_prize.save()
 
-            # save the current prize product to prize cart
-            save_to_prize_cart = PrizeCart.objects.create(user=request.user, product=current_product)
-            messages.success(request, "Your prize moved to prize cart successfully! Check the prize cart!")
-            return redirect('frontEndUserProfile', username=username)
+            if current_prize.isAddedToCart == 'yes':
+                # save the current prize product to prize cart
+                save_to_prize_cart = PrizeCart.objects.create(user=request.user, product=current_product)
+                messages.success(request, "Your prize moved to prize cart successfully! Check the prize cart!")
+                return redirect('frontEndUserProfile', username=username)
+            else:
+                messages.warning(request, 'something went wrong')
     except:
         messages.warning(request, "Can't be sent to prize cart! Contact with our customer support!")
         return redirect('frontEndUserProfile', username=username)

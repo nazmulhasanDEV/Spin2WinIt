@@ -156,7 +156,7 @@
                                 <option value="">All</option>
                                 {% if product_cat_list_all %}
                                 {% for x in product_cat_list_all %}
-                                <option value="{{x.pk}}">{{x.name}}</option>
+                                <option value="{{x.pk}}">{{x.name|truncatechars:20}}</option>
                                 {% endfor %}
                                 {% endif %}
                             </select>

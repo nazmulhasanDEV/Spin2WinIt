@@ -95,6 +95,17 @@ AUTH_USER_MODEL = 'user.Account'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'testify',
+#         'USER': 'postgres',
+#         'PASSWORD': 'eastern747406^%',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

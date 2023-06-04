@@ -38,7 +38,7 @@ SHOPIFY_STORE_URL = 'https://mywybuy.myshopify.com/'
 @login_required(login_url='/ap/register/updated')
 def getProductFromShopify(request):
     url = 'https://mywybuy.myshopify.com/admin/api/2023-01/products.json/'
-    token = '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'
+    token = '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'
     product_request = requests.get(url, headers={'X-Shopify-Access-Token': token})
     products = json.loads(product_request.text)
     if len(products['products']) > 0:
@@ -133,23 +133,24 @@ def removeItemFromShopifyStore(request, pk):
     return redirect('shopifyProducts')
 
 
-
-
-def create_draft_order(products):
-    # Build the API URL for creating draft orders
-    url = f"{SHOPIFY_STORE_URL}/admin/api/2021-07/draft_orders.json"
-    token = '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'
-    # Set the headers for the API request
+def createOrder(request):
+    # Endpoint URL for creating an order
+    url = f"{SHOPIFY_STORE_URL}/admin/api/2023-01/orders.json"
+    token = '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'
+    api_key = '71e9cbc768a8d132d0b1867ee549a080'
+    secret_key = '1af8539ed1df8ac05299e9fe767af955'
+    # Request headers
     headers = {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         'X-Shopify-Access-Token': token
     }
 
-    # Build the payload for the API request
-    payload = {
-        "draft_order": {
-            "line_items": [
+    # Request payload for creating the order
 
+    payload = {
+        "order": {
+            "line_items": [
+                {"variant_id": 44454513180982, 'quantity': 1}
             ],
             "customer": {
                 "first_name": "John",
@@ -172,32 +173,57 @@ def create_draft_order(products):
             "currency": "CAD"
         }
     }
+    # auth = ("71b798511963e2d900a6b751d7b37c72", "3578de673ff5a90197a34553aade4e15"),
 
-    # Add the line items to the payload
-    for product in products:
-        line_item = {
-            "variant_id": product["variant_id"],
-            "quantity": product["quantity"]
-        }
-        payload["draft_order"]["line_items"].append(line_item)
-
-    # Send the API request to create the draft order
-    response = requests.post(url, headers=headers, json=payload)
-
-    # Check the response status code
-    if response.status_code == 201:
-        # Draft order created successfully
-        draft_order_id = response.json()["draft_order"]["id"]
-        # print(draft_order_id)
-
-        return draft_order_id
-    else:
-        # Error creating draft order
-        error_message = response.json()["errors"]
-        raise Exception(error_message)
+    # Make the POST request to create the order
+    response = requests.post(url, json=payload, headers=headers)
+    print(response)
+    return redirect('shopifyProducts')
 
 
-def createOrder(request):
+
+
+
+# def createOrder(request):
+#     # Build the API URL for creating draft orders
+#     SHOPIFY_PASSWORD = '2023@Spin'
+#     SHOPIFY_SHARED_SECRET = '3578de673ff5a90197a34553aade4e15'
+#     SHOPIFY_SECRET_KEY = '71b798511963e2d900a6b751d7b37c72'
+#     SHOPIFY_STORE_URL = 'https://mywybuy.myshopify.com/'
+#     # Endpoint URL for creating an order
+#     url = f"{SHOPIFY_STORE_URL}/admin/api/2023-01/orders.json"
+#     token = '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'
+#     # Set the headers for the API request
+#     headers = {
+#         "Content-Type": "application/json",
+#         'X-Shopify-Access-Token': token
+#     }
+#
+#     # Request payload for creating the order
+#     payload = {
+#         'draft_order': {
+#             'email': 'customer@example.com',  # Customer email address
+#             'billing_address': {
+#                 'address1': '123 Main St',
+#                 'city': 'New York',
+#                 'province': 'NY',
+#                 'country': 'United States',
+#                 'zip': '10001'
+#             },
+#             'line_items': [
+#                 {"variant_id": 44454513180982, 'quantity': 1}
+#             ]
+#         }
+#     }
+#
+#     # Make the POST request to create the order
+#     response = requests.post(url, json=payload, headers=headers)
+#     print(response)
+#
+#     return redirect('shopifyProducts')
+
+
+def createOrder1(request):
     SHOPIFY_API_KEY = '71b798511963e2d900a6b751d7b37c72'
     SHOPIFY_PASSWORD = '2023@Spin'
     admin_access_token = "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"

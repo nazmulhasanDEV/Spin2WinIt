@@ -788,7 +788,7 @@
                                                             <button type="button">Let's Play</button>
                                                         </a>
 
-                                                        <a href="/fe/buy/winning/chance" class="convert_to_credit_btn">
+                                                        <a href="/fe/how/works/spin/tokens/" class="convert_to_credit_btn">
                                                             <button type="button">Buy Spin Tokens</button>
                                                         </a>
                                             </td>
@@ -937,7 +937,7 @@
                                             <td>{{user_credit_wallet.spent|floatformat:2}}</td>
 <!--                                            <td>{{user_credit_wallet.spent_amount|floatformat:2}}</td>-->
                                             <td>
-                                                <a href="{% url 'frontBuyCreditPoint' username=request.user.username %}" id="crdit__wlt_buy_btn">
+                                                <a href="{% url 'frontBuyCreditPoint' username=request.user.username %}" class="convert_to_credit_btn" id="crdit__wlt_buy_btn">
                                                     <button type="button">Buy Spin Credit</button>
                                                 </a>
                                             </td>
@@ -1027,10 +1027,10 @@
                                                         <i class="fas fa-eye"></i> View
                                                     </button>
                                                 </a>
-                                                {% if prize.status %}
+                                                {% if prize.isAddedToCart == 'yes' %}
                                                 <button type="button" class="btn_for_priz_delivry_status" disabled>Sent to Cart</button>
                                                 {% else %}
-                                                <a href="{% url 'frontMoveToPrizeCart' product_id=prize.product_as_prize.product_id username=request.user.username %}">
+                                                <a href="{% url 'frontMoveToPrizeCart' product_id=prize.product_as_prize.product_id username=request.user.username pk=prize.pk %}">
                                                     <button type="button" class="btn_for_priz_delivry_status" data-toggle="tooltip" data-placement="bottom" title="Move to prize cart"><i class="fas fa-cart-arrow-down"></i></button>
                                                 </a>
                                                 {% endif %}

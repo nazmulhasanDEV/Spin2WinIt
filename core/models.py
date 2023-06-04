@@ -160,12 +160,18 @@ class PrizeList(models.Model):
         ('point', 'Point'),
         ('product', 'Product'),
     )
+    isAddedToCartOption=(
+        ('yes', "Yes"),
+        ('no', "No")
+    )
     user = models.ForeignKey(Account,  on_delete=models.CASCADE)
     prize_type = models.CharField(max_length=10, default='', choices=option)
     pirze = models.CharField(max_length=255, default='') # prize as ponts
     product_as_prize = models.ForeignKey(ProductList, on_delete=models.PROTECT, blank=True, null=True)
     delivery_status = models.BooleanField(default=False, blank=True, null=True)# not necessary
     status = models.BooleanField(default=False, blank=True, null=True) # this is used for delivery status
+    isSentToCart = models.BooleanField(blank=True, null=True)# not necessary
+    isAddedToCart = models.CharField(max_length=232, choices=isAddedToCartOption, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     class Meta:

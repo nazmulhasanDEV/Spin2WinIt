@@ -45,7 +45,7 @@
 <!--                                                <th class="li-product-remove">remove</th>-->
                                                 <th class="li-product-thumbnail">images</th>
                                                 <th class="cart-product-name">Product Name</th>
-                                                <th class="li-product-price">Unit Price</th>
+<!--                                                <th class="li-product-price">Unit Price</th>-->
 <!--                                                <th class="li-product-quantity">Quantity</th>-->
 <!--                                                <th class="li-product-subtotal">Total</th>-->
                                             </tr>
@@ -85,22 +85,17 @@
                                                     </tr>
                                                 {% else %}
                                                     <tr>
-                                                        <td class="li-product-remove"><a href="{% url 'frontRemovItemFromMiniCart' pk=x.pk %}"><i class="fas fa-times-circle"></i></a></td>
-                                                        <td class="li-product-thumbnail"><a href="/fe/product/details/{{x.product.product_id}}"><img src="{{x.product.product_thumbnail.url}}" style="width: 100px; height: 100px;" alt="Li's Product Image"></a></td>
-                                                        <td class="li-product-name"><a href="/fe/product/details/{{x.product.product_id}}">{{x.product.title|safe|truncatechars:30}}</a></td>
-                                                        <td class="li-product-price">$<span class="amount">{{x.product.new_price}}</span></td>
-                                                        <td class="quantity">
-                                                            <label>Quantity</label>
-                                                            <div class="cart-plus-minus">
-                                                                <input class="cart-plus-minus-box cart__items__amount" value="{{x.quantity}}" id="cart__items__amount_{{x.pk}}" type="number" min="0" max="10" step="1">
-                                                                <div class="dec qtybutton quantity__decrease" id="{{x.pk}}" onclick="decreaseProductNo(this)"><i class="fa fa-angle-down" id="{{x.pk}}"></i></div>
-                                                                <div class="inc qtybutton quantity__increase" id="{{x.pk}}" onclick="increaseProductNo(this)"><i class="fa fa-angle-up" id="{{x.pk}}"></i></div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="product-subtotal">$<span class="amount total_sub_amount_{{x.pk}}">{{x.total_amount}}</span></td>
+<!--                                                        <td class="li-product-remove"><a href="{% url 'frontRemovItemFromMiniCart' pk=x.pk %}"><i class="fas fa-times-circle"></i></a></td>-->
+                                                        <td class="li-product-thumbnail"><a href="/fe/product/details/{{x.product.product_id}}"><img src="{{x.product.productImg.first.img_link}}" style="width: 100px; height: 100px;" alt="Li's Product Image"></a></td>
+                                                        <td class="li-product-name" style="color: black !important"><a href="/fe/product/details/{{x.product.product_id}}">{{x.product.title|safe|truncatechars:30}}</a></td>
+                                                        <td class="li-product-name"><a href="/fe/product/details/{{x.product.product_id}}">{{x.product_variant.variant_title}}</a></td>
+<!--                                                        <td class="li-product-price">$<span class="amount">{{x.product.productVariant.variant_price}}</span></td>-->
+<!--                                                        <td class="product-subtotal">$<span class="amount total_sub_amount_{{x.pk}}">{{x.total_amount}}</span></td>-->
                                                     </tr>
                                                 {% endif %}
                                             {% endfor %}
+                                            {% else %}
+                                            <h3 class="text-center">No items found!</h3>
                                             {% endif %}
                                         </tbody>
                                     </table>
