@@ -3143,10 +3143,6 @@ def front_game(request):
 
             'sponsored_product' : sponsored_product,
             'applicable_rules': applicable_rules,
-            'gold_prize_necessaary_spins': gold_prize_necessaary_spins,
-            'silver_prize_necessaary_spins': silver_prize_necessaary_spins,
-            'bronze_prize_necessaary_spins': bronze_prize_necessaary_spins,
-            'diamond_prize_necessaary_spins': diamond_prize_necessaary_spins,
 
             'user_total_remaining_chances' : user_total_remaining_chances,
             'game_setting': game_setting,
